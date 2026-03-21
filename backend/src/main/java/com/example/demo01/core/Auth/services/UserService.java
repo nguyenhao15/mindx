@@ -1,6 +1,7 @@
 package com.example.demo01.core.Auth.services;
 
 import com.example.demo01.core.Auth.dtos.UserDTO;
+import com.example.demo01.core.Auth.models.User;
 import com.example.demo01.core.Auth.request.CreateUserRequest;
 import com.example.demo01.core.Auth.request.LoginRequest;
 import com.example.demo01.core.Auth.response.LoginResponse;
@@ -10,6 +11,8 @@ import com.example.demo01.utils.FilterWithPagination;
 import java.util.List;
 
 public interface UserService {
+
+
     UserDTO createInternalUser(CreateUserRequest createUserRequest);
 
     LoginResponse login(LoginRequest loginRequest);
@@ -22,13 +25,17 @@ public interface UserService {
 
     String refreshToken();
 
+    User getUserByStaffId(String staffId);
+
     UserDTO getUserInfo(String username);
 
-    Boolean isGlobalUser();
-
-    List<String> getAllowedBus();
-
-    UserDTO getUserByStaffId(String staffId);
+    UserDTO getUserDtoByStaffId(String staffId);
 
     void updateUserRole(String userId, String roleName);
+
+    void updatePassword(String staffId, String newPassword);
+
+    UserDTO updateLockUser(String staffId, boolean locked);
+
+    UserDTO activateUser(String staffId, String updatePassword);
 }

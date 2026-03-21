@@ -45,9 +45,15 @@ public class AdminController {
         return ResponseEntity.ok("User role updated");
     }
 
+    @PutMapping("/lock-user/{staffId}")
+    public ResponseEntity<UserDTO> lockUser(@PathVariable String staffId, @RequestParam boolean locked) {
+        UserDTO updatedUser = userService.updateLockUser(staffId, locked);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
     @GetMapping("/user/{staffId}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String staffId) {
-        return new ResponseEntity<>(userService.getUserByStaffId(staffId), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserDtoByStaffId(staffId), HttpStatus.OK);
     }
 
 }

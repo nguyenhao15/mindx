@@ -46,5 +46,15 @@ public class AuthController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @PutMapping("/update-password/{staffId}")
+    public ResponseEntity<?> updatePassword(@PathVariable String staffId, @RequestBody String newPassword) {
+        userService.updatePassword(staffId, newPassword);
+        return ResponseEntity.ok("Password updated");
+    }
+
+    @PutMapping("/activate-user/{staffId}")
+    public ResponseEntity<?> activateUser(@PathVariable String staffId, @RequestBody String newPassword) {
+        return ResponseEntity.ok(userService.activateUser(staffId, newPassword));
+    }
 
 }

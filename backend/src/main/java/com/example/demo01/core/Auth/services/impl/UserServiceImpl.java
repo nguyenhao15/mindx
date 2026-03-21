@@ -192,6 +192,12 @@ public class UserServiceImpl implements UserService {
         return jwtUtils.generateAccessToken(staffId);
     }
 
+    @Override
+    public User getUserByStaffId(String staffId) {
+       return userRepository.findByUserName(staffId)
+                .orElseThrow(() -> new InvalidCredentialsException("User not found"));
+    }
+
     public String logout() {
         String refreshTokenValue = getRefreshTokenInCookieValue();
         if (refreshTokenValue != null) {
@@ -244,53 +250,41 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserInfo(String username) {
-        User user = userRepository.findByStaffId(username);
-        if (user == null) {
-            throw new InvalidCredentialsException("User not found");
-        }
-        return userMapper.toDto(user);
-    }
-
-    @Override
-    public Boolean isGlobalUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        String staffId = userDetails.getStaffId();
-        User user = userRepository.findByStaffId(staffId);
-        if (user == null) {
-            throw new InvalidCredentialsException("User not found");
-        }
-        UserDTO userDTO = userMapper.toDto(user);
-
-        return userDTO.getWorkProfileList().stream()
-                .anyMatch(profile -> profile.getPositionLevel() > 3 && profile.getPositionCode().equalsIgnoreCase("HEAD_OFFICE"));
-    }
-
-    @Override
-    public List<String> getAllowedBus() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        String staffId = userDetails.getStaffId();
-        User user = userRepository.findByStaffId(staffId);
-        if (user == null) {
-            throw new InvalidCredentialsException("User not found");
-        }
-        UserDTO userDTO = userMapper.toDto(user);
-        List<String> allowedBus = userDTO.getWorkProfileList().stream()
-                .flatMap(profile -> profile.getBuAllowedList().stream())
-                .distinct()
-                .toList();
-        if (!allowedBus.isEmpty()) {
-            return allowedBus;
-        }
-        return List.of();
-    }
-
-    @Override
-    public UserDTO getUserByStaffId(String staffId) {
-        User user = userRepository.findByUserName(staffId)
+        User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
         return userMapper.toDto(user);
+    }
+
+    @Override
+    public UserDTO getUserDtoByStaffId(String staffId) {
+        User user = userRepository.findByStaffId(staffId);
+        return userMapper.toDto(user);
+    }
+
+    @Override
+    public void updatePassword(String staffId, String newPassword) {
+        User user = getUserByStaffId(staffId);
+        user.setPassword(encoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    @Override
+    public UserDTO updateLockUser(String staffId, boolean locked) {
+        User user = getUserByStaffId(staffId);
+        user.setEnabled(locked);
+        user.setAccountNonLocked(locked);
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDto(updatedUser);
+    }
+
+    @Override
+    public UserDTO activateUser(String staffId, String updatePassword) {
+        User user = getUserByStaffId(staffId);
+        user.setPassword(encoder.encode(updatePassword));
+        user.setEnabled(true);
+        user.setAccountNonLocked(true);
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDto(updatedUser);
     }
 
 
