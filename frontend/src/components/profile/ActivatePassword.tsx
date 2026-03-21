@@ -10,22 +10,25 @@ import { useState } from 'react';
 import TextInputField from '../input-elements/TextInputField';
 import ErrorCatchComponent from '../shared/ErrorCatchComponent';
 import { Button } from '../ui/button';
+import { useActivateAccount } from '@/hookQueries/useAuthentication';
 
-type ActivatePasswordProps = {
-  onSubmitPassword?: (data: ActivatePasswordDTO) => Promise<void> | void;
-};
-
-const ActivatePassword = ({ onSubmitPassword }: ActivatePasswordProps) => {
+const ActivatePassword = () => {
   const [error, setError] = useState<string | null>(null);
 
   const methods = useForm<ActivatePasswordDTO>({
     mode: 'onBlur',
     resolver: zodResolver(activatePasswordSchema),
     defaultValues: {
-      password: '',
+      newPassword: '',
       confirmPassword: '',
     },
   });
+
+  const {
+    mutateAsync: activateAccount,
+    isPending,
+    error: activateError,
+  } = useActivateAccount();
 
   const {
     handleSubmit,
@@ -36,7 +39,7 @@ const ActivatePassword = ({ onSubmitPassword }: ActivatePasswordProps) => {
 
   const onSubmit = async (data: ActivatePasswordDTO) => {
     try {
-      await onSubmitPassword?.(data);
+      await activateAccount(data.newPassword);
       reset();
       setError(null);
       toast.success('Kích hoạt mật khẩu thành công');
@@ -63,7 +66,7 @@ const ActivatePassword = ({ onSubmitPassword }: ActivatePasswordProps) => {
           <ErrorCatchComponent error={error} />
 
           <TextInputField
-            id='password'
+            id='newPassword'
             label='Mật khẩu mới'
             type='password'
             required

@@ -3,7 +3,6 @@ import {
   getUserInfo,
   login,
   logout,
-  updatePassword,
 } from '@/actions/authAction';
 
 import { handleLogout, useAuthStore } from '@/stores/AuthStore';
@@ -69,13 +68,14 @@ export const useLogOut = () => {
 
 export const useActivateAccount = () => {
   return useMutation({
-    mutationFn: async (data: { newPassword: string }) => {
-      const response = await activateAccount(data);
+    mutationFn: async (newPassword: string) => {
+      const response = await activateAccount(newPassword);
       return response;
     },
     onSuccess: (data) => {
       useAuthStore.getState().setUser(data.userDTO);
       useAuthStore.getState().setToken(data.accessToken);
+      localStorage.setItem('isLoggedIn', 'true');
     },
     onError: (error) => {
       throw error; // Let the error be handled by the calling component

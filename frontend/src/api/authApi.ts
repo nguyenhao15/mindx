@@ -21,7 +21,7 @@ export const authApi = {
     return axiosClient.put('/update-password', data);
   },
 
-  activateAccount: (data: { newPassword: string }) => {
-    return axiosClient.put('/activate-account', data);
+  activateAccount: (newPassword: string) => {
+    return axiosClient.put('/activate-account', newPassword);
   },
 };

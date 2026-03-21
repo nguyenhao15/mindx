@@ -55,7 +55,7 @@ public class AuthController {
         return ResponseEntity.ok("Password updated");
     }
 
-    @PutMapping("/activate-user")
+    @PutMapping("/activate-account")
     public ResponseEntity<?> activateUser(@RequestBody String newPassword) {
         return ResponseEntity.ok(userService.activateUser(newPassword));
     }

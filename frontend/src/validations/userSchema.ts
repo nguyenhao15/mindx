@@ -84,7 +84,7 @@ export const UserResponseObject = z
 
 export const activatePasswordSchema = z
   .object({
-    password: z
+    newPassword: z
       .string()
       .trim()
       .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
@@ -94,7 +94,7 @@ export const activatePasswordSchema = z
       ),
     confirmPassword: z.string().trim().min(1, 'Vui lòng nhập lại mật khẩu'),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: 'Mật khẩu nhập lại không khớp',
     path: ['confirmPassword'],
   });

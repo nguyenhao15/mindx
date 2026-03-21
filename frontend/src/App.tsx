@@ -25,6 +25,7 @@ import ProcessItemPage from './pages/ProcessItemPage';
 import MyDocuments from './pages/MyDocuments';
 import UserProfile from './pages/UserProfile';
 import LockAccountPage from './pages/LockAccountPage';
+import ActivatePassword from './components/profile/ActivatePassword';
 
 function App() {
   const { isLoading, isError } = useGetUserInfo();
@@ -49,17 +50,15 @@ function App() {
 
   const isEnabled = user?.enabled;
 
-  const isLocked = user?.accountNonLocked;
+  const isLocked = user?.accountNonLocked === false;
 
   if (isAuthenticated && isEnabled && isLocked) {
     return <LockAccountPage />;
   }
   if (isAuthenticated && !isEnabled) {
     return (
-      <div className='min-h-screen mx-auto my-auto justify-center items-center flex'>
-        <h2 className='text-2xl font-semibold text-red-600'>
-          Tài khoản của bạn chưa được kích hoạt. Vui lòng liên hệ quản trị viên.
-        </h2>
+      <div className='m-auto'>
+        <ActivatePassword />
       </div>
     );
   }

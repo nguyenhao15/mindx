@@ -32,7 +32,7 @@ export const updatePassword = async (data: {
   return res.data;
 };
 
-export const activateAccount = async (data: { newPassword: string }) => {
-  const res = await authApi.activateAccount(data);
+export const activateAccount = async (newPassword: string) => {
+  const res = await authApi.activateAccount(newPassword);
   return res.data;
 };
