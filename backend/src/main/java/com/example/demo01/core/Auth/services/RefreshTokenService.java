@@ -11,4 +11,6 @@ public interface RefreshTokenService {
     Session findByRefreshToken(String refreshToken);
 
     void deleteRefreshToken(String refreshToken);
+
+    void deleteRefreshTokenByUserId(String userId);
 }

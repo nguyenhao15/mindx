@@ -64,4 +64,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     public void deleteRefreshToken(String refreshToken) {
         sessionRepository.deleteByRefreshToken(refreshToken);
     }
+
+    @Override
+    public void deleteRefreshTokenByUserId(String userId) {
+        Session userSession = sessionRepository.findByStaffId(userId);
+        if (userSession != null) {
+            sessionRepository.delete(userSession);
+        }
+    }
 }

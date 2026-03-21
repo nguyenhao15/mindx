@@ -87,9 +87,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+    }
+
+    @Override
 //    @Transactional
     public UserDTO createInternalUser(CreateUserRequest createUserRequest) {
-        String staffId = createUserRequest.getStaffId().toLowerCase();
+        String staffId = createUserRequest.getStaffId().toUpperCase();
         String emailValue = createUserRequest.getEmail();
         String userFullName = createUserRequest.getFullName();
 
@@ -277,8 +284,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateLockUser(String staffId, boolean locked) {
-        User user = getUserByStaffId(staffId);
+    public UserDTO updateLockUser(String userId, boolean locked) {
+        User user = getUserById(userId);
         user.setEnabled(locked);
         user.setAccountNonLocked(locked);
         User updatedUser = userRepository.save(user);
@@ -297,8 +304,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUserInfo(String staffId, UserDTO updateUserRequest) {
-        User user = getUserByStaffId(staffId);
+    public UserDTO resetPassword(String userId) {
+        User user = getUserById(userId);
+        user.setPassword(encoder.encode(tempPassword));
+        user.setEnabled(false);
+        refreshTokenService.deleteRefreshTokenByUserId(userId);
+        User updatedUser = userRepository.save(user);
+        return userMapper.toDto(updatedUser);
+    }
+
+    @Override
+    public UserDTO updateUserInfo(String userId, UserDTO updateUserRequest) {
+        User user = getUserById(userId);
         User updatedUser = userMapper.updateUserInfo(updateUserRequest, user);
         User savedInfo = userRepository.save(updatedUser);
         return userMapper.toDto(savedInfo);

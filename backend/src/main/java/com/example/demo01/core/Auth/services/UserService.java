@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface UserService {
 
+    User getUserById(String id);
 
     UserDTO createInternalUser(CreateUserRequest createUserRequest);
 
@@ -35,9 +36,11 @@ public interface UserService {
 
     void updatePassword(String oldPassword, String newPassword);
 
-    UserDTO updateLockUser(String staffId, boolean locked);
+    UserDTO updateLockUser(String userId, boolean locked);
 
     UserDTO activateUser(String updatePassword);
 
-    UserDTO updateUserInfo(String staffId, UserDTO updateUserRequest);
+    UserDTO resetPassword(String userId);
+
+    UserDTO updateUserInfo(String userId, UserDTO updateUserRequest);
 }

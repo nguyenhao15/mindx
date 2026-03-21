@@ -21,6 +21,14 @@ export const adminApi = {
   },
 
   lockUser: (staffId: string, locked: boolean) => {
-    return axiosClient.put(`${ADMIN_ENDPOINT}/lock/${staffId}`, { locked });
+    return axiosClient.put(`${ADMIN_ENDPOINT}/lock-user/${staffId}`, locked);
+  },
+
+  updateUser: (userId: string, userData: UserManagementDTO) => {
+    return axiosClient.put(`${ADMIN_ENDPOINT}/update-user/${userId}`, userData);
+  },
+
+  resetPassword: (userId: string) => {
+    return axiosClient.put(`${ADMIN_ENDPOINT}/reset-password/${userId}`);
   },
 };

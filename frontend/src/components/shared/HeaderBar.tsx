@@ -8,7 +8,7 @@ import { LogOut } from 'lucide-react';
 import { useAuthStore } from '@/stores/AuthStore';
 
 const HeaderBar = () => {
-  const naviagter = useNavigate();
+  const navigate = useNavigate();
   const userInfo = useAuthStore((state) => state.user);
   const pathname = window.location.pathname;
 
@@ -22,6 +22,8 @@ const HeaderBar = () => {
     }
   };
 
+  const isAdmin = userInfo?.systemRole === 'ADMIN';
+
   return (
     <header className='flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50'>
       <div className='flex items-center gap-8'>
@@ -32,6 +34,18 @@ const HeaderBar = () => {
           <h2 className='text-lg my-auto items-center justify-center font-bold leading-tight tracking-tight'>
             Knowledge Hub
           </h2>
+        </div>
+        <div>
+          {isAdmin && (
+            <Link
+              to='/admin'
+              className={`text-sm font-medium hover:text-slate-900 dark:hover:text-white transition ${
+                pathname === '/admin' ? 'text-slate-900 dark:text-white' : ''
+              }`}
+            >
+              Admin Page
+            </Link>
+          )}
         </div>
         <nav className='flex items-center gap-6 text-slate-700 dark:text-slate-300'>
           {MENU_ITEM.map((item) => (
@@ -50,7 +64,7 @@ const HeaderBar = () => {
 
       <div className='flex items-center gap-4'>
         <div
-          onClick={() => naviagter('/profile')}
+          onClick={() => navigate('/profile')}
           title='Profile'
           className='bg-brand-primary/20 p-2 cursor-pointer hover:bg-brand-primary/30 rounded font-bold flex-col'
         >

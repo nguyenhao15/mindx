@@ -29,7 +29,6 @@ import ActivatePassword from './components/profile/ActivatePassword';
 
 function App() {
   const { isLoading, isError } = useGetUserInfo();
-
   const user = useAuthStore((state) => state.user);
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
@@ -47,10 +46,18 @@ function App() {
   // Nếu có lỗi khi lấy thông tin user, xem như chưa đăng nhập
   const isAuthenticated = !isError && !!user;
   const isAdmin = user?.systemRole === 'ADMIN';
-
   const isEnabled = user?.enabled;
 
-  const isLocked = user?.accountNonLocked === false;
+  const isLocked = !user?.accountNonLocked;
+
+  console.log(
+    'Is authen ticated : ',
+    isAuthenticated,
+    'IsEnabled: ',
+    isEnabled,
+    'Is Locked: ',
+    isLocked,
+  );
 
   if (isAuthenticated && isEnabled && isLocked) {
     return <LockAccountPage />;

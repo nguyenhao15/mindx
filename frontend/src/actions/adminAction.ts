@@ -50,3 +50,21 @@ export const lockUser = async (staffId: string, locked: boolean) => {
   const response = await adminApi.lockUser(staffId, locked);
   return response.data;
 };
+
+export const updateUser = async (
+  userId: string,
+  userData: UserManagementDTO,
+) => {
+  const response = await adminApi.updateUser(userId, userData);
+  const reuslt = UserResponseObject.safeParse(response.data);
+  if (!reuslt.success) {
+    console.warn('API Data Mismatch:', reuslt.error.format());
+    return response.data; // Vẫn trả về data cũ nếu bạn muốn "sống chung với lũ"
+  }
+  return reuslt.data;
+};
+
+export const resetPassword = async (userId: string) => {
+  const response = await adminApi.resetPassword(userId);
+  return response.data;
+};

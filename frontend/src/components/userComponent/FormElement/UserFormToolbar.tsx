@@ -7,6 +7,7 @@ type UserFormToolbarProps = {
   onClose: () => void;
   onSave: () => void;
   onLockUser: () => void;
+  onResetPassword?: () => void;
 };
 
 const UserFormToolbar = ({
@@ -16,6 +17,7 @@ const UserFormToolbar = ({
   onClose,
   onSave,
   onLockUser,
+  onResetPassword,
 }: UserFormToolbarProps) => {
   return (
     <header className='sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm'>
@@ -27,6 +29,16 @@ const UserFormToolbar = ({
         <div className='flex items-center gap-4'>
           {isUpdateMode && (
             <Button
+              variant='brand'
+              type='button'
+              onClick={onResetPassword}
+              disabled={isSubmitting}
+            >
+              Reset Password
+            </Button>
+          )}
+          {isUpdateMode && (
+            <Button
               variant={accountNonLocked ? 'warning' : 'positive'}
               type='button'
               onClick={onLockUser}
@@ -35,10 +47,20 @@ const UserFormToolbar = ({
               {accountNonLocked ? 'Lock User' : 'Unlock User'}
             </Button>
           )}
-          <Button variant='outline' type='button' onClick={onClose}>
+          <Button
+            variant='outline'
+            type='button'
+            onClick={onClose}
+            disabled={isSubmitting}
+          >
             Cancel
           </Button>
-          <Button variant='positive' type='button' onClick={onSave}>
+          <Button
+            variant='positive'
+            type='button'
+            onClick={onSave}
+            disabled={isSubmitting}
+          >
             {isUpdateMode ? 'Update User' : 'Create User'}
           </Button>
         </div>

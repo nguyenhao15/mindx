@@ -10,10 +10,17 @@ import { InfoIcon } from 'lucide-react';
 import UserCredential from './FormElement/UserCredential';
 import SystemPermission from './FormElement/SystemPermission';
 import JobAssignmentManagment from './FormElement/JobAssignmentManagment';
-import { useAddUser, useLockUser } from '@/hookQueries/useAdminHook';
+import {
+  useAddUser,
+  useLockUser,
+  useResetPassword,
+  useUpdateUser,
+} from '@/hookQueries/useAdminHook';
 import UserAccountStatus from './FormElement/UserAccountStatus';
 import UserFormToolbar from './FormElement/UserFormToolbar';
 import toast from 'react-hot-toast';
+import { useAdminUpdateToolKits } from '@/hookQueries/useAdminUpdateToolKits';
+import ErrorCatchComponent from '../shared/ErrorCatchComponent';
 
 const UserForm = ({
   initialUser,
@@ -37,10 +44,8 @@ const UserForm = ({
     },
   });
 
-  const { mutateAsync: createUser, isPending: isCreating } = useAddUser();
-  const { mutateAsync: lockUser, isPending: isLocking } = useLockUser(
-    initialUser?._id ?? '',
-  );
+  const { createUser, updateUser, lockUser, resetPassword, isLoading, error } =
+    useAdminUpdateToolKits(initialUser?._id ?? '');
 
   const isUpdateMode = !!initialUser?._id;
 
@@ -75,11 +80,8 @@ const UserForm = ({
 
     try {
       if (isUpdateMode) {
-        console.log('[TODO] Call update user API', {
-          userId: data._id,
-          payload,
-        });
-        toast.success('Update mode configured. Please wire update API.');
+        await updateUser(payload);
+        toast.success('User updated successfully');
         onClose();
         return;
       }
@@ -99,14 +101,24 @@ const UserForm = ({
     methods.setValue('accountNonLocked', !currentLockState);
   };
 
+  const handleResetPassword = async () => {
+    try {
+      await resetPassword();
+      toast.success('Password reset successfully');
+    } catch (error) {
+      toast.error('Failed to reset password');
+    }
+  };
+
   return (
     <div className='p-10 h-screen w-screen overflow-hidden'>
       <div className='h-full overflow-y-auto  bg-white border border-slate-100 rounded-xl shadow-sm'>
         <UserFormToolbar
           isUpdateMode={isUpdateMode}
-          isSubmitting={isCreating || isLocking}
+          isSubmitting={isLoading}
           accountNonLocked={watch('accountNonLocked') ?? true}
           onClose={onClose}
+          onResetPassword={handleResetPassword}
           onSave={handleSubmit(onSubmit)}
           onLockUser={handleLockUser}
         />
@@ -131,6 +143,8 @@ const UserForm = ({
               </p>
             </div>
           )}
+
+          <ErrorCatchComponent error={error} />
 
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>

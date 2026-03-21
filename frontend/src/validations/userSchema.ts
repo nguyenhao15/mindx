@@ -9,11 +9,7 @@ export const WorkProfile = z.object({
 });
 
 export const userSchema = z.object({
-  staffId: z
-    .string()
-    .trim()
-    .min(3, 'Mã nhân viên phải có ít nhất 3 ký tự')
-    .uppercase(),
+  staffId: z.string().trim().min(3, 'Mã nhân viên phải có ít nhất 3 ký tự'),
   fullName: z.string().trim().min(3, 'Họ tên phải có ít nhất 3 ký tự'),
   email: z.email('Email không hợp lệ'),
   systemRole: z

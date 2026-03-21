@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN') or hashRole('HR_MANAGER')")
 public class AdminController {
 
     private final UserService userService;
@@ -45,17 +45,24 @@ public class AdminController {
         return ResponseEntity.ok("User role updated");
     }
 
-    @PutMapping("/update-user/{staffId}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable String staffId,
+    @PutMapping("/update-user/{userId}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String userId,
                                               @Valid @RequestBody UserDTO updateUserRequest) {
-        UserDTO updatedUser = userService.updateUserInfo(staffId, updateUserRequest);
+        UserDTO updatedUser = userService.updateUserInfo(userId, updateUserRequest);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @PutMapping("/lock-user/{staffId}")
-    public ResponseEntity<UserDTO> lockUser(@PathVariable String staffId, @RequestParam boolean locked) {
+    public ResponseEntity<UserDTO> lockUser(@PathVariable String staffId,
+                                            @RequestBody boolean locked) {
         UserDTO updatedUser = userService.updateLockUser(staffId, locked);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @PutMapping("/reset-password/{userId}")
+    public ResponseEntity<UserDTO> resetPassword(@PathVariable String userId) {
+        UserDTO userDTO = userService.resetPassword(userId);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @GetMapping("/user/{staffId}")

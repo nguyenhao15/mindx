@@ -73,8 +73,8 @@ export const useActivateAccount = () => {
       return response;
     },
     onSuccess: (data) => {
-      useAuthStore.getState().setUser(data.userDTO);
-      useAuthStore.getState().setToken(data.accessToken);
+      useAuthStore.getState().setUser(data);
+
       localStorage.setItem('isLoggedIn', 'true');
     },
     onError: (error) => {
