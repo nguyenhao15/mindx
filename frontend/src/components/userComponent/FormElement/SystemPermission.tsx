@@ -9,7 +9,7 @@ const SystemPermission = ({
   register: any;
   errors: any;
 }) => {
-  const { control, watch } = useFormContext();
+  const { control } = useFormContext();
   return (
     <div className='space-y-4'>
       <div>

@@ -3,7 +3,7 @@ import type { FilterWithPaginationInput } from '@/validations/filterWithPaginati
 import {
   UserResponseObject,
   UserResponseSchema,
-  type UserDTO,
+  type UserManagementDTO,
 } from '@/validations/userSchema';
 
 export const getAllUsers = async (payload: FilterWithPaginationInput) => {
@@ -16,7 +16,7 @@ export const getAllUsers = async (payload: FilterWithPaginationInput) => {
   return finalData;
 };
 
-export const addUser = async (userData: UserDTO) => {
+export const addUser = async (userData: UserManagementDTO) => {
   const response = await adminApi.addUser(userData);
   const reuslt = UserResponseObject.safeParse(response.data);
   if (!reuslt.success) {
@@ -44,4 +44,9 @@ export const searchUser = async (keyword: string) => {
     return response.data; // Vẫn trả về data cũ nếu bạn muốn "sống chung với lũ"
   }
   return results.data;
+};
+
+export const lockUser = async (staffId: string) => {
+  const response = await adminApi.lockUser(staffId);
+  return response.data;
 };

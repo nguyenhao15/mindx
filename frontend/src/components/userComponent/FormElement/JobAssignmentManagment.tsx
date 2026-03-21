@@ -2,17 +2,34 @@ import { useEffect, useState } from 'react';
 import { JobAssignmentsSection } from './JobAssignmentSection';
 import type { Assignment } from './JobAssignmentCard';
 import { useFormContext } from 'react-hook-form';
+import type {
+  UserManagementDTO,
+  WorkProfileType,
+} from '@/validations/userSchema';
 
 const JobAssignmentManagment = ({
   initialForm,
 }: {
-  initialForm: Assignment[];
+  initialForm: WorkProfileType[];
 }) => {
-  const { setValue } = useFormContext();
+  const { setValue } = useFormContext<UserManagementDTO>();
+
+  const toAssignment = (
+    profile: WorkProfileType,
+    index: number,
+  ): Assignment => ({
+    id: String(index + 1),
+    isPrimary: profile.isMainPosition ?? false,
+    departmentId: profile.departmentId,
+    positionCode: profile.positionCode,
+    positionLevel: profile.positionLevel,
+    isMainPosition: profile.isMainPosition ?? false,
+    buAllowedList: profile.buAllowedList ?? [],
+  });
 
   const [assignments, setAssignments] = useState<Assignment[]>(
     initialForm.length > 0
-      ? initialForm
+      ? initialForm.map(toAssignment)
       : [
           {
             id: '1',
@@ -20,14 +37,14 @@ const JobAssignmentManagment = ({
             departmentId: '',
             positionCode: '',
             positionLevel: 0,
-            isMainPosition: false,
-            buAllowedList: '',
+            isMainPosition: true,
+            buAllowedList: [],
           },
         ],
   );
 
   const handleAddAssignment = () => {
-    const newId = Math.random().toString(36).substr(2, 9);
+    const newId = Math.random().toString(36).slice(2, 11);
     setAssignments((prev) => [
       ...prev,
       {
@@ -37,7 +54,7 @@ const JobAssignmentManagment = ({
         positionCode: '',
         positionLevel: 0,
         isMainPosition: false,
-        buAllowedList: '',
+        buAllowedList: [],
       },
     ]);
   };
@@ -82,14 +99,28 @@ const JobAssignmentManagment = ({
       // If we removed the primary assignment, make the first remaining one primary
       const hasPrimary = filtered.some((a) => a.isPrimary);
       if (!hasPrimary && filtered.length > 0) {
-        filtered[0].isPrimary = true;
+        filtered[0] = {
+          ...filtered[0],
+          isPrimary: true,
+          isMainPosition: true,
+        };
       }
       return filtered;
     });
   };
 
   useEffect(() => {
-    setValue('workProfileList', assignments);
+    const workProfileListPayload: WorkProfileType[] = assignments.map(
+      (assignment) => ({
+        departmentId: assignment.departmentId,
+        positionCode: assignment.positionCode,
+        positionLevel: Number(assignment.positionLevel),
+        isMainPosition: assignment.isPrimary,
+        buAllowedList: assignment.buAllowedList,
+      }),
+    );
+
+    setValue('workProfileList', workProfileListPayload);
   }, [assignments, setValue]);
 
   return (

@@ -55,7 +55,7 @@ export function JobAssignmentsSection({
               }}
             >
               <JobAssignmentCard
-                errors={errors.initialProfiles?.[index]} // Pass specific errors for this assignment
+                errors={errors.workProfileList?.[index]}
                 assignment={assignment}
                 index={index}
                 canRemove={index > 0} // First assignment cannot be deleted

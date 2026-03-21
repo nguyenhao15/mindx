@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type ChangeEvent } from 'react';
 import { TrashIcon } from 'lucide-react';
 import { Switch } from '../../shared/Switch';
 import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
@@ -12,7 +12,7 @@ export interface Assignment {
   positionCode: string;
   positionLevel: number;
   isMainPosition: boolean;
-  buAllowedList: string;
+  buAllowedList: string[];
 }
 
 interface JobAssignmentCardProps {
@@ -40,7 +40,7 @@ export function JobAssignmentCard({
     if (departmentId) {
       onUpdate(assignment.id, 'positionCode', '');
     }
-  }, [departmentId]);
+  }, [departmentId, assignment.id]);
 
   return (
     <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 transition-all hover:shadow-md'>
@@ -117,8 +117,13 @@ export function JobAssignmentCard({
           type='number'
           max={5}
           min={0}
-          onChange={(value: any) => {
-            onUpdate(assignment.id, 'positionLevel', value);
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            const rawValue = Number(event.target.value);
+            onUpdate(
+              assignment.id,
+              'positionLevel',
+              Number.isNaN(rawValue) ? 0 : rawValue,
+            );
           }}
           placeholder='Cấp bậc vị trí...'
           defaultValue={assignment.positionLevel}

@@ -25,6 +25,12 @@ export const userSchema = z.object({
     .min(1, 'Phải có ít nhất một profile công việc'),
 });
 
+export const userManagementSchema = userSchema.extend({
+  _id: z.string().optional(),
+  enabled: z.boolean().default(true),
+  accountNonLocked: z.boolean().default(true),
+});
+
 export const updatePasswordSchema = z
   .object({
     currentPassword: z
@@ -54,6 +60,8 @@ export const updatePasswordSchema = z
   });
 
 export type UserDTO = z.infer<typeof userSchema>;
+export type UserManagementDTO = z.infer<typeof userManagementSchema>;
+export type UserManagementFormInput = z.input<typeof userManagementSchema>;
 export type UpdatePasswordDTO = z.infer<typeof updatePasswordSchema>;
 
 export const UserResponseObject = z

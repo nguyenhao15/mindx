@@ -9,8 +9,11 @@ import ModalComponent from '../shared/ModalComponent';
 import UserForm from './UserForm';
 import Loader from '../shared/Loader';
 import { safeString, toArray } from '@/utils/formatValue';
-import type { UserDTO, UserResponseObjectType } from '@/validations/userSchema';
-import { h } from '@tiptap/core';
+import type {
+  UserManagementDTO,
+  UserResponseObjectType,
+  WorkProfileType,
+} from '@/validations/userSchema';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 
 type UserRow = {
@@ -21,14 +24,17 @@ type UserRow = {
   systemRole: string;
   role: string;
   department: string;
-  workProfileList?: UserDTO['workProfileList'];
+  workProfileList?: WorkProfileType[];
+  rawUser: UserResponseObjectType;
 };
 
 export function UserTableComponent({}) {
-  const [query, setQuery] = useState('');
+  const [, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { state, updateState } = useTypeQueryState();
-  const [selectedUser, setSelectedUser] = useState<UserDTO | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserManagementDTO | null>(
+    null,
+  );
   const { data, isLoading } = useGetAllUsers(state);
 
   const { content, ...pagination } = data || {};
@@ -38,6 +44,7 @@ export function UserTableComponent({}) {
 
     return source.map((item) => {
       const record = item as Record<string, unknown>;
+      const rawUser = item as UserResponseObjectType;
       const workProfileList = toArray(record.workProfileList)
         .map((profile) =>
           safeString((profile as Record<string, unknown>).departmentId, ''),
@@ -52,7 +59,8 @@ export function UserTableComponent({}) {
         systemRole: safeString(record.systemRole),
         role: safeString(record.systemRole),
         department: safeString(workProfileList),
-        workProfileList: record.workProfileList as UserDTO['workProfileList'],
+        workProfileList: record.workProfileList as WorkProfileType[],
+        rawUser,
       };
     });
   }, [content]);
@@ -87,15 +95,18 @@ export function UserTableComponent({}) {
     updateState((prv) => ({ ...prv, pagination: { ...prv.pagination, page } }));
   };
 
-  const handleSelectUser = (user: UserResponseObjectType) => {
-    const handledUser: UserDTO = {
+  const handleSelectUser = (row: UserRow) => {
+    const user = row.rawUser;
+
+    const handledUser: UserManagementDTO = {
+      _id: user._id,
       staffId: user.staffId,
       fullName: user.fullName,
       email: user.email,
       systemRole: user.systemRole ?? '',
-      workProfileList: user.workProfileList.map((profile, index) => ({
-        id: index,
-        isPrimary: profile.isMainPosition ?? false,
+      enabled: user.enabled,
+      accountNonLocked: user.accountNonLocked,
+      workProfileList: user.workProfileList.map((profile) => ({
         departmentId: profile.departmentId,
         positionCode: profile.positionCode,
         positionLevel: profile.positionLevel,
@@ -106,6 +117,11 @@ export function UserTableComponent({}) {
 
     setIsModalOpen(true);
     setSelectedUser(handledUser);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedUser(null);
   };
 
   return (
@@ -135,11 +151,8 @@ export function UserTableComponent({}) {
           handlePageChange={handlePageChange}
         />
       )}
-      <ModalComponent open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <UserForm
-          initialUser={selectedUser}
-          onClose={() => setIsModalOpen(false)}
-        />
+      <ModalComponent open={isModalOpen} onClose={handleCloseModal}>
+        <UserForm initialUser={selectedUser} onClose={handleCloseModal} />
       </ModalComponent>
     </div>
   );

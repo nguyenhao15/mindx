@@ -2,10 +2,11 @@ import {
   addUser,
   getAllUsers,
   getUserById,
+  lockUser,
   searchUser,
 } from '@/actions/adminAction';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { UserDTO } from '@/validations/userSchema';
+import type { UserManagementDTO } from '@/validations/userSchema';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useGetAllUsers = (
@@ -37,9 +38,9 @@ export const useGetUserById = (userId: string, options = {}) => {
 
 export const useAddUser = (options = {}) => {
   return useMutation({
-    mutationFn: async (userData: UserDTO) => {
+    mutationFn: async (userData: UserManagementDTO) => {
       const response = await addUser(userData);
-      return response.data;
+      return response;
     },
     ...options,
   });
@@ -54,5 +55,15 @@ export const useSearchUser = (keyword: string, options = {}) => {
     },
     ...options,
     enabled: !!keyword, // Only run the query if keyword is provided
+  });
+};
+
+export const useLockUser = (options = {}) => {
+  return useMutation({
+    mutationFn: async (staffId: string) => {
+      const response = await lockUser(staffId);
+      return response;
+    },
+    ...options,
   });
 };
