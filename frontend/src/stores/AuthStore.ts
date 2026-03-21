@@ -1,13 +1,13 @@
 import { queryClient } from '@/lib/queryClient';
-import type { UserDTO } from '@/validations/userSchema';
+import type { UserResponseObjectType } from '@/validations/userSchema';
 
 import { create } from 'zustand';
 
 type AuthState = {
-  user: UserDTO | null;
+  user: UserResponseObjectType | null;
   accessToken?: string | null;
   setToken: (token: string | null) => void;
-  setUser: (user: UserDTO | null) => void;
+  setUser: (user: UserResponseObjectType | null) => void;
   logOut: () => void;
 };
 

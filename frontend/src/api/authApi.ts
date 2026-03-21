@@ -17,5 +17,11 @@ export const authApi = {
     return axiosClient.post('/refresh-token');
   },
 
-  
+  updatePassword: (data: { currentPassword: string; newPassword: string }) => {
+    return axiosClient.put('/update-password', data);
+  },
+
+  activateAccount: (data: { newPassword: string }) => {
+    return axiosClient.put('/activate-account', data);
+  },
 };

@@ -1,6 +1,7 @@
 package com.example.demo01.core.Auth.services.impl;
 
 import com.example.demo01.configs.Constants.CacheConstants;
+import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtil;
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.dtos.WorkProfile;
@@ -58,6 +59,8 @@ public class UserServiceImpl implements UserService {
     private final HttpServletResponse response;
 
     private final AppUtil appUtil;
+
+    private final SecurityRepoUtil  securityRepoUtil;
 
     private final HttpServletRequest request;
 
@@ -262,8 +265,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(String staffId, String newPassword) {
+    public void updatePassword(String oldPassword, String newPassword) {
+        String staffId = securityRepoUtil.getCurrentUserId();
         User user = getUserByStaffId(staffId);
+        boolean isValidPassword = encoder.matches(oldPassword, user.getPassword());
+        if (!isValidPassword) {
+            throw new InvalidCredentialsException("Old password is incorrect");
+        }
         user.setPassword(encoder.encode(newPassword));
         userRepository.save(user);
     }
@@ -278,7 +286,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO activateUser(String staffId, String updatePassword) {
+    public UserDTO activateUser(String updatePassword) {
+        String staffId = securityRepoUtil.getCurrentUserId();
         User user = getUserByStaffId(staffId);
         user.setPassword(encoder.encode(updatePassword));
         user.setEnabled(true);

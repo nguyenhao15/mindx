@@ -33,9 +33,9 @@ public interface UserService {
 
     void updateUserRole(String userId, String roleName);
 
-    void updatePassword(String staffId, String newPassword);
+    void updatePassword(String oldPassword, String newPassword);
 
     UserDTO updateLockUser(String staffId, boolean locked);
 
-    UserDTO activateUser(String staffId, String updatePassword);
+    UserDTO activateUser(String updatePassword);
 }

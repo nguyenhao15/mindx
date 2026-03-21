@@ -23,3 +23,16 @@ export const refreshToken = async () => {
   const res = await authApi.refreshToken();
   return res.data;
 };
+
+export const updatePassword = async (data: {
+  currentPassword: string;
+  newPassword: string;
+}) => {
+  const res = await authApi.updatePassword(data);
+  return res.data;
+};
+
+export const activateAccount = async (data: { newPassword: string }) => {
+  const res = await authApi.activateAccount(data);
+  return res.data;
+};

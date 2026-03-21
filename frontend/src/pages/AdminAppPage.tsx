@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 import InternalWorkingSystemComponent from '@/components/adminComponent/InternalWorkingSystemComponent';
 import BasementListComponent from '@/components/basementComponent/BasementListComponent';
-import type { UserDTO } from '@/validations/userSchema';
+import type { UserResponseObjectType } from '@/validations/userSchema';
 import { FaUserShield } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import DocumentAdminList from '@/components/documents/DocumentAdminList';
@@ -53,7 +53,7 @@ const tabs: TabItem[] = [
   },
 ];
 
-const AdminAppPage = ({ user }: { user: UserDTO }) => {
+const AdminAppPage = ({ user: _user }: { user: UserResponseObjectType }) => {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
   const renderContent = () => {

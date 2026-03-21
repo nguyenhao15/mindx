@@ -24,6 +24,7 @@ import ProcessFlowByDepartment from './pages/ProcessFlowByDepartment';
 import ProcessItemPage from './pages/ProcessItemPage';
 import MyDocuments from './pages/MyDocuments';
 import UserProfile from './pages/UserProfile';
+import LockAccountPage from './pages/LockAccountPage';
 
 function App() {
   const { isLoading, isError } = useGetUserInfo();
@@ -46,6 +47,23 @@ function App() {
   const isAuthenticated = !isError && !!user;
   const isAdmin = user?.systemRole === 'ADMIN';
 
+  const isEnabled = user?.enabled;
+
+  const isLocked = user?.accountNonLocked;
+
+  if (isAuthenticated && isEnabled && isLocked) {
+    return <LockAccountPage />;
+  }
+  if (isAuthenticated && !isEnabled) {
+    return (
+      <div className='min-h-screen mx-auto my-auto justify-center items-center flex'>
+        <h2 className='text-2xl font-semibold text-red-600'>
+          Tài khoản của bạn chưa được kích hoạt. Vui lòng liên hệ quản trị viên.
+        </h2>
+      </div>
+    );
+  }
+
   const NotFound = React.lazy(() => import('./pages/NotFoundComponent'));
 
   return (
@@ -60,12 +78,13 @@ function App() {
             path='/admin'
             element={
               isAdmin ? (
-                <AdminAppPage user={user} />
+                <AdminAppPage user={user!} />
               ) : (
                 <Navigate to='/unauthorized' />
               )
             }
           />
+
           <Route
             path='/'
             element={isAuthenticated ? <Layout /> : <Navigate to='/login' />}
@@ -85,7 +104,7 @@ function App() {
             <Route path='/create-document' element={<CreateNewProcessPage />} />
             <Route path='/unauthorized' element={<UnAuthorizePage />} />
             <Route path='/processes' element={<ProcessItemPage />} />
-            <Route path='/profile' element={<UserProfile user={user} />} />
+            <Route path='/profile' element={<UserProfile user={user!} />} />
           </Route>
           <Route
             path='*'

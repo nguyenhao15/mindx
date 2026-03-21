@@ -1,5 +1,6 @@
 package com.example.demo01.core.Auth.controllers;
 
+import com.example.demo01.core.Auth.dtos.UpdatePassword;
 import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.request.LoginRequest;
 import com.example.demo01.core.Auth.response.LoginResponse;
@@ -46,15 +47,17 @@ public class AuthController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @PutMapping("/update-password/{staffId}")
-    public ResponseEntity<?> updatePassword(@PathVariable String staffId, @RequestBody String newPassword) {
-        userService.updatePassword(staffId, newPassword);
+    @PutMapping("/update-password")
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePassword newPassword) {
+        String oldPassword = newPassword.getCurrentPassword();
+        String newPasswordValue = newPassword.getNewPassword();
+        userService.updatePassword(oldPassword, newPasswordValue);
         return ResponseEntity.ok("Password updated");
     }
 
-    @PutMapping("/activate-user/{staffId}")
-    public ResponseEntity<?> activateUser(@PathVariable String staffId, @RequestBody String newPassword) {
-        return ResponseEntity.ok(userService.activateUser(staffId, newPassword));
+    @PutMapping("/activate-user")
+    public ResponseEntity<?> activateUser(@RequestBody String newPassword) {
+        return ResponseEntity.ok(userService.activateUser(newPassword));
     }
 
 }
