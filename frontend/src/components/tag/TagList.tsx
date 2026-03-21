@@ -108,6 +108,7 @@ const TagList = () => {
         <DataTable
           columns={columns}
           data={rows}
+          actionLabel='Update'
           onEdit={updateItem}
           pagination={rest}
           handlePageChange={handleUpdatePage}
