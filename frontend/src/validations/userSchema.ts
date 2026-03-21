@@ -44,6 +44,9 @@ export const UserResponseObject = z
     credentialsNonExpired: z.boolean(),
     enabled: z.boolean(),
     createdDate: z.string(),
+    updatedDate: z.string(),
+    username: z.string().nullable(),
+    twoFactorEnabled: z.boolean(),
   })
   .transform((user) => ({
     id: user._id,

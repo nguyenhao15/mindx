@@ -22,6 +22,8 @@ import UnAuthorizePage from './pages/UnAuthorizePage';
 import DepartmentPage from './pages/DepartmentPage';
 import ProcessFlowByDepartment from './pages/ProcessFlowByDepartment';
 import ProcessItemPage from './pages/ProcessItemPage';
+import MyDocuments from './pages/MyDocuments';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   const { isLoading, isError } = useGetUserInfo();
@@ -75,10 +77,15 @@ function App() {
               path='/departments/:id'
               element={<ProcessFlowByDepartment />}
             />
-            <Route path='/documents/tag-flow/:id' element={<ProcessDetail />} />
+            <Route path='/my-documents' element={<MyDocuments />} />
+            <Route
+              path='/documents/tag-flow/:id'
+              element={<ProcessDetail viewMode='user' />}
+            />
             <Route path='/create-document' element={<CreateNewProcessPage />} />
             <Route path='/unauthorized' element={<UnAuthorizePage />} />
             <Route path='/processes' element={<ProcessItemPage />} />
+            <Route path='/profile' element={<UserProfile user={user} />} />
           </Route>
           <Route
             path='*'

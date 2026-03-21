@@ -1,13 +1,14 @@
 import { MENU_ITEM } from '@/constants/app-const';
 
 import { FaFileAlt } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useLogOut } from '@/hookQueries/useAuthentication';
 import { LogOut } from 'lucide-react';
 import { useAuthStore } from '@/stores/AuthStore';
 
 const HeaderBar = () => {
+  const naviagter = useNavigate();
   const userInfo = useAuthStore((state) => state.user);
   const pathname = window.location.pathname;
 
@@ -48,7 +49,11 @@ const HeaderBar = () => {
       </div>
 
       <div className='flex items-center gap-4'>
-        <div className='bg-brand-primary/20 p-2 rounded font-bold flex-col'>
+        <div
+          onClick={() => naviagter('/profile')}
+          title='Profile'
+          className='bg-brand-primary/20 p-2 cursor-pointer hover:bg-brand-primary/30 rounded font-bold flex-col'
+        >
           {userInfo?.fullName || userInfo?.staffId || 'User'}
         </div>
         <div className=''>
