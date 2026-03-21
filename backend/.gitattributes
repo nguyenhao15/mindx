@@ -1,0 +1,4 @@
+/mvnw text eol=lf
+*.cmd text eol=crlf
+# Enforce LF on all text files (standard for git)
+* text=auto eol=lf

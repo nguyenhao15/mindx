@@ -1,0 +1,7 @@
+input FilterRequest {
+    buIds: [String]
+    serviceIds: [String]
+    startDate: String
+    endDate: String
+    customerName: String
+}

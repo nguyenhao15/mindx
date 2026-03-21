@@ -1,0 +1,53 @@
+extend type Query {
+    getCustomerById(id: ID!): Customer
+    getAllCustomers(pageNumber: Int!, pageSize: Int!): CustomerPageResponse!
+}
+
+type Customer {
+    _id: ID!
+    customerTitle: String!
+    customerCode: String!
+    customerTaxCode: String!
+    representativeId: String!
+    representativePerson: RepresentativePerson!
+    customerField: [CustomerField!]
+    contactInfo: [CustomerContact!]
+    addressLine: [CustomerAddress!]
+    appendixList: [AppendixInfoDto!]!
+    rentalList: [RentingDto!]
+    transactions: [Transaction!]!
+}
+
+type RepresentativePerson {
+    _id: ID!
+    fullName:String!
+    idNumber:String
+    gender:Boolean
+    isAgency:Boolean
+}
+
+type CustomerPageResponse {
+    content: [Customer!]
+    pageNumber: Int
+    pageSize: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+type CustomerField {
+    uid: ID!
+    fieldValue: String!
+}
+
+type CustomerContact{
+     uid: String!
+     contactType: String!
+     contactValue: String!
+}
+
+type CustomerAddress {
+    uid: ID!
+    addressLine: String!
+    city: String!
+    ward: String!
+}

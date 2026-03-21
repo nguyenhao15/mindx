@@ -1,0 +1,22 @@
+type Transaction {
+    _id: String!
+    paymentOrderId: String!
+
+    exchangeRate: Int!
+    amount: Int
+    depositRemainAmount: Int!
+    paymentDate: String!
+
+    customerId: String!
+    buId: String!
+    serviceId: String!
+
+    customerName: String!
+    buName: String!
+    serviceName: String!
+
+    paymentType: String!
+    usingId: String!
+
+    invoiceId: String!
+}

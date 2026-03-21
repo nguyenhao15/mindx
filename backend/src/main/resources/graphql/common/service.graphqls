@@ -1,0 +1,5 @@
+type Service {
+    _id: ID!
+    serviceName: String!
+    serviceShortName: String!
+}

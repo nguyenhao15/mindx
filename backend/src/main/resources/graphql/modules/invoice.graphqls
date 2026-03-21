@@ -1,0 +1,48 @@
+extend type Query  {
+    getActiveInvoice(
+        pageable: PageableInput!,
+        filter: FilterRequest
+        active: Boolean
+    ): InvoicePageResponse
+    getInvoiceById(id: ID!): Invoice
+}
+
+type InvoicePageResponse {
+    content: [Invoice!]
+    pageNumber: Int
+    pageSize: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+type Invoice {
+    _id: String
+    invoiceId: String
+    invoiceDate: String
+    exportStatus: String
+    active: Boolean
+    invoiceNote: String
+    cycleId: String
+    contractId: String
+    customerId: String
+    buId: String
+    serviceId: String
+
+    customerName: Customer!
+    buName: BusinessUnit!
+    productName: Service!
+
+    verifyInfo: Boolean
+
+    issueDate: String
+    invoiceNumber: String
+    serialNumber: String
+    invoiceLink: String
+    invoiceValue: Int
+    createdDate: String
+    createdBy: String
+
+    lastModifiedBy:  String
+    lastModifiedDate:  String
+    version: Int
+}

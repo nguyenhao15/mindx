@@ -1,0 +1,34 @@
+type ProcessItem {
+    _id: ID!
+    processCode: String!
+    customerId: String
+    description: String!
+    buId: String!
+    status: String!
+    active: Boolean!
+    createdDate: String!
+    lastModifiedDate: String!
+    createdBy: String!
+    lastModifiedBy: String!
+    buName: BusinessUnit!
+    appendixInfo: AppendixInfoDto!
+    customerName: Customer!
+}
+
+type ProcessingPageResponse {
+    content: [ProcessItem!]
+    pageNumber: Int
+    pageSize: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+extend type Query {
+    getActiveProcesses(
+        pageNumber: Int = 0,
+        pageSize: Int = 12,
+        sortBy: String = "createdBy",
+        sortOrder: String = "asc"
+    ): ProcessingPageResponse
+    getProcessById(id: ID!): ProcessItem
+}

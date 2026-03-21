@@ -1,0 +1,98 @@
+import { Toaster } from 'react-hot-toast';
+import './App.css';
+import Layout from './components/Layout';
+
+import { HomePage } from './pages/HomePage';
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom';
+import React from 'react';
+import ProcessDetail from './pages/ProcessDetail';
+import CreateNewProcessPage from './pages/CreateNewProcessPage';
+import { useGetUserInfo } from './hookQueries/useAuthentication';
+import LoginPage from './pages/LoginPage';
+import Loader from './components/shared/Loader';
+import AdminAppPage from './pages/AdminAppPage';
+import DocumentPage from './pages/DocumentPage';
+import { handleLogout, useAuthStore } from './stores/AuthStore';
+import UnAuthorizePage from './pages/UnAuthorizePage';
+import DepartmentPage from './pages/DepartmentPage';
+import ProcessFlowByDepartment from './pages/ProcessFlowByDepartment';
+import ProcessItemPage from './pages/ProcessItemPage';
+
+function App() {
+  const { isLoading, isError } = useGetUserInfo();
+
+  const user = useAuthStore((state) => state.user);
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+  if (isLoading && !user && isLoggedIn) {
+    return (
+      <div className='min-h-screen mx-auto my-auto justify-center items-center flex'>
+        <Loader text={'Loading data...'} />
+      </div>
+    );
+  }
+
+  if (!isLoggedIn) {
+    handleLogout();
+  }
+  // Nếu có lỗi khi lấy thông tin user, xem như chưa đăng nhập
+  const isAuthenticated = !isError && !!user;
+  const isAdmin = user?.systemRole === 'ADMIN';
+
+  const NotFound = React.lazy(() => import('./pages/NotFoundComponent'));
+
+  return (
+    <React.Fragment>
+      <Router>
+        <Routes>
+          <Route
+            path='/login'
+            element={isAuthenticated ? <Navigate to='/' /> : <LoginPage />}
+          />
+          <Route
+            path='/admin'
+            element={
+              isAdmin ? (
+                <AdminAppPage user={user} />
+              ) : (
+                <Navigate to='/unauthorized' />
+              )
+            }
+          />
+          <Route
+            path='/'
+            element={isAuthenticated ? <Layout /> : <Navigate to='/login' />}
+          >
+            <Route path='/' element={<HomePage />} />
+            <Route path='/documents' element={<DocumentPage />} />
+            <Route path='/departments' element={<DepartmentPage />} />
+            <Route
+              path='/departments/:id'
+              element={<ProcessFlowByDepartment />}
+            />
+            <Route path='/documents/tag-flow/:id' element={<ProcessDetail />} />
+            <Route path='/create-document' element={<CreateNewProcessPage />} />
+            <Route path='/unauthorized' element={<UnAuthorizePage />} />
+            <Route path='/processes' element={<ProcessItemPage />} />
+          </Route>
+          <Route
+            path='*'
+            element={
+              <React.Suspense fallback={<Loader text={'Loading...'} />}>
+                <NotFound />
+              </React.Suspense>
+            }
+          />
+        </Routes>
+      </Router>
+      <Toaster position='top-center' />
+    </React.Fragment>
+  );
+}
+
+export default App;

@@ -1,0 +1,15 @@
+input PageableInput {
+    page: Int!
+    size: Int!
+    sorts: [SortInput!]
+}
+
+input SortInput {
+    property: String!
+    direction: SortDirection!
+}
+
+enum SortDirection {
+    ASC
+    DESC
+}

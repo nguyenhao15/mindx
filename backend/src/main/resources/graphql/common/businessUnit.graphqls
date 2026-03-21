@@ -1,0 +1,25 @@
+type BusinessUnit {
+    _id: ID!
+    buFullName : String!
+    buShortName : String!
+    Ma_KT : String!
+    buType : String!
+    active : Boolean!
+    hotDeskPrice : Float
+    valuePerSquareMeter : Float
+    BUSize : Float
+    Address : String!
+    city: String!
+    areaFullName : String!
+}
+
+type Room {
+    _id: ID!
+    roomShortName : String!
+    buShortName: String!
+    roomName: String!
+    roomTag: String
+    commercial: Boolean!
+    roomSize: Float!
+    isActive: Boolean!
+}

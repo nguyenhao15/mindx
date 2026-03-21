@@ -1,0 +1,33 @@
+type RentingDto {
+    _id: ID!
+    contractId : String
+    roomShortName : String
+    buId : String!
+    serviceShortName: String
+    customerId: String
+    assigned_from: String
+    assigned_to: String
+    actualEndDate: String
+    status: String
+    active: Boolean
+    serviceName: Service!
+    customerName: Customer!
+    buName: BusinessUnit!
+    roomName: Room!
+}
+
+type RentingAction {
+    _id: ID!
+    actionType : String!
+    contractId : String!
+    roomShortName : String!
+    roomName : Room!
+    buId : String!
+    serviceShortName : String!
+    customerId : String!
+    assigned_from : String!
+    assigned_to : String!
+    actualEndDate : String
+    status : String!
+    active : Boolean!
+}

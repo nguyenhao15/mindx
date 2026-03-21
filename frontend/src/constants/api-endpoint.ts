@@ -1,0 +1,11 @@
+export const PROCESS_TAG = '/v1/process/process-tags';
+export const PROCESS_TAG_VALUES = '/v1/process/process-tag-values';
+export const PROCESS_FLOW = '/v1/process/process-flows';
+export const PROCESS_FLOW_CONTENT = '/v1/process/process-flows-content';
+export const AW3_ENDPOINT = '/v1/process/space/aws3';
+export const FLOW_ATTACHMENT_ENDPOINT = '/v1/attachment';
+export const ADMIN_ENDPOINT = '/admin';
+export const WORKING_FIELD_ENDPOINT = '/v1/working-fields';
+export const DEPARTMENT_ENDPOINT = '/v1/departments';
+export const POSITION_ENDPOINT = '/v1/positions';
+export const BASEMENT_ENDPOINT = '/bus';

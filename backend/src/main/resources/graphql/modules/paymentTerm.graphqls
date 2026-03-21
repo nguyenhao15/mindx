@@ -1,0 +1,46 @@
+extend type Query  {
+    getActivePaymentTerms(
+        pageNumber: Int = 0,
+        pageSize: Int = 12,
+        sortBy: String = "cycleDueDate",
+        sortOrder: String = "asc"
+        filter: FilterRequest
+    ): PaymentTermsPageResponse
+    getPaymentTermsByAppendixId(appendixId: ID!): [PaymentTerm!]!
+}
+
+type PaymentTermsPageResponse {
+    content: [PaymentTerm!]!
+    pageNumber: Int
+    pageSize: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+type PaymentTerm {
+    _id: ID!
+    cycleId: String!
+    contractId: String!
+    appendixId: String!
+
+    buId: String!
+    serviceId: String!
+
+    customerName: Customer!
+    buName: BusinessUnit!
+    serviceName: Service!
+
+    tenantId: String!
+    currencyId: String!
+
+    status: String!
+    active: Boolean
+
+    days: Int!
+    cycleDueDate: String!
+
+    monthlyAmount: Int!
+    totalAmount: Int!
+    paidAmount: Int!
+    remainAmount: Int!
+}

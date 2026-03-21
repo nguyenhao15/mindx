@@ -1,0 +1,41 @@
+{
+  "type": "doc",
+  "content": [
+    {
+      "type": "heading",
+      "attrs": { "level": 1 },
+      "content": [{ "type": "text", "text": "Tiêu đề Quy trình/Hướng dẫn" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [{ "type": "text", "text": "Mô tả ngắn gọn về mục đích của tài liệu này." }]
+    },
+    {
+      "type": "blockquote",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [{ "type": "text", "text": "Lưu ý quan trọng: Đảm bảo kiểm tra kỹ các điều kiện tiên quyết trước khi bắt đầu." }]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2 },
+      "content": [{ "type": "text", "text": "Các bước thực hiện" }]
+    },
+    {
+      "type": "orderedList",
+      "content": [
+        {
+          "type": "listItem",
+          "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Bước 1: Thực hiện hành động A." }] }]
+        },
+        {
+          "type": "listItem",
+          "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "Bước 2: Thực hiện hành động B." }] }]
+        }
+      ]
+    }
+  ]
+}

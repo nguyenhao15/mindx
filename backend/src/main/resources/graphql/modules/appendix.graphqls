@@ -1,0 +1,74 @@
+extend type Query {
+    getActiveAppendixes(
+        pageNumber: Int = 0,
+        pageSize: Int = 12,
+        sortBy: String = "endDate",
+        sortOrder: String = "asc"
+        filter: FilterRequest
+    ): AppendixPageResponse
+    getAppendixById(id: ID!): AppendixInfoDto
+}
+
+input AppendixFilterInput {
+    buIds: [String]
+    serviceIds: [String]
+    startDate: String
+    endDate: String
+    customerName: String
+}
+
+type AppendixPageResponse {
+    content: [AppendixInfoDto!]
+    pageNumber: Int
+    pageSize: Int
+    totalElements: Int
+    totalPages: Int
+}
+
+type AppendixInfoDto {
+    _id: ID!
+    agreementNumber: String
+    appendixCode: String
+    appendixTag: String
+    contractCode: String
+    serviceId: String
+    customerId: String
+    buId: String
+    currencyCode: String
+    totalValue: Float
+    renewValue: Float
+    appendixStatus: String
+    invoiceCheck: Boolean
+    activationDate: String
+    endDate: String
+    description: String
+    active: Boolean
+    buName: BusinessUnit
+    createdDate: String
+    lastModifiedDate: String
+    createdBy: String
+    lastModifiedBy: String
+    configActions: ContractConfigAction
+    rentingActions: [RentingAction!]
+    rentingItems: [RentingDto!]
+    serviceName: Service!
+    customerName: Customer!
+    fileResponseDTO: FileResponseDTO!
+    paymentTerms: [PaymentTerm!]!
+    transactions: [Transaction!]!
+    processItem: ProcessItem!
+}
+
+
+type ContractConfigAction {
+    actionType: String!
+    actionDate: String!
+    performedBy: String!
+}
+
+type FileResponseDTO {
+    fileName: String!
+    fileUrl: String!
+    contentType: String!
+    size: Int!
+}
