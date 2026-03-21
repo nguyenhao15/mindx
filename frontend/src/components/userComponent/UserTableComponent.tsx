@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { DataTable, type Column } from '../shared/DataTable';
 import { ActionHeader } from '../shared/ActionHeder';
 import { EmptyState } from '@/components/shared/EmtyState';
-
 import { UsersIcon } from 'lucide-react';
 import { useGetAllUsers } from '@/hookQueries/useAdminHook';
 import ModalComponent from '../shared/ModalComponent';

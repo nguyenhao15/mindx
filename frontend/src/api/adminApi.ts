@@ -20,7 +20,7 @@ export const adminApi = {
     return axiosClient.get(`${ADMIN_ENDPOINT}/search/${keyword}`);
   },
 
-  lockUser: (staffId: string) => {
-    return axiosClient.put(`${ADMIN_ENDPOINT}/lock/${staffId}`);
+  lockUser: (staffId: string, locked: boolean) => {
+    return axiosClient.put(`${ADMIN_ENDPOINT}/lock/${staffId}`, { locked });
   },
 };

@@ -38,4 +38,6 @@ public interface UserService {
     UserDTO updateLockUser(String staffId, boolean locked);
 
     UserDTO activateUser(String updatePassword);
+
+    UserDTO updateUserInfo(String staffId, UserDTO updateUserRequest);
 }

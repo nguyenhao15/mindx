@@ -27,6 +27,7 @@ interface ManualCustomComboboxProps {
   errors?: string | null;
   placeholder?: string;
   updateType?: UpdateType;
+  disabled?: boolean;
 }
 interface ComboboxState {
   isOpen: boolean;
@@ -51,6 +52,7 @@ const ManualCustomCombobox = ({
   required = false,
   placeholder = '',
   updateType = { type: 'value' },
+  disabled = false,
 }: ManualCustomComboboxProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const itemRefsArray = useRef<(HTMLLIElement | null)[]>([]);
@@ -297,6 +299,7 @@ const ManualCustomCombobox = ({
       <div className='relative w-full max-w-3xl'>
         <ComboboxInputField
           id={id}
+          disabled={disabled}
           inputRef={inputRef as React.RefObject<HTMLInputElement>}
           value={state.inputValue}
           onChange={handleInputChange}
@@ -323,6 +326,7 @@ const ManualCustomCombobox = ({
         />
         <ComboboxDropdownList
           isOpen={state.isOpen}
+
           filteredItems={filteredItems}
           selectedValues={state.selectedValues || []}
           selectedIndex={state.selectedIndex}

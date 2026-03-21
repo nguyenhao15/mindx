@@ -58,10 +58,10 @@ export const useSearchUser = (keyword: string, options = {}) => {
   });
 };
 
-export const useLockUser = (options = {}) => {
+export const useLockUser = (staffId: string, options = {}) => {
   return useMutation({
-    mutationFn: async (staffId: string) => {
-      const response = await lockUser(staffId);
+    mutationFn: async ({ locked }: { locked: boolean }) => {
+      const response = await lockUser(staffId, locked);
       return response;
     },
     ...options,

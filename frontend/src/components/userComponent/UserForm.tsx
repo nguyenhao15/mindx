@@ -10,7 +10,7 @@ import { InfoIcon } from 'lucide-react';
 import UserCredential from './FormElement/UserCredential';
 import SystemPermission from './FormElement/SystemPermission';
 import JobAssignmentManagment from './FormElement/JobAssignmentManagment';
-import { useAddUser } from '@/hookQueries/useAdminHook';
+import { useAddUser, useLockUser } from '@/hookQueries/useAdminHook';
 import UserAccountStatus from './FormElement/UserAccountStatus';
 import UserFormToolbar from './FormElement/UserFormToolbar';
 import toast from 'react-hot-toast';
@@ -37,7 +37,11 @@ const UserForm = ({
     },
   });
 
-  const { mutateAsync: createUser, isPending } = useAddUser();
+  const { mutateAsync: createUser, isPending: isCreating } = useAddUser();
+  const { mutateAsync: lockUser, isPending: isLocking } = useLockUser(
+    initialUser?._id ?? '',
+  );
+
   const isUpdateMode = !!initialUser?._id;
 
   const {
@@ -89,15 +93,9 @@ const UserForm = ({
     }
   };
 
-  const handleLockUser = () => {
+  const handleLockUser = async () => {
     const currentLockState = watch('accountNonLocked') ?? true;
-    const userId = watch('_id');
-
-    console.log('[TODO] Call lock/unlock user API', {
-      userId,
-      targetAccountNonLocked: !currentLockState,
-    });
-
+    await lockUser({ locked: !currentLockState });
     methods.setValue('accountNonLocked', !currentLockState);
   };
 
@@ -106,7 +104,7 @@ const UserForm = ({
       <div className='h-full overflow-y-auto  bg-white border border-slate-100 rounded-xl shadow-sm'>
         <UserFormToolbar
           isUpdateMode={isUpdateMode}
-          isSubmitting={isPending}
+          isSubmitting={isCreating || isLocking}
           accountNonLocked={watch('accountNonLocked') ?? true}
           onClose={onClose}
           onSave={handleSubmit(onSubmit)}

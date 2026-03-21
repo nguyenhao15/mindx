@@ -46,7 +46,7 @@ export const searchUser = async (keyword: string) => {
   return results.data;
 };
 
-export const lockUser = async (staffId: string) => {
-  const response = await adminApi.lockUser(staffId);
+export const lockUser = async (staffId: string, locked: boolean) => {
+  const response = await adminApi.lockUser(staffId, locked);
   return response.data;
 };

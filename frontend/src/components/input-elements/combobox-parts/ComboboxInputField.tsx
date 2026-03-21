@@ -27,6 +27,7 @@ interface ComboboxInputFieldProps {
   errors: string | null;
   required?: boolean;
   label?: string;
+  disabled?: boolean;
 }
 
 export const ComboboxInputField: React.FC<ComboboxInputFieldProps> = ({
@@ -47,6 +48,7 @@ export const ComboboxInputField: React.FC<ComboboxInputFieldProps> = ({
   errors,
   required = false,
   label = '',
+  disabled = false,
 }) => {
   return (
     <div className='flex flex-col gap-2'>
@@ -63,7 +65,7 @@ export const ComboboxInputField: React.FC<ComboboxInputFieldProps> = ({
             <input
               id={id}
               type='text'
-              disabled={isLoading}
+              disabled={isLoading || disabled}
               ref={inputRef}
               onBlur={onBlur}
               tabIndex={0}
@@ -110,14 +112,16 @@ export const ComboboxInputField: React.FC<ComboboxInputFieldProps> = ({
           {isLoading ? (
             <Spinner />
           ) : (
-            <FaChevronDown
-              tabIndex={-1}
-              onMouseDown={onToggleDropdown}
-              onFocus={onFocus}
-              className={`size-4 fill-black group-data-hover:fill-gray-600 ${
-                isOpen ? 'rotate-180' : ''
-              } transition-transform duration-500 cursor-pointer`}
-            />
+            !disabled && (
+              <FaChevronDown
+                tabIndex={-1}
+                onMouseDown={onToggleDropdown}
+                onFocus={onFocus}
+                className={`size-4 fill-black group-data-hover:fill-gray-600 ${
+                  isOpen ? 'rotate-180' : ''
+                } transition-transform duration-500 cursor-pointer`}
+              />
+            )
           )}
         </div>
       </CustomInputCard>

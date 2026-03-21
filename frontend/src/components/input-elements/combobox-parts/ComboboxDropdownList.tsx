@@ -12,6 +12,7 @@ interface ComboboxDropdownListProps {
   filteredItems: Option[];
   selectedValues: Option[];
   selectedIndex: number;
+
   multiple: boolean;
   onItemClick: (item: Option, index: number) => void;
   itemRefs: React.MutableRefObject<(HTMLLIElement | null)[]>;
@@ -23,6 +24,7 @@ export const ComboboxDropdownList: React.FC<ComboboxDropdownListProps> = ({
   selectedValues,
   selectedIndex,
   multiple,
+
   onItemClick,
   itemRefs,
 }) => {
