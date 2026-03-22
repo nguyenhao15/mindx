@@ -39,7 +39,8 @@ const ActivatePassword = () => {
 
   const onSubmit = async (data: ActivatePasswordDTO) => {
     try {
-      await activateAccount(data.newPassword);
+      const { newPassword } = data;
+      await activateAccount(newPassword);
       reset();
       setError(null);
       toast.success('Kích hoạt mật khẩu thành công');

@@ -33,6 +33,7 @@ const UserFormToolbar = ({
               type='button'
               onClick={onResetPassword}
               disabled={isSubmitting}
+              className='cursor-pointer'
             >
               Reset Password
             </Button>
@@ -43,6 +44,7 @@ const UserFormToolbar = ({
               type='button'
               onClick={onLockUser}
               disabled={isSubmitting}
+              className='cursor-pointer'
             >
               {accountNonLocked ? 'Lock User' : 'Unlock User'}
             </Button>
@@ -52,6 +54,7 @@ const UserFormToolbar = ({
             type='button'
             onClick={onClose}
             disabled={isSubmitting}
+            className='cursor-pointer'
           >
             Cancel
           </Button>
@@ -59,6 +62,7 @@ const UserFormToolbar = ({
             variant='positive'
             type='button'
             onClick={onSave}
+            className='cursor-pointer'
             disabled={isSubmitting}
           >
             {isUpdateMode ? 'Update User' : 'Create User'}

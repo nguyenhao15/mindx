@@ -22,6 +22,8 @@ export const authApi = {
   },
 
   activateAccount: (newPassword: string) => {
-    return axiosClient.put('/activate-account', newPassword);
+    return axiosClient.patch('/activate-account', newPassword, {
+      headers: { 'Content-Type': 'text/plain' },
+    });
   },
 };

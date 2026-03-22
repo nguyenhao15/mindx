@@ -299,7 +299,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateLockUser(String userId, boolean locked) {
         User user = getUserById(userId);
-        user.setEnabled(locked);
         user.setAccountNonLocked(locked);
         User updatedUser = userRepository.save(user);
         evictUserCachesByUsername(updatedUser.getUsername());
@@ -308,13 +307,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO activateUser(String updatePassword) {
+        String encodedPassword = encoder.encode(updatePassword);
         String staffId = securityRepoUtil.getCurrentUserId();
         User user = getUserByStaffId(staffId);
-        user.setPassword(encoder.encode(updatePassword));
+
+        user.setPassword(encodedPassword);
         user.setEnabled(true);
-        user.setAccountNonLocked(true);
+
         User updatedUser = userRepository.save(user);
-        evictUserCachesByUsername(user.getUsername());
+
+        evictUserCachesByUsername(updatedUser.getUsername());
         return userMapper.toDto(updatedUser);
     }
 
