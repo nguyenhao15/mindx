@@ -33,7 +33,7 @@ public class User {
 
     @NotBlank
     @Indexed(unique = true)
-    private String userName;
+    private String username;
 
     @Indexed(unique = true)
     private String staffId;
@@ -64,7 +64,6 @@ public class User {
     private boolean isTwoFactorEnabled = false;
     private String signUpMethod;
 
-
     @CreatedDate
     private Instant createdDate;
 
@@ -72,13 +71,13 @@ public class User {
     private Instant updatedDate;
 
     public User(String userName, String email, String password) {
-        this.userName = User.this.userName;
+        this.username = User.this.username;
         this.email = email;
         this.password = password;
     }
 
-    public User(String userName, String email) {
-        this.userName = User.this.userName;
+    public User(String username, String email) {
+        this.username = User.this.username;
         this.email = email;
     }
 //

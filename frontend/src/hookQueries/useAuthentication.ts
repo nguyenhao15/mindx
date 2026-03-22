@@ -74,7 +74,6 @@ export const useActivateAccount = () => {
     },
     onSuccess: (data) => {
       useAuthStore.getState().setUser(data);
-
       localStorage.setItem('isLoggedIn', 'true');
     },
     onError: (error) => {

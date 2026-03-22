@@ -14,6 +14,8 @@ public interface UserService {
 
     User getUserById(String id);
 
+    User getUserByUsername(String username);
+
     UserDTO createInternalUser(CreateUserRequest createUserRequest);
 
     LoginResponse login(LoginRequest loginRequest);
@@ -32,9 +34,9 @@ public interface UserService {
 
     UserDTO getUserDtoByStaffId(String staffId);
 
-    void updateUserRole(String userId, String roleName);
+    UserDTO updateUserRole(String userId, String roleName);
 
-    void updatePassword(String oldPassword, String newPassword);
+    UserDTO updatePassword(String oldPassword, String newPassword);
 
     UserDTO updateLockUser(String userId, boolean locked);
 
@@ -43,4 +45,6 @@ public interface UserService {
     UserDTO resetPassword(String userId);
 
     UserDTO updateUserInfo(String userId, UserDTO updateUserRequest);
+
+    void evictUserCachesByUsername(String username);
 }

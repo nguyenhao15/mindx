@@ -27,7 +27,6 @@ public class TestController {
 
     @PostMapping("/create-batch")
     public void createBatch(@Valid @RequestBody List<BURequestDto> buRequestDtos) {
-        System.out.println("Something createBatch");
         basementService.createBus(buRequestDtos);
     }
 

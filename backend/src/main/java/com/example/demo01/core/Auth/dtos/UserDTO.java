@@ -30,6 +30,7 @@ public class UserDTO {
 //    private LocalDate accountExpiryDate;
 //    private String twoFactorSecret;
 //    private String signUpMethod;
+
     private boolean isTwoFactorEnabled;
     private Instant createdDate;
     private Instant updatedDate;

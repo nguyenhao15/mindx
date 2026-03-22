@@ -15,11 +15,9 @@ const ProfileSummary = ({
   mainWorkProfile,
 }: ProfileSummaryProps) => {
   const accountStatuses = [
-    { label: 'Account Locked', value: profileData.accountNonLocked },
+    { label: 'Account Locked', value: !profileData.accountNonLocked },
     { label: 'Account Expired', value: profileData.accountNonExpired },
-    { label: 'Credentials Valid', value: profileData.credentialsNonExpired },
     { label: 'User Enabled', value: profileData.enabled },
-    { label: '2FA Enabled', value: profileData.twoFactorEnabled },
   ];
 
   return (

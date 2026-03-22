@@ -26,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -81,16 +82,25 @@ public class UserServiceImpl implements UserService {
     private final CacheManager cacheManager;
 
     @Override
-    public void updateUserRole(String userId, String roleName) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        userRepository.save(user);
+    public UserDTO updateUserRole(String username, String roleName) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+        user.setSystemRole(roleName);
+        User savedInfo = userRepository.save(user);
+        evictUserCachesByUsername(savedInfo.getUsername());
+        return userMapper.toDto(user);
     }
 
     @Override
     public User getUserById(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
@@ -111,7 +121,7 @@ public class UserServiceImpl implements UserService {
         User newUser = new User();
         newUser.setStaffId(staffId);
 
-        newUser.setUserName(staffId);
+        newUser.setUsername(staffId);
 
         newUser.setFullName(userFullName);
         newUser.setEmail(emailValue);
@@ -134,18 +144,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        Cache cache = cacheManager.getCache(CacheConstants.USER_PERMISSION_CACHE);
         Authentication authentication;
-        String userName = loginRequest.getUsername();
+        String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
-        boolean isAlreadyExist = userRepository.existsByUserName(userName);
+        boolean isAlreadyExist = userRepository.existsByUsername(username);
         if (!isAlreadyExist) {
-            throw new ResourceNotFoundException("Staff", "StaffId", userName);
+            throw new ResourceNotFoundException("Staff", "StaffId", username);
         }
 
         try {
             authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(userName, password));
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (AuthenticationException exception) {
             throw new InvalidCredentialsException(exception.getMessage());
         }
@@ -153,13 +162,15 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        String accessToken = jwtUtils.generateAccessToken(userName);
+        String accessToken = jwtUtils.generateAccessToken(username);
 
-        Session refreshTokenSession = refreshTokenService.createRefreshToken(userName);
+        Session refreshTokenSession = refreshTokenService.createRefreshToken(username);
 
         setRefreshTokenInCookie(refreshTokenSession.getRefreshToken(), refreshTokenExpirationMs);
 
-        UserDTO userDTO = userMapper.formCustomUserDetailsToUserDto(userDetails);
+        User userInfo = getUserByUsername(username);
+
+        UserDTO userDTO = userMapper.toDto(userInfo);
         userDTO.setWorkProfileList(userDetails.getWorkProfiles());
 
         LoginResponse loginResponse = new LoginResponse();
@@ -204,7 +215,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByStaffId(String staffId) {
-       return userRepository.findByUserName(staffId)
+       return userRepository.findByUsername(staffId)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
     }
 
@@ -234,7 +245,6 @@ public class UserServiceImpl implements UserService {
         return cookie != null ? cookie.getValue() : null;
     }
 
-
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public BasePageResponse<UserDTO> getAllUsers(FilterWithPagination filter) {
@@ -259,8 +269,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = CacheConstants.USER_DETAIL_CACHE, key = "#username")
     public UserDTO getUserInfo(String username) {
-        User user = userRepository.findByUserName(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
         return userMapper.toDto(user);
     }
@@ -272,7 +283,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(String oldPassword, String newPassword) {
+    public UserDTO updatePassword(String oldPassword, String newPassword) {
         String staffId = securityRepoUtil.getCurrentUserId();
         User user = getUserByStaffId(staffId);
         boolean isValidPassword = encoder.matches(oldPassword, user.getPassword());
@@ -280,7 +291,9 @@ public class UserServiceImpl implements UserService {
             throw new InvalidCredentialsException("Old password is incorrect");
         }
         user.setPassword(encoder.encode(newPassword));
-        userRepository.save(user);
+        User saved = userRepository.save(user);
+        evictUserCachesByUsername(saved.getUsername());
+        return userMapper.toDto(saved);
     }
 
     @Override
@@ -289,6 +302,7 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(locked);
         user.setAccountNonLocked(locked);
         User updatedUser = userRepository.save(user);
+        evictUserCachesByUsername(updatedUser.getUsername());
         return userMapper.toDto(updatedUser);
     }
 
@@ -300,6 +314,7 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(true);
         user.setAccountNonLocked(true);
         User updatedUser = userRepository.save(user);
+        evictUserCachesByUsername(user.getUsername());
         return userMapper.toDto(updatedUser);
     }
 
@@ -310,6 +325,7 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(false);
         refreshTokenService.deleteRefreshTokenByUserId(userId);
         User updatedUser = userRepository.save(user);
+        evictUserCachesByUsername(user.getUsername());
         return userMapper.toDto(updatedUser);
     }
 
@@ -318,7 +334,17 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(userId);
         User updatedUser = userMapper.updateUserInfo(updateUserRequest, user);
         User savedInfo = userRepository.save(updatedUser);
+        evictUserCachesByUsername(savedInfo.getUsername());
         return userMapper.toDto(savedInfo);
+    }
+
+    @Override
+    public void evictUserCachesByUsername(String username) {
+        if (username == null || username.isEmpty()) return;
+        Cache dtoCache = cacheManager.getCache(CacheConstants.USER_DETAIL_CACHE);
+        if (dtoCache != null) dtoCache.evict(username);
+        Cache secCache = cacheManager.getCache(CacheConstants.USER_SECURITY_CACHE);
+        if (secCache != null) secCache.evict(username);
     }
 
 

@@ -1,11 +1,12 @@
 import TextInputField from '@/components/input-elements/TextInputField';
+import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 import { Button } from '@/components/ui/button';
 import { useLogin } from '@/hookQueries/useAuthentication';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 
 const LoginPage = () => {
-  const { mutateAsync: login, isPending: isLogging } = useLogin();
+  const { mutateAsync: login, isPending: isLogging, error } = useLogin();
   const {
     register,
     handleSubmit,
@@ -39,7 +40,7 @@ const LoginPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <div className='min-h-[calc(100vh-64px)] flex justify-center items-center'>
+        <div className=' bg-white rounded flex flex-col gap-2 p-4 justify-center items-center'>
           <form
             onSubmit={handleSubmit(handleLogin)}
             className='sm:w-112.5 w-90 shadow-custom py-8 sm:px-8 px-4 rounded-md'
@@ -49,7 +50,9 @@ const LoginPage = () => {
               Đăng nhập
             </h2>
             <hr className='mt-2 mb-5 text-black' />
-            <div className='flex flex-col gap-3 '>
+            <ErrorCatchComponent error={error} />
+
+            <div className='flex mt-2 flex-col gap-3 '>
               <TextInputField
                 label='Mã nhân viên'
                 required

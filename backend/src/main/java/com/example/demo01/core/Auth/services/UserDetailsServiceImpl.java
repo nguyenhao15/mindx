@@ -18,9 +18,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    @Cacheable(value = CacheConstants.USER_PERMISSION_CACHE, key = "#username")
+    @Cacheable(value = CacheConstants.USER_SECURITY_CACHE, key = "#username")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(username)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new CustomUserDetails(user);
     }

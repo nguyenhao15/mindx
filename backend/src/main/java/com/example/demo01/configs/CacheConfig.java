@@ -44,7 +44,8 @@ public class CacheConfig {
 
         cacheManager.setCacheNames(Arrays.asList(
                 CacheConstants.SYSTEM_CONFIG_CACHE,
-                CacheConstants.USER_PERMISSION_CACHE,
+                CacheConstants.USER_DETAIL_CACHE,
+                CacheConstants.USER_SECURITY_CACHE,
                 CacheConstants.ROOMS_CACHE,
                 CacheConstants.CUSTOMER_CACHE,
                 CacheConstants.SERVICE_CACHE,
