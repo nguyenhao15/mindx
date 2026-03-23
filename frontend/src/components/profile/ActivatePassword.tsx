@@ -26,7 +26,7 @@ const ActivatePassword = () => {
 
   const {
     mutateAsync: activateAccount,
-    isPending,
+
     error: activateError,
   } = useActivateAccount();
 
@@ -70,6 +70,7 @@ const ActivatePassword = () => {
             id='newPassword'
             label='Mật khẩu mới'
             type='password'
+            isLoading={isSubmitting}
             required
             register={register}
             errors={errors}
@@ -80,6 +81,7 @@ const ActivatePassword = () => {
             id='confirmPassword'
             label='Xác nhận mật khẩu mới'
             type='password'
+            isLoading={isSubmitting}
             required
             register={register}
             errors={errors}

@@ -14,6 +14,7 @@ import type {
   WorkProfileType,
 } from '@/validations/userSchema';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
+import Status from '../shared/Status';
 
 type UserRow = {
   id: string | number;
@@ -23,6 +24,8 @@ type UserRow = {
   systemRole: string;
   role: string;
   department: string;
+  enabled: boolean;
+  accountNonLocked: boolean;
   workProfileList?: WorkProfileType[];
   rawUser: UserResponseObjectType;
 };
@@ -55,8 +58,10 @@ export function UserTableComponent({}) {
         fullName: safeString(record.fullName),
         email: safeString(record.email),
         staffId: safeString(record.staffId),
+        enabled: Boolean(record.enabled),
         systemRole: safeString(record.systemRole),
         role: safeString(record.systemRole),
+        accountNonLocked: Boolean(record.accountNonLocked),
         department: safeString(workProfileList),
         workProfileList: record.workProfileList as WorkProfileType[],
         rawUser,
@@ -79,6 +84,20 @@ export function UserTableComponent({}) {
     {
       key: 'email',
       label: 'Email',
+    },
+    {
+      key: 'enabled',
+      label: 'Enabled',
+      render: (item) => (
+        <Status status={item.enabled ? 'ACTIVE' : 'INACTIVE'} />
+      ),
+    },
+    {
+      key: 'accountNonLocked',
+      label: 'Lock Status',
+      render: (item) => (
+        <Status status={item.accountNonLocked ? 'ACTIVE' : 'LOCKED'} />
+      ),
     },
     {
       key: 'role',

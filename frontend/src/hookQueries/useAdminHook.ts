@@ -9,7 +9,7 @@ import {
 } from '@/actions/adminAction';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import type { UserManagementDTO } from '@/validations/userSchema';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useGetAllUsers = (
   payload: FilterWithPaginationInput,
@@ -39,10 +39,21 @@ export const useGetUserById = (userId: string, options = {}) => {
 };
 
 export const useAddUser = (options = {}) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (userData: UserManagementDTO) => {
       const response = await addUser(userData);
       return response;
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['admin', 'users'], (oldData: any) => {
+        if (!oldData) return { content: [data], totalElements: 1 };
+        return {
+          ...oldData,
+          content: [data, ...oldData.content],
+          totalElements: oldData.totalElements + 1,
+        };
+      });
     },
     ...options,
   });
@@ -61,26 +72,40 @@ export const useSearchUser = (keyword: string, options = {}) => {
 };
 
 export const useLockUser = (staffId: string, options = {}) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ locked }: { locked: boolean }) => {
       const response = await lockUser(staffId, locked);
       return response;
     },
-    ...options,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['admin', 'user', staffId], data);
+      queryClient.invalidateQueries({
+        queryKey: ['admin'],
+      });
+    },
     onError: (error) => {
       console.error('Error locking/unlocking user:', error);
       throw error; // Rethrow the error to be handled by the caller
     },
+    ...options,
   });
 };
 
 export const useUpdateUser = (userId: string, options = {}) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (userData: UserManagementDTO) => {
       const response = await updateUser(userId, userData);
       return response;
     },
     ...options,
+    onSuccess: (data) => {
+      queryClient.setQueryData(['admin', 'user', userId], data);
+      queryClient.invalidateQueries({
+        queryKey: ['admin'],
+      });
+    },
     onError: (error) => {
       console.error('Error updating user:', error);
       throw error; // Rethrow the error to be handled by the caller
@@ -89,6 +114,7 @@ export const useUpdateUser = (userId: string, options = {}) => {
 };
 
 export const useResetPassword = (userId: string, options = {}) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => {
       const response = await resetPassword(userId);
@@ -98,6 +124,17 @@ export const useResetPassword = (userId: string, options = {}) => {
     onError: (error) => {
       console.error('Error resetting password:', error);
       throw error; // Rethrow the error to be handled by the caller
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['admin'],
+      });
+      queryClient.setQueryData(['admin', 'user', userId], (oldData: any) => {
+        if (!oldData) return oldData;
+        return {
+          ...oldData,
+        };
+      });
     },
   });
 };
