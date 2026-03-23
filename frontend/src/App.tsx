@@ -50,15 +50,6 @@ function App() {
 
   const isLocked = !user?.accountNonLocked;
 
-  console.log(
-    'Is authen ticated : ',
-    isAuthenticated,
-    'IsEnabled: ',
-    isEnabled,
-    'Is Locked: ',
-    isLocked,
-  );
-
   if (isAuthenticated && isEnabled && isLocked) {
     return <LockAccountPage />;
   }

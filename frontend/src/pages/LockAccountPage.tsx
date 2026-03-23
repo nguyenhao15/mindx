@@ -1,8 +1,15 @@
-import { handleLogout } from '@/stores/AuthStore';
+import { useLogOut } from '@/hookQueries/useAuthentication';
+import toast from 'react-hot-toast';
 
 const LockAccountPage = () => {
-  const handleAccountLogout = () => {
-    handleLogout();
+  const { mutateAsync } = useLogOut();
+  const handleAccountLogout = async () => {
+    try {
+      await mutateAsync();
+      toast.success('Đăng xuất thành công');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   };
 
   return (
@@ -29,7 +36,7 @@ const LockAccountPage = () => {
           <button
             type='button'
             onClick={handleAccountLogout}
-            className='rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700'
+            className='rounded-lg cursor-pointer bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700'
           >
             Đăng xuất
           </button>

@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
             authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (AuthenticationException exception) {
-            throw new InvalidCredentialsException(exception.getMessage());
+            throw new InvalidCredentialsException("Sai thông tin đăng nhập hoặc mật khẩu!!");
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

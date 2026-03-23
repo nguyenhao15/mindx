@@ -13,17 +13,19 @@ public class WebConfig {
     @Value("${frontend.url}")
     String frontEndUrl;
 
+    @Value("${backend.url}")
+    String backendUrl;
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NotNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:1510", frontEndUrl)
+                        .allowedOrigins(frontEndUrl)
                         .allowedMethods("GET", "POST","PATCH" ,"PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true)
-                        .maxAge(3600);
+                        .allowCredentials(true);
             }
         };
     }

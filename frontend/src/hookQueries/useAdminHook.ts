@@ -130,10 +130,8 @@ export const useResetPassword = (userId: string, options = {}) => {
         queryKey: ['admin'],
       });
       queryClient.setQueryData(['admin', 'user', userId], (oldData: any) => {
-        if (!oldData) return oldData;
-        return {
-          ...oldData,
-        };
+        if (!oldData) return data;
+        return data;
       });
     },
   });

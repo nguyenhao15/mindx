@@ -15,6 +15,8 @@ const Status = ({
         return 'bg-amber-50 text-amber-700 border-amber-200';
       case 'INACTIVE':
         return 'bg-red-50 text-red-700 border-red-200';
+      case 'LOCKED':
+        return 'bg-red-50 text-red-700 border-red-200';
       case 'CONFIRMED':
         return 'bg-green-50 text-green-700 border-green-200';
       case 'DRAFT':

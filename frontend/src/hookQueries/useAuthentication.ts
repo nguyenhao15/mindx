@@ -51,7 +51,6 @@ export const useGetUserInfo = () => {
 };
 
 export const useLogOut = () => {
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: async () => {
       try {
@@ -59,9 +58,6 @@ export const useLogOut = () => {
       } finally {
         handleLogout();
       }
-    },
-    onSettled: () => {
-      navigate('/login', { replace: true });
     },
   });
 };
