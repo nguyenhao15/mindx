@@ -236,7 +236,6 @@ public class UserServiceImpl implements UserService {
                 .path("/")
                 .sameSite("None")
                 .maxAge(maxAgeSeconds)
-                .sameSite("Strict")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }

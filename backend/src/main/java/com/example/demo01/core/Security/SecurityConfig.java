@@ -40,6 +40,7 @@ public class SecurityConfig {
                 -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/healthCheck").permitAll()
                 .requestMatchers("/api/login", "/api/refresh-token").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/swagger-ui/**").permitAll()
