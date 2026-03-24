@@ -1,32 +1,6 @@
-import { FaChevronRight, FaCircle, FaGripHorizontal } from 'react-icons/fa';
+import { FaChevronRight } from 'react-icons/fa';
 import { SiGoogleanalytics } from 'react-icons/si';
 
-const WORKSTREAMS = [
-  {
-    id: 1,
-    title: 'Q4 Budget Review',
-    status: 'In Progress',
-    statusColor: 'text-blue-500',
-    progress: 65,
-    dueDate: 'Oct 24',
-  },
-  {
-    id: 2,
-    title: 'New Employee Onboarding',
-    status: 'Action Required',
-    statusColor: 'text-primary',
-    progress: 30,
-    dueDate: 'Oct 15',
-  },
-  {
-    id: 3,
-    title: 'IT Security Audit',
-    status: 'On Track',
-    statusColor: 'text-green-500',
-    progress: 90,
-    dueDate: 'Nov 02',
-  },
-];
 export function MyWorkstreams() {
   return (
     <div className='bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-6 shadow-sm'>
@@ -64,5 +38,5 @@ export function MyWorkstreams() {
         Open Workspace
       </button>
     </div>
-  );  
+  );
 }

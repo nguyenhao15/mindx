@@ -10,6 +10,7 @@ import com.example.demo01.utils.AppUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,14 +22,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/healCheck")
+@RequestMapping("/api/test")
 public class TestController {
 
     private final BasementService  basementService;
 
-    @GetMapping("")
-    public String index() {
-        return "OK";
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("OK");
     }
 
 }

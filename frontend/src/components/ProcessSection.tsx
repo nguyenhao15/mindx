@@ -21,7 +21,7 @@ export function ProcessSection() {
     true,
   );
 
-  const handleOnCardClick = (item: (typeof data)[number]) => {
+  const handleOnCardClick = (item: (typeof processFlows.content)[number]) => {
     navigate(`/documents/tag-flow/${item.id}`, {
       state: { processItem: item },
     });

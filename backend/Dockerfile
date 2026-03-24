@@ -23,7 +23,7 @@ COPY --from=builder /workspace/${JAR_FILE} ./app.jar
 RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 1510
+EXPOSE 8080
 ENV JAVA_OPTS=""
 
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar /app/app.jar"]
