@@ -232,8 +232,9 @@ public class UserServiceImpl implements UserService {
     private void setRefreshTokenInCookie(String value, int maxAgeSeconds) {
         ResponseCookie cookie = ResponseCookie.from("refreshToken", value)
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
+                .sameSite("None")
                 .maxAge(maxAgeSeconds)
                 .sameSite("Strict")
                 .build();
