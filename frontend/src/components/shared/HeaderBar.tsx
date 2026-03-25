@@ -28,8 +28,8 @@ const HeaderBar = () => {
     <header className='flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50'>
       <div className='flex items-center gap-8'>
         <div className='flex items-center gap-4 text-slate-900 dark:text-white'>
-          <div className='size-8 flex items-center justify-center bg-brand-primary rounded-lg text-white'>
-            <FaFileAlt className='size-4' />
+          <div className='size-8 flex items-center justify-center bg-white rounded-lg text-white'>
+            <img src='/image.png' alt='Logo' className='w-5 h-5' />
           </div>
           <h2 className='text-lg my-auto items-center justify-center font-bold leading-tight tracking-tight'>
             Knowledge Hub
