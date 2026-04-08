@@ -3,7 +3,7 @@ package com.example.demo01.core.Auth.services;
 import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.models.User;
-import com.example.demo01.core.Auth.repositories.UserRepository;
+import com.example.demo01.repository.mongo.CoreRepo.AuthRepositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;

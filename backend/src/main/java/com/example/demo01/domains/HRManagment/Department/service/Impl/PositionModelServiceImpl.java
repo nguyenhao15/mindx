@@ -6,7 +6,7 @@ import com.example.demo01.domains.HRManagment.Department.dto.Position.PositionDt
 import com.example.demo01.domains.HRManagment.Department.dto.Position.PositionRequest;
 import com.example.demo01.domains.HRManagment.Department.mapper.PositionMapper;
 import com.example.demo01.domains.HRManagment.Department.model.PositionModel;
-import com.example.demo01.domains.HRManagment.Department.repository.PositionModelRepository;
+import com.example.demo01.repository.mongo.HRManagement.departmentRepository.PositionModelRepository;
 import com.example.demo01.domains.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.utils.*;

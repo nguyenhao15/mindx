@@ -6,7 +6,7 @@ import com.example.demo01.domains.HRManagment.Department.dto.WorkingField.Workin
 import com.example.demo01.domains.HRManagment.Department.dto.WorkingField.WorkingFieldUpdate;
 import com.example.demo01.domains.HRManagment.Department.mapper.WorkingFieldMapper;
 import com.example.demo01.domains.HRManagment.Department.model.WorkingField;
-import com.example.demo01.domains.HRManagment.Department.repository.WorkingFieldModelRepository;
+import com.example.demo01.repository.mongo.HRManagement.departmentRepository.WorkingFieldModelRepository;
 import com.example.demo01.domains.HRManagment.Department.service.WorkingFieldService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

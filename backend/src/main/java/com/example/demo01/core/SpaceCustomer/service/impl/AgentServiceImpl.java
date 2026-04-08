@@ -4,7 +4,7 @@ import com.example.demo01.core.SpaceCustomer.mapper.AgentMapper;
 import com.example.demo01.core.SpaceCustomer.models.AgentPerson;
 import com.example.demo01.core.SpaceCustomer.payload.Agent.DtoAgent;
 import com.example.demo01.core.SpaceCustomer.payload.Agent.RequestAgent;
-import com.example.demo01.core.SpaceCustomer.repository.AgentRepository;
+import com.example.demo01.repository.mongo.CoreRepo.SpaceCustomerRepository.AgentRepository;
 import com.example.demo01.core.SpaceCustomer.service.AgentService;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;

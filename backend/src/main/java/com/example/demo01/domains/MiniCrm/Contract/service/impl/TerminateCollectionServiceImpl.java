@@ -6,7 +6,7 @@ import com.example.demo01.domains.MiniCrm.Contract.dtos.terminateCollection.Term
 import com.example.demo01.domains.MiniCrm.Contract.dtos.terminateCollection.TerminateRequest;
 import com.example.demo01.domains.MiniCrm.Contract.mappers.TerminateUpdateCollectionMapper;
 import com.example.demo01.domains.MiniCrm.Contract.models.TerminateModel;
-import com.example.demo01.domains.MiniCrm.Contract.repository.TerminateModelRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.TerminateModelRepository;
 import com.example.demo01.domains.MiniCrm.Contract.service.AppendixService;
 import com.example.demo01.domains.MiniCrm.Contract.service.TerminateCollectionService;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;

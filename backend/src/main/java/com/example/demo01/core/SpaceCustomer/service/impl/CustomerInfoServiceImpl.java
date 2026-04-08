@@ -9,7 +9,7 @@ import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerInfoDT
 import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerPatchRequestDTO;
 import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerRequestDTO;
 import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerResponse;
-import com.example.demo01.core.SpaceCustomer.repository.CustomerInfoRepository;
+import com.example.demo01.repository.mongo.CoreRepo.SpaceCustomerRepository.CustomerInfoRepository;
 import com.example.demo01.core.SpaceCustomer.service.CustomerInfoService;
 import com.example.demo01.core.Exceptions.APIException;
 import com.example.demo01.core.Exceptions.DuplicateResourceException;

@@ -1,6 +1,6 @@
 package com.example.demo01.core.Schedulers.config;
 
-import com.example.demo01.core.Schedulers.repository.ScheduleConfigRepository;
+import com.example.demo01.repository.mongo.CoreRepo.SchedulesRepository.ScheduleConfigRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

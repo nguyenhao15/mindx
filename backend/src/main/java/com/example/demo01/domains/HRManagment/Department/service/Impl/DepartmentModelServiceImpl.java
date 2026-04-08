@@ -7,7 +7,7 @@ import com.example.demo01.domains.HRManagment.Department.dto.Department.Departme
 import com.example.demo01.domains.HRManagment.Department.dto.WorkingField.WorkingFieldDto;
 import com.example.demo01.domains.HRManagment.Department.mapper.DepartmentMapper;
 import com.example.demo01.domains.HRManagment.Department.model.DepartmentModel;
-import com.example.demo01.domains.HRManagment.Department.repository.DepartmentModelRepository;
+import com.example.demo01.repository.mongo.HRManagement.departmentRepository.DepartmentModelRepository;
 import com.example.demo01.domains.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.HRManagment.Department.service.WorkingFieldService;
 import com.example.demo01.utils.*;

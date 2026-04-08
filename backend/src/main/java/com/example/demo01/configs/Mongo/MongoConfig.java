@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 @EnableMongoAuditing(auditorAwareRef = "auditorAware")
 @EnableMongoRepositories(
-        basePackages = "com.example.demo01",
+        basePackages = "com.example.demo01.repository.mongo",
         repositoryBaseClass = BaseRepositoryImpl.class
 )
 public class MongoConfig {

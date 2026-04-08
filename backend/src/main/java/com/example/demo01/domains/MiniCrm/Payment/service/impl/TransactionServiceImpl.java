@@ -13,7 +13,7 @@ import com.example.demo01.domains.MiniCrm.Payment.dtos.transaction.TransactionRe
 import com.example.demo01.utils.AppUtil;
 import com.example.demo01.utils.FilterRequest;
 import com.example.demo01.domains.MiniCrm.Contract.models.Appendix;
-import com.example.demo01.domains.MiniCrm.Contract.repository.AppendixRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.AppendixRepository;
 import com.example.demo01.domains.MiniCrm.Contract.service.PaymentCycleService;
 import com.example.demo01.core.SpaceCustomer.service.CustomerInfoService;
 import com.example.demo01.domains.MiniCrm.Dimmesion.service.ProductService;
@@ -22,7 +22,7 @@ import com.example.demo01.domains.MiniCrm.Invoice.dto.InvoiceRequest;
 import com.example.demo01.domains.MiniCrm.Invoice.service.InvoiceService;
 import com.example.demo01.domains.MiniCrm.Payment.mapper.TransactionMapper;
 import com.example.demo01.domains.MiniCrm.Payment.models.Transaction;
-import com.example.demo01.domains.MiniCrm.Payment.repository.TransactionRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.paymentRepository.TransactionRepository;
 import com.example.demo01.domains.MiniCrm.Payment.service.CentralPaymentService;
 import com.example.demo01.domains.MiniCrm.Payment.service.TransactionService;
 import com.example.demo01.core.Exceptions.APIException;

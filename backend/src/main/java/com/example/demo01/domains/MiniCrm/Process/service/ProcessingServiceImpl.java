@@ -18,7 +18,7 @@ import com.example.demo01.domains.MiniCrm.Process.dtos.ProcessingInfoDto;
 import com.example.demo01.domains.MiniCrm.Process.dtos.ProcessingRequest;
 import com.example.demo01.domains.MiniCrm.Process.mapper.ProcessingMapper;
 import com.example.demo01.domains.MiniCrm.Process.model.ProcessingCollection;
-import com.example.demo01.domains.MiniCrm.Process.repository.ProcessingCollectionRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.processRepository.ProcessingCollectionRepository;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;

@@ -1,7 +1,7 @@
 package com.example.demo01.domains.MiniCrm.Utils;
 
 import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
-import com.example.demo01.core.Basement.repository.BranchUnitRepository;
+import com.example.demo01.repository.mongo.CoreRepo.BasementRepository.BranchUnitRepository;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.MiniCrm.Contract.dtos.contractUtils.CalPriceRequest;
 import com.example.demo01.utils.AppUtil;

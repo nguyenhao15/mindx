@@ -1,11 +1,11 @@
 package com.example.demo01.domains.MiniCrm.Dashboard.service;
 
 import com.example.demo01.domains.MiniCrm.Contract.models.Contract;
-import com.example.demo01.domains.MiniCrm.Contract.repository.PaymentCycleRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.PaymentCycleRepository;
 import com.example.demo01.domains.MiniCrm.Dashboard.dto.BranchRevenueDto;
 import com.example.demo01.domains.MiniCrm.Dashboard.dto.DashboardOverviewDto;
 import com.example.demo01.domains.MiniCrm.Dashboard.dto.TimeSeriesRevenue;
-import com.example.demo01.domains.MiniCrm.Payment.repository.TransactionRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.paymentRepository.TransactionRepository;
 import com.example.demo01.domains.MiniCrm.Renting.model.RentingRecord;
 import com.example.demo01.utils.AppUtil;
 import com.mongodb.internal.connection.Time;

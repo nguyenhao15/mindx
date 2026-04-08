@@ -1,12 +1,12 @@
 package com.example.demo01.domains.SomethingTest;
 
-import com.example.demo01.domains.MiniCrm.Contract.repository.AppendixRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.AppendixRepository;
 import com.example.demo01.core.SpaceCustomer.mapper.CustomerInfoMapper;
 import com.example.demo01.core.SpaceCustomer.models.CustomerInfo;
 import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerInfoDTO;
-import com.example.demo01.core.SpaceCustomer.repository.CustomerInfoRepository;
+import com.example.demo01.repository.mongo.CoreRepo.SpaceCustomerRepository.CustomerInfoRepository;
 import com.example.demo01.domains.MiniCrm.Dimmesion.mappers.ProductMapper;
-import com.example.demo01.domains.MiniCrm.Dimmesion.repository.ProductRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.dimRepository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

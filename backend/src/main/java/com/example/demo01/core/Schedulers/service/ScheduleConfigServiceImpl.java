@@ -2,12 +2,9 @@ package com.example.demo01.core.Schedulers.service;
 
 import com.example.demo01.core.Schedulers.dto.ScheduleConfigRequest;
 import com.example.demo01.core.Schedulers.model.ScheduleConfig;
-import com.example.demo01.core.Schedulers.repository.ScheduleConfigRepository;
+import com.example.demo01.repository.mongo.CoreRepo.SchedulesRepository.ScheduleConfigRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-
-import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
 @Service
 @RequiredArgsConstructor

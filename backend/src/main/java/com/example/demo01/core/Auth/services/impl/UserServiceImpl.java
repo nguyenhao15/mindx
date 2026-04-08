@@ -8,7 +8,7 @@ import com.example.demo01.core.Auth.dtos.WorkProfile;
 import com.example.demo01.core.Auth.mapper.UserMapper;
 import com.example.demo01.core.Auth.models.Session;
 import com.example.demo01.core.Auth.models.User;
-import com.example.demo01.core.Auth.repositories.UserRepository;
+import com.example.demo01.repository.mongo.CoreRepo.AuthRepositories.UserRepository;
 import com.example.demo01.core.Auth.request.CreateUserRequest;
 import com.example.demo01.core.Auth.request.LoginRequest;
 import com.example.demo01.core.Auth.response.LoginResponse;

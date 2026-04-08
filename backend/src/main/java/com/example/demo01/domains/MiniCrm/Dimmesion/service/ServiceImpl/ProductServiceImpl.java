@@ -5,7 +5,7 @@ import com.example.demo01.domains.MiniCrm.Dimmesion.dtos.Products.ProductInfoDto
 import com.example.demo01.domains.MiniCrm.Dimmesion.dtos.Products.ProductRequestDto;
 import com.example.demo01.domains.MiniCrm.Dimmesion.mappers.ProductMapper;
 import com.example.demo01.domains.MiniCrm.Dimmesion.model.ProductModel;
-import com.example.demo01.domains.MiniCrm.Dimmesion.repository.ProductRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.dimRepository.ProductRepository;
 import com.example.demo01.domains.MiniCrm.Dimmesion.service.ProductService;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.AppUtil;

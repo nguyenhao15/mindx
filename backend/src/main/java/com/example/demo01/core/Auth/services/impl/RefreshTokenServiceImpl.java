@@ -1,7 +1,7 @@
 package com.example.demo01.core.Auth.services.impl;
 
 import com.example.demo01.core.Auth.models.Session;
-import com.example.demo01.core.Auth.repositories.SessionRepository;
+import com.example.demo01.repository.mongo.CoreRepo.AuthRepositories.SessionRepository;
 import com.example.demo01.core.Auth.services.RefreshTokenService;
 import com.example.demo01.core.Exceptions.InvalidCredentialsException;
 import com.example.demo01.core.Security.jwt.JwtUtils;

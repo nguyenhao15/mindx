@@ -3,7 +3,7 @@ package com.example.demo01.core.Attachment.service.Impl;
 import com.example.demo01.core.Attachment.dto.AttachmentDto;
 import com.example.demo01.core.Attachment.mapper.AttachmentMapper;
 import com.example.demo01.core.Attachment.model.AttachmentItem;
-import com.example.demo01.core.Attachment.repository.AttachmentRepository;
+import com.example.demo01.repository.mongo.CoreRepo.AttachmentRepository.AttachmentRepository;
 import com.example.demo01.core.Attachment.service.AttachmentService;
 import com.example.demo01.core.Aws3.dtos.FileResponseDTO;
 import com.example.demo01.core.Aws3.service.S3Service;

@@ -5,7 +5,7 @@ import com.example.demo01.domains.MiniCrm.Dimmesion.dtos.Currency.CurrencyInfoDt
 import com.example.demo01.domains.MiniCrm.Dimmesion.dtos.Currency.CurrencyPatchRequest;
 import com.example.demo01.domains.MiniCrm.Dimmesion.mappers.CurrencyMapper;
 import com.example.demo01.domains.MiniCrm.Dimmesion.model.CurrencyDB;
-import com.example.demo01.domains.MiniCrm.Dimmesion.repository.CurrencyDbRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.dimRepository.CurrencyDbRepository;
 import com.example.demo01.domains.MiniCrm.Dimmesion.service.CurrencyService;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;

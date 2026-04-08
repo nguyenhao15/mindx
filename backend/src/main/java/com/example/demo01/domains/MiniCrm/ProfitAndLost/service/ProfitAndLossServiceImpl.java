@@ -3,7 +3,7 @@ package com.example.demo01.domains.MiniCrm.ProfitAndLost.service;
 import com.example.demo01.domains.MiniCrm.Contract.dtos.paymentCycles.PaymentCycleDTO;
 import com.example.demo01.domains.MiniCrm.ProfitAndLost.dtos.AllocationObject;
 import com.example.demo01.domains.MiniCrm.ProfitAndLost.model.ProfitAndLost;
-import com.example.demo01.domains.MiniCrm.ProfitAndLost.repository.ProfitAndLostRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.profitAndLostRepository.ProfitAndLostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -4,7 +4,7 @@ import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
 import com.example.demo01.core.AuditUpdate.Dto.AuditUpdateDto;
 import com.example.demo01.core.AuditUpdate.model.AuditItem;
-import com.example.demo01.core.AuditUpdate.repository.AuditItemRepository;
+import com.example.demo01.repository.mongo.CoreRepo.AuditRepository.AuditItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

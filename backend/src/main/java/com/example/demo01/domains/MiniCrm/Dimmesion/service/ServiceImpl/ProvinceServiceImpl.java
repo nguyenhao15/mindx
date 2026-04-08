@@ -2,7 +2,7 @@ package com.example.demo01.domains.MiniCrm.Dimmesion.service.ServiceImpl;
 
 import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.domains.MiniCrm.Dimmesion.model.provinceModel;
-import com.example.demo01.domains.MiniCrm.Dimmesion.repository.ProvinceRepository;
+import com.example.demo01.repository.mongo.MiniCrmRepository.dimRepository.ProvinceRepository;
 import com.example.demo01.domains.MiniCrm.Dimmesion.service.ProvinceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;

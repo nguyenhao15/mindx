@@ -7,7 +7,7 @@ import com.example.demo01.core.Basement.dto.room.RoomPatchRequest;
 import com.example.demo01.core.Basement.dto.room.RoomRequestDto;
 import com.example.demo01.core.Basement.mapper.RoomMapper;
 import com.example.demo01.core.Basement.model.RoomModel;
-import com.example.demo01.core.Basement.repository.RoomModelRepository;
+import com.example.demo01.repository.mongo.CoreRepo.BasementRepository.RoomModelRepository;
 import com.example.demo01.core.Basement.service.RoomCollectionService;
 import com.example.demo01.core.Exceptions.APIException;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
