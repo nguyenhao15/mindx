@@ -1,10 +1,7 @@
 package com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities;
 
 import com.example.demo01.utils.BaseModels.BaseAuditJpaModel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -17,5 +14,11 @@ public class MaintenanceItemEntity extends BaseAuditJpaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String itemTitle;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "maintenance_category_id")
+    private MaintenanceCategoryEntity maintenanceCategory;
 
 }

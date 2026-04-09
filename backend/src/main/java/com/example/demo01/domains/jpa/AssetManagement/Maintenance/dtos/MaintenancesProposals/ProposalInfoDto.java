@@ -12,6 +12,8 @@ public record ProposalInfoDto (
     Double proposalCost,
     String proposedBy,
     ProposalStatusEnum proposalStatus,
+
+
     String createdBy,
     String lastModifiedBy,
     Instant lastModifiedDate,

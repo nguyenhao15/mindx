@@ -1,11 +1,10 @@
 package com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities;
 
 import com.example.demo01.utils.BaseModels.BaseAuditJpaModel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +18,10 @@ public class MaintenanceCategoryEntity extends BaseAuditJpaModel {
     private Long id;
 
     private String categoryTitle;
+
+    private Boolean hashChild = true;
+
+    @OneToMany(mappedBy = "maintenanceCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MaintenanceItemEntity> maintenanceItems;
 
 }
