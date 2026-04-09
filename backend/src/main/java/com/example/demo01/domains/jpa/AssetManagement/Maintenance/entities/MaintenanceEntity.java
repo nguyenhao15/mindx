@@ -24,6 +24,14 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
 
     private String description;
 
+    @Column(name = "completion_at")
+    private LocalDate completionAt;
+
+    @Column(name = "verified_at")
+    private LocalDate verifiedAt;
+
+    private LocalDate inspection_at;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maintenance_category_id")
     private MaintenanceCategoryEntity fixCategory;
@@ -44,4 +52,10 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
     private String locationId;
 
     private Double totalCost;
+
+    public boolean isReadyToComplete() {
+        return this.completionAt != null && this.verifiedAt != null;
+
+    }
+
 }

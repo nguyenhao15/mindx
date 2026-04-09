@@ -18,7 +18,7 @@ public record MaintenanceSummaryDTO (
 
         MaintenanceCategoryNestInfo fixCategory,
 
-        MaintenanceItemInfoDto maintenanceItem,
+        MaintenanceItemInfoDto fixItem,
 
         String locationId,
 

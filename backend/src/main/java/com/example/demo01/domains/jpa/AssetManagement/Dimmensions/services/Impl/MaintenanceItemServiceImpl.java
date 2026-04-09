@@ -25,6 +25,12 @@ public class MaintenanceItemServiceImpl  implements MaintenanceItemService {
     private MaintenanceCategoryService  maintenanceCategoryService;
 
     @Override
+    public MaintenanceItemEntity getMaintenanceItem(Long maintenanceItemId) {
+        return maintenanceItemRepository.findById(maintenanceItemId)
+                .orElseThrow(() -> new RuntimeException("Maintenance Item not found with id: " + maintenanceItemId));
+    }
+
+    @Override
     public MaintenanceItemInfo createMaintenanceItem(MaintenanceItemRequest maintenanceItemRequest) {
         MaintenanceCategoryEntity category = maintenanceCategoryService.getMaintenanceCategory(maintenanceItemRequest.getCategoryId());
 
