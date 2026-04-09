@@ -6,7 +6,7 @@ import com.example.demo01.core.Basement.dto.room.RoomInfoDto;
 import com.example.demo01.core.Basement.dto.room.RoomPatchRequest;
 import com.example.demo01.core.Basement.dto.room.RoomRequestDto;
 import com.example.demo01.core.Basement.service.RoomCollectionService;
-import com.example.demo01.domains.MiniCrm.Renting.dtos.RentingDto;
+import com.example.demo01.domains.mongo.MiniCrm.Renting.dtos.RentingDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.BatchMapping;
 import org.springframework.http.ResponseEntity;

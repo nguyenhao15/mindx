@@ -1,6 +1,6 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.profitAndLostRepository;
 
-import com.example.demo01.domains.MiniCrm.ProfitAndLost.model.ProfitAndLost;
+import com.example.demo01.domains.mongo.MiniCrm.ProfitAndLost.model.ProfitAndLost;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;

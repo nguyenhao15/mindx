@@ -1,7 +1,7 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository;
 
-import com.example.demo01.configs.SecureRepoConfig.BaseRepository;
-import com.example.demo01.domains.MiniCrm.Contract.models.Contract;
+import com.example.demo01.configs.Mongo.SecureRepoConfig.BaseRepository;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.models.Contract;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;

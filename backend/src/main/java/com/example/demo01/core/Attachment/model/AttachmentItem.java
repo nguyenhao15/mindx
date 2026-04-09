@@ -1,6 +1,6 @@
 package com.example.demo01.core.Attachment.model;
 
-import com.example.demo01.utils.BaseAuditModel;
+import com.example.demo01.utils.BaseModels.BaseAuditModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,7 +1,7 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.RentingRepository.Impl;
 
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
-import com.example.demo01.domains.MiniCrm.Renting.model.RentingRecord;
+import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.domains.mongo.MiniCrm.Renting.model.RentingRecord;
 import com.example.demo01.repository.mongo.MiniCrmRepository.RentingRepository.RentingCustomRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;

@@ -1,7 +1,7 @@
 package com.example.demo01.repository.mongo.ProcessManagement.ProcessTagRepository;
 
 
-import com.example.demo01.domains.ProcessManagement.ProcessTag.models.ProcessTag;
+import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.models.ProcessTag;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

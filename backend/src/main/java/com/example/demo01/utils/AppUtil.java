@@ -1,6 +1,6 @@
 package com.example.demo01.utils;
 
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtilImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.f4b6a3.ulid.UlidCreator;
 import lombok.RequiredArgsConstructor;

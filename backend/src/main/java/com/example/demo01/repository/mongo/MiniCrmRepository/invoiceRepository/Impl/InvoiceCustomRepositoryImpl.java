@@ -1,6 +1,6 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.invoiceRepository.Impl;
 
-import com.example.demo01.domains.MiniCrm.Invoice.model.Invoice;
+import com.example.demo01.domains.mongo.MiniCrm.Invoice.model.Invoice;
 import com.example.demo01.repository.mongo.MiniCrmRepository.invoiceRepository.InvoiceCustomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;

@@ -1,8 +1,8 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.impl;
 
-import com.example.demo01.domains.MiniCrm.Contract.dtos.appendix.AppendixInfoDto;
-import com.example.demo01.domains.MiniCrm.Contract.mappers.AppendixMapper;
-import com.example.demo01.domains.MiniCrm.Contract.models.Appendix;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.dtos.appendix.AppendixInfoDto;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.mappers.AppendixMapper;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.models.Appendix;
 import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.AppendixCustomRepo;
 import com.example.demo01.utils.AppUtil;
 import lombok.RequiredArgsConstructor;

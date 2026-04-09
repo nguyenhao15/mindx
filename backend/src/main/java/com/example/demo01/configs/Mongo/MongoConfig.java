@@ -1,6 +1,6 @@
 package com.example.demo01.configs.Mongo;
 
-import com.example.demo01.configs.SecureRepoConfig.BaseRepositoryImpl;
+import com.example.demo01.configs.Mongo.SecureRepoConfig.BaseRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;

@@ -1,7 +1,7 @@
 package com.example.demo01.core.Auth.services.impl;
 
 import com.example.demo01.configs.Constants.CacheConstants;
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtil;
+import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtil;
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.dtos.WorkProfile;

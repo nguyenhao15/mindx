@@ -1,7 +1,7 @@
 package com.example.demo01.core.Basement.service.Implements;
 
 import com.example.demo01.configs.Constants.CacheConstants;
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtilImpl;
 import com.example.demo01.core.Basement.dto.basement.BUInfoDto;
 import com.example.demo01.core.Basement.dto.basement.BUPatchRequestDto;
 import com.example.demo01.core.Basement.dto.basement.BURequestDto;

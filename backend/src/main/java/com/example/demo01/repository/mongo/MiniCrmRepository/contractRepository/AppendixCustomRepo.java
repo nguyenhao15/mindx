@@ -1,7 +1,7 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository;
 
-import com.example.demo01.domains.MiniCrm.Contract.dtos.appendix.AppendixInfoDto;
-import com.example.demo01.domains.MiniCrm.Contract.models.Appendix;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.dtos.appendix.AppendixInfoDto;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.models.Appendix;
 
 import java.util.List;
 

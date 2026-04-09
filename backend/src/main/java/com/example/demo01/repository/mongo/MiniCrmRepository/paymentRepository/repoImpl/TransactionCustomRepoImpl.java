@@ -1,7 +1,7 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.paymentRepository.repoImpl;
 
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
-import com.example.demo01.domains.MiniCrm.Payment.models.Transaction;
+import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.domains.mongo.MiniCrm.Payment.models.Transaction;
 import com.example.demo01.repository.mongo.MiniCrmRepository.paymentRepository.TransactionCustomRepo;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;

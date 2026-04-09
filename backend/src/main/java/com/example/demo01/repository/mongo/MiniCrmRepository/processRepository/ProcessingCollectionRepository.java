@@ -1,6 +1,6 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.processRepository;
 
-import com.example.demo01.domains.MiniCrm.Process.model.ProcessingCollection;
+import com.example.demo01.domains.mongo.MiniCrm.Process.model.ProcessingCollection;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

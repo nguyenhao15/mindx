@@ -1,6 +1,6 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.impl;
 
-import com.example.demo01.domains.MiniCrm.Contract.models.PaymentCycle;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.models.PaymentCycle;
 import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.PaymentCycleCustomRepo;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;

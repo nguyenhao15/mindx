@@ -1,8 +1,8 @@
 package com.example.demo01.core.SpaceCustomer.controllers;
 
 import com.example.demo01.configs.AppConstants;
-import com.example.demo01.domains.MiniCrm.Contract.dtos.appendix.AppendixInfoDto;
-import com.example.demo01.domains.MiniCrm.Contract.dtos.paymentCycles.PaymentCycleDTO;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.dtos.appendix.AppendixInfoDto;
+import com.example.demo01.domains.mongo.MiniCrm.Contract.dtos.paymentCycles.PaymentCycleDTO;
 import com.example.demo01.core.SpaceCustomer.models.CustomerAddress;
 import com.example.demo01.core.SpaceCustomer.models.CustomerContact;
 import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerInfoDTO;
@@ -10,8 +10,8 @@ import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerPatchR
 import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerRequestDTO;
 import com.example.demo01.core.SpaceCustomer.payload.CustomerInfo.CustomerResponse;
 import com.example.demo01.core.SpaceCustomer.service.CustomerInfoService;
-import com.example.demo01.domains.MiniCrm.Invoice.dto.InvoiceInfo;
-import com.example.demo01.domains.MiniCrm.Process.dtos.ProcessingInfoDto;
+import com.example.demo01.domains.mongo.MiniCrm.Invoice.dto.InvoiceInfo;
+import com.example.demo01.domains.mongo.MiniCrm.Process.dtos.ProcessingInfoDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
