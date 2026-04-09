@@ -2,6 +2,7 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Impl
 
 import com.example.demo01.core.Basement.dto.basement.BUInfoDto;
 import com.example.demo01.core.Basement.service.BasementService;
+import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceCategoryEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceItemEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.services.MaintenanceCategoryService;
@@ -50,5 +51,32 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
+    }
+
+    @Override
+    public MaintenanceEntity getMaintenanceById(Long id) {
+        return maintenanceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Maintenance","id", id));
+    }
+
+    @Override
+    public MaintenanceSummaryDTO getMaintenanceSummaryById(Long id) {
+        MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
+    }
+
+    @Override
+    public MaintenanceSummaryDTO updateMaintenance(Long id, MaintenanceRequestDto requestDto) {
+        MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
+        maintenanceMapper.updateEntityFromRequest(requestDto, maintenanceEntity);
+        maintenanceRepository.save(maintenanceEntity);
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
+    }
+
+    @Override
+    public String deleteMaintenanceById(Long id) {
+        MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
+        maintenanceRepository.delete(maintenanceEntity);
+        return "Deleted successfully";
     }
 }

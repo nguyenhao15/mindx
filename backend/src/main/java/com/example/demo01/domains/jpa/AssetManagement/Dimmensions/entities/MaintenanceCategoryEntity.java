@@ -1,9 +1,11 @@
 package com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities;
 
 import com.example.demo01.utils.BaseModels.BaseAuditJpaModel;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -23,7 +25,7 @@ public class MaintenanceCategoryEntity extends BaseAuditJpaModel {
 
     private Boolean hashChild = true;
 
-    @OneToMany(mappedBy = "maintenanceCategory", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MaintenanceItemEntity> maintenanceItems;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "maintenanceCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MaintenanceItemEntity> maintenanceItems = new ArrayList<>();
 
 }

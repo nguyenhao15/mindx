@@ -6,8 +6,7 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
 uses = {
@@ -16,10 +15,12 @@ uses = {
 })
 public interface MaintenanceMapper {
 
-    MaintenanceSummaryDTO fromEntityToMaintenanceSummaryDTO(MaintenanceEntity entity);
-
     MaintenanceEntity fromRequestToEntityMaintenance(MaintenanceRequestDto requestDto);
 
+    @Mapping(target = "totalProposals", expression = "java(entity.getMaintenancesProposals().size())")
     MaintenanceSummaryDTO fromEntityToMaintenanceInfoDto(MaintenanceEntity entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateEntityFromRequest(MaintenanceRequestDto requestDto, @MappingTarget MaintenanceEntity entity);
 
 }

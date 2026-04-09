@@ -7,10 +7,7 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/maintenance/request")
@@ -23,5 +20,10 @@ public class MaintenanceController {
     public ResponseEntity<?> createMaintenance(@RequestBody MaintenanceRequestDto requestDto) {
         MaintenanceSummaryDTO maintenanceInfo = maintenanceService.createMaintenance(requestDto);
         return ResponseEntity.ok(maintenanceInfo);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMaintenanceById(@PathVariable Long id){
+        return ResponseEntity.ok(maintenanceService.getMaintenanceSummaryById(id));
     }
 }
