@@ -7,13 +7,20 @@ import java.util.List;
 
 public record MaintenanceCategoryInfoWithItems (
         Long id,
+
         String categoryTitle,
+
         String description,
+
         Boolean hashChild,
+
         List<MaintenanceItemInfoDto> maintenanceItems,
 
         String createdBy,
+
         String lastModifiedBy,
+
         Instant lastModifiedDate,
+
         Instant createdDate
 ) {}

@@ -1,8 +1,6 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance;
 
-
-import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceCategoryEntity;
-import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceItemEntity;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.ProposalInfoDto;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 
 import java.time.Instant;
@@ -14,14 +12,11 @@ public record MaintenanceInfoDto (
 
         String description,
 
-        Long maintenanceCategoryId,
-        Long maintenanceItemId,
-
         LocalDate issueDate,
 
         MaintenancesStatus maintenancesStatus,
 
-        List<MaintenanceInfoDto> maintenancesProposals,
+        List<ProposalInfoDto> maintenancesProposals,
 
         String createdBy,
         String lastModifiedBy,
