@@ -4,7 +4,6 @@ import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.MaintenanceItem.MaintenanceItemInfoDto;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.MaintenanceItem.MaintenanceItemRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceItemEntity;
-import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceInfoDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -29,5 +29,5 @@ public class MaintenanceRequestDto {
 
     private String locationId;
 
-    private Double totalCost;
+    private Double totalCost = 0.0;
 }

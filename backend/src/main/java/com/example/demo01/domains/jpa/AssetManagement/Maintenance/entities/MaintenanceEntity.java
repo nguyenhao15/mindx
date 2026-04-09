@@ -51,7 +51,7 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
 
     private String locationId;
 
-    private Double totalCost;
+    private Double totalCost = 0.0;
 
     public boolean isReadyToComplete() {
         return this.completionAt != null && this.verifiedAt != null;
