@@ -7,12 +7,11 @@ import java.time.Instant;
 
 public record ProposalInfoDto (
     Long id,
-    MaintenanceEntity maintenance,
+    Long maintenanceId,
     String proposalDescription,
     Double proposalCost,
     String proposedBy,
     ProposalStatusEnum proposalStatus,
-
 
     String createdBy,
     String lastModifiedBy,

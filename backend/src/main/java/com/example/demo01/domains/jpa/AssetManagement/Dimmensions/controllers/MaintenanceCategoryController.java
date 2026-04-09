@@ -6,13 +6,10 @@ import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.services.Maint
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/maintenance/category")
+@RequestMapping("/api/v1/maintenance/dim/category")
 public class MaintenanceCategoryController {
 
     @Autowired
@@ -23,6 +20,11 @@ public class MaintenanceCategoryController {
     {
         MaintenanceCategoryInfo categoryInfo = maintenanceCategoryService.createMaintenanceCategory(request);
         return ResponseEntity.ok(categoryInfo);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMaintenanceCategory(@PathVariable Long id) {
+        return ResponseEntity.ok(maintenanceCategoryService.getMaintenanceCategoryInfo(id));
     }
 
 }

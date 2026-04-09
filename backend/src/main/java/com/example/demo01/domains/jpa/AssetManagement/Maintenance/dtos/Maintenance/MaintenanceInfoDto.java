@@ -14,8 +14,8 @@ public record MaintenanceInfoDto (
 
         String description,
 
-        MaintenanceCategoryEntity fixCategory,
-        MaintenanceItemEntity fixItem,
+        Long maintenanceCategoryId,
+        Long maintenanceItemId,
 
         LocalDate issueDate,
 

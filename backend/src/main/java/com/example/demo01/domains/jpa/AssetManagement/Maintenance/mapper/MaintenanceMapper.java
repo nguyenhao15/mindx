@@ -9,8 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MaintenanceMapper {
 
-    @Mapping(target = "fixCategory.id", source = "fixCategoryId")
-    @Mapping(target = "fixItem.id", source = "fixItemId")
+
     MaintenanceEntity fromRequestToEntityMaintenance(MaintenanceRequestDto requestDto);
 
     MaintenanceInfoDto  fromEntityToMaintenanceInfoDto(MaintenanceEntity entity);

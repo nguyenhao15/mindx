@@ -17,6 +17,8 @@ public class MaintenanceItemEntity extends BaseAuditJpaModel {
 
     private String itemTitle;
 
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maintenance_category_id")
     private MaintenanceCategoryEntity maintenanceCategory;

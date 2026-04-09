@@ -7,8 +7,8 @@ import java.time.LocalDate;
 public record MaintenanceSummaryDTO(
         Long id,
         String description,
-        Long fixCategory,
-        Long fixItem,
+        Long maintenanceItemId,
+        Long maintenanceCategoryId,
         LocalDate issueDate,
         MaintenancesStatus maintenancesStatus,
         String locationId,

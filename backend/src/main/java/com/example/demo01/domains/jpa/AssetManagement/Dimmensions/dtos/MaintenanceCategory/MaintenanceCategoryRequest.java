@@ -13,6 +13,5 @@ public class MaintenanceCategoryRequest {
     @NotBlank(message = "Category title is required")
     private String categoryTitle;
 
-
     private Boolean hashChild = true;
 }

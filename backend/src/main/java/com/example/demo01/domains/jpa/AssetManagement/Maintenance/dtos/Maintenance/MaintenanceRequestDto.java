@@ -18,10 +18,10 @@ public class MaintenanceRequestDto {
     private String description;
 
     @NotNull(message = "Vui lòng chọn danh mục bảo trì")
-    private Long fixCategoryId;
+    private Long maintenanceItemId;
 
     @NotNull(message = "Vui lòng chọn hạng mục cần sửa")
-    private Long fixItemId;
+    private Long maintenanceCategoryId;
 
     private LocalDate issueDate;
 

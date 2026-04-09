@@ -5,7 +5,9 @@ import java.time.Instant;
 
 public record MaintenanceItemInfo(
         Long id,
+
         String itemTitle,
+
         MaintenanceCategoryInfo maintenanceCategory,
 
         String createdBy,

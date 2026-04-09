@@ -19,6 +19,8 @@ public class MaintenanceCategoryEntity extends BaseAuditJpaModel {
 
     private String categoryTitle;
 
+    private String description;
+
     private Boolean hashChild = true;
 
     @OneToMany(mappedBy = "maintenanceCategory", cascade = CascadeType.ALL, orphanRemoval = true)
