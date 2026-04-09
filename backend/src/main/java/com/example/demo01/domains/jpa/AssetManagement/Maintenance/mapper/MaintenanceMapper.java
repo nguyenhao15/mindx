@@ -10,7 +10,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring",
 uses = {
         MaintenanceCategoryMapper .class,
-        MaintenanceItemMapper.class
+        MaintenanceItemMapper.class,
+        MaintenancesProposalMapper.class,
 })
 public interface MaintenanceMapper {
 

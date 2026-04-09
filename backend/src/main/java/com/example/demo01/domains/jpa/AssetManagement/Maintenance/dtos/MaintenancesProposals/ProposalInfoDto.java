@@ -1,5 +1,6 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals;
 
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.ProposalStatusEnum;
 
 import java.time.Instant;
@@ -8,7 +9,7 @@ public record ProposalInfoDto (
 
     Long id,
 
-    Long maintenanceId,
+    MaintenanceSummaryDTO maintenanceItem,
 
     String proposalDescription,
 

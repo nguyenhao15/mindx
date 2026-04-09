@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "maintenances")
@@ -47,7 +48,7 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
     private MaintenancesStatus maintenancesStatus = MaintenancesStatus.PENDING;
 
     @OneToMany(mappedBy = "maintenance", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MaintenancesProposals> maintenancesProposals;
+    private List<MaintenancesProposals> maintenancesProposals = new ArrayList<>();
 
     private String locationId;
 
