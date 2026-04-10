@@ -89,6 +89,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    public List<MaintenanceEntity> getAllMaintenances() {
+        return maintenanceRepository.findAll();
+    }
+
+    @Override
     public BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
         PageInput pageInput = filterWithPagination.getPagination();
         List<FilterRequest> filters = filterWithPagination.getFilters();

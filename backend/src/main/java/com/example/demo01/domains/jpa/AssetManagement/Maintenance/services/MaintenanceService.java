@@ -8,6 +8,8 @@ import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface MaintenanceService {
 
     MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto);
@@ -17,6 +19,8 @@ public interface MaintenanceService {
     MaintenanceSummaryDTO getMaintenanceSummaryById(Long id);
 
     MaintenanceEntity getReference(Long maintenanceId);
+
+    List<MaintenanceEntity> getAllMaintenances();
 
     BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination);
 
