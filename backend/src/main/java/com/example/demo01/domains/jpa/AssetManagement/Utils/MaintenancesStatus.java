@@ -5,7 +5,8 @@ public enum MaintenancesStatus {
     APPROVED,
     REJECTED,
     CHECKED,
-    PENDING,
+    PROCESSING,
+    FINISHED,
     COMPLETED
 }
 

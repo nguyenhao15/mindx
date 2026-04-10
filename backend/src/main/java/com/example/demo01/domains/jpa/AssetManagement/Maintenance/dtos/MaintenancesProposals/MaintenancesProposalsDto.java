@@ -5,7 +5,7 @@ import com.example.demo01.domains.jpa.AssetManagement.Utils.ProposalStatusEnum;
 
 import java.time.Instant;
 
-public record ProposalInfoDto (
+public record MaintenancesProposalsDto(
 
     Long id,
 

@@ -2,7 +2,7 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintena
 
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.MaintenanceCategory.MaintenanceCategoryNestInfo;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.MaintenanceItem.MaintenanceItemInfoDto;
-import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.ProposalInfoDto;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalsDto;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 
 import java.time.Instant;
@@ -28,7 +28,7 @@ public record MaintenanceDetailsInfoDto(
 
         Double totalCost,
 
-        List<ProposalInfoDto> maintenancesProposals,
+        List<MaintenancesProposalsDto> maintenancesProposals,
 
         String createdBy,
 

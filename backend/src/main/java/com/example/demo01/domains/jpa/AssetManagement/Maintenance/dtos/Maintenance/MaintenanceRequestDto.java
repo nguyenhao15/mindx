@@ -25,9 +25,14 @@ public class MaintenanceRequestDto {
 
     private LocalDate issueDate;
 
-    private MaintenancesStatus maintenancesStatus = MaintenancesStatus.PENDING;
+    private MaintenancesStatus maintenancesStatus = MaintenancesStatus.WAITING;
 
     private String locationId;
 
     private Double totalCost = 0.0;
+
+    private Boolean reWork;
+
+    private Boolean isDeleted;
+
 }

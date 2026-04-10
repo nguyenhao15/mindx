@@ -12,9 +12,14 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.MaintenanceMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
+import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepository.MaintenanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
@@ -66,11 +71,34 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    public MaintenanceEntity getReference(Long maintenanceId) {
+        getMaintenanceById(maintenanceId);
+        return maintenanceRepository.getReferenceById(maintenanceId);
+    }
+
+    @Override
     public MaintenanceSummaryDTO updateMaintenance(Long id, MaintenanceRequestDto requestDto) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
+        if (canTransition(maintenanceEntity.getMaintenancesStatus(), requestDto.getMaintenancesStatus())) {
+            maintenanceEntity.setMaintenancesStatus(requestDto.getMaintenancesStatus());
+        } else if (requestDto.getMaintenancesStatus() != null && !maintenanceEntity.getMaintenancesStatus().equals(requestDto.getMaintenancesStatus())) {
+            throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + requestDto.getMaintenancesStatus());
+        }
         maintenanceMapper.updateEntityFromRequest(requestDto, maintenanceEntity);
         maintenanceRepository.save(maintenanceEntity);
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
+    }
+
+    @Override
+    public MaintenanceSummaryDTO upadteMaintenanceStatus(Long id, MaintenancesStatus status) {
+        MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
+        if (status == null || maintenanceEntity.getMaintenancesStatus() == null ) return null;
+        if (!canTransition(maintenanceEntity.getMaintenancesStatus(), status)) {
+            throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);
+        }
+        maintenanceEntity.setMaintenancesStatus(status);
+        MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
     }
 
     @Override
@@ -79,4 +107,21 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenanceRepository.delete(maintenanceEntity);
         return "Deleted successfully";
     }
+
+    private static final Map<MaintenancesStatus, List<MaintenancesStatus>> ALLOWED_TRANSITIONS = new EnumMap<>(MaintenancesStatus.class);
+
+    static {
+        ALLOWED_TRANSITIONS.put(MaintenancesStatus.WAITING, List.of(MaintenancesStatus.APPROVED, MaintenancesStatus.REJECTED ));
+        ALLOWED_TRANSITIONS.put(MaintenancesStatus.REJECTED, List.of(MaintenancesStatus.WAITING ));
+        ALLOWED_TRANSITIONS.put(MaintenancesStatus.APPROVED, List.of(MaintenancesStatus.REJECTED, MaintenancesStatus.CHECKED, MaintenancesStatus.PROCESSING, MaintenancesStatus.FINISHED ));
+        ALLOWED_TRANSITIONS.put(MaintenancesStatus.CHECKED, List.of(MaintenancesStatus.REJECTED, MaintenancesStatus.PROCESSING,  MaintenancesStatus.FINISHED ));
+        ALLOWED_TRANSITIONS.put(MaintenancesStatus.FINISHED, List.of(MaintenancesStatus.WAITING, MaintenancesStatus.COMPLETED ));
+        ALLOWED_TRANSITIONS.put(MaintenancesStatus.COMPLETED, List.of());
+    }
+
+    private boolean canTransition(MaintenancesStatus currentStatus, MaintenancesStatus targetStatus) {
+        if (currentStatus == null || targetStatus == null) return false;
+        return ALLOWED_TRANSITIONS.get(currentStatus).contains(targetStatus);
+    }
+
 }

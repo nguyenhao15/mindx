@@ -45,7 +45,7 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "maintenances_status", length = 20)
-    private MaintenancesStatus maintenancesStatus = MaintenancesStatus.PENDING;
+    private MaintenancesStatus maintenancesStatus = MaintenancesStatus.WAITING;
 
     @OneToMany(mappedBy = "maintenance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MaintenancesProposals> maintenancesProposals = new ArrayList<>();
@@ -53,6 +53,10 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
     private String locationId;
 
     private Double totalCost = 0.0;
+
+    private Boolean reWork;
+
+    private Boolean isDeleted;
 
     public boolean isReadyToComplete() {
         return this.completionAt != null && this.verifiedAt != null;
