@@ -177,7 +177,6 @@ public class DynamicQueryCriteria {
 
         List<T> list = mongoTemplate.find(query, entityClass);
         long total = mongoTemplate.count(query.skip(-1).limit(-1), entityClass);
-
         return new PageImpl<T>(list, pageable, total);
     }
 

@@ -18,15 +18,17 @@ import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterRequest;
 import com.example.demo01.utils.FilterWithPagination;
 import com.example.demo01.utils.PageInput;
-import org.javers.repository.jql.QueryBuilder;
+import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
+import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
@@ -39,6 +41,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     private MaintenanceCategoryService maintenanceCategoryService;
+
+    @Autowired
+    private DynamicSpecificationBuilder<MaintenanceEntity> dynamicSpecificationBuilder;
+
+    @Autowired
+    private PostgreSQLPageUtil postgreSQLPageUtil;
 
     @Autowired
     private MaintenanceMapper maintenanceMapper;
@@ -84,16 +92,33 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public BasePageResponse<MaintenanceService> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
+    public BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
         PageInput pageInput = filterWithPagination.getPagination();
         List<FilterRequest> filters = filterWithPagination.getFilters();
-        return null;
+        List<Specification<MaintenanceEntity>> specification = new ArrayList<>();
+        Specification<MaintenanceEntity> finalSpecification = dynamicSpecificationBuilder.build(filters, specification);
+
+        Page<MaintenanceEntity> page = postgreSQLPageUtil.buildPageResponse(
+                finalSpecification,
+                pageInput,
+                maintenanceRepository
+        );
+
+        return buildPageResponse(page) ;
     }
 
     @Override
-    public BasePageResponse<MaintenanceSummaryDTO> buildPageResponse(PageInput pageInput, List<FilterRequest> filterRequests) {
+    public BasePageResponse<MaintenanceSummaryDTO> buildPageResponse(Page<MaintenanceEntity> page) {
+         List<MaintenanceSummaryDTO> content = page.getContent().stream()
+                .map(maintenanceMapper::fromEntityToMaintenanceInfoDto)
+                .toList();
+        BasePageResponse<MaintenanceSummaryDTO> response = new BasePageResponse<>();
+        response.setContent(content);
+        response.setPageNumber(page.getNumber());
+        response.setPageSize(page.getSize());
+        response.setTotalElements(page.getTotalElements());
 
-        return null;
+        return response;
     }
 
     @Override
@@ -110,11 +135,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public MaintenanceSummaryDTO softDeleteMaintenance(Long maintenanceId) {
+    public String softDeleteMaintenance(Long maintenanceId) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(maintenanceId);
         maintenanceEntity.setIsDeleted(true);
-        MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
-        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
+        maintenanceRepository.save(maintenanceEntity);
+        return "Soft deleted successfully";
     }
 
     @Override

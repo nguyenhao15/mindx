@@ -1,6 +1,6 @@
 package com.example.demo01.domains.mongo.HRManagment.Department.service.Impl;
 
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.configs.SecureUtil.SecurityRepoUtilImpl;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.PositionDto;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.PositionRequest;

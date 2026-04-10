@@ -44,7 +44,6 @@ public class JwtUtils {
         return generateTokenFromUsername(username, jwtExpirationMs);
     }
 
-    // 2. Tạo Refresh Token (7 ngày)
     public String generateRefreshToken(String username) {
         return generateTokenFromUsername(username, refreshExpirationMs);
     }

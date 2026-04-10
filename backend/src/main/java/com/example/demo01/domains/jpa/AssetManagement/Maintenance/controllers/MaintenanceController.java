@@ -24,4 +24,10 @@ public class MaintenanceController {
     public ResponseEntity<?> getMaintenanceById(@PathVariable Long id){
         return ResponseEntity.ok(maintenanceService.getMaintenanceSummaryById(id));
     }
+
+    @DeleteMapping("/sort-delete/{maintenanceId}")
+    public ResponseEntity<?> sortDeleteMaintenance(@PathVariable Long maintenanceId) {
+        String successMessage = maintenanceService.softDeleteMaintenance(maintenanceId);
+        return ResponseEntity.ok(successMessage);
+    }
 }

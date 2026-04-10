@@ -1,6 +1,6 @@
 package com.example.demo01.domains.mongo.ProcessManagement.ProcessUtils;
 
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.configs.SecureUtil.SecurityRepoUtilImpl;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.WorkingField.WorkingFieldUpdate;
 import com.example.demo01.domains.mongo.HRManagment.Department.model.DepartmentModel;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessFlow.model.ACCESSPOLICY;

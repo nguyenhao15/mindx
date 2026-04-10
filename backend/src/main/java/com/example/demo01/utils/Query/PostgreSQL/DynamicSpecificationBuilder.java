@@ -1,22 +1,29 @@
 package com.example.demo01.utils.Query.PostgreSQL;
 
 import com.example.demo01.utils.FilterRequest;
+import com.example.demo01.utils.PageInput;
 import jakarta.persistence.criteria.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Component;
+
 
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class DynamicSpecificationBuilder<T> {
+
 
     public Specification<T> build(
             List<FilterRequest> filters,
             List<Specification<T>> baseSpecs
     ) {
-        Specification<T> finalSpec = null;
+        Specification<T> finalSpec = Specification.anyOf();
 
-        // 🔒 1. Add base conditions (security, tenant, ...)
         Set<String> baseFields = new HashSet<>();
 
         if (baseSpecs != null && !baseSpecs.isEmpty()) {
@@ -25,12 +32,10 @@ public class DynamicSpecificationBuilder<T> {
             }
         }
 
-        // 👉 Optional: nếu fen muốn block override field từ base
         if (filters != null && baseSpecs != null) {
             baseFields = extractFields(filters); // simplified
         }
 
-        // 🔍 2. Add dynamic filters
         if (filters != null && !filters.isEmpty()) {
             for (FilterRequest filter : filters) {
 
@@ -102,9 +107,6 @@ public class DynamicSpecificationBuilder<T> {
         };
     }
 
-    /**
-     * SUPPORT: handle nested field (user.name)
-     */
     private Path<?> getPath(From<?, ?> root, String field) {
         if (field.contains(".")) {
             String[] parts = field.split("\\.");
@@ -120,9 +122,6 @@ public class DynamicSpecificationBuilder<T> {
         return root.get(field);
     }
 
-    /**
-     * SUPPORT: cast value safely
-     */
     private Comparable castToComparable(Object value) {
         if (value instanceof Comparable) {
             return (Comparable) value;
@@ -136,12 +135,11 @@ public class DynamicSpecificationBuilder<T> {
         }
     }
 
-    /**
-     * OPTIONAL: extract fields
-     */
     private Set<String> extractFields(List<FilterRequest> filters) {
         return filters.stream()
                 .map(FilterRequest::getField)
                 .collect(Collectors.toSet());
-    }
+        }
+
+
 }

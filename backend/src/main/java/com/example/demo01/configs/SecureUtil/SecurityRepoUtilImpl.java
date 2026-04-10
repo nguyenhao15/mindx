@@ -1,4 +1,4 @@
-package com.example.demo01.configs.SecureRepoConfig;
+package com.example.demo01.configs.SecureUtil;
 
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.dtos.WorkProfile;

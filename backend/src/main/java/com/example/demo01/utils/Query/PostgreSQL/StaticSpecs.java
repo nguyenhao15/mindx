@@ -1,6 +1,6 @@
 package com.example.demo01.utils.Query.PostgreSQL;
 
-import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtil;
+import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
 import com.example.demo01.utils.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
