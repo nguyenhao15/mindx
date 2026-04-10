@@ -31,8 +31,8 @@ public class MaintenanceRequestDto {
 
     private Double totalCost = 0.0;
 
-    private Boolean reWork;
+    private Boolean reWork = false;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
 }

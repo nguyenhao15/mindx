@@ -20,8 +20,8 @@ public class PageInput {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SortOrder {
-        private String property;
-        private String direction; // "ASC" hoặc "DESC"
+        private String property = "createdAt"; // Mặc định sắp xếp theo createdAt
+        private String direction = "ASC"; // "ASC" hoặc "DESC"
     }
 
     public Pageable toPageable() {

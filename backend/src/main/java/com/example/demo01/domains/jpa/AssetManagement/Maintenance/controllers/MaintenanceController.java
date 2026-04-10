@@ -3,6 +3,9 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.controllers;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
+import com.example.demo01.utils.BasePageResponse;
+import com.example.demo01.utils.FilterWithPagination;
+import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,12 @@ public class MaintenanceController {
     public ResponseEntity<?> createMaintenance(@RequestBody MaintenanceRequestDto requestDto) {
         MaintenanceSummaryDTO maintenanceInfo = maintenanceService.createMaintenance(requestDto);
         return ResponseEntity.ok(maintenanceInfo);
+    }
+
+    @PostMapping("/get/page")
+    public ResponseEntity<?> getMaintenanceItemWithPage(@RequestBody FilterWithPagination filterWithPagination) {
+        BasePageResponse<MaintenanceSummaryDTO> maintenancePage = maintenanceService.getBasePageResponseWithFilter(filterWithPagination);
+        return ResponseEntity.ok(maintenancePage);
     }
 
     @GetMapping("/{id}")

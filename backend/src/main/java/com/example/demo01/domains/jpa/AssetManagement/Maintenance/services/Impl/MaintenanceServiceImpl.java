@@ -25,10 +25,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
@@ -95,7 +92,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
         PageInput pageInput = filterWithPagination.getPagination();
         List<FilterRequest> filters = filterWithPagination.getFilters();
-        List<Specification<MaintenanceEntity>> specification = new ArrayList<>();
+        Map<String, Specification<MaintenanceEntity>> specification = Map.of(
+                "isDeleted", (root, query, cb) -> cb.isFalse(root.get("isDeleted"))
+        );
         Specification<MaintenanceEntity> finalSpecification = dynamicSpecificationBuilder.build(filters, specification);
 
         Page<MaintenanceEntity> page = postgreSQLPageUtil.buildPageResponse(
@@ -117,6 +116,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         response.setPageNumber(page.getNumber());
         response.setPageSize(page.getSize());
         response.setTotalElements(page.getTotalElements());
+        response.setLastPage(page.isLast());
 
         return response;
     }

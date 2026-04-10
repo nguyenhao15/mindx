@@ -1,12 +1,8 @@
 package com.example.demo01.utils.Query.PostgreSQL;
 
 import com.example.demo01.utils.FilterRequest;
-import com.example.demo01.utils.PageInput;
 import jakarta.persistence.criteria.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Component;
 
 
@@ -20,25 +16,20 @@ public class DynamicSpecificationBuilder<T> {
 
     public Specification<T> build(
             List<FilterRequest> filters,
-            List<Specification<T>> baseSpecs
+            Map<String, Specification<T>> baseSpecs
     ) {
-        Specification<T> finalSpec = Specification.anyOf();
-
+        Specification<T> finalSpec = Specification.allOf();
         Set<String> baseFields = new HashSet<>();
 
         if (baseSpecs != null && !baseSpecs.isEmpty()) {
-            for (Specification<T> spec : baseSpecs) {
-                finalSpec = finalSpec.and(spec);
+            for (Map.Entry<String, Specification<T>> entry : baseSpecs.entrySet()) {
+                finalSpec = finalSpec.and(entry.getValue());
+                baseFields.add(entry.getKey()); // Ghi lại các field đã được bảo vệ
             }
-        }
-
-        if (filters != null && baseSpecs != null) {
-            baseFields = extractFields(filters); // simplified
         }
 
         if (filters != null && !filters.isEmpty()) {
             for (FilterRequest filter : filters) {
-
                 if (baseFields.contains(filter.getField())) continue;
 
                 Specification<T> spec = buildSingleFilter(filter);
@@ -49,10 +40,13 @@ public class DynamicSpecificationBuilder<T> {
             }
         }
 
+        System.out.println("Final Specification: " + finalSpec);
+
         return finalSpec;
     }
 
     private Specification<T> buildSingleFilter(FilterRequest filter) {
+
         return (root, query, cb) -> {
 
             Path<?> path = getPath(root, filter.getField());
@@ -126,8 +120,6 @@ public class DynamicSpecificationBuilder<T> {
         if (value instanceof Comparable) {
             return (Comparable) value;
         }
-
-        // xử lý string date → Instant
         try {
             return Instant.parse(value.toString());
         } catch (Exception e) {
@@ -135,11 +127,11 @@ public class DynamicSpecificationBuilder<T> {
         }
     }
 
-    private Set<String> extractFields(List<FilterRequest> filters) {
-        return filters.stream()
-                .map(FilterRequest::getField)
-                .collect(Collectors.toSet());
-        }
+//    private Set<String> extractFields(List<Specification<T>> filters) {
+//        return filters.stream()
+//                .map(Specification::getField)
+//                .collect(Collectors.toSet());
+//        }
 
 
 }

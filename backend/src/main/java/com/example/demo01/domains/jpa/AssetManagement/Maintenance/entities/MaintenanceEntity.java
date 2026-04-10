@@ -56,7 +56,7 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
 
     private Boolean reWork;
 
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public boolean isReadyToComplete() {
         return this.completionAt != null && this.verifiedAt != null;
