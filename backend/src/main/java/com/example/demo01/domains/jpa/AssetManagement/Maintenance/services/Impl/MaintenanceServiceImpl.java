@@ -129,6 +129,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         } else if (requestDto.getMaintenancesStatus() != null && !maintenanceEntity.getMaintenancesStatus().equals(requestDto.getMaintenancesStatus())) {
             throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + requestDto.getMaintenancesStatus());
         }
+
         maintenanceMapper.updateEntityFromRequest(requestDto, maintenanceEntity);
         maintenanceRepository.save(maintenanceEntity);
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
