@@ -1,7 +1,7 @@
 package com.example.demo01.core.Auth.services.impl;
 
 import com.example.demo01.configs.Constants.CacheConstants;
-import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtil;
+import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtil;
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.dtos.WorkProfile;
@@ -19,6 +19,7 @@ import com.example.demo01.core.Exceptions.InvalidCredentialsException;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.core.Security.jwt.JwtUtils;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -60,6 +61,8 @@ public class UserServiceImpl implements UserService {
     private final HttpServletResponse response;
 
     private final AppUtil appUtil;
+
+    private final DynamicQueryCriteria  dynamicQueryCriteria;
 
     private final SecurityRepoUtil  securityRepoUtil;
 
@@ -253,7 +256,7 @@ public class UserServiceImpl implements UserService {
 
         List<Criteria> criteria = new ArrayList<>();
 
-        Page<User> userList = appUtil.buildPageResponse(filters, criteria, pageInput, User.class);
+        Page<User> userList = dynamicQueryCriteria.buildPageResponse(filters, criteria, pageInput, User.class);
 
         BasePageResponse<UserDTO> userDTOBasePageResponse = new BasePageResponse<>();
         userDTOBasePageResponse.setContent(userList.getContent().stream()

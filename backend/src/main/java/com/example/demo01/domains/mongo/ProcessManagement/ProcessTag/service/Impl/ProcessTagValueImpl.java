@@ -11,6 +11,7 @@ import com.example.demo01.repository.mongo.ProcessManagement.ProcessTagRepositor
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.service.ProcessTagService;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.service.ProcessTagValueService;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.UnknownNullability;
 import org.springframework.dao.DuplicateKeyException;
@@ -34,6 +35,8 @@ public class ProcessTagValueImpl implements ProcessTagValueService {
     private final ProcessTagValueMapper processTagValueMapper;
 
     private final AppUtil appUtils;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     @Override
     public ProcessTagValueDto createTagValue(ProcessTagValueRequest request) {
@@ -72,7 +75,7 @@ public class ProcessTagValueImpl implements ProcessTagValueService {
         PageInput  pageInput = filterWithPagination.getPagination();
         List<FilterRequest>  filters = filterWithPagination.getFilters();
         List<Criteria> criteria = new ArrayList<>();
-        Page<ProcessTagValue> processTagValues = appUtils.buildPageResponse(filters,criteria, pageInput, ProcessTagValue.class);
+        Page<ProcessTagValue> processTagValues = dynamicQueryCriteria.buildPageResponse(filters,criteria, pageInput, ProcessTagValue.class);
         return buildPageResponse(processTagValues);
     }
 

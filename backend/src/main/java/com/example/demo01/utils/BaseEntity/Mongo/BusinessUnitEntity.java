@@ -1,13 +1,18 @@
-package com.example.demo01.utils.BaseModels;
+package com.example.demo01.utils.BaseEntity.Mongo;
 
 import lombok.Data;
 import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 
 @Data
-public abstract class BaseAuditModel {
+public abstract class BusinessUnitEntity {
+
+    @Field("bu_id")
+    @Indexed
+    protected String buId;
 
     @CreatedBy // Tự động lấy User đang login khi tạo mới
     @Field("created_by")

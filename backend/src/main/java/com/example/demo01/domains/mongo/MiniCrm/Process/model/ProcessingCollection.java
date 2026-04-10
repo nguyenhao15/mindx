@@ -1,6 +1,6 @@
 package com.example.demo01.domains.mongo.MiniCrm.Process.model;
 
-import com.example.demo01.utils.BaseModels.BusinessUnitEntity;
+import com.example.demo01.utils.BaseEntity.Mongo.BusinessUnitEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

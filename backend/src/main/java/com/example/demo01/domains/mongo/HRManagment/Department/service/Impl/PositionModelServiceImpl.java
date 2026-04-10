@@ -1,6 +1,6 @@
 package com.example.demo01.domains.mongo.HRManagment.Department.service.Impl;
 
-import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.PositionDto;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.PositionRequest;
@@ -10,6 +10,7 @@ import com.example.demo01.repository.mongo.HRManagement.departmentRepository.Pos
 import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,8 @@ public class PositionModelServiceImpl implements PositionModelService {
 
     private final AppUtil appUtil;
 
+    private final DynamicQueryCriteria dynamicQueryCriteria;
+
     private final SecurityRepoUtilImpl securityRepoUtil;
 
     @Override
@@ -49,7 +52,7 @@ public class PositionModelServiceImpl implements PositionModelService {
         PageInput  pageInput = filter.getPagination();
         List<Criteria> criteria= new ArrayList<>();
 
-        Page<PositionModel> positionModels = appUtil.buildPageResponse(filters, criteria, pageInput, PositionModel.class);
+        Page<PositionModel> positionModels = dynamicQueryCriteria.buildPageResponse(filters, criteria, pageInput, PositionModel.class);
         return buildPageResponse(positionModels);
     }
 

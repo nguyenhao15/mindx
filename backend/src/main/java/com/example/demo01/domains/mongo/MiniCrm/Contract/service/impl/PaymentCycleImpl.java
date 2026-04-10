@@ -31,6 +31,7 @@ import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.AppUtil;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.PageInput;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -50,6 +51,8 @@ import java.util.concurrent.CompletableFuture;
 public class PaymentCycleImpl implements PaymentCycleService {
 
     private final AppUtil appUtil;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final PaymentCycleRepository paymentCycleRepository;
 
@@ -387,7 +390,7 @@ public class PaymentCycleImpl implements PaymentCycleService {
               finalCriteriaList.addAll(criteriaList);
         }
 
-        Query query = appUtil.applyFilter(filterRequest, finalCriteriaList).with(pageable);
+        Query query = dynamicQueryCriteria.applyFilter(filterRequest, finalCriteriaList).with(pageable);
 
         List<PaymentCycle> list = mongoTemplate.find(query, PaymentCycle.class);
 

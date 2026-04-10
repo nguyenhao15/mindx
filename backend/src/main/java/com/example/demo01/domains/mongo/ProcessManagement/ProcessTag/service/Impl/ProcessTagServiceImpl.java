@@ -13,6 +13,7 @@ import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.models.Proc
 import com.example.demo01.repository.mongo.ProcessManagement.ProcessTagRepository.ProcessTagRepository;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.service.ProcessTagService;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DuplicateKeyException;
@@ -33,7 +34,7 @@ public class ProcessTagServiceImpl implements ProcessTagService {
 
     private final ProcessTagMapper processTagMapper;
 
-    private final MongoTemplate mongoTemplate;
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final AppUtil appUtils;
 
@@ -70,7 +71,7 @@ public class ProcessTagServiceImpl implements ProcessTagService {
         List<FilterRequest> filterRequest = filterWithPagination.getFilters();
         PageInput pageInput = filterWithPagination.getPagination();
         List<Criteria> criteriaList = new ArrayList<>();
-        Page<ProcessTag> processTags = appUtils.buildPageResponse(filterRequest, criteriaList,  pageInput, ProcessTag.class);
+        Page<ProcessTag> processTags = dynamicQueryCriteria.buildPageResponse(filterRequest, criteriaList,  pageInput, ProcessTag.class);
         return buildPageResponse(processTags);
     }
 

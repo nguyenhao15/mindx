@@ -1,7 +1,7 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities;
 
 import com.example.demo01.domains.jpa.AssetManagement.Utils.ProposalStatusEnum;
-import com.example.demo01.utils.BaseModels.BaseAuditJpaModel;
+import com.example.demo01.utils.BaseEntity.Jpa.BaseAuditJpaModel;
 import jakarta.persistence.*;
 import lombok.*;
 

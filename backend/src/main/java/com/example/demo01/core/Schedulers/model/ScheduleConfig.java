@@ -1,7 +1,7 @@
 package com.example.demo01.core.Schedulers.model;
 
 
-import com.example.demo01.utils.BaseModels.BaseAuditModel;
+import com.example.demo01.utils.BaseEntity.Mongo.BaseAuditModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -15,6 +15,7 @@ import com.example.demo01.core.Exceptions.APIException;
 import com.example.demo01.core.Exceptions.DuplicateResourceException;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.AppUtil;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +53,8 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     private final MongoTemplate mongoTemplate;
 
     private final AppUtil appUtil;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     @Override
     public Boolean validCustomerInfo(String customerCode) {
@@ -351,7 +354,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     @Override
     public Map<String, Object> getBatchCustomerTitle(List<String> customerIds) {
-        return appUtil.mapIdsToField("CustomerInfo", "_id", customerIds, "customerTitle");
+        return dynamicQueryCriteria.mapIdsToField("CustomerInfo", "_id", customerIds, "customerTitle");
     }
 
 }

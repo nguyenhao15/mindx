@@ -21,6 +21,7 @@ import com.example.demo01.repository.mongo.ProcessManagement.ProcessTagRepositor
 import com.example.demo01.repository.mongo.ProcessManagement.ProcessTagRepository.ProcessTagValueRepository;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessUtils.ProcessManagementUtil;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
@@ -58,6 +59,8 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
     private final String ProcessFolder = FolderConstants.PROCESS;
 
     private final AppUtil appUtils;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final MongoTemplate mongoTemplate;
 
@@ -165,7 +168,7 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
         PageInput pageInput = filter.getPagination();
         List<FilterRequest> filterRequests = filter.getFilters();
         List<Criteria> baseCriteriaList = new ArrayList<>();
-        Page<ProcessFlow> processFlowPage = appUtils.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
+        Page<ProcessFlow> processFlowPage = dynamicQueryCriteria.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
         return buildProcessFlow(processFlowPage) ;
     }
 
@@ -180,7 +183,7 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
 
         baseCriteriaList.add(processManagementUtils.buildAccessQuery());
 
-        Page<ProcessFlow> processFlowPage = appUtils.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
+        Page<ProcessFlow> processFlowPage = dynamicQueryCriteria.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
         return buildProcessFlow(processFlowPage);
     }
 
@@ -203,7 +206,7 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
 
         baseCriteriaList.add(processManagementUtils.buildAccessQuery());
 
-        Page<ProcessFlow> processFlows  = appUtils.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
+        Page<ProcessFlow> processFlows  = dynamicQueryCriteria.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
         return buildProcessFlow(processFlows);
     }
 
@@ -216,7 +219,7 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
         baseCriteriaList.add(processManagementUtils.buildAccessQuery());
         baseCriteriaList.add(Criteria.where("tagItems.tagName").is("process"));
 
-        Page<ProcessFlow> processFlows =  appUtils.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
+        Page<ProcessFlow> processFlows =  dynamicQueryCriteria.buildPageResponse(filterRequests, baseCriteriaList, pageInput, ProcessFlow.class);
         return buildProcessFlow(processFlows);
     }
 

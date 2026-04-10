@@ -1,6 +1,6 @@
 package com.example.demo01.core.Basement.model;
 
-import com.example.demo01.utils.BaseModels.BaseAuditModel;
+import com.example.demo01.utils.BaseEntity.Mongo.BaseAuditModel;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.example.demo01.domains.mongo.MiniCrm.Contract.models;
 
-import com.example.demo01.utils.BaseModels.BusinessUnitEntity;
+import com.example.demo01.utils.BaseEntity.Mongo.BusinessUnitEntity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;

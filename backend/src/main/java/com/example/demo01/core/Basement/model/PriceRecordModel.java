@@ -1,6 +1,6 @@
 package com.example.demo01.core.Basement.model;
 
-import com.example.demo01.utils.BaseModels.BusinessUnitEntity;
+import com.example.demo01.utils.BaseEntity.Mongo.BusinessUnitEntity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;

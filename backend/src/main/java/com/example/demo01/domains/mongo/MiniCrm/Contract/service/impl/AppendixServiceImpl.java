@@ -50,6 +50,7 @@ import com.example.demo01.core.Exceptions.DuplicateResourceException;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.mongo.MiniCrm.Utils.MC_Utils;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
@@ -99,6 +100,8 @@ public class AppendixServiceImpl implements AppendixService {
     private final MC_Utils mcUtils;
 
     private final AppUtil appUtil;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final S3ServiceImpl s3Service;
 
@@ -505,7 +508,7 @@ public class AppendixServiceImpl implements AppendixService {
 
     @Override
     public BasePageResponse<AppendixInfoDto> searchAppendix(List<FilterRequest> request, List<Criteria> baseCriteriaList, PageInput pageInput) {
-        Page<Appendix> page = appUtil.buildPageResponse(request, baseCriteriaList, pageInput, Appendix.class);
+        Page<Appendix> page = dynamicQueryCriteria.buildPageResponse(request, baseCriteriaList, pageInput, Appendix.class);
         return buildAppendixPageResponse(page);
     }
 

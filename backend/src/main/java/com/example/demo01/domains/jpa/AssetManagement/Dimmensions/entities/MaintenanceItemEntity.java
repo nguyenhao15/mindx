@@ -1,7 +1,6 @@
 package com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities;
 
-import com.example.demo01.utils.BaseModels.BaseAuditJpaModel;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.demo01.utils.BaseEntity.Jpa.BaseAuditJpaModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

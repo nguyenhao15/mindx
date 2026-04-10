@@ -1,4 +1,4 @@
-package com.example.demo01.utils.BaseModels;
+package com.example.demo01.utils.BaseEntity.Jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

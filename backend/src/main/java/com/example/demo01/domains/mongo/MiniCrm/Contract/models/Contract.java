@@ -1,7 +1,7 @@
 package com.example.demo01.domains.mongo.MiniCrm.Contract.models;
 
 import com.example.demo01.core.Aws3.dtos.FileResponseDTO;
-import com.example.demo01.utils.BaseModels.BusinessUnitEntity;
+import com.example.demo01.utils.BaseEntity.Mongo.BusinessUnitEntity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;

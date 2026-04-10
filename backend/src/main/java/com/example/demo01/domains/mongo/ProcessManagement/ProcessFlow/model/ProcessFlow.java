@@ -4,7 +4,7 @@ package com.example.demo01.domains.mongo.ProcessManagement.ProcessFlow.model;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessFlow.dtos.ProcessFlow.ProcessFlowAccessRule;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.dtos.processTag.ProcessTagNestFieldDto;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.dtos.processValue.ProcessTagValueNestFieldDto;
-import com.example.demo01.utils.BaseModels.BaseAuditModel;
+import com.example.demo01.utils.BaseEntity.Mongo.BaseAuditModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

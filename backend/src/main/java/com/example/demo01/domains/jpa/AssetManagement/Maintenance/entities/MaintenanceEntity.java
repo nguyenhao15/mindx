@@ -4,7 +4,7 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceCategoryEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceItemEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
-import com.example.demo01.utils.BaseModels.BaseAuditJpaModel;
+import com.example.demo01.utils.BaseEntity.Jpa.BaseAuditJpaModel;
 import jakarta.persistence.*;
 import lombok.*;
 

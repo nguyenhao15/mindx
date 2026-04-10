@@ -1,7 +1,7 @@
 package com.example.demo01.core.Basement.service.Implements;
 
 import com.example.demo01.configs.Constants.CacheConstants;
-import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
 import com.example.demo01.core.Basement.dto.basement.BUInfoDto;
 import com.example.demo01.core.Basement.dto.basement.BUPatchRequestDto;
 import com.example.demo01.core.Basement.dto.basement.BURequestDto;
@@ -14,6 +14,7 @@ import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.AppUtil;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -43,6 +44,8 @@ public class BUServiceImplement implements BasementService {
     private final CacheManager cacheManager;
 
     private final AppUtil appUtil;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final BasementMapper basementMapper;
 
@@ -135,7 +138,7 @@ public class BUServiceImplement implements BasementService {
 //            }
 //        }
 
-        Page<BranchUnit> branchUnits = appUtil.buildPageResponse(filter.getFilters(),new ArrayList<>(), filter.getPagination(), BranchUnit.class);
+        Page<BranchUnit> branchUnits = dynamicQueryCriteria.buildPageResponse(filter.getFilters(),new ArrayList<>(), filter.getPagination(), BranchUnit.class);
         return buildPageResponse(branchUnits);
     }
 
@@ -257,6 +260,6 @@ public class BUServiceImplement implements BasementService {
 
     @Override
     public Map<String, Object> getBatchBuFullNames(List<String> buShortNames) {
-        return appUtil.mapIdsToField("buCollection", "buShortName",  buShortNames,"buFullName");
+        return dynamicQueryCriteria.mapIdsToField("buCollection", "buShortName",  buShortNames,"buFullName");
     }
 }

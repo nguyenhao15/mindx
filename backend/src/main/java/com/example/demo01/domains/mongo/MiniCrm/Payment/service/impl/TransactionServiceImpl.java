@@ -29,6 +29,7 @@ import com.example.demo01.core.Exceptions.APIException;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.*;
@@ -47,6 +48,8 @@ import java.util.Map;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final TransactionMapper transactionMapper;
 
@@ -240,7 +243,7 @@ public class TransactionServiceImpl implements TransactionService {
     public BasePageResponse<TransactionInfoDTO> getTransactionWithFilter(Pageable pageable, List<FilterRequest> filterRequests) {
         Sort sort = pageable.getSort();
         List<Criteria> finalCriteriaList = new ArrayList<>();
-        Query query = appUtil.applyFilter(filterRequests, finalCriteriaList).with(pageable).with(sort);
+        Query query = dynamicQueryCriteria.applyFilter(filterRequests, finalCriteriaList).with(pageable).with(sort);
 
         List<Transaction> list = mongoTemplate.find(query, Transaction.class);
 

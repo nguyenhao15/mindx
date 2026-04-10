@@ -1,6 +1,6 @@
 package com.example.demo01.domains.mongo.HRManagment.Department.service.Impl;
 
-import com.example.demo01.configs.Mongo.SecureRepoConfig.SecurityRepoUtilImpl;
+import com.example.demo01.configs.SecureRepoConfig.SecurityRepoUtilImpl;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Department.DepartmentInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Department.DepartmentRequest;
@@ -11,6 +11,7 @@ import com.example.demo01.repository.mongo.HRManagement.departmentRepository.Dep
 import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.WorkingFieldService;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,8 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
     private final DepartmentMapper departmentMapper;
 
     private final AppUtil  appUtil;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final WorkingFieldService workingFieldService;
 
@@ -75,7 +78,7 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
         criteria.add(userCriteria);
         List<FilterRequest> filterRequest = filter. getFilters();
 
-        Page<DepartmentModel> departmentPage = appUtil.buildPageResponse(filterRequest,criteria,pageInput,DepartmentModel.class);
+        Page<DepartmentModel> departmentPage = dynamicQueryCriteria.buildPageResponse(filterRequest,criteria,pageInput,DepartmentModel.class);
         return buildPageResponse(departmentPage);
     }
 
@@ -105,7 +108,7 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
         PageInput pageInput = filter.getPagination();
         List<FilterRequest> filterRequests = filter.getFilters();
         List<Criteria> criteria = new ArrayList<>();
-        Page<DepartmentModel> departmentPage = appUtil.buildPageResponse(filterRequests,criteria,pageInput,DepartmentModel.class);
+        Page<DepartmentModel> departmentPage = dynamicQueryCriteria.buildPageResponse(filterRequests,criteria,pageInput,DepartmentModel.class);
         return buildPageResponse(departmentPage);
     }
 

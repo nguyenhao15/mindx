@@ -12,6 +12,7 @@ import com.example.demo01.core.Basement.service.RoomCollectionService;
 import com.example.demo01.core.Exceptions.APIException;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.AppUtil;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -34,6 +35,8 @@ public class RoomCollectionImplement implements RoomCollectionService {
     private final RoomMapper roomMapper;
 
     private final CacheManager cacheManager;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final AppUtil appUtil;
 
@@ -175,7 +178,7 @@ public class RoomCollectionImplement implements RoomCollectionService {
 
     @Override
     public Map<String, Object> getBatchRoomName(List<String> roomIds) {
-        return appUtil.mapIdsToField("roomDatabase", "_id",roomIds, "roomName");
+        return dynamicQueryCriteria.mapIdsToField("roomDatabase", "_id",roomIds, "roomName");
     }
 
 }

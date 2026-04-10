@@ -11,6 +11,7 @@ import com.example.demo01.core.Exceptions.APIException;
 import com.example.demo01.domains.mongo.MiniCrm.Invoice.dto.*;
 import com.example.demo01.domains.mongo.MiniCrm.Invoice.dto.*;
 import com.example.demo01.domains.mongo.MiniCrm.Utils.MC_Utils;
+import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.PaymentCycleRepository;
 import com.example.demo01.utils.AppUtil;
 import com.example.demo01.utils.FilterRequest;
 import com.example.demo01.core.SpaceCustomer.service.CustomerInfoService;
@@ -27,6 +28,7 @@ import com.example.demo01.domains.mongo.MiniCrm.ProfitAndLost.service.ProfitAndL
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.PageInput;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.jetbrains.annotations.UnknownNullability;
@@ -48,6 +50,8 @@ import java.util.stream.Collectors;
 public class InvoiceServiceImpl implements InvoiceService{
 
     private final InvoiceRepository invoiceRepository;
+
+    private final DynamicQueryCriteria  dynamicQueryCriteria;
 
     private final InvoiceMapper invoiceMapper;
 
@@ -199,7 +203,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 
     @Override
     public BasePageResponse<InvoiceInfo> searchInvoice(List<Criteria> criteriaList, List<FilterRequest> filterRequest, Pageable pageable) {
-        Query query = appUtil.applyFilter(filterRequest, criteriaList).with(pageable);
+        Query query = dynamicQueryCriteria.applyFilter(filterRequest, criteriaList).with(pageable);
 
         List<Invoice> invoiceList = mongoTemplate.find(query, Invoice.class);
 

@@ -1,7 +1,7 @@
 package com.example.demo01.domains.mongo.MiniCrm.Contract.models;
 
 import com.example.demo01.domains.mongo.MiniCrm.Contract.dtos.terminateCollection.TerminateAction;
-import com.example.demo01.utils.BaseModels.BusinessUnitEntity;
+import com.example.demo01.utils.BaseEntity.Mongo.BusinessUnitEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

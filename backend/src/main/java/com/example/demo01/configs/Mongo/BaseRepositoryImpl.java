@@ -1,4 +1,4 @@
-package com.example.demo01.configs.Mongo.SecureRepoConfig;
+package com.example.demo01.configs.Mongo;
 
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import org.springframework.data.domain.Page;

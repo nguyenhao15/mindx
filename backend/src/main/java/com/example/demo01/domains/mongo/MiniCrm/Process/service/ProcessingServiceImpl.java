@@ -20,6 +20,7 @@ import com.example.demo01.domains.mongo.MiniCrm.Process.mapper.ProcessingMapper;
 import com.example.demo01.domains.mongo.MiniCrm.Process.model.ProcessingCollection;
 import com.example.demo01.repository.mongo.MiniCrmRepository.processRepository.ProcessingCollectionRepository;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -40,6 +41,8 @@ import java.util.Map;
 public class ProcessingServiceImpl implements ProcessingService {
 
     private final ProcessingCollectionRepository processingCollectionRepository;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final ProcessingMapper processingMapper;
 
@@ -125,7 +128,7 @@ public class ProcessingServiceImpl implements ProcessingService {
     public BasePageResponse<ProcessingInfoDto> getProcessesByFilter(List<FilterRequest> filterRequest, List<Criteria> baseCriteriaList, PageInput pageInput) {
         Pageable pageable = pageInput.toPageable();
         Sort sortByAndOrder = pageable.getSort();
-        Query query = appUtil.applyFilter(filterRequest, baseCriteriaList).with(pageable).with(sortByAndOrder);
+        Query query = dynamicQueryCriteria.applyFilter(filterRequest, baseCriteriaList).with(pageable).with(sortByAndOrder);
 
         List<ProcessingCollection> processInfos = mongoTemplate.find(query, ProcessingCollection.class);
 

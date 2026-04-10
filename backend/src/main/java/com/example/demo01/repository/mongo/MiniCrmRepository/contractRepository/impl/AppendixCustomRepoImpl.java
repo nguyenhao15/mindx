@@ -5,6 +5,7 @@ import com.example.demo01.domains.mongo.MiniCrm.Contract.mappers.AppendixMapper;
 import com.example.demo01.domains.mongo.MiniCrm.Contract.models.Appendix;
 import com.example.demo01.repository.mongo.MiniCrmRepository.contractRepository.AppendixCustomRepo;
 import com.example.demo01.utils.AppUtil;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,6 +17,8 @@ import java.util.List;
 public class AppendixCustomRepoImpl implements AppendixCustomRepo {
 
     private final MongoTemplate mongoTemplate;
+
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final AppendixMapper appendixMapper;
 
@@ -29,7 +32,7 @@ public class AppendixCustomRepoImpl implements AppendixCustomRepo {
                 Criteria.where("active").is(true)
         );
 
-        Query query = appUtil.applyFilter( null, criteriaList);
+        Query query = dynamicQueryCriteria.applyFilter( null, criteriaList);
 
         return mongoTemplate.find(query, Appendix.class)
                 .stream().map(appendixMapper::toDto)
@@ -45,7 +48,7 @@ public class AppendixCustomRepoImpl implements AppendixCustomRepo {
                 Criteria.where("serviceId").is(serviceId)
         );
 
-        Query query = appUtil.applyFilter(null, criteriaList);
+        Query query = dynamicQueryCriteria.applyFilter(null, criteriaList);
 
         return mongoTemplate.find(query, Appendix.class);
     }

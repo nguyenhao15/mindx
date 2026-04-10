@@ -14,12 +14,19 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.Mainten
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepository.MaintenanceRepository;
+import com.example.demo01.utils.BasePageResponse;
+import com.example.demo01.utils.FilterRequest;
+import com.example.demo01.utils.FilterWithPagination;
+import com.example.demo01.utils.PageInput;
+import org.javers.repository.jql.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
@@ -77,6 +84,19 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    public BasePageResponse<MaintenanceService> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
+        PageInput pageInput = filterWithPagination.getPagination();
+        List<FilterRequest> filters = filterWithPagination.getFilters();
+        return null;
+    }
+
+    @Override
+    public BasePageResponse<MaintenanceSummaryDTO> buildPageResponse(PageInput pageInput, List<FilterRequest> filterRequests) {
+
+        return null;
+    }
+
+    @Override
     public MaintenanceSummaryDTO updateMaintenance(Long id, MaintenanceRequestDto requestDto) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         if (canTransition(maintenanceEntity.getMaintenancesStatus(), requestDto.getMaintenancesStatus())) {
@@ -90,11 +110,22 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    public MaintenanceSummaryDTO softDeleteMaintenance(Long maintenanceId) {
+        MaintenanceEntity maintenanceEntity = getMaintenanceById(maintenanceId);
+        maintenanceEntity.setIsDeleted(true);
+        MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
+    }
+
+    @Override
     public MaintenanceSummaryDTO upadteMaintenanceStatus(Long id, MaintenancesStatus status) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         if (status == null || maintenanceEntity.getMaintenancesStatus() == null ) return null;
         if (!canTransition(maintenanceEntity.getMaintenancesStatus(), status)) {
             throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);
+        }
+        if (maintenanceEntity.getMaintenancesStatus().toString().equals("FINISHED") && status.equals(MaintenancesStatus.WAITING)) {
+            maintenanceEntity.setReWork(true);
         }
         maintenanceEntity.setMaintenancesStatus(status);
         MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);

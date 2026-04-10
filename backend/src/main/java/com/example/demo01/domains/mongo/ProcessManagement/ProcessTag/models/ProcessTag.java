@@ -1,6 +1,6 @@
 package com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.models;
 
-import com.example.demo01.utils.BaseModels.BaseAuditModel;
+import com.example.demo01.utils.BaseEntity.Mongo.BaseAuditModel;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;

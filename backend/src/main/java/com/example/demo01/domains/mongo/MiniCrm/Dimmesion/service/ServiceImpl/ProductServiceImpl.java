@@ -9,6 +9,7 @@ import com.example.demo01.repository.mongo.MiniCrmRepository.dimRepository.Produ
 import com.example.demo01.domains.mongo.MiniCrm.Dimmesion.service.ProductService;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.AppUtil;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final CacheManager cacheManager;
 
-    private final AppUtil appUtil;
+    private final DynamicQueryCriteria dynamicQueryCriteria;
 
     @Override
     @CacheEvict(value = CacheConstants.SERVICE_CACHE, allEntries = true)
@@ -142,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Map<String, Object> getBatchByServiceName(List<String> serviceIds) {
-        return appUtil.mapIdsToField("products", "_id", serviceIds, "serviceName");
+        return dynamicQueryCriteria.mapIdsToField("products", "_id", serviceIds, "serviceName");
     }
 
 
