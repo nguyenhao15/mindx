@@ -1,5 +1,5 @@
 import { queryClient } from '@/lib/queryClient';
-import type { UserResponseObjectType } from '@/modules/documentation/validations/userSchema';
+import type { UserResponseObjectType } from '@/validations/userSchema';
 
 import { create } from 'zustand';
 
