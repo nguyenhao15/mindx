@@ -3,6 +3,7 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.controllers;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
+import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 import org.hibernate.query.Page;
@@ -32,6 +33,12 @@ public class MaintenanceController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getMaintenanceById(@PathVariable Long id){
         return ResponseEntity.ok(maintenanceService.getMaintenanceSummaryById(id));
+    }
+
+    @PutMapping("/update-status/{id}")
+    public ResponseEntity<?> updateMaintenanceStatus(@PathVariable Long id, @RequestParam("status") MaintenancesStatus MaintenanceStatus) {
+        MaintenanceSummaryDTO updatedMaintenance = maintenanceService.upadteMaintenanceStatus(id, MaintenanceStatus);
+        return ResponseEntity.ok(updatedMaintenance);
     }
 
     @DeleteMapping("/sort-delete/{maintenanceId}")
