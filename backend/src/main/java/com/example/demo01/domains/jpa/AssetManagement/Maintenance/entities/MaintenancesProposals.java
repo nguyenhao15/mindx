@@ -29,4 +29,6 @@ public class MaintenancesProposals extends BaseAuditJpaModel {
     @Enumerated(EnumType.STRING)
     private ProposalStatusEnum proposalStatus = ProposalStatusEnum.PROPOSAL_PENDING;
 
+    private Boolean isDeleted = false;
+
 }

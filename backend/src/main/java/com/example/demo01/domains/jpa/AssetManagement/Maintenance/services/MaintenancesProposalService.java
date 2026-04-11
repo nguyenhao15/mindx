@@ -15,6 +15,8 @@ public interface MaintenancesProposalService {
 
     MaintenancesProposalsDto updateProposal(Long id, MaintenancesProposalRequest request);
 
+    String softDeleteProposalById(Long id);
+
     String deleteProposal(Long id);
 
 }

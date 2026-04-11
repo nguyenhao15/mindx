@@ -3,6 +3,7 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.controllers;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceWorkflow;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
@@ -17,6 +18,9 @@ public class MaintenanceController {
 
     @Autowired
     MaintenanceService maintenanceService;
+
+    @Autowired
+    MaintenanceWorkflow maintenanceWorkflow;
 
     @PostMapping("/create")
     public ResponseEntity<?> createMaintenance(@RequestBody MaintenanceRequestDto requestDto) {

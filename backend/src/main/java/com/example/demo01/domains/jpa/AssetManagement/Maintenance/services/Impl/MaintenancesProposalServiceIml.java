@@ -1,5 +1,6 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Impl;
 
+import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalsDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
@@ -17,7 +18,7 @@ public class MaintenancesProposalServiceIml implements MaintenancesProposalServi
     private MaintenancesProposalRepository  maintenancesProposalRepository;
 
     @Autowired
-    private MaintenancesProposalMapper  maintenancesProposalMapper;
+    private MaintenancesProposalMapper maintenancesProposalMapper;
 
     @Override
     public MaintenancesProposalsDto createProposal(MaintenancesProposalRequest request, MaintenanceEntity maintenance) {
@@ -29,21 +30,36 @@ public class MaintenancesProposalServiceIml implements MaintenancesProposalServi
 
     @Override
     public MaintenancesProposals getProposalById(Long id) {
-        return null;
+        return maintenancesProposalRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("MaintenancesProposal", "id", id));
     }
 
     @Override
     public MaintenancesProposalsDto getProposalDtoById(Long id) {
-        return null;
+        MaintenancesProposals maintenancesProposals =  getProposalById(id);
+        return maintenancesProposalMapper.toProposalInfoDto(maintenancesProposals);
     }
 
     @Override
     public MaintenancesProposalsDto updateProposal(Long id, MaintenancesProposalRequest request) {
-        return null;
+        MaintenancesProposals maintenancesProposals =  getProposalById(id);
+        maintenancesProposalMapper.updateEntityFromDto(request, maintenancesProposals);
+        MaintenancesProposals savedItem = maintenancesProposalRepository.save(maintenancesProposals);
+        return maintenancesProposalMapper.toProposalInfoDto(savedItem);
+    }
+
+    @Override
+    public String softDeleteProposalById(Long id) {
+        MaintenancesProposals maintenancesProposals =  getProposalById(id);
+        maintenancesProposals.setIsDeleted(true);
+        maintenancesProposalRepository.save(maintenancesProposals);
+        return "Proposal with id " + id + " has been soft deleted.";
     }
 
     @Override
     public String deleteProposal(Long id) {
-        return "";
+        MaintenancesProposals maintenancesProposals =  getProposalById(id);
+        maintenancesProposalRepository.delete(maintenancesProposals);
+        return "Proposal with id " + id + " has been permanently deleted.";
     }
 }
