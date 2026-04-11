@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
+import type { FilterWithPaginationInput } from '@/modules/documentation/validations/filterWithPagination';
 
 type UpdateState = (
   updater: (prev: FilterWithPaginationInput) => FilterWithPaginationInput,
@@ -27,7 +27,8 @@ export const useDebouncedFilterSearch = ({
 
     timeoutRef.current = window.setTimeout(() => {
       updateState((prev) => {
-        const nextFilters = prev.filters.filter((item) => item.field !== field);5
+        const nextFilters = prev.filters.filter((item) => item.field !== field);
+        5;
 
         return {
           ...prev,

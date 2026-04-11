@@ -2,7 +2,7 @@ import { Toaster } from 'react-hot-toast';
 import './App.css';
 import Layout from './components/Layout';
 
-import { HomePage } from './pages/HomePage';
+import { HomePage } from './modules/documentation/pages/HomePage';
 import {
   Navigate,
   Route,
@@ -10,21 +10,21 @@ import {
   Routes,
 } from 'react-router-dom';
 import React from 'react';
-import ProcessDetail from './pages/ProcessDetail';
-import CreateNewProcessPage from './pages/CreateNewProcessPage';
-import { useGetUserInfo } from './hookQueries/useAuthentication';
-import LoginPage from './pages/LoginPage';
+import ProcessDetail from './modules/documentation/pages/ProcessDetail';
+import CreateNewProcessPage from './modules/documentation/pages/CreateNewProcessPage';
+import { useGetUserInfo } from './modules/documentation/hookQueries/useAuthentication';
+import LoginPage from './modules/documentation/pages/LoginPage';
 import Loader from './components/shared/Loader';
-import AdminAppPage from './pages/AdminAppPage';
-import DocumentPage from './pages/DocumentPage';
+import AdminAppPage from './modules/documentation/pages/AdminAppPage';
+import DocumentPage from './modules/documentation/pages/DocumentPage';
 import { handleLogout, useAuthStore } from './stores/AuthStore';
-import UnAuthorizePage from './pages/UnAuthorizePage';
-import DepartmentPage from './pages/DepartmentPage';
-import ProcessFlowByDepartment from './pages/ProcessFlowByDepartment';
-import ProcessItemPage from './pages/ProcessItemPage';
-import MyDocuments from './pages/MyDocuments';
-import UserProfile from './pages/UserProfile';
-import LockAccountPage from './pages/LockAccountPage';
+import UnAuthorizePage from './modules/documentation/pages/UnAuthorizePage';
+import DepartmentPage from './modules/documentation/pages/DepartmentPage';
+import ProcessFlowByDepartment from './modules/documentation/pages/ProcessFlowByDepartment';
+import ProcessItemPage from './modules/documentation/pages/ProcessItemPage';
+import MyDocuments from './modules/documentation/pages/MyDocuments';
+import UserProfile from './modules/documentation/pages/UserProfile';
+import LockAccountPage from './modules/documentation/pages/LockAccountPage';
 import ActivatePassword from './components/profile/ActivatePassword';
 
 function App() {
@@ -61,7 +61,9 @@ function App() {
     );
   }
 
-  const NotFound = React.lazy(() => import('./pages/NotFoundComponent'));
+  const NotFound = React.lazy(
+    () => import('./modules/documentation/pages/NotFoundComponent'),
+  );
 
   return (
     <React.Fragment>
