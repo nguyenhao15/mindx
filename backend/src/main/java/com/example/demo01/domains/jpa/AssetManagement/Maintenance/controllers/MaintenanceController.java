@@ -41,6 +41,12 @@ public class MaintenanceController {
         return ResponseEntity.ok(updatedMaintenance);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateMaintenance(@PathVariable Long id, @RequestBody MaintenanceRequestDto requestDto) {
+        MaintenanceSummaryDTO maintenanceSummaryDTO = maintenanceService.updateMaintenance(id, requestDto);
+        return ResponseEntity.ok(maintenanceSummaryDTO);
+    }
+
     @DeleteMapping("/sort-delete/{maintenanceId}")
     public ResponseEntity<?> sortDeleteMaintenance(@PathVariable Long maintenanceId) {
         String successMessage = maintenanceService.softDeleteMaintenance(maintenanceId);
