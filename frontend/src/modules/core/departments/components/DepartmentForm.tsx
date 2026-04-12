@@ -23,7 +23,7 @@ import RadioInputField from '@/components/shared/RadioInputField';
 import TextInputField from '@/components/input-elements/TextInputField';
 
 interface DepartmentFormProps {
-  initialData?: DepartmentObjType | undefined;
+  initialData?: DepartmentObjType | DepartmentObjType;
   onUpdate?: () => void;
 }
 

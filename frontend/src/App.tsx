@@ -22,7 +22,7 @@ import {
   useAuthStore,
 } from './modules/core/auth/store/AuthStore';
 import UnAuthorizePage from './modules/core/auth/pages/UnAuthorizePage';
-import DepartmentPage from './pages/DepartmentPage';
+import DepartmentPage from './modules/core/departments/pages/DepartmentPage';
 import ProcessFlowByDepartment from './pages/ProcessFlowByDepartment';
 import ProcessItemPage from './pages/ProcessItemPage';
 import MyDocuments from './pages/MyDocuments';

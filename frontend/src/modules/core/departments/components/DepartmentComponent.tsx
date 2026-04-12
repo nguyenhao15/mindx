@@ -18,9 +18,9 @@ type DepartmentFieldRow = {
   departmentName: string;
   departmentCode: string;
   description: string;
-  active: string;
+  active: boolean;
   status: string;
-  isSecurity: string;
+  isSecurity: boolean;
   workingFieldToString: string;
   workingFields: WorkingFieldObject[];
   iconSvg?: string;
@@ -56,8 +56,6 @@ const DepartmentComponent = () => {
   const onEditAction = (item: DepartmentFieldRow) => {
     const itemHandler = {
       ...item,
-      active: item.active ? 'true' : 'false',
-      isSecurity: item.isSecurity ? 'true' : 'false',
       workingFields: item.workingFields.map((field) => ({
         value: safeString(field.id),
         ...field,
@@ -82,7 +80,6 @@ const DepartmentComponent = () => {
         departmentName: safeString(record.departmentName),
         departmentCode: safeString(record.departmentCode),
         description: safeString(record.description),
-        active: safeString(record.active?.toString() || ''),
         status: record.active ? 'Active' : 'Inactive',
         workingFieldToString: toArray(record.workingFields)
           .map((field) =>
@@ -92,7 +89,8 @@ const DepartmentComponent = () => {
           .join(', '),
         workingFields: toArray(record.workingFields),
         iconSvg: safeString(record.iconSvg, undefined),
-        isSecurity: safeString(record.isSecurity?.toString() || ''),
+        active: record.active as boolean,
+        isSecurity: record.isSecurity as boolean,
       };
     });
   }, [data]);
