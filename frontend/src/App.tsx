@@ -1,7 +1,6 @@
 import { Toaster } from 'react-hot-toast';
 import './App.css';
-import Layout from './components/Layout';
-import { HomePage } from './pages/HomePage';
+import Layout from './modules/documentations/document/components/shared/Layout';
 import {
   Navigate,
   Route,
@@ -9,25 +8,21 @@ import {
   Routes,
 } from 'react-router-dom';
 import React from 'react';
-import ProcessDetail from './modules/documentations/document/pages/ProcessDetail';
-import CreateNewProcessPage from './modules/documentations/document/pages/CreateNewProcessPage';
+
 import { useGetUserInfo } from './modules/core/auth/hooks/useAuthentication';
 import LoginPage from './modules/core/auth/pages/LoginPage';
 import Loader from './components/shared/Loader';
 import AdminAppPage from './modules/core/admin/pages/AdminAppPage';
-import DocumentPage from './modules/documentations/document/pages/DocumentPage';
 import {
   handleLogout,
   useAuthStore,
 } from './modules/core/auth/store/AuthStore';
 import UnAuthorizePage from './modules/core/auth/pages/UnAuthorizePage';
-import DepartmentPage from './modules/core/departments/pages/DepartmentPage';
-import ProcessFlowByDepartment from './modules/documentations/document/pages/ProcessFlowByDepartment';
-import ProcessItemPage from './modules/documentations/document/pages/ProcessItemPage';
-import MyDocuments from './modules/documentations/document/pages/MyDocuments';
 import UserProfile from './modules/core/auth/pages/UserProfile';
 import LockAccountPage from './modules/core/auth/pages/LockAccountPage';
 import ActivatePassword from './modules/core/auth/components/ActivatePassword';
+import DocumentRoute from './modules/documentations/document/routes/DocumentRoute';
+import AdminRoute from './modules/core/admin/routes/AdminRoute';
 
 function App() {
   const { isLoading, isError } = useGetUserInfo();
@@ -73,38 +68,12 @@ function App() {
             path='/login'
             element={isAuthenticated ? <Navigate to='/' /> : <LoginPage />}
           />
-          <Route
-            path='/admin'
-            element={
-              isAdmin ? (
-                <AdminAppPage user={user!} />
-              ) : (
-                <Navigate to='/unauthorized' />
-              )
-            }
-          />
+          {isAdmin && <Route path='/admin/*' element={<AdminRoute />} />}
 
-          <Route
-            path='/'
-            element={isAuthenticated ? <Layout /> : <Navigate to='/login' />}
-          >
-            <Route path='/' element={<HomePage />} />
-            <Route path='/documents' element={<DocumentPage />} />
-            <Route path='/departments' element={<DepartmentPage />} />
-            <Route
-              path='/departments/:id'
-              element={<ProcessFlowByDepartment />}
-            />
-            <Route path='/my-documents' element={<MyDocuments />} />
-            <Route
-              path='/documents/tag-flow/:id'
-              element={<ProcessDetail viewMode='user' />}
-            />
-            <Route path='/create-document' element={<CreateNewProcessPage />} />
-            <Route path='/unauthorized' element={<UnAuthorizePage />} />
-            <Route path='/processes' element={<ProcessItemPage />} />
-            <Route path='/profile' element={<UserProfile user={user!} />} />
-          </Route>
+          <Route path='/docs/*' element={<DocumentRoute />} />
+          <Route path='/unauthorized' element={<UnAuthorizePage />} />
+          <Route path='/profile' element={<UserProfile user={user!} />} />
+
           <Route
             path='*'
             element={

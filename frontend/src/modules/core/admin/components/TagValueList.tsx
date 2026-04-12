@@ -1,13 +1,13 @@
-import { useGetProcessTagValues } from '@/hookQueries/useProcessTagValueHooks';
+import { useGetProcessTagValues } from '@/modules/documentations/tag/hooks/useProcessTagValueHooks';
 import { safeString, toArray } from '@/utils/formatValue';
 import { useMemo, useState } from 'react';
-import { DataTable, type Column } from '../shared/DataTable';
-import { ActionHeader } from '../shared/ActionHeder';
-import { EmptyState } from '../shared/EmtyState';
+import { DataTable, type Column } from '@/components/shared/DataTable';
+import { ActionHeader } from '@/components/shared/ActionHeder';
+import { EmptyState } from '@/components/shared/EmtyState';
 import { BadgeCheckIcon } from 'lucide-react';
-import Loader from '../shared/Loader';
-import { DialogComponent } from '../shared/DialogComponent';
-import CreateTagValueForm from './CreateTagValueForm';
+import Loader from '@/components/shared/Loader';
+import { DialogComponent } from '@/components/shared/DialogComponent';
+import CreateTagValueForm from '../../../documentations/tag/components/CreateTagValueForm';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
 

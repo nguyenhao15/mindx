@@ -1,11 +1,11 @@
-import { processTagValueApi } from '@/api/processTagValue';
+import { processTagValueApi } from '@/modules/documentations/tag/api/processTagValue';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 import {
   TagArrayResponseSchema,
   TagItemResponseSchema,
   type TagValueDTO,
-} from '@/validations/tagValueSchema';
+} from '@/modules/documentations/tag/schema/tagValueSchema';
 
 export const processTagValueActions = async (
   payload: FilterWithPaginationInput,

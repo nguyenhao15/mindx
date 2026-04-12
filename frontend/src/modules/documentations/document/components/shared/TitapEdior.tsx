@@ -1,4 +1,4 @@
-import RichTextEditor from './rich-text-editor';
+import RichTextEditor from '../../../../../components/rich-text-editor';
 
 export const TiptapEditor = ({}: {
   content: string;

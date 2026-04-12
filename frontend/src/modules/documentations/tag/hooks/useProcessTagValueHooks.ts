@@ -3,9 +3,9 @@ import {
   getActiveTagValueOptions,
   processTagValueActions,
   updateProcessTagValue,
-} from '@/actions/processTagValueActions';
+} from '@/modules/documentations/tag/queries/processTagValueActions';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { TagValueDTO } from '@/validations/tagValueSchema';
+import type { TagValueDTO } from '@/modules/documentations/tag/schema/tagValueSchema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 

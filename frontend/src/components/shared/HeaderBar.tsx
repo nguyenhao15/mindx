@@ -1,8 +1,5 @@
 import { MENU_ITEM } from '@/constants/app-const';
-
-import { FaFileAlt } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { useLogOut } from '@/modules/core/auth/hooks/useAuthentication';
 import { LogOut } from 'lucide-react';
 import { useAuthStore } from '@/modules/core/auth/store/AuthStore';

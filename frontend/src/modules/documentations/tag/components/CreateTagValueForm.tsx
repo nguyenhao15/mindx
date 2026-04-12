@@ -1,15 +1,18 @@
-import { tagValueSchema, type TagValueDTO } from '@/validations/tagValueSchema';
+import {
+  tagValueSchema,
+  type TagValueDTO,
+} from '@/modules/documentations/tag/schema/tagValueSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import TextInputField from '../input-elements/TextInputField';
-import ManualCustomCombobox from '../input-elements/ManualCustomCombobox';
-import { Button } from '../ui/button';
+import TextInputField from '@/components/input-elements/TextInputField';
+import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
+import { Button } from '@/components/ui/button';
 import {
   useCreateTagValue,
   useUpdateTagValue,
-} from '@/hookQueries/useProcessTagValueHooks';
+} from '@/modules/documentations/tag/hooks/useProcessTagValueHooks';
 import toast from 'react-hot-toast';
-import RadioInputField from '../shared/RadioInputField';
+import RadioInputField from '@/components/shared/RadioInputField';
 import { useInitialValue } from '@/hookQueries/useInitialValue';
 
 const CreateTagValueForm = ({

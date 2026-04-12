@@ -1,14 +1,18 @@
-import { tagSchema, type TagDTO, type TagInfo } from '@/validations/tagSchema';
+import {
+  tagSchema,
+  type TagDTO,
+  type TagInfo,
+} from '@/modules/documentations/tag/schema/tagSchema';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import TextInputField from '../input-elements/TextInputField';
-import { Button } from '../ui/button';
+import TextInputField from '@/components/input-elements/TextInputField';
+import { Button } from '@/components/ui/button';
 import {
   useCreateProcessTag,
   useUpdateProcessTag,
-} from '@/hookQueries/useProcessTagHooks';
+} from '@/modules/documentations/tag/hooks/useProcessTagHooks';
 import toast from 'react-hot-toast';
-import RadioInputField from '../shared/RadioInputField';
+import RadioInputField from '@/components/shared/RadioInputField';
 
 interface CreateTagFormProps {
   updateMode?: boolean; // Thêm prop để xác định chế độ tạo mới hay cập nhật

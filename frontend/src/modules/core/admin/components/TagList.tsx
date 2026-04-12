@@ -1,15 +1,15 @@
-import { useGetProcessTag } from '@/hookQueries/useProcessTagHooks';
+import { useGetProcessTag } from '@/modules/documentations/tag/hooks/useProcessTagHooks';
 import { safeString, toArray } from '@/utils/formatValue';
-import type { TagInfo } from '@/validations/tagSchema';
+import type { TagInfo } from '@/modules/documentations/tag/schema/tagSchema';
 import { useMemo, useState } from 'react';
-import { DataTable, type Column } from '../shared/DataTable';
+import { DataTable, type Column } from '@/components/shared/DataTable';
 import { TagsIcon } from 'lucide-react';
-import { EmptyState } from '../shared/EmtyState';
-import { ActionHeader } from '../shared/ActionHeder';
-import Loader from '../shared/Loader';
-import Status from '../shared/Status';
-import CreateTagForm from './CreateTagForm';
-import { DialogComponent } from '../shared/DialogComponent';
+import { EmptyState } from '@/components/shared/EmtyState';
+import { ActionHeader } from '@/components/shared/ActionHeder';
+import Loader from '@/components/shared/Loader';
+import Status from '@/components/shared/Status';
+import CreateTagForm from '../../../documentations/tag/components/CreateTagForm';
+import { DialogComponent } from '@/components/shared/DialogComponent';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
 

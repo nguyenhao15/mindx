@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ChangeEvent } from 'react';
 import { TrashIcon } from 'lucide-react';
-import { Switch } from '../../shared/Switch';
+import { Switch } from '../../input-elements/Switch';
 import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
 import { useDepartmentForForm } from '@/hookQueries/useDepartmentForForm';
 import { Controller, useForm } from 'react-hook-form';

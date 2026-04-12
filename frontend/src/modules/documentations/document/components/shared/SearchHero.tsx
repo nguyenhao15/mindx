@@ -1,7 +1,7 @@
 import { useSearchDocument } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import Spinner from './shared/Spinner';
+import Spinner from '../../../../../components/shared/Spinner';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 

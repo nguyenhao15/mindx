@@ -1,8 +1,8 @@
 import { useInitialValue } from '@/hookQueries/useInitialValue';
 import { useState } from 'react';
-import ChipCardComboboxContainer from '../shared/ChipCardComboboxContainer';
-import GridContainerChip from '../shared/GridContainerChip';
-import GridChipsCard from '../shared/GridChipsCard';
+import ChipCardComboboxContainer from '@/components/shared/ChipCardComboboxContainer';
+import GridContainerChip from '@/components/shared/GridContainerChip';
+import GridChipsCard from '@/components/shared/GridChipsCard';
 
 const TagValuePopOverContent = ({
   searchKeyDefaultValue = '',

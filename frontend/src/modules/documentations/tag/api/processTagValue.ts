@@ -1,7 +1,7 @@
 import { PROCESS_TAG_VALUES } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { TagValueDTO } from '@/validations/tagValueSchema';
+import type { TagValueDTO } from '@/modules/documentations/tag/schema/tagValueSchema';
 
 export const processTagValueApi = {
   getProcessTagValue: (payload: FilterWithPaginationInput) => {

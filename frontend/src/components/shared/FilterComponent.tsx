@@ -5,9 +5,10 @@ import { useState } from 'react';
 
 import InputWithIcon from '../input-elements/InputWithIcon';
 import PopOverComponent from './PopOverComponent';
-import TagPopOverContent from '../tag/TagPopOverContent';
-import TagValuePopOverContent from '../tag/TagValuePopOverContent';
+
 import type { FilterInput } from '@/validations/filterWithPagination';
+import TagPopOverContent from '@/modules/documentations/tag/components/TagPopOverContent';
+import TagValuePopOverContent from '@/modules/documentations/tag/components/TagValuePopOverContent';
 
 interface FilterComponentProps {
   filters: FilterInput[];

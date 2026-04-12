@@ -5,7 +5,16 @@ import { useDepartmentForForm } from '@/hookQueries/useDepartmentForForm';
 import TextInputField from '@/components/input-elements/TextInputField';
 
 interface AccessRuleFormComponentProps {
-  initialData?: any;
+  initialData?: {
+    accessRule: {
+      accessType: 'PUBLIC' | 'STRICT' | 'RESTRICTED';
+      departmentCodes: string[];
+      positionCodes: string[];
+      minLevel: number;
+      fieldIds: string[];
+      buIds: string[];
+    };
+  };
 }
 
 const AccessRuleFormComponent = ({

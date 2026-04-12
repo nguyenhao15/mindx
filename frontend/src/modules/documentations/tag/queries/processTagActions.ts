@@ -1,6 +1,9 @@
-import { processTagApi } from '@/api/processTag';
+import { processTagApi } from '@/modules/documentations/tag/api/processTag';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import { TagResponseSchema, type TagDTO } from '@/validations/tagSchema';
+import {
+  TagResponseSchema,
+  type TagDTO,
+} from '@/modules/documentations/tag/schema/tagSchema';
 
 export const getActiveProcessTag = async () => {
   const response = await processTagApi.getActiveProcessTag();

@@ -1,6 +1,6 @@
-import HeaderBar from './shared/HeaderBar';
+import HeaderBar from '../../../../../components/shared/HeaderBar';
 import { Outlet } from 'react-router-dom';
-import Loader from './shared/Loader';
+import Loader from '../../../../../components/shared/Loader';
 import { useGetUserInfo } from '@/modules/core/auth/hooks/useAuthentication';
 
 const Layout = () => {

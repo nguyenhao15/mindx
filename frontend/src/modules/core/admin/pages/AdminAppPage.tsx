@@ -1,8 +1,10 @@
 import { UserTableComponent } from '@/components/userComponent/UserTableComponent';
-import TagList from '@/components/tag/TagList';
-import TagValueList from '@/components/tag/TagValueList';
+
 import { EmptyState } from '@/components/shared/EmtyState';
-import { TabNavigation, type TabItem } from '@/components/TabNavigation';
+import {
+  TabNavigation,
+  type TabItem,
+} from '@/modules/documentations/document/components/shared/TabNavigation';
 import {
   BriefcaseBusiness,
   Building,
@@ -19,6 +21,8 @@ import { FaUserShield } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import DocumentAdminList from '@/modules/core/admin/components/DocumentAdminList';
 import BasementListComponent from '../../basement/components/BasementListComponent';
+import TagList from '../components/TagList';
+import TagValueList from '../components/TagValueList';
 
 const tabs: TabItem[] = [
   {
