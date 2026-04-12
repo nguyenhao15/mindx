@@ -1,7 +1,5 @@
 import TextEditorMasterForm from '../textEditorForm/TextEditorMasterForm';
-import AttachmentListManager, {
-  type AttachmentListItem,
-} from '../shared/AttachmentListManager';
+
 import { useUpdateProcessFlow } from '@/hookQueries/useProcessFlowHooks';
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -12,6 +10,9 @@ import { ProcessFlowSchema } from '@/validations/processFlowSchema';
 import CreateProcessFlowForm from '../create-new-component/CreateProcessFlowForm';
 import AccessRuleFormComponent from '../create-new-component/AccessRuleFormComponent';
 import { File } from 'lucide-react';
+import AttachmentListManager, {
+  type AttachmentListItem,
+} from '@/modules/core/attachments/components/AttachmentListManager';
 
 interface ProcessFlowEditProps {
   id: string;

@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import AttachmentCard from './AttachmentCard';
-import PdfViewerComponent from './PdfViewrComponent';
 
-import Loader from './Loader';
-import { useGetFlowAttachmentById } from '@/hookQueries/useAttachmentHook';
-import ModalComponent from './ModalComponent';
-import ErrorPage from './ErrorPage';
+import { useGetFlowAttachmentById } from '@/modules/core/attachments/hooks/useAttachmentHook';
 import { FilePreviewer } from './FilePreview';
+import ModalComponent from '@/components/shared/ModalComponent';
+import Loader from '@/components/shared/Loader';
+import ErrorPage from '@/components/shared/ErrorPage';
 
 const AttachmentsGallery = ({
   attachments,
@@ -51,14 +50,7 @@ const AttachmentsGallery = ({
             fileUrl={presignedUrlData}
           />
         )}
-        {presignedUrlError && (
-          <ErrorPage
-            message={
-              presignedUrlError?.response?.data?.message ||
-              'Failed to load attachment. Please try again later.'
-            }
-          />
-        )}
+        {presignedUrlError && <ErrorPage message={presignedUrlError.message} />}
       </ModalComponent>
     </div>
   );

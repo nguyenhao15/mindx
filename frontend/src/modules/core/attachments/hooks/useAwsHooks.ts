@@ -1,4 +1,4 @@
-import { uploadFileToS3 } from '@/actions/aws3Actions';
+import { uploadFileToS3 } from '@/modules/core/attachments/quries/aws3Actions';
 import { useMutation } from '@tanstack/react-query';
 
 import toast from 'react-hot-toast';

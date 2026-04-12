@@ -1,4 +1,4 @@
-import { getFlowAttachmentById } from '@/actions/attachmentActions';
+import { getFlowAttachmentById } from '@/modules/core/attachments/quries/attachmentActions';
 import { useQuery } from '@tanstack/react-query';
 
 type UseGetFlowAttachmentByIdResult = {

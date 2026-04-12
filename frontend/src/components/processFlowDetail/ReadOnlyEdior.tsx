@@ -1,14 +1,7 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import { StarterKit } from '@tiptap/starter-kit';
 import { Image } from '@tiptap/extension-image';
-import { TaskItem, TaskList } from '@tiptap/extension-list';
-import { TextAlign } from '@tiptap/extension-text-align';
-import { Typography } from '@tiptap/extension-typography';
-import { Highlight } from '@tiptap/extension-highlight';
-import { Subscript } from '@tiptap/extension-subscript';
-import { Superscript } from '@tiptap/extension-superscript';
 import { Markdown } from 'tiptap-markdown';
-
 import '@/components/tiptap-node/blockquote-node/blockquote-node.scss';
 import '@/components/tiptap-node/code-block-node/code-block-node.scss';
 import '@/components/tiptap-node/horizontal-rule-node/horizontal-rule-node.scss';
@@ -20,7 +13,7 @@ import '@/components/tiptap-templates/simple/simple-editor.scss';
 import Loader from '../shared/Loader';
 import ModalComponent from '../shared/ModalComponent';
 import { useState } from 'react';
-import { FilePreviewer } from '../shared/FilePreview';
+import { FilePreviewer } from '../../modules/core/attachments/components/FilePreview';
 
 export default function ReadOnlyEdior({
   loading,
@@ -36,7 +29,7 @@ export default function ReadOnlyEdior({
     return <Loader text={'Loading...'} />;
   }
 
-  const handleOnImageClick = (data) => {
+  const handleOnImageClick = (data: any) => {
     setOpenModal(true);
     setSelectedImage(data);
     console.log();

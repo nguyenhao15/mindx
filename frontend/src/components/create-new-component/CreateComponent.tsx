@@ -1,8 +1,7 @@
 import { useState } from 'react';
-
 import { Button } from '../ui/button';
 import TextEditorMasterForm from '../textEditorForm/TextEditorMasterForm';
-import AttachementControl from '../shared/AttachmentControlComponent';
+
 import { ProcessFlowSchema } from '@/validations/processFlowSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -15,6 +14,7 @@ import AccessRuleFormComponent from './AccessRuleFormComponent';
 import FormSection from '../shared/FormSection';
 import { Info } from 'lucide-react';
 import { FaUserShield } from 'react-icons/fa';
+import AttachmentControl from '@/modules/core/attachments/components/AttachmentControlComponent';
 
 const CreateComponent = () => {
   const [step, setStep] = useState(0);
@@ -68,8 +68,6 @@ const CreateComponent = () => {
     setValue('processContent', value);
   };
 
-  
-
   const onSubmit = async () => {
     const formValue = getValues();
 
@@ -122,7 +120,7 @@ const CreateComponent = () => {
                 </form>
               </FormProvider>
             </div>
-            <AttachementControl
+            <AttachmentControl
               attachedFile={attachedFiles}
               onFileAttach={setAttachedFiles}
               title='Tài liệu đính kèm'

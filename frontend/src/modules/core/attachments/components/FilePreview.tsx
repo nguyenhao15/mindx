@@ -1,5 +1,5 @@
 import PdfViewerComponent from './PdfViewrComponent';
-import { SmartImage } from './SmartImage';
+import { SmartImage } from '../../../../components/shared/SmartImage';
 
 interface FilePreviewerProps {
   type: string;

@@ -1,4 +1,4 @@
-import { flowAttachmentApi } from '@/api/attachmentApi';
+import { flowAttachmentApi } from '@/modules/core/attachments/api/attachmentApi';
 
 export const getFlowAttachmentById = async (
   id: string,

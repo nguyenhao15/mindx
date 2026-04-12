@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import Loader from '../shared/Loader';
+import Loader from '../../../../components/shared/Loader';
 
 // Link Worker từ CDN để giảm kích thước bundle của App
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;

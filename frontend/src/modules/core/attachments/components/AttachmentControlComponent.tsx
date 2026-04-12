@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { BsFileText, BsUpload, BsX } from 'react-icons/bs';
 import { FaImage } from 'react-icons/fa';
-import { Input } from '../ui/input';
+import { Input } from '@/components/ui/input';
 
 interface AttachementControlProps {
   attachedFile?: File[];
