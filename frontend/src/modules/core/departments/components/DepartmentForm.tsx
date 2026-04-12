@@ -16,7 +16,7 @@ import {
   useCreateDepartment,
   useUpdateDepartment,
 } from '@/modules/core/departments/hooks/useDepartmentHook';
-import type { WorkingFieldObject } from '@/validations/workingFieldSchema';
+import type { WorkingFieldObject } from '@/modules/core/workingFields/schema/workingFieldSchema';
 import { useMemo } from 'react';
 import toast from 'react-hot-toast';
 import RadioInputField from '@/components/shared/RadioInputField';

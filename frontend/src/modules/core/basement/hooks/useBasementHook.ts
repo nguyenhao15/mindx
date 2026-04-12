@@ -3,7 +3,7 @@ import {
   getActiveBuItems,
   getAllBasements,
   updateBasement,
-} from '@/actions/basementAction';
+} from '@/modules/core/basement/queries/basementAction';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 

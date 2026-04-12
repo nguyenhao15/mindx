@@ -1,7 +1,6 @@
 import { Toaster } from 'react-hot-toast';
 import './App.css';
 import Layout from './components/Layout';
-
 import { HomePage } from './pages/HomePage';
 import {
   Navigate,
@@ -15,7 +14,7 @@ import CreateNewProcessPage from './pages/CreateNewProcessPage';
 import { useGetUserInfo } from './modules/core/auth/hooks/useAuthentication';
 import LoginPage from './modules/core/auth/pages/LoginPage';
 import Loader from './components/shared/Loader';
-import AdminAppPage from './pages/AdminAppPage';
+import AdminAppPage from './modules/core/admin/pages/AdminAppPage';
 import DocumentPage from './pages/DocumentPage';
 import {
   handleLogout,

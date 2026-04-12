@@ -1,4 +1,4 @@
-import { useSearchUser } from '@/hookQueries/useAdminHook';
+import { useSearchUser } from '@/modules/core/admin/hooks/useAdminHook';
 import React, { useMemo, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import ManualCustomCombobox from './ManualCustomCombobox';

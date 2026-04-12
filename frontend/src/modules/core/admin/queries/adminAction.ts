@@ -1,4 +1,4 @@
-import { adminApi } from '@/api/adminApi';
+import { adminApi } from '@/modules/core/admin/api/adminApi';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import {
   UserResponseObject,

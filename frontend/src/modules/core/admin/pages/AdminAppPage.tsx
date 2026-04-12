@@ -13,12 +13,12 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-import InternalWorkingSystemComponent from '@/components/adminComponent/InternalWorkingSystemComponent';
-import BasementListComponent from '@/components/basementComponent/BasementListComponent';
+import InternalWorkingSystemComponent from '@/modules/core/admin/components/InternalWorkingSystemComponent';
 import type { UserResponseObjectType } from '@/modules/core/auth/schemas/userSchema';
 import { FaUserShield } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import DocumentAdminList from '@/components/documents/DocumentAdminList';
+import BasementListComponent from '../../basement/components/BasementListComponent';
 
 const tabs: TabItem[] = [
   {

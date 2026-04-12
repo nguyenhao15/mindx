@@ -1,16 +1,16 @@
-import { basementSchema } from '@/validations/basementSchema';
+import { basementSchema } from '@/modules/core/basement/schema/basementSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
-import TextInputField from '../input-elements/TextInputField';
-import RadioInputField from '../shared/RadioInputField';
-import { Button } from '../ui/button';
+import TextInputField from '@/components/input-elements/TextInputField';
+import RadioInputField from '@/components/shared/RadioInputField';
+import { Button } from '@/components/ui/button';
 import {
   useCreateBasement,
   useUpdateBasement,
-} from '@/hookQueries/useBasementHook';
+} from '@/modules/core/basement/hooks/useBasementHook';
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
-import ErrorCatchComponent from '../shared/ErrorCatchComponent';
+import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 
 interface BasementFormProps {
   updateMode?: boolean;

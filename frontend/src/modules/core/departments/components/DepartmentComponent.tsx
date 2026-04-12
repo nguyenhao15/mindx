@@ -11,7 +11,7 @@ import { BriefcaseBusiness } from 'lucide-react';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
 import DepartmentForm from './DepartmentForm';
-import type { WorkingFieldObject } from '@/validations/workingFieldSchema';
+import type { WorkingFieldObject } from '@/modules/core/workingFields/schema/workingFieldSchema';
 
 type DepartmentFieldRow = {
   id: string;

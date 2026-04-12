@@ -13,7 +13,7 @@ import JobAssignmentManagment from './FormElement/JobAssignmentManagment';
 import UserAccountStatus from './FormElement/UserAccountStatus';
 import UserFormToolbar from './FormElement/UserFormToolbar';
 import toast from 'react-hot-toast';
-import { useAdminUpdateToolKits } from '@/hookQueries/useAdminUpdateToolKits';
+import { useAdminUpdateToolKits } from '@/modules/core/admin/hooks/useAdminUpdateToolKits';
 import ErrorCatchComponent from '../shared/ErrorCatchComponent';
 
 const UserForm = ({

@@ -1,6 +1,6 @@
-import { useGetAllBasements } from '@/hookQueries/useBasementHook';
+import { useGetAllBasements } from '@/modules/core/basement/hooks/useBasementHook';
 import { toArray } from '@/utils/formatValue';
-import type { BasementResponse } from '@/validations/basementSchema';
+import type { BasementResponse } from '@/modules/core/basement/schema/basementSchema';
 import { useMemo, useState } from 'react';
 import { DataTable, type Column } from '../shared/DataTable';
 import { ActionHeader } from '../shared/ActionHeder';

@@ -10,7 +10,7 @@ import {
   type WorkingFieldInput,
   type WorkingFieldObject,
   type WorkingFieldOutput,
-} from '@/validations/workingFieldSchema';
+} from '@/modules/core/workingFields/schema/workingFieldSchema';
 
 interface WorkingFieldFormProps {
   updateId: string;

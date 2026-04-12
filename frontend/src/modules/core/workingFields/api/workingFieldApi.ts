@@ -1,6 +1,6 @@
 import { WORKING_FIELD_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
-import type { WorkingFieldFormData } from '@/validations/workingFieldSchema';
+import type { WorkingFieldFormData } from '@/modules/core/workingFields/schema/workingFieldSchema';
 
 export const workingFieldApi = {
   createWorkingField: (data: WorkingFieldFormData) => {

@@ -128,7 +128,6 @@ const WorkingField = () => {
           initialData={selectedField}
           onUpdate={afterUpdate}
         />
-        {/* Modal content for adding/editing working field goes here */}
       </ModalComponent>
     </div>
   );

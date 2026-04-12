@@ -2,7 +2,7 @@ import { workingFieldApi } from '@/modules/core/workingFields/api/workingFieldAp
 import {
   WorkingFieldResponseSchema,
   type WorkingFieldFormData,
-} from '@/validations/workingFieldSchema';
+} from '@/modules/core/workingFields/schema/workingFieldSchema';
 
 export const createWorkingFieldAction = async (data: WorkingFieldFormData) => {
   const response = await workingFieldApi.createWorkingField(data);

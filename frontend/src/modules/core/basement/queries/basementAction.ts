@@ -1,5 +1,5 @@
-import { basementApi } from '@/api/basementApi';
-import { BasementResponseArray } from '@/validations/basementSchema';
+import { basementApi } from '@/modules/core/basement/api/basementApi';
+import { BasementResponseArray } from '@/modules/core/basement/schema/basementSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const getActiveBuItems = async () => {

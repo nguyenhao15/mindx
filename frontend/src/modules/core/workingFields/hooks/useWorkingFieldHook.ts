@@ -5,7 +5,7 @@ import {
   updateWorkingFieldAction,
 } from '@/modules/core/workingFields/queries/workingFieldAction';
 
-import type { WorkingFieldFormData } from '@/validations/workingFieldSchema';
+import type { WorkingFieldFormData } from '@/modules/core/workingFields/schema/workingFieldSchema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useCreateWorkingField = () => {

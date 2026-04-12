@@ -3,7 +3,7 @@ import { DataTable, type Column } from '../shared/DataTable';
 import { ActionHeader } from '../shared/ActionHeder';
 import { EmptyState } from '@/components/shared/EmtyState';
 import { UsersIcon } from 'lucide-react';
-import { useGetAllUsers } from '@/hookQueries/useAdminHook';
+import { useGetAllUsers } from '@/modules/core/admin/hooks/useAdminHook';
 import ModalComponent from '../shared/ModalComponent';
 import UserForm from './UserForm';
 import Loader from '../shared/Loader';

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useGetCanAccessDepartments } from '../modules/core/departments/hooks/useDepartmentHook';
 import { useGetActivePositions } from '../modules/core/positions/hooks/usePositionHook';
 import { useGetActiveWorkingFieldList } from '../modules/core/workingFields/hooks/useWorkingFieldHook';
-import { useActiveBuItems } from './useBasementHook';
+import { useActiveBuItems } from '../modules/core/basement/hooks/useBasementHook';
 
 export const useDepartmentForForm = (departmentId: string) => {
   const { data: departments, isLoading: isDepartmentsLoading } =
