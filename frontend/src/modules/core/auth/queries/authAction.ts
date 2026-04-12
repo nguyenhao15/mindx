@@ -1,4 +1,4 @@
-import { authApi } from '@/api/authApi';
+import { authApi } from '@/modules/core/auth/api/authApi';
 
 export const login = async (data: { username: string; password: string }) => {
   const res = await authApi.login(data);

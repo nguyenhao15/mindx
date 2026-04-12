@@ -8,7 +8,7 @@ import {
   updateUser,
 } from '@/actions/adminAction';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { UserManagementDTO } from '@/validations/userSchema';
+import type { UserManagementDTO } from '@/modules/core/auth/schemas/userSchema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useGetAllUsers = (

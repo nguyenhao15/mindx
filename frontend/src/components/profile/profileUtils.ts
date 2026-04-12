@@ -1,4 +1,4 @@
-import type { WorkProfileType } from '@/validations/userSchema';
+import type { WorkProfileType } from '@/modules/core/auth/schemas/userSchema';
 
 export const getStatusClasses = (active: boolean) =>
   active

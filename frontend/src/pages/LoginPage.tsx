@@ -2,7 +2,7 @@ import TextInputField from '@/components/input-elements/TextInputField';
 import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 import HeaderBar from '@/components/shared/HeaderBar';
 import { Button } from '@/components/ui/button';
-import { useLogin } from '@/hookQueries/useAuthentication';
+import { useLogin } from '@/modules/core/auth/hooks/useAuthentication';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 

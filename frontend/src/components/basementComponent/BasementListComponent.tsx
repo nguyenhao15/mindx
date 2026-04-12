@@ -10,7 +10,6 @@ import { BriefcaseBusiness } from 'lucide-react';
 import ModalComponent from '../shared/ModalComponent';
 import Status from '../shared/Status';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
-
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
 import BasementForm from './BasementForm';
 

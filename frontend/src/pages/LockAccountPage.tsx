@@ -1,4 +1,4 @@
-import { useLogOut } from '@/hookQueries/useAuthentication';
+import { useLogOut } from '@/modules/core/auth/hooks/useAuthentication';
 import toast from 'react-hot-toast';
 
 const LockAccountPage = () => {

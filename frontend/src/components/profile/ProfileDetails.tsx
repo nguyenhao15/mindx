@@ -1,5 +1,5 @@
 import { formatDateTime } from '@/utils/formatValue';
-import type { UserResponseObjectType } from '@/validations/userSchema';
+import type { UserResponseObjectType } from '@/modules/core/auth/schemas/userSchema';
 
 type ProfileDetailsProps = {
   profileData: UserResponseObjectType;

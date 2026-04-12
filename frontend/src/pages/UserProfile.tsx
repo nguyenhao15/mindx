@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import type { UserResponseObjectType } from '@/validations/userSchema';
+import type { UserResponseObjectType } from '@/modules/core/auth/schemas/userSchema';
 import UpdatePassword from '../components/profile/UpdatePassword';
 import ProfileDetails from '../components/profile/ProfileDetails';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileSummary from '../components/profile/ProfileSummary';
 import { Button } from '../components/ui/button';
 import { getMainPosition } from '../components/profile/profileUtils';
-import { updatePassword } from '@/actions/authAction';
+import { updatePassword } from '@/modules/core/auth/queries/authAction';
 import toast from 'react-hot-toast';
 
 const UserProfile = ({ user }: { user: UserResponseObjectType }) => {

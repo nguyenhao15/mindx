@@ -12,7 +12,7 @@ import type {
   UserManagementDTO,
   UserResponseObjectType,
   WorkProfileType,
-} from '@/validations/userSchema';
+} from '@/modules/core/auth/schemas/userSchema';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import Status from '../shared/Status';
 

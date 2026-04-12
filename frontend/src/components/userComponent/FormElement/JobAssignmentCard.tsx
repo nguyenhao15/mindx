@@ -6,7 +6,7 @@ import { useDepartmentForForm } from '@/hookQueries/useDepartmentForForm';
 import { Controller, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import TextInputField from '@/components/input-elements/TextInputField';
-import { WorkProfile } from '@/validations/userSchema';
+import { WorkProfile } from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export interface Assignment {

@@ -1,7 +1,7 @@
 import HeaderBar from './shared/HeaderBar';
 import { Outlet } from 'react-router-dom';
 import Loader from './shared/Loader';
-import { useGetUserInfo } from '@/hookQueries/useAuthentication';
+import { useGetUserInfo } from '@/modules/core/auth/hooks/useAuthentication';
 
 const Layout = () => {
   const { data: user, isLoading } = useGetUserInfo();

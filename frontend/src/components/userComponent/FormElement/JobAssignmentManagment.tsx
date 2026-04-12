@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import type {
   UserManagementFormInput,
   WorkProfileType,
-} from '@/validations/userSchema';
+} from '@/modules/core/auth/schemas/userSchema';
 
 const JobAssignmentManagment = ({
   initialForm,

@@ -1,4 +1,4 @@
-import { authApi } from '@/api/authApi';
+import { authApi } from '@/modules/core/auth/api/authApi';
 
 import { handleLogout, useAuthStore } from '@/stores/AuthStore';
 import axios, { AxiosHeaders } from 'axios';

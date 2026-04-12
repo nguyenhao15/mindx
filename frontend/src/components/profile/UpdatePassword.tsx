@@ -1,7 +1,7 @@
 import {
   updatePasswordSchema,
   type UpdatePasswordDTO,
-} from '@/validations/userSchema';
+} from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';

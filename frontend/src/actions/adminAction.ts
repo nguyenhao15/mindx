@@ -4,7 +4,7 @@ import {
   UserResponseObject,
   UserResponseSchema,
   type UserManagementDTO,
-} from '@/validations/userSchema';
+} from '@/modules/core/auth/schemas/userSchema';
 
 export const getAllUsers = async (payload: FilterWithPaginationInput) => {
   const response = await adminApi.getAllUsers(payload);

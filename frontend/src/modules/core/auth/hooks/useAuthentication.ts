@@ -3,7 +3,7 @@ import {
   getUserInfo,
   login,
   logout,
-} from '@/actions/authAction';
+} from '@/modules/core/auth/queries/authAction';
 
 import { handleLogout, useAuthStore } from '@/stores/AuthStore';
 import { useMutation, useQuery } from '@tanstack/react-query';

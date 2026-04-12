@@ -1,7 +1,7 @@
 import type {
   UserResponseObjectType,
   WorkProfileType,
-} from '@/validations/userSchema';
+} from '@/modules/core/auth/schemas/userSchema';
 
 import { getStatusClasses } from './profileUtils';
 

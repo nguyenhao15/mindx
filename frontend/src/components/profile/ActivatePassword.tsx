@@ -1,7 +1,7 @@
 import {
   activatePasswordSchema,
   type ActivatePasswordDTO,
-} from '@/validations/userSchema';
+} from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -10,7 +10,7 @@ import { useState } from 'react';
 import TextInputField from '../input-elements/TextInputField';
 import ErrorCatchComponent from '../shared/ErrorCatchComponent';
 import { Button } from '../ui/button';
-import { useActivateAccount } from '@/hookQueries/useAuthentication';
+import { useActivateAccount } from '@/modules/core/auth/hooks/useAuthentication';
 
 const ActivatePassword = () => {
   const [error, setError] = useState<string | null>(null);

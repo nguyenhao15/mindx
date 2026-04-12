@@ -1,7 +1,7 @@
 import { ADMIN_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { UserManagementDTO } from '@/validations/userSchema';
+import type { UserManagementDTO } from '@/modules/core/auth/schemas/userSchema';
 
 export const adminApi = {
   getAllUsers: (payload: FilterWithPaginationInput) => {

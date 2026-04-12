@@ -12,7 +12,7 @@ import {
 import React from 'react';
 import ProcessDetail from './pages/ProcessDetail';
 import CreateNewProcessPage from './pages/CreateNewProcessPage';
-import { useGetUserInfo } from './hookQueries/useAuthentication';
+import { useGetUserInfo } from './modules/core/auth/hooks/useAuthentication';
 import LoginPage from './pages/LoginPage';
 import Loader from './components/shared/Loader';
 import AdminAppPage from './pages/AdminAppPage';

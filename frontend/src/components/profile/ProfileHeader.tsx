@@ -1,5 +1,4 @@
-import type { UserResponseObjectType } from "@/validations/userSchema";
-
+import type { UserResponseObjectType } from '@/modules/core/auth/schemas/userSchema';
 
 type ProfileHeaderProps = {
   profileData: UserResponseObjectType;

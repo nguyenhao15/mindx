@@ -15,7 +15,7 @@ import { useState } from 'react';
 
 import InternalWorkingSystemComponent from '@/components/adminComponent/InternalWorkingSystemComponent';
 import BasementListComponent from '@/components/basementComponent/BasementListComponent';
-import type { UserResponseObjectType } from '@/validations/userSchema';
+import type { UserResponseObjectType } from '@/modules/core/auth/schemas/userSchema';
 import { FaUserShield } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import DocumentAdminList from '@/components/documents/DocumentAdminList';

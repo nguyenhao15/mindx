@@ -1,7 +1,7 @@
 import { useFormContext } from 'react-hook-form';
 
 import { Switch } from '@/components/shared/Switch';
-import type { UserManagementDTO } from '@/validations/userSchema';
+import type { UserManagementDTO } from '@/modules/core/auth/schemas/userSchema';
 
 const UserAccountStatus = () => {
   const { watch, setValue } = useFormContext<UserManagementDTO>();

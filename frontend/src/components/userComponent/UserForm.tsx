@@ -3,7 +3,7 @@ import {
   type UserDTO,
   type UserManagementFormInput,
   type UserManagementDTO,
-} from '@/validations/userSchema';
+} from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { InfoIcon } from 'lucide-react';
