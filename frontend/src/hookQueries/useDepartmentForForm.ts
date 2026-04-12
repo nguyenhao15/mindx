@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useGetCanAccessDepartments } from './useDepartmentHook';
+import { useGetCanAccessDepartments } from '../modules/core/departments/hooks/useDepartmentHook';
 import { useGetActivePositions } from './usePositionHook';
 import { useGetActiveWorkingFieldList } from './useWorkingFieldHook';
 import { useActiveBuItems } from './useBasementHook';

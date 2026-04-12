@@ -1,6 +1,9 @@
 import { authApi } from '@/modules/core/auth/api/authApi';
 
-import { handleLogout, useAuthStore } from '@/stores/AuthStore';
+import {
+  handleLogout,
+  useAuthStore,
+} from '@/modules/core/auth/store/AuthStore';
 import axios, { AxiosHeaders } from 'axios';
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 

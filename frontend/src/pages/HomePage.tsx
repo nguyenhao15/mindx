@@ -1,5 +1,5 @@
 import { SearchHero } from '../components/SearchHero';
-import { DepartmentGrid } from '../components/DepartmentGrid';
+import { DepartmentGrid } from '../modules/core/departments/components/DepartmentGrid';
 import { ProcessSection } from '../components/ProcessSection';
 
 export function HomePage() {

@@ -1,9 +1,9 @@
 import React from 'react';
-import Loader from '../shared/Loader';
 import DepartmentCard from './DepartmentCard';
-import { EmptyState } from '../shared/EmtyState';
+import { EmptyState } from '@/components/shared/EmtyState';
 import { Laptop } from 'lucide-react';
-import Pagination from '../shared/Pagination';
+import Pagination from '@/components/shared/Pagination';
+import Loader from '@/components/shared/Loader';
 
 interface DepartmentDataProps {
   data: any;

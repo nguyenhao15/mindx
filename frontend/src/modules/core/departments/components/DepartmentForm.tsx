@@ -1,23 +1,26 @@
 import {
   departmentSchema,
+  type DepartmentInput,
   type DepartmentObjType,
+  type DepartmentOutput,
 } from '@/validations/departmentSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Controller, useForm } from 'react-hook-form';
-import TextInputField from '../input-elements/TextInputField';
-import { Button } from '../ui/button';
-import ManualCustomCombobox from '../input-elements/ManualCustomCombobox';
+
+import { Button } from '@/components/ui/button';
+import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
 import { useGetActiveWorkingFieldList } from '@/hookQueries/useWorkingFieldHook';
 import { safeString, toArray } from '@/utils/formatValue';
 import {
   useCreateDepartment,
   useUpdateDepartment,
-} from '@/hookQueries/useDepartmentHook';
+} from '@/modules/core/departments/hooks/useDepartmentHook';
 import type { WorkingFieldObject } from '@/validations/workingFieldSchema';
 import { useMemo } from 'react';
 import toast from 'react-hot-toast';
-import RadioInputField from '../shared/RadioInputField';
+import RadioInputField from '@/components/shared/RadioInputField';
+import TextInputField from '@/components/input-elements/TextInputField';
 
 interface DepartmentFormProps {
   initialData?: DepartmentObjType | undefined;
@@ -25,10 +28,14 @@ interface DepartmentFormProps {
 }
 
 const DepartmentForm = ({ initialData, onUpdate }: DepartmentFormProps) => {
-  const methods = useForm({
+  const methods = useForm<DepartmentInput, any, DepartmentOutput>({
     mode: 'onBlur',
     resolver: zodResolver(departmentSchema),
-    defaultValues: initialData,
+    defaultValues: initialData ? {
+      ...initialData,
+      active: initialData.active ? 'true' : 'false',
+      isSecurity: initialData.isSecurity ? 'true' : 'false',
+    } : undefined,
   });
 
   const { data, isLoading } = useGetActiveWorkingFieldList();
@@ -157,7 +164,7 @@ const DepartmentForm = ({ initialData, onUpdate }: DepartmentFormProps) => {
               { label: 'Public', value: 'false' },
             ]}
             value='false'
-            error={errors?.isSecurity?.message as string | null}
+            error={errors.isSecurity?.message as string | null}
           />
         </div>
         <Button

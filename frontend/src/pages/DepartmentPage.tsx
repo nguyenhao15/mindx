@@ -1,6 +1,6 @@
-import DepartmentGallery from '@/components/departmentComponent/DepartmentGallery';
 import FormSection from '@/components/shared/FormSection';
 import HeaderPage from '@/components/shared/HeaderPage';
+import DepartmentGallery from '@/modules/core/departments/components/DepartmentGallery';
 import { Laptop, List } from 'lucide-react';
 
 const DepartmentPage = () => {

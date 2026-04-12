@@ -1,4 +1,4 @@
-import { departmentApi } from '@/api/departmentApi';
+import { departmentApi } from '@/modules/core/departments/api/departmentApi';
 import {
   DepartmentListObj,
   type DepartmentFormData,

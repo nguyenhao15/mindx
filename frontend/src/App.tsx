@@ -13,18 +13,21 @@ import React from 'react';
 import ProcessDetail from './pages/ProcessDetail';
 import CreateNewProcessPage from './pages/CreateNewProcessPage';
 import { useGetUserInfo } from './modules/core/auth/hooks/useAuthentication';
-import LoginPage from './pages/LoginPage';
+import LoginPage from './modules/core/auth/pages/LoginPage';
 import Loader from './components/shared/Loader';
 import AdminAppPage from './pages/AdminAppPage';
 import DocumentPage from './pages/DocumentPage';
-import { handleLogout, useAuthStore } from './stores/AuthStore';
-import UnAuthorizePage from './pages/UnAuthorizePage';
+import {
+  handleLogout,
+  useAuthStore,
+} from './modules/core/auth/store/AuthStore';
+import UnAuthorizePage from './modules/core/auth/pages/UnAuthorizePage';
 import DepartmentPage from './pages/DepartmentPage';
 import ProcessFlowByDepartment from './pages/ProcessFlowByDepartment';
 import ProcessItemPage from './pages/ProcessItemPage';
 import MyDocuments from './pages/MyDocuments';
-import UserProfile from './pages/UserProfile';
-import LockAccountPage from './pages/LockAccountPage';
+import UserProfile from './modules/core/auth/pages/UserProfile';
+import LockAccountPage from './modules/core/auth/pages/LockAccountPage';
 import ActivatePassword from './components/profile/ActivatePassword';
 
 function App() {

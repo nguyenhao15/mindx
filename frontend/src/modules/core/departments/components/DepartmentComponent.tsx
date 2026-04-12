@@ -1,16 +1,16 @@
-import { useGetAllDepartments } from '@/hookQueries/useDepartmentHook';
+import { useGetAllDepartments } from '@/modules/core/departments/hooks/useDepartmentHook';
 import { safeString, toArray } from '@/utils/formatValue';
 import { useEffect, useMemo, useState } from 'react';
-import { DataTable, type Column } from '../shared/DataTable';
-import Status from '../shared/Status';
-import { ActionHeader } from '../shared/ActionHeder';
-import Loader from '../shared/Loader';
-import ModalComponent from '../shared/ModalComponent';
-import { EmptyState } from '../shared/EmtyState';
+import { DataTable, type Column } from '@/components/shared/DataTable';
+import Status from '@/components/shared/Status';
+import { ActionHeader } from '@/components/shared/ActionHeder';
+import Loader from '@/components/shared/Loader';
+import ModalComponent from '@/components/shared/ModalComponent';
+import { EmptyState } from '@/components/shared/EmtyState';
 import { BriefcaseBusiness } from 'lucide-react';
-import DepartmentForm from './DepartmentForm';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
+import DepartmentForm from './DepartmentForm';
 
 type DepartmentFieldRow = {
   id: string | number;
@@ -79,7 +79,7 @@ const DepartmentComponent = () => {
         departmentName: safeString(record.departmentName),
         departmentCode: safeString(record.departmentCode),
         description: safeString(record.description),
-        active: safeString(record.active.toString()),
+        active: safeString(record.active?.toString() || ''),
         status: record.active ? 'Active' : 'Inactive',
         workingFieldToString: toArray(record.workingFields)
           .map((field) =>

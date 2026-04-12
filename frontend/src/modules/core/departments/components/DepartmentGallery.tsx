@@ -1,5 +1,5 @@
-import { ActionHeader } from '../shared/ActionHeder';
-import { useGetInSecureDepartments } from '@/hookQueries/useDepartmentHook';
+import { ActionHeader } from '@/components/shared/ActionHeder';
+import { useGetInSecureDepartments } from '@/modules/core/departments/hooks/useDepartmentHook';
 import DepartmentData from './DepartmentData';
 import { useNavigate } from 'react-router-dom';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';

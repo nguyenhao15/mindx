@@ -5,7 +5,10 @@ import {
   logout,
 } from '@/modules/core/auth/queries/authAction';
 
-import { handleLogout, useAuthStore } from '@/stores/AuthStore';
+import {
+  handleLogout,
+  useAuthStore,
+} from '@/modules/core/auth/store/AuthStore';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 

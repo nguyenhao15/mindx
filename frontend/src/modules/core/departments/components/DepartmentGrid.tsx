@@ -1,6 +1,6 @@
-import { useGetInSecureDepartments } from '@/hookQueries/useDepartmentHook';
+import { useGetInSecureDepartments } from '@/modules/core/departments/hooks/useDepartmentHook';
 import { Link, useNavigate } from 'react-router-dom';
-import DepartmentCard from './departmentComponent/DepartmentCard';
+import DepartmentCard from './DepartmentCard';
 
 export function DepartmentGrid() {
   const navigate = useNavigate();

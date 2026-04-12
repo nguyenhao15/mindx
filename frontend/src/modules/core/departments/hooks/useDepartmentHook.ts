@@ -8,7 +8,7 @@ import {
   deleteDepartmentAction,
   getInSecureDepartmentAction,
   getCanAccessDepartmentsAction,
-} from '@/actions/departmentAction';
+} from '@/modules/core/departments/quries/departmentAction';
 import type { DepartmentFormData } from '@/validations/departmentSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 import TextInputField from '../input-elements/TextInputField';
 import ManualCustomCombobox from '../input-elements/ManualCustomCombobox';
 import { Button } from '../ui/button';
-import { useGetActiveDepartments } from '@/hookQueries/useDepartmentHook';
+import { useGetActiveDepartments } from '@/modules/core/departments/hooks/useDepartmentHook';
 import { toArray } from '@/utils/formatValue';
 
 interface PositionFormComponentProps {

@@ -9,6 +9,19 @@ import { Controller } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 
+interface RadioInputFieldProps {
+  label?: string;
+  name?: string;
+  options: { label: string; value: string }[];
+  control?: any; // React Hook Form control
+  value?: string; // For external state management
+  onChange?: (value: string) => void; // For external state management
+  error?: string | { message: string } | null;
+  required?: boolean;
+  disabled?: boolean;
+  className?: string;
+}
+
 const RadioInputField = ({
   label,
   name,
@@ -20,18 +33,7 @@ const RadioInputField = ({
   error,
   required = false,
   className,
-}: {
-  label?: string;
-  name?: string;
-  options: { label: string; value: string }[];
-  control?: any; // React Hook Form control
-  value?: string; // For external state management
-  onChange?: (value: string) => void; // For external state management
-  error?: string | { message: string };
-  required?: boolean;
-  disabled?: boolean;
-  className?: string;
-}) => {
+}: RadioInputFieldProps) => {
   const normalizedExternalValue = externalValue ?? '';
   const normalizedExternalOnChange = externalOnChange ?? (() => {});
 

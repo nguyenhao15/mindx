@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useLogOut } from '@/modules/core/auth/hooks/useAuthentication';
 import { LogOut } from 'lucide-react';
-import { useAuthStore } from '@/stores/AuthStore';
+import { useAuthStore } from '@/modules/core/auth/store/AuthStore';
 
 const HeaderBar = () => {
   const navigate = useNavigate();

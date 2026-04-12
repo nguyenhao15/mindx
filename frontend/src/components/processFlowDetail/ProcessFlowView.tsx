@@ -3,7 +3,7 @@ import ReadOnlyEdior from './ReadOnlyEdior';
 import AcessDetailComponent from './AcessDetailComponent';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/stores/AuthStore';
+import { useAuthStore } from '@/modules/core/auth/store/AuthStore';
 import { useActivateProcessFlow } from '@/hookQueries/useProcessFlowHooks';
 
 interface ProcessFlowViewProps {
