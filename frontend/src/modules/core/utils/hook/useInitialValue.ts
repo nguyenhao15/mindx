@@ -1,5 +1,5 @@
-import { useGetActiveProcessTag } from '../modules/documentations/tag/hooks/useProcessTagHooks';
-import { useGetActiveTagValueOptions } from '../modules/documentations/tag/hooks/useProcessTagValueHooks';
+import { useGetActiveProcessTag } from '@/modules/documentations/tag/hooks/useProcessTagHooks';
+import { useGetActiveTagValueOptions } from '@/modules/documentations/tag/hooks/useProcessTagValueHooks';
 
 export const useInitialValue = () => {
   const { data: tagData, isLoading, error } = useGetActiveProcessTag();

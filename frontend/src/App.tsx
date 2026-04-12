@@ -25,6 +25,9 @@ const DocumentRoute = lazy(
   () => import('./modules/documentations/document/routes/DocumentRoute'),
 );
 const AdminRoute = lazy(() => import('./modules/core/admin/routes/AdminRoute'));
+const AssetRoute = lazy(
+  () => import('./modules/assetmanagement/routes/AssetManagementRoutes'),
+);
 
 function App() {
   const { isLoading, isError } = useGetUserInfo();
@@ -80,6 +83,16 @@ function App() {
             />
           )}
           <Route path='/' element={<HomePage />} />
+          <Route
+            path='/assets/*'
+            element={
+              <Suspense
+                fallback={<Loader text={'Loading asset management...'} />}
+              >
+                <AssetRoute />
+              </Suspense>
+            }
+          />
 
           <Route
             path='/docs/*'
@@ -89,6 +102,7 @@ function App() {
               </Suspense>
             }
           />
+
           <Route path='/unauthorized' element={<UnAuthorizePage />} />
           <Route path='/profile' element={<UserProfile user={user!} />} />
 
