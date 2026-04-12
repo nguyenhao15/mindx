@@ -1,10 +1,10 @@
-import { positionApi } from '@/api/positionApi';
+import { positionApi } from '@/modules/core/positions/api/positionApi';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import {
   PositionResponseArray,
   PositionResponseObj,
   type PositionFormData,
-} from '@/validations/positionSchema';
+} from '@/modules/core/positions/schemas/positionSchema';
 
 export const createPositionAction = async (data: PositionFormData) => {
   const response = await positionApi.createPosition(data);

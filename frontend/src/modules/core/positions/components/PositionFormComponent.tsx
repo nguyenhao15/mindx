@@ -1,18 +1,18 @@
 import {
   useCreatePosition,
   useUpdatePosition,
-} from '@/hookQueries/usePositionHook';
+} from '@/modules/core/positions/hooks/usePositionHook';
 import {
   positionSchema,
   type PositionResponse,
-} from '@/validations/positionSchema';
+} from '@/modules/core/positions/schemas/positionSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import TextInputField from '../input-elements/TextInputField';
-import ManualCustomCombobox from '../input-elements/ManualCustomCombobox';
-import { Button } from '../ui/button';
+import TextInputField from '@/components/input-elements/TextInputField';
+import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
+import { Button } from '@/components/ui/button';
 import { useGetActiveDepartments } from '@/modules/core/departments/hooks/useDepartmentHook';
 import { toArray } from '@/utils/formatValue';
 

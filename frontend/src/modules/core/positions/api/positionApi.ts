@@ -1,7 +1,7 @@
 import { POSITION_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { PositionFormData } from '@/validations/positionSchema';
+import type { PositionFormData } from '@/modules/core/positions/schemas/positionSchema';
 
 export const positionApi = {
   createPosition: (data: PositionFormData) => {

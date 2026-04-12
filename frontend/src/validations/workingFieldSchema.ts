@@ -3,7 +3,7 @@ import z from 'zod';
 export const workingFieldSchema = z.object({
   fieldName: z.string().min(1, 'Field name is required'),
   fieldCode: z.string().min(1, 'Field code is required'),
-  active: z.string().default('true'),
+  active: z.boolean().default(true),
   description: z.string().optional(),
 });
 
@@ -26,4 +26,6 @@ export type WorkingFieldObject = z.infer<typeof WorkingFieldObectSchema>;
 
 export const WorkingFieldResponseSchema = z.array(WorkingFieldObectSchema);
 
+export type WorkingFieldInput = z.input<typeof workingFieldSchema>;
+export type WorkingFieldOutput = z.output<typeof workingFieldSchema>;
 export type WorkingFieldResponse = z.infer<typeof WorkingFieldResponseSchema>;

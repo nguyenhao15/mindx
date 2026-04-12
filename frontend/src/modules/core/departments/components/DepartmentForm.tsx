@@ -10,7 +10,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
-import { useGetActiveWorkingFieldList } from '@/hookQueries/useWorkingFieldHook';
+import { useGetActiveWorkingFieldList } from '@/modules/core/workingFields/hooks/useWorkingFieldHook';
 import { safeString, toArray } from '@/utils/formatValue';
 import {
   useCreateDepartment,

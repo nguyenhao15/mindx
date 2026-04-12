@@ -1,4 +1,4 @@
-import { workingFieldApi } from '@/api/workingFieldApi';
+import { workingFieldApi } from '@/modules/core/workingFields/api/workingFieldApi';
 import {
   WorkingFieldResponseSchema,
   type WorkingFieldFormData,

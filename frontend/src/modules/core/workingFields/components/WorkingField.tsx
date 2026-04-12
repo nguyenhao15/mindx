@@ -1,18 +1,17 @@
-import { useGetWorkingFieldList } from '@/hookQueries/useWorkingFieldHook';
+import { useGetWorkingFieldList } from '@/modules/core/workingFields/hooks/useWorkingFieldHook';
 import { safeString, toArray } from '@/utils/formatValue';
-import React, { useMemo, useState } from 'react';
-import { DataTable, type Column } from '../shared/DataTable';
-import ModalComponent from '../shared/ModalComponent';
-import { ActionHeader } from '../shared/ActionHeder';
-import Loader from '../shared/Loader';
-import { EmptyState } from '../shared/EmtyState';
+import { useMemo, useState } from 'react';
+import { DataTable, type Column } from '@/components/shared/DataTable';
+import ModalComponent from '@/components/shared/ModalComponent';
+import { ActionHeader } from '@/components/shared/ActionHeder';
+import Loader from '@/components/shared/Loader';
+import { EmptyState } from '@/components/shared/EmtyState';
 import { BriefcaseBusiness } from 'lucide-react';
-
-import Status from '../shared/Status';
+import Status from '@/components/shared/Status';
 import WorkingFieldForm from './WorkingFieldForm';
 
 type WorkingFieldRow = {
-  id: string | number;
+  id: string;
   fieldName: string;
   fieldCode: string;
   active: string;
@@ -23,14 +22,11 @@ const WorkingField = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [query, setQuery] = useState('');
   const { data, isLoading } = useGetWorkingFieldList();
-  const [selectedField, setSelectedField] = useState<WorkingFieldRow | null>(
-    null,
-  );
+  const [selectedField, setSelectedField] = useState<any>(null);
 
   const onEditAction = (item: WorkingFieldRow) => {
     const itemFormat = {
       ...item,
-      active: item.active.toString() === 'Active' ? 'true' : 'false',
     };
     setSelectedField(itemFormat);
     setIsModalOpen(true);
@@ -127,7 +123,11 @@ const WorkingField = () => {
           setSelectedField(null);
         }}
       >
-        <WorkingFieldForm initialData={selectedField} onUpdate={afterUpdate} />
+        <WorkingFieldForm
+          updateId={selectedField?.id || ''}
+          initialData={selectedField}
+          onUpdate={afterUpdate}
+        />
         {/* Modal content for adding/editing working field goes here */}
       </ModalComponent>
     </div>

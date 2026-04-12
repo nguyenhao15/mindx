@@ -3,7 +3,7 @@ import {
   getActiveWorkingFieldListAction,
   getAllWorkingFieldListAction,
   updateWorkingFieldAction,
-} from '@/actions/workingFieldAction';
+} from '@/modules/core/workingFields/queries/workingFieldAction';
 
 import type { WorkingFieldFormData } from '@/validations/workingFieldSchema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

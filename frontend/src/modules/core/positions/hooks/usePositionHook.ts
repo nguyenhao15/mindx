@@ -3,10 +3,10 @@ import {
   getPositionByActiveAction,
   getPositionsAction,
   updatePositionAction,
-} from '@/actions/positionAction';
+} from '@/modules/core/positions/queries/positionAction';
 import { queryClient } from '@/lib/queryClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { PositionFormData } from '@/validations/positionSchema';
+import type { PositionFormData } from '@/modules/core/positions/schemas/positionSchema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useGetPositions = (

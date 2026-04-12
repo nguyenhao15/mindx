@@ -1,30 +1,36 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Button } from '../ui/button';
-import TextInputField from '../input-elements/TextInputField';
-import RadioInputField from '../shared/RadioInputField';
-import { useUpdateWorkingField } from '@/hookQueries/useWorkingFieldHook';
+import { Button } from '@/components/ui/button';
+import TextInputField from '@/components/input-elements/TextInputField';
+import RadioInputField from '@/components/shared/RadioInputField';
+import { useUpdateWorkingField } from '@/modules/core/workingFields/hooks/useWorkingFieldHook';
 import toast from 'react-hot-toast';
 import {
   workingFieldSchema,
+  type WorkingFieldInput,
   type WorkingFieldObject,
+  type WorkingFieldOutput,
 } from '@/validations/workingFieldSchema';
 
 interface WorkingFieldFormProps {
-  initialData?: any | null;
+  updateId: string;
+  initialData?: WorkingFieldOutput | WorkingFieldObject | undefined | null;
   onUpdate: () => void; // Callback to trigger after successful update
 }
 
-const WorkingFieldForm = ({ initialData, onUpdate }: WorkingFieldFormProps) => {
-  const methods = useForm({
+const WorkingFieldForm = ({
+  updateId,
+  initialData,
+  onUpdate,
+}: WorkingFieldFormProps) => {
+  const methods = useForm<WorkingFieldInput, any, WorkingFieldOutput>({
     mode: 'onBlur',
     resolver: zodResolver(workingFieldSchema),
-    defaultValues: initialData,
+    defaultValues: initialData || undefined,
   });
 
-  const { mutateAsync: updateItem, isPending } = useUpdateWorkingField(
-    initialData?.id || '',
-  );
+  const { mutateAsync: updateItem, isPending } =
+    useUpdateWorkingField(updateId);
 
   const {
     handleSubmit,
@@ -34,10 +40,10 @@ const WorkingFieldForm = ({ initialData, onUpdate }: WorkingFieldFormProps) => {
     formState: { errors },
   } = methods;
 
-  const onSubmit = async (data: WorkingFieldObject) => {
+  const onSubmit = async (data: WorkingFieldOutput) => {
     const payload = {
       ...data,
-      id: initialData?.id,
+      id: updateId,
     };
     if (initialData) {
       // Call update API
@@ -95,7 +101,7 @@ const WorkingFieldForm = ({ initialData, onUpdate }: WorkingFieldFormProps) => {
             value={
               initialData?.active.toString() === 'Active' ? 'true' : 'false'
             }
-            error={errors?.active?.message}
+            error={errors.active?.message}
             required
           />
         </div>

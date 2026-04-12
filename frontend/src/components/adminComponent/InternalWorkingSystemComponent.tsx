@@ -1,6 +1,6 @@
-import WorkingField from '../workingFieldComponent/WorkingField';
-import PositionComponent from '../positionComponent/PositionComponent';
 import DepartmentComponent from '@/modules/core/departments/components/DepartmentComponent';
+import PositionComponent from '@/modules/core/positions/components/PositionComponent';
+import WorkingField from '@/modules/core/workingFields/components/WorkingField';
 
 const InternalWorkingSystemComponent = () => {
   return (

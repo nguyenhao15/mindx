@@ -1,17 +1,18 @@
-import { useGetPositions } from '@/hookQueries/usePositionHook';
-import type { PositionResponse } from '@/validations/positionSchema';
+import { useGetPositions } from '@/modules/core/positions/hooks/usePositionHook';
+import type { PositionResponse } from '@/modules/core/positions/schemas/positionSchema';
 import { useMemo, useState } from 'react';
 import { safeString, toArray } from '@/utils/formatValue';
-import { DataTable, type Column } from '../shared/DataTable';
-import Status from '../shared/Status';
-import { ActionHeader } from '../shared/ActionHeder';
+import { DataTable, type Column } from '@/components/shared/DataTable';
+import Status from '@/components/shared/Status';
+import { ActionHeader } from '@/components/shared/ActionHeder';
 import { BriefcaseBusiness } from 'lucide-react';
-import { EmptyState } from '../shared/EmtyState';
-import ModalComponent from '../shared/ModalComponent';
-import Loader from '../shared/Loader';
-import PositionFormComponent from './PositionFormComponent';
+import { EmptyState } from '@/components/shared/EmtyState';
+import ModalComponent from '@/components/shared/ModalComponent';
+import Loader from '@/components/shared/Loader';
+
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
+import PositionFormComponent from './PositionFormComponent';
 
 const PositionComponent = () => {
   const { state, updateState } = useTypeQueryState();
