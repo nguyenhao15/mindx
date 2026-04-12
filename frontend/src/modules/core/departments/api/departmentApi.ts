@@ -1,6 +1,6 @@
 import { DEPARTMENT_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
-import type { DepartmentFormData } from '@/validations/departmentSchema';
+import type { DepartmentFormData } from '@/modules/core/departments/schemas/departmentSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const departmentApi = {

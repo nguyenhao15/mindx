@@ -9,7 +9,7 @@ import {
   getInSecureDepartmentAction,
   getCanAccessDepartmentsAction,
 } from '@/modules/core/departments/quries/departmentAction';
-import type { DepartmentFormData } from '@/validations/departmentSchema';
+import type { DepartmentFormData } from '@/modules/core/departments/schemas/departmentSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';

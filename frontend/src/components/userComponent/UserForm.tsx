@@ -10,12 +10,6 @@ import { InfoIcon } from 'lucide-react';
 import UserCredential from './FormElement/UserCredential';
 import SystemPermission from './FormElement/SystemPermission';
 import JobAssignmentManagment from './FormElement/JobAssignmentManagment';
-import {
-  useAddUser,
-  useLockUser,
-  useResetPassword,
-  useUpdateUser,
-} from '@/hookQueries/useAdminHook';
 import UserAccountStatus from './FormElement/UserAccountStatus';
 import UserFormToolbar from './FormElement/UserFormToolbar';
 import toast from 'react-hot-toast';

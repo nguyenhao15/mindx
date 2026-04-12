@@ -34,7 +34,6 @@ export const DepartmentObj = z.object({
 });
 
 export type DepartmentObjType = z.infer<typeof DepartmentObj>;
-
 export const DepartmentListObj = z.array(DepartmentObj);
 
 export type DepartmentInput = z.input<typeof departmentSchema>;

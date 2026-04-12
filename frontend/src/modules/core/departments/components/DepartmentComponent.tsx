@@ -1,6 +1,6 @@
 import { useGetAllDepartments } from '@/modules/core/departments/hooks/useDepartmentHook';
 import { safeString, toArray } from '@/utils/formatValue';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { DataTable, type Column } from '@/components/shared/DataTable';
 import Status from '@/components/shared/Status';
 import { ActionHeader } from '@/components/shared/ActionHeder';
@@ -11,16 +11,18 @@ import { BriefcaseBusiness } from 'lucide-react';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
 import DepartmentForm from './DepartmentForm';
+import type { WorkingFieldObject } from '@/validations/workingFieldSchema';
 
 type DepartmentFieldRow = {
-  id: string | number;
+  id: string;
   departmentName: string;
   departmentCode: string;
   description: string;
   active: string;
   status: string;
+  isSecurity: string;
   workingFieldToString: string;
-  workingFields: [Record<string, unknown>];
+  workingFields: WorkingFieldObject[];
   iconSvg?: string;
 };
 
@@ -54,7 +56,8 @@ const DepartmentComponent = () => {
   const onEditAction = (item: DepartmentFieldRow) => {
     const itemHandler = {
       ...item,
-      active: item.active.toString(),
+      active: item.active ? 'true' : 'false',
+      isSecurity: item.isSecurity ? 'true' : 'false',
       workingFields: item.workingFields.map((field) => ({
         value: safeString(field.id),
         ...field,
@@ -89,6 +92,7 @@ const DepartmentComponent = () => {
           .join(', '),
         workingFields: toArray(record.workingFields),
         iconSvg: safeString(record.iconSvg, undefined),
+        isSecurity: safeString(record.isSecurity?.toString() || ''),
       };
     });
   }, [data]);

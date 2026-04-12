@@ -3,7 +3,7 @@ import {
   type DepartmentInput,
   type DepartmentObjType,
   type DepartmentOutput,
-} from '@/validations/departmentSchema';
+} from '@/modules/core/departments/schemas/departmentSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Controller, useForm } from 'react-hook-form';
@@ -31,11 +31,13 @@ const DepartmentForm = ({ initialData, onUpdate }: DepartmentFormProps) => {
   const methods = useForm<DepartmentInput, any, DepartmentOutput>({
     mode: 'onBlur',
     resolver: zodResolver(departmentSchema),
-    defaultValues: initialData ? {
-      ...initialData,
-      active: initialData.active ? 'true' : 'false',
-      isSecurity: initialData.isSecurity ? 'true' : 'false',
-    } : undefined,
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          active: initialData.active ? 'true' : 'false',
+          isSecurity: initialData.isSecurity ? 'true' : 'false',
+        }
+      : undefined,
   });
 
   const { data, isLoading } = useGetActiveWorkingFieldList();

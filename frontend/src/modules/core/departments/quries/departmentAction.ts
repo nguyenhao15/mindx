@@ -2,7 +2,7 @@ import { departmentApi } from '@/modules/core/departments/api/departmentApi';
 import {
   DepartmentListObj,
   type DepartmentFormData,
-} from '@/validations/departmentSchema';
+} from '@/modules/core/departments/schemas/departmentSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const createNewDepartmentAction = async (data: DepartmentFormData) => {
