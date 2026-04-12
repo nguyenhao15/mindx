@@ -1,4 +1,4 @@
-import { BASEMENT_ENDPOINT } from '@/modules/documentations/constants/api-endpoint';
+import { BASEMENT_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 

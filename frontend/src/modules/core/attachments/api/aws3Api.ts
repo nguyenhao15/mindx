@@ -1,4 +1,4 @@
-import { AW3_ENDPOINT } from '@/modules/documentations/constants/api-endpoint';
+import { AW3_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 
 export const aws3Api = {

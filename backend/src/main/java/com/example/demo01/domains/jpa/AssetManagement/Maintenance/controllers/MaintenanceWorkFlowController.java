@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/maintenance/workflow")
+@RequestMapping("/api/v1/asset/maintenance/workflow")
 public class MaintenanceWorkFlowController {
 
     @Autowired

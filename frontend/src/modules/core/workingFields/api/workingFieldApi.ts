@@ -1,4 +1,4 @@
-import { WORKING_FIELD_ENDPOINT } from '@/modules/documentations/constants/api-endpoint';
+import { WORKING_FIELD_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { WorkingFieldFormData } from '@/modules/core/workingFields/schema/workingFieldSchema';
 
