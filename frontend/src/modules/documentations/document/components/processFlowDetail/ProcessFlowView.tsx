@@ -1,9 +1,9 @@
 import ReadOnlyEdior from './ReadOnlyEdior';
 import AcessDetailComponent from './AcessDetailComponent';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/modules/core/auth/store/AuthStore';
-import { useActivateProcessFlow } from '@/hookQueries/useProcessFlowHooks';
+import { useActivateProcessFlow } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import AttachmentsGallery from '@/modules/core/attachments/components/AttachmentsGallery';
 
 interface ProcessFlowViewProps {

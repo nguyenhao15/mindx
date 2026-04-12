@@ -2,8 +2,8 @@ import { useState } from 'react';
 import {
   SimpleEditor,
   type UploadedFileItem,
-} from '../tiptap-templates/simple/simple-editor';
-import { Button } from '../ui/button';
+} from '@/components/tiptap-templates/simple/simple-editor';
+import { Button } from '../../../../../components/ui/button';
 import processTemplate from '@/components/tiptap-templates/simple/data/processTemplate.json';
 
 const TextEditorMasterForm = ({

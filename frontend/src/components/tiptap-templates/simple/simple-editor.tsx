@@ -76,7 +76,7 @@ import '@/components/tiptap-templates/simple/simple-editor.scss';
 // import content from '@/components/tiptap-templates/simple/data/content.json';
 
 import { Markdown } from 'tiptap-markdown';
-import { useUploadFileInLineContent } from '@/hookQueries/useProcessFlowTextContentHooks';
+import { useUploadFileInLineContent } from '@/modules/documentations/document/hooks/useProcessFlowTextContentHooks';
 
 const extractImageUrls = (editor: Editor | null): string[] => {
   if (!editor) return [];

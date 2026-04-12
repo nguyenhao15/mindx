@@ -1,8 +1,8 @@
 import {
   getProcessFlowTextContentByProessFlowIdActions,
   uploadFileInLineContent,
-} from '@/actions/processFlowTextContentActions';
-import type { UploadConfig } from '@/api/processFlowTextContentApi';
+} from '@/modules/documentations/document/queries/processFlowTextContentActions';
+import type { UploadConfig } from '@/modules/documentations/document/api/processFlowTextContentApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 

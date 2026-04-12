@@ -1,10 +1,10 @@
-import ProcessFlowEdit from '@/components/processFlowDetail/ProcessFlowEdit';
-import ProcessFlowView from '@/components/processFlowDetail/ProcessFlowView';
 import ErrorPage from '@/components/shared/ErrorPage';
 import Loader from '@/components/shared/Loader';
-import { useGetProcessFlowWithFullInfo } from '@/hookQueries/useProcessFlowHooks';
+import { useGetProcessFlowWithFullInfo } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import ProcessFlowView from '../components/processFlowDetail/ProcessFlowView';
+import ProcessFlowEdit from '../components/processFlowDetail/ProcessFlowEdit';
 
 const ProcessDetail = ({ viewMode }: { viewMode: 'admin' | 'user' }) => {
   const location = useLocation();

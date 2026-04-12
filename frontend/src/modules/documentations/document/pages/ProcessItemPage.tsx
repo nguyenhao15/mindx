@@ -2,11 +2,11 @@ import { ActionHeader } from '@/components/shared/ActionHeder';
 import FormSection from '@/components/shared/FormSection';
 import HeaderPage from '@/components/shared/HeaderPage';
 import Loader from '@/components/shared/Loader';
-import TagFlowGallery from '@/components/processFlow/TagFlowGallery';
-import { useGetDocumentByProcessing } from '@/hookQueries/useProcessFlowHooks';
+import { useGetDocumentByProcessing } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
 import { Workflow } from 'lucide-react';
+import TagFlowGallery from '../components/processFlow/TagFlowGallery';
 
 const ProcessItemPage = () => {
   const { state, updateState } = useTypeQueryState();

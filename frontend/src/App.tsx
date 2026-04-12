@@ -9,22 +9,22 @@ import {
   Routes,
 } from 'react-router-dom';
 import React from 'react';
-import ProcessDetail from './pages/ProcessDetail';
-import CreateNewProcessPage from './pages/CreateNewProcessPage';
+import ProcessDetail from './modules/documentations/document/pages/ProcessDetail';
+import CreateNewProcessPage from './modules/documentations/document/pages/CreateNewProcessPage';
 import { useGetUserInfo } from './modules/core/auth/hooks/useAuthentication';
 import LoginPage from './modules/core/auth/pages/LoginPage';
 import Loader from './components/shared/Loader';
 import AdminAppPage from './modules/core/admin/pages/AdminAppPage';
-import DocumentPage from './pages/DocumentPage';
+import DocumentPage from './modules/documentations/document/pages/DocumentPage';
 import {
   handleLogout,
   useAuthStore,
 } from './modules/core/auth/store/AuthStore';
 import UnAuthorizePage from './modules/core/auth/pages/UnAuthorizePage';
 import DepartmentPage from './modules/core/departments/pages/DepartmentPage';
-import ProcessFlowByDepartment from './pages/ProcessFlowByDepartment';
-import ProcessItemPage from './pages/ProcessItemPage';
-import MyDocuments from './pages/MyDocuments';
+import ProcessFlowByDepartment from './modules/documentations/document/pages/ProcessFlowByDepartment';
+import ProcessItemPage from './modules/documentations/document/pages/ProcessItemPage';
+import MyDocuments from './modules/documentations/document/pages/MyDocuments';
 import UserProfile from './modules/core/auth/pages/UserProfile';
 import LockAccountPage from './modules/core/auth/pages/LockAccountPage';
 import ActivatePassword from './modules/core/auth/components/ActivatePassword';

@@ -1,18 +1,18 @@
-import TextEditorMasterForm from '../textEditorForm/TextEditorMasterForm';
-
-import { useUpdateProcessFlow } from '@/hookQueries/useProcessFlowHooks';
+import { useUpdateProcessFlow } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ProcessFlowSchema } from '@/validations/processFlowSchema';
-import CreateProcessFlowForm from '../create-new-component/CreateProcessFlowForm';
-import AccessRuleFormComponent from '../create-new-component/AccessRuleFormComponent';
+import { ProcessFlowSchema } from '@/modules/documentations/document/schema/processFlowSchema';
+
 import { File } from 'lucide-react';
 import AttachmentListManager, {
   type AttachmentListItem,
 } from '@/modules/core/attachments/components/AttachmentListManager';
+import CreateProcessFlowForm from '@/modules/documentations/document/components/create-new-component/CreateProcessFlowForm';
+import AccessRuleFormComponent from '@/modules/documentations/document/components/create-new-component/AccessRuleFormComponent';
+import TextEditorMasterForm from '@/modules/documentations/document/components/textEditorForm/TextEditorMasterForm';
 
 interface ProcessFlowEditProps {
   id: string;

@@ -1,4 +1,4 @@
-import { useSearchDocument } from '@/hookQueries/useProcessFlowHooks';
+import { useSearchDocument } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Spinner from './shared/Spinner';

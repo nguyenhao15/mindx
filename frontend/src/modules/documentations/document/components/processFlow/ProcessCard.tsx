@@ -1,5 +1,5 @@
 import React from 'react';
-import { ProcessFlowCover } from '../shared/ProcessFlowCoverTemplates';
+import { ProcessFlowCover } from '@/components/shared/ProcessFlowCoverTemplates';
 
 interface ProcessCardProps {
   data: any;

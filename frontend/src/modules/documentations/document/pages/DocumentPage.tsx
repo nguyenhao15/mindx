@@ -1,4 +1,4 @@
-import DocumentMasterPage from '@/components/documents/DocumentMasterPage';
+import DocumentMasterPage from '@/modules/documentations/document/components/documents/DocumentMasterPage';
 
 const DocumentPage = () => {
   return (

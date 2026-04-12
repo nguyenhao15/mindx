@@ -1,7 +1,7 @@
 import {
   processFlowTextContentApi,
   type UploadConfig,
-} from '@/api/processFlowTextContentApi';
+} from '@/modules/documentations/document/api/processFlowTextContentApi';
 
 export const getProcessFlowTextContentByProessFlowIdActions = async (
   id: string,

@@ -1,4 +1,4 @@
-import CreateComponent from '@/components/create-new-component/CreateComponent';
+import CreateComponent from '../components/create-new-component/CreateComponent';
 
 const CreateNewProcessPage = () => {
   return (

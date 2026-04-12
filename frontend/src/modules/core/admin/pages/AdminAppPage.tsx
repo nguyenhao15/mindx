@@ -17,7 +17,7 @@ import InternalWorkingSystemComponent from '@/modules/core/admin/components/Inte
 import type { UserResponseObjectType } from '@/modules/core/auth/schemas/userSchema';
 import { FaUserShield } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import DocumentAdminList from '@/components/documents/DocumentAdminList';
+import DocumentAdminList from '@/modules/core/admin/components/DocumentAdminList';
 import BasementListComponent from '../../basement/components/BasementListComponent';
 
 const tabs: TabItem[] = [

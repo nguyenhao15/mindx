@@ -1,10 +1,11 @@
 import HeaderPage from '@/components/shared/HeaderPage';
 import Loader from '@/components/shared/Loader';
-import TagFlowGallery from '@/components/processFlow/TagFlowGallery';
-import { useGetProcessFlowByDepartmentById } from '@/hookQueries/useProcessFlowHooks';
+
+import { useGetProcessFlowByDepartmentById } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 
 import { useLocation, useParams } from 'react-router-dom';
+import TagFlowGallery from '../components/processFlow/TagFlowGallery';
 
 const ProcessFlowByDepartment = ({}) => {
   const { id } = useParams();

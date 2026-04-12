@@ -1,6 +1,6 @@
-import type { ProcessFlowDTO } from '@/validations/processFlowSchema';
+import type { ProcessFlowDTO } from '@/modules/documentations/document/schema/processFlowSchema';
 import clsx from 'clsx';
-import { DetailRow } from '../shared/DetailRow';
+import { DetailRow } from '@/components/shared/DetailRow';
 
 type AccessRule = ProcessFlowDTO['accessRule'];
 

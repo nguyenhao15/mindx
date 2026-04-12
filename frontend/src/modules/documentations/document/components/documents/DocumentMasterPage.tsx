@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import FilterArea from '../shared/FilterComponent';
-import TagFlowGallery from '../processFlow/TagFlowGallery';
-import { Button } from '../ui/button';
+import FilterArea from '../../../../../components/shared/FilterComponent';
+import { Button } from '../../../../../components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import type { FilterInput } from '@/validations/filterWithPagination';
-import { useGetActiveProcessFlows } from '@/hookQueries/useProcessFlowHooks';
+import { useGetActiveProcessFlows } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
+import TagFlowGallery from '@/modules/documentations/document/components/processFlow/TagFlowGallery';
 
 const ACTION = [
   {

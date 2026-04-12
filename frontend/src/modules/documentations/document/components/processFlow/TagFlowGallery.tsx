@@ -1,10 +1,10 @@
 import ProcessCard from './ProcessCard';
 import { useNavigate } from 'react-router-dom';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import Loader from '../shared/Loader';
-import Pagination from '../shared/Pagination';
+import Loader from '@/components/shared/Loader';
+import Pagination from '@/components/shared/Pagination';
 import { TbArrowGuideFilled } from 'react-icons/tb';
-import { EmptyState } from '../shared/EmtyState';
+import { EmptyState } from '@/components/shared/EmtyState';
 
 interface TagFlowGalleryProps {
   data: any;
@@ -18,7 +18,6 @@ interface TagFlowGalleryProps {
 const TagFlowGallery = ({
   data,
   isLoading,
-  error,
   payload,
   pagination,
   onUpdate,

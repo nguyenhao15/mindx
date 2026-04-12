@@ -1,8 +1,8 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import ManualCustomCombobox from '../input-elements/ManualCustomCombobox';
-import RadioInputField from '../shared/RadioInputField';
+import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
+import RadioInputField from '@/components/shared/RadioInputField';
 import { useDepartmentForForm } from '@/hookQueries/useDepartmentForForm';
-import TextInputField from '../input-elements/TextInputField';
+import TextInputField from '@/components/input-elements/TextInputField';
 
 interface AccessRuleFormComponentProps {
   initialData?: any;
@@ -14,8 +14,11 @@ const AccessRuleFormComponent = ({
   const {
     control,
     register,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const departmentId = watch('accessRule.departmentCodes') || [];
 
   const {
     departmentOptions,
@@ -23,7 +26,7 @@ const AccessRuleFormComponent = ({
     workingFieldOptions,
     buOptions,
     isLoading,
-  } = useDepartmentForForm();
+  } = useDepartmentForForm(departmentId);
 
   return (
     <div className='@container w-full p-2'>

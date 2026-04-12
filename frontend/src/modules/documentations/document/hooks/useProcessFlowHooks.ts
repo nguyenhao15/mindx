@@ -8,7 +8,7 @@ import {
   getProcessFlowWithFullInfo,
   searchDocumentActions,
   updateProcessFlowActions,
-} from '@/actions/processFlowActions';
+} from '@/modules/documentations/document/queries/processFlowActions';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';

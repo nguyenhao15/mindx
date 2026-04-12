@@ -1,20 +1,19 @@
 import { useState } from 'react';
-import { Button } from '../ui/button';
-import TextEditorMasterForm from '../textEditorForm/TextEditorMasterForm';
-
-import { ProcessFlowSchema } from '@/validations/processFlowSchema';
+import { ProcessFlowSchema } from '@/modules/documentations/document/schema/processFlowSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import CreateProcessFlowForm from './CreateProcessFlowForm';
-import { useCreateProcessFlow } from '@/hookQueries/useProcessFlowHooks';
+import { useCreateProcessFlow } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import toast from 'react-hot-toast';
-import { DialogComponent } from '../shared/DialogComponent';
-import Loader from '../shared/Loader';
 import AccessRuleFormComponent from './AccessRuleFormComponent';
-import FormSection from '../shared/FormSection';
 import { Info } from 'lucide-react';
 import { FaUserShield } from 'react-icons/fa';
 import AttachmentControl from '@/modules/core/attachments/components/AttachmentControlComponent';
+import { Button } from '@/components/ui/button';
+import TextEditorMasterForm from '@/modules/documentations/document/components/textEditorForm/TextEditorMasterForm';
+import FormSection from '@/components/shared/FormSection';
+import { DialogComponent } from '@/components/shared/DialogComponent';
+import Loader from '@/components/shared/Loader';
 
 const CreateComponent = () => {
   const [step, setStep] = useState(0);

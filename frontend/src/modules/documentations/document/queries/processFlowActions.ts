@@ -1,4 +1,4 @@
-import { processFlowApi } from '@/api/processFlowApi';
+import { processFlowApi } from '@/modules/documentations/document/api/processFlowApi';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const createNewProcessFlowActions = async (data: FormData) => {

@@ -1,17 +1,20 @@
-import { useGetAllProcessFlows } from '@/hookQueries/useProcessFlowHooks';
+import { useGetAllProcessFlows } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import { safeString, toArray } from '@/utils/formatValue';
 import { useDebouncedFilterSearch } from '@/utils/utilActions';
 import { useMemo, useState } from 'react';
-import { DataTable, type Column } from '../shared/DataTable';
-import Status from '../shared/Status';
-import { ActionHeader } from '../shared/ActionHeder';
-import { EmptyState } from '../shared/EmtyState';
-import Loader from '../shared/Loader';
+import {
+  DataTable,
+  type Column,
+} from '../../../../components/shared/DataTable';
+import Status from '../../../../components/shared/Status';
+import { ActionHeader } from '../../../../components/shared/ActionHeder';
+import { EmptyState } from '../../../../components/shared/EmtyState';
+import Loader from '../../../../components/shared/Loader';
 import { Workflow } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import ModalComponent from '../shared/ModalComponent';
-import ProcessDetail from '@/pages/ProcessDetail';
+import ModalComponent from '../../../../components/shared/ModalComponent';
+import ProcessDetail from '@/modules/documentations/document/pages/ProcessDetail';
 
 const DocumentAdminList = () => {
   const navigate = useNavigate();

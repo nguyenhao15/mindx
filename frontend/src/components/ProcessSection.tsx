@@ -1,5 +1,6 @@
-import { useGetActiveProcessFlows } from '@/hookQueries/useProcessFlowHooks';
-import ProcessCard from './processFlow/ProcessCard';
+import ProcessCard from '@/modules/documentations/document/components/processFlow/ProcessCard';
+import { useGetActiveProcessFlows } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
+
 import { useNavigate } from 'react-router-dom';
 
 export function ProcessSection() {

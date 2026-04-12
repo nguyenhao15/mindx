@@ -10,10 +10,10 @@ import '@/components/tiptap-node/image-node/image-node.scss';
 import '@/components/tiptap-node/heading-node/heading-node.scss';
 import '@/components/tiptap-node/paragraph-node/paragraph-node.scss';
 import '@/components/tiptap-templates/simple/simple-editor.scss';
-import Loader from '../shared/Loader';
-import ModalComponent from '../shared/ModalComponent';
+import Loader from '@/components/shared/Loader';
+import ModalComponent from '@/components/shared/ModalComponent';
 import { useState } from 'react';
-import { FilePreviewer } from '../../modules/core/attachments/components/FilePreview';
+import { FilePreviewer } from '@/modules/core/attachments/components/FilePreview';
 
 export default function ReadOnlyEdior({
   loading,
