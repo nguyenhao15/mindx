@@ -7,9 +7,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 
-import TextInputField from '../input-elements/TextInputField';
-import ErrorCatchComponent from '../shared/ErrorCatchComponent';
-import { Button } from '../ui/button';
+import TextInputField from '@/components/input-elements/TextInputField';
+import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
+import { Button } from '@/components/ui/button';
 import { useActivateAccount } from '@/modules/core/auth/hooks/useAuthentication';
 
 const ActivatePassword = () => {

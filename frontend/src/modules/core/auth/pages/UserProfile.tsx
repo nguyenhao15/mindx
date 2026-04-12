@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import type { UserResponseObjectType } from '@/modules/core/auth/schemas/userSchema';
-import UpdatePassword from '../../../../components/profile/UpdatePassword';
-import ProfileDetails from '../../../../components/profile/ProfileDetails';
-import ProfileHeader from '../../../../components/profile/ProfileHeader';
-import ProfileSummary from '../../../../components/profile/ProfileSummary';
+
 import { Button } from '../../../../components/ui/button';
-import { getMainPosition } from '../../../../components/profile/profileUtils';
+
 import { updatePassword } from '@/modules/core/auth/queries/authAction';
 import toast from 'react-hot-toast';
+import ProfileHeader from '../components/ProfileHeader';
+import ProfileSummary from '../components/ProfileSummary';
+import UpdatePassword from '../components/UpdatePassword';
+import ProfileDetails from '../components/ProfileDetails';
+import { getMainPosition } from '../components/profileUtils';
 
 const UserProfile = ({ user }: { user: UserResponseObjectType }) => {
   const [showUpdatePassword, setShowUpdatePassword] = useState(false);

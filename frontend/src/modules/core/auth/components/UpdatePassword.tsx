@@ -6,10 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import TextInputField from '../input-elements/TextInputField';
-import { Button } from '../ui/button';
+import TextInputField from '@/components/input-elements/TextInputField';
+import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import ErrorCatchComponent from '../shared/ErrorCatchComponent';
+import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 
 type UpdatePasswordProps = {
   onSubmitPassword?: (data: UpdatePasswordDTO) => Promise<void> | void;
