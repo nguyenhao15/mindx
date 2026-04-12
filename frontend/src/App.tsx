@@ -23,6 +23,7 @@ import LockAccountPage from './modules/core/auth/pages/LockAccountPage';
 import ActivatePassword from './modules/core/auth/components/ActivatePassword';
 import DocumentRoute from './modules/documentations/document/routes/DocumentRoute';
 import AdminRoute from './modules/core/admin/routes/AdminRoute';
+import HomePage from './pages/HomePage';
 
 function App() {
   const { isLoading, isError } = useGetUserInfo();
@@ -69,6 +70,7 @@ function App() {
             element={isAuthenticated ? <Navigate to='/' /> : <LoginPage />}
           />
           {isAdmin && <Route path='/admin/*' element={<AdminRoute />} />}
+          <Route path='/' element={<HomePage />} />
 
           <Route path='/docs/*' element={<DocumentRoute />} />
           <Route path='/unauthorized' element={<UnAuthorizePage />} />

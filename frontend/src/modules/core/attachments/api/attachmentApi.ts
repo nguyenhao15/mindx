@@ -1,4 +1,4 @@
-import { FLOW_ATTACHMENT_ENDPOINT } from '@/constants/api-endpoint';
+import { FLOW_ATTACHMENT_ENDPOINT } from '@/modules/documentations/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 
 export const flowAttachmentApi = {

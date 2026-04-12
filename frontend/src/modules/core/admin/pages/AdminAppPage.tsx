@@ -1,5 +1,3 @@
-import { UserTableComponent } from '@/components/userComponent/UserTableComponent';
-
 import { EmptyState } from '@/components/shared/EmtyState';
 import {
   TabNavigation,
@@ -23,6 +21,7 @@ import DocumentAdminList from '@/modules/core/admin/components/DocumentAdminList
 import BasementListComponent from '../../basement/components/BasementListComponent';
 import TagList from '../components/TagList';
 import TagValueList from '../components/TagValueList';
+import { UserTableComponent } from '../components/userComponent/UserTableComponent';
 
 const tabs: TabItem[] = [
   {

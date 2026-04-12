@@ -1,4 +1,4 @@
-import { PROCESS_FLOW_CONTENT } from '@/constants/api-endpoint';
+import { PROCESS_FLOW_CONTENT } from '@/modules/documentations/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 
 export interface UploadConfig {

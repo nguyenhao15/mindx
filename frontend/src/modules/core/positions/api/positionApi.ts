@@ -1,4 +1,4 @@
-import { POSITION_ENDPOINT } from '@/constants/api-endpoint';
+import { POSITION_ENDPOINT } from '@/modules/documentations/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import type { PositionFormData } from '@/modules/core/positions/schemas/positionSchema';

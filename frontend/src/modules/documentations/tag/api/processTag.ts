@@ -1,4 +1,4 @@
-import { PROCESS_TAG } from '@/constants/api-endpoint';
+import { PROCESS_TAG } from '@/modules/documentations/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import type { TagDTO } from '@/modules/documentations/tag/schema/tagSchema';

@@ -1,4 +1,4 @@
-import { PROCESS_FLOW } from '@/constants/api-endpoint';
+import { PROCESS_FLOW } from '@/modules/documentations/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 

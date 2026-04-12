@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
-import { DataTable, type Column } from '../shared/DataTable';
-import { ActionHeader } from '../shared/ActionHeder';
+import { DataTable, type Column } from '@/components/shared/DataTable';
+import { ActionHeader } from '@/components/shared/ActionHeder';
 import { EmptyState } from '@/components/shared/EmtyState';
 import { UsersIcon } from 'lucide-react';
 import { useGetAllUsers } from '@/modules/core/admin/hooks/useAdminHook';
-import ModalComponent from '../shared/ModalComponent';
+import ModalComponent from '@/components/shared/ModalComponent';
 import UserForm from './UserForm';
-import Loader from '../shared/Loader';
+import Loader from '@/components/shared/Loader';
 import { safeString, toArray } from '@/utils/formatValue';
 import type {
   UserManagementDTO,
@@ -14,7 +14,7 @@ import type {
   WorkProfileType,
 } from '@/modules/core/auth/schemas/userSchema';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
-import Status from '../shared/Status';
+import Status from '@/components/shared/Status';
 
 type UserRow = {
   id: string | number;

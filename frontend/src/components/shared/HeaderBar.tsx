@@ -1,4 +1,4 @@
-import { MENU_ITEM } from '@/constants/app-const';
+import { MENU_ITEM } from '@/modules/documentations/constants/app-const';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogOut } from '@/modules/core/auth/hooks/useAuthentication';
 import { LogOut } from 'lucide-react';

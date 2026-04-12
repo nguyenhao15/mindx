@@ -1,4 +1,4 @@
-import { ADMIN_ENDPOINT } from '@/constants/api-endpoint';
+import { ADMIN_ENDPOINT } from '@/modules/documentations/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import type { UserManagementDTO } from '@/modules/core/auth/schemas/userSchema';

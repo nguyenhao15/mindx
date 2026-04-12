@@ -14,7 +14,7 @@ import UserAccountStatus from './FormElement/UserAccountStatus';
 import UserFormToolbar from './FormElement/UserFormToolbar';
 import toast from 'react-hot-toast';
 import { useAdminUpdateToolKits } from '@/modules/core/admin/hooks/useAdminUpdateToolKits';
-import ErrorCatchComponent from '../shared/ErrorCatchComponent';
+import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 
 const UserForm = ({
   initialUser,
