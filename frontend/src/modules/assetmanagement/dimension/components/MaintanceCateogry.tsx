@@ -1,7 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useGetCategoryOptions } from '../hooks/useCategoryHook';
-import { Controller, type Control, type FieldValues } from 'react-hook-form';
-import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
+import {
+  Controller,
+  useFormContext,
+  type Control,
+  type FieldValues,
+} from 'react-hook-form';
+import { SingleComboboxComponent } from '@/components/input-elements/ComboboxComponent';
 
 type ComboboxValue = string | number | null | undefined;
 
@@ -11,7 +16,6 @@ type CategoryOption = {
 };
 
 interface MaintanceCategoryProps {
-  control?: Control<FieldValues>;
   label: string;
   placeholder?: string;
   name: string;
@@ -24,7 +28,6 @@ interface MaintanceCategoryProps {
 }
 
 const MaintanceCategory = ({
-  control,
   label,
   name,
   placeholder,
@@ -37,6 +40,8 @@ const MaintanceCategory = ({
 }: MaintanceCategoryProps) => {
   const [internalValue, setInternalValue] =
     useState<ComboboxValue>(defaultValue);
+
+  const { control } = useFormContext();
   const { data, isLoading } = useGetCategoryOptions();
 
   const categoryOptions = useMemo(() => {
@@ -50,21 +55,21 @@ const MaintanceCategory = ({
 
   const renderCombobox = (
     selectedValue: ComboboxValue,
-    handleValueChange: (nextValue: ComboboxValue) => void,
+    handleValueChange: (nextValue: any) => void,
     errorMessage?: string,
+    props?: any,
   ) => {
     return (
-      <ManualCustomCombobox
-        id={name}
-        label={label}
-        placeholder={placeholder}
-        options={categoryOptions}
-        value={selectedValue}
-        onChange={handleValueChange}
-        disabled={disabled}
-        errors={errorMessage}
+      <SingleComboboxComponent
+        {...props}
         required={required}
-        isLoading={isLoading}
+        disabled={disabled}
+        errors={errorMessage || null}
+        options={categoryOptions}
+        onChange={handleValueChange}
+        defaultValue={selectedValue ? [selectedValue] : []}
+        label={label + (required ? ' *' : '')}
+        placeholder={placeholder}
       />
     );
   };
@@ -73,8 +78,8 @@ const MaintanceCategory = ({
       <Controller
         name={name}
         control={control}
-        render={({ field, fieldState }) =>
-          renderCombobox(field.value, field.onChange, fieldState.error?.message)
+        render={({ field: { onChange, value, ...field }, fieldState }) =>
+          renderCombobox(value, onChange, fieldState.error?.message, field)
         }
       />
     );
@@ -83,15 +88,19 @@ const MaintanceCategory = ({
   const isExternallyControlled = value !== undefined;
   const selectedValue = isExternallyControlled ? value : internalValue;
 
-  return renderCombobox(
-    selectedValue,
-    (nextValue) => {
-      if (!isExternallyControlled) {
-        setInternalValue(nextValue);
-      }
-      onChange?.(nextValue);
-    },
-    errors || undefined,
+  return (
+    <div className='w-full'>
+      {renderCombobox(
+        selectedValue,
+        (nextValue) => {
+          if (!isExternallyControlled) {
+            setInternalValue(nextValue);
+          }
+          onChange?.(nextValue);
+        },
+        errors || undefined,
+      )}
+    </div>
   );
 };
 

@@ -45,8 +45,11 @@ const CreatePage = () => {
         information and submit the form.
       </p>
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)} className='mt-6 space-y-4'>
-          <MaintanceForm control={control} />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='mt-6 space-y-4 w-full'
+        >
+          <MaintanceForm />
           <Button type='submit' variant={'positive'}>
             Submit Maintenance Request
           </Button>
