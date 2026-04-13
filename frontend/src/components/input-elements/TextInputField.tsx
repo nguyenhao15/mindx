@@ -19,6 +19,7 @@ interface TextInputFieldProps {
   min?: number;
   refValue?: string | number;
   disabled?: boolean;
+  labelSize?: 'sm' | 'md' | 'lg'; // Thêm prop labelSize để điều chỉnh kích thước label
   placeholder?: string;
   rows?: number; // Dành cho textarea
   isLoading?: boolean; // Thêm prop isLoading để kiểm soát trạng thái loading
@@ -39,6 +40,7 @@ const TextInputField = ({
   min,
   refValue,
   disabled,
+  labelSize,
   placeholder,
   rows,
   isLoading = false, // Mặc định không loading
@@ -111,6 +113,8 @@ const TextInputField = ({
       required={required}
       errorMessage={isError ? errorMessage : null}
       description={''}
+      labelSize={labelSize || 'md'}
+      {...rest}
     >
       {type === 'number' ? (
         <SmartNumericFormat

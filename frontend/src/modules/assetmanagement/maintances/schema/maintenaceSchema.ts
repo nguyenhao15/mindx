@@ -2,12 +2,12 @@ import z from 'zod';
 
 export const MaintenanceRequest = z.object({
   id: z.string(),
-  description: z.string().min(1, 'Vui lòng nhập mô tả sự cố'),
+  description: z.string().min(3, 'Vui lòng nhập mô tả sự cố'),
   maintenanceCategoryId: z
-    .string()
-    .min(3, 'Vui lòng chọn một danh mục bảo trì'),
-  maintenanceItemId: z.string().min(3, 'Vui lòng chọn một hạng mục bảo trì'),
-  issueDate: z.string().min(1, 'Vui lòng chọn ngày phát sinh sự cố'),
+    .number('Vui lòng chọn một loại bảo trì')
+    .min(0, 'Vui lòng chọn một danh mục bảo trì'),
+  maintenanceItemId: z.number().min(0, 'Vui lòng chọn một hạng mục bảo trì'),
+  issueDate: z.date().min(1, 'Vui lòng chọn ngày phát sinh sự cố'),
   locationId: z.string().min(3, 'Vui lòng chọn một địa điểm'),
 
   totalCost: z.number().min(0, 'Tổng chi phí phải là một số dương'),

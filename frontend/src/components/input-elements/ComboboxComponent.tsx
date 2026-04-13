@@ -25,7 +25,7 @@ type NormalizedOption = {
 
 interface ComboboxComponentProps {
   options?: DynamicOption[];
-  onChange?: (value: (string | number)[]) => void;
+  onChange?: (value: (string | number)[] | string | number | null) => void;
   defaultValue?: (string | number)[] | (string | number) | null;
   label?: string;
   placeholder?: string;
@@ -66,6 +66,7 @@ function MultipleComboboxComponent({
   return (
     <CustomInputCard
       label={label}
+      {...props}
       required={required}
       description={'Thông tin'}
       errorMessage={errors}
@@ -78,7 +79,6 @@ function MultipleComboboxComponent({
         onOpenChange={setOpen}
         itemToStringLabel={(item) => item.label}
         itemToStringValue={(item) => String(item.value)}
-        {...props}
       >
         <ComboboxChips
           className={`w-full ${open ? 'ring-2 ring-primary' : 'ring-1 ring-slate-300'}`}
@@ -99,6 +99,7 @@ function MultipleComboboxComponent({
           )}
           <ComboboxChipsInput
             className='py-1 text-base'
+            aria-invalid={!!errors}
             placeholder={placeholder}
           />
         </ComboboxChips>
@@ -147,14 +148,15 @@ function SingleComboboxComponent({
 
   const handleValueChange = (nextValue: NormalizedOption | null) => {
     setValue(nextValue);
-    onChange?.(nextValue ? [nextValue.value] : []);
+    onChange?.(nextValue ? nextValue.value : null);
   };
 
   return (
     <CustomInputCard
+      {...props}
+      labelSize='lg'
       label={label}
       required={required}
-      description={'Thông tin'}
       errorMessage={errors}
     >
       <Combobox
@@ -166,8 +168,14 @@ function SingleComboboxComponent({
         itemToStringValue={(item) => String(item.value)}
         {...props}
       >
-        <ComboboxInput showTrigger={false} placeholder={placeholder} />
-        <ComboboxContent anchor={anchor} className='w-full p-1'>
+        <ComboboxInput
+          showTrigger={false}
+          aria-invalid={!!errors}
+          size={20}
+          placeholder={placeholder}
+          className={`py-4 rounded-sm h-15 shadow border-2 `}
+        />
+        <ComboboxContent anchor={anchor} className='mt-3 w-full p-1'>
           <ComboboxEmpty>No items found.</ComboboxEmpty>
           <ComboboxList>
             {(item) => (

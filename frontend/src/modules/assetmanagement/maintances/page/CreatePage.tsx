@@ -23,15 +23,13 @@ const CreatePage = () => {
     ),
     defaultValues: {
       description: '',
-      maintenanceCategoryId: '',
-      maintenanceItemId: '',
       issueDate: '',
       locationId: '',
       totalCost: 0,
     },
   });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = async (data: CreateMaintenanceRequestDTO) => {
     console.log('Form data:', data);

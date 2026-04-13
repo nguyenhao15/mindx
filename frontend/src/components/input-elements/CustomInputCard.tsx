@@ -4,23 +4,30 @@ import { Field, FieldDescription, FieldLabel } from '../ui/field';
 interface CustomInputCardProps {
   label: string;
   className?: string;
+  labelSize?: 'sm' | 'md' | 'lg';
   children?: React.ReactNode;
   required?: boolean;
-  description: string | null;
+  description?: string | null;
   errorMessage?: string | null;
+  props?: {};
 }
 
 const CustomInputCard = ({
   label,
   className,
   children,
+  labelSize = 'md',
   required = false,
   description,
   errorMessage,
+  ...props
 }: CustomInputCardProps) => {
   return (
-    <Field className={`text-sm font-bold text-gray-700 gap-1 ${className}`}>
-      <FieldLabel className='text-sm font-bold text-gray-700 '>
+    <Field
+      {...props}
+      className={`text-sm font-bold text-gray-700 gap-1 ${className}`}
+    >
+      <FieldLabel className={`text-${labelSize} font-bold text-gray-700 `}>
         {label}
         {required && <span className='m-1 text-red-500'>*</span>}
       </FieldLabel>

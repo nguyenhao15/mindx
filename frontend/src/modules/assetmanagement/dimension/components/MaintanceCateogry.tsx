@@ -68,7 +68,7 @@ const MaintanceCategory = ({
         options={categoryOptions}
         onChange={handleValueChange}
         defaultValue={selectedValue ? [selectedValue] : []}
-        label={label + (required ? ' *' : '')}
+        label={label}
         placeholder={placeholder}
       />
     );
