@@ -24,6 +24,10 @@ public class MaintenanceCategoryEntity extends BaseAuditJpaModel {
 
     private Boolean hashChild = true;
 
+    private Boolean isDeleted = false;
+
+    private Boolean active = true;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "maintenanceCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MaintenanceItemEntity> maintenanceItems = new ArrayList<>();
 

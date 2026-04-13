@@ -6,6 +6,7 @@ import {
   type CreateMaintenanceRequestDTO,
 } from '../schema/maintenaceSchema';
 import { Button } from '@/components/ui/button';
+import MaintanceForm from '../components/Create/MaintanceForm';
 
 const CreatePage = () => {
   const methods = useForm<CreateMaintenanceRequestDTO>({
@@ -30,6 +31,8 @@ const CreatePage = () => {
     },
   });
 
+  const { handleSubmit, control } = methods;
+
   const onSubmit = async (data: CreateMaintenanceRequestDTO) => {
     console.log('Form data:', data);
   };
@@ -42,11 +45,8 @@ const CreatePage = () => {
         information and submit the form.
       </p>
       <FormProvider {...methods}>
-        <form
-          onSubmit={methods.handleSubmit(onSubmit)}
-          className='mt-6 space-y-4'
-        >
-          {/* Form fields will go here */}
+        <form onSubmit={handleSubmit(onSubmit)} className='mt-6 space-y-4'>
+          <MaintanceForm control={control} />
           <Button type='submit' variant={'positive'}>
             Submit Maintenance Request
           </Button>

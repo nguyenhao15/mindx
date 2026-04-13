@@ -11,6 +11,8 @@ import com.example.demo01.repository.postgreSQL.AssetManagement.Dimmensions.Main
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryService {
 
@@ -37,6 +39,13 @@ public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryServic
     public MaintenanceCategoryInfoWithItems getMaintenanceCategoryInfo(Long id) {
         MaintenanceCategoryEntity maintenanceCategory = getMaintenanceCategory(id);
         return maintenanceCategoryMapper.fromEntityToInfoWithItems(maintenanceCategory);
+    }
+
+    @Override
+    public List<MaintenanceCategoryInfoWithItems> getMaintenanceProvider() {
+        List<MaintenanceCategoryEntity> categories = maintenanceCategoryRepository.findByActive(true);
+        System.out.println("Active Maintenance Categories: " + categories.size());
+        return maintenanceCategoryMapper.fromEntityToInfoWithItems(categories);
     }
 
 }

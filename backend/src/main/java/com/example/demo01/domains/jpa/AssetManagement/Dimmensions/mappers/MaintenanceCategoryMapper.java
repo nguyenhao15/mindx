@@ -7,6 +7,8 @@ import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceCategoryEntity;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring",
     uses = {MaintenanceItemMapper.class}
 )
@@ -15,6 +17,8 @@ public interface MaintenanceCategoryMapper {
     MaintenanceCategoryEntity toEntity(MaintenanceCategoryRequest maintenanceCategoryRequest);
 
     MaintenanceCategoryInfoWithItems fromEntityToInfoWithItems(MaintenanceCategoryEntity maintenanceItemEntity);
+
+    List<MaintenanceCategoryInfoWithItems> fromEntityToInfoWithItems(List<MaintenanceCategoryEntity> maintenanceItemEntities);
 
     MaintenanceCategoryInfo toInfo(MaintenanceCategoryEntity maintenanceCategoryEntity);
 

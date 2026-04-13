@@ -5,6 +5,8 @@ import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.dtos.MaintenanceCategory.MaintenanceCategoryRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceCategoryEntity;
 
+import java.util.List;
+
 public interface MaintenanceCategoryService {
 
     MaintenanceCategoryInfo createMaintenanceCategory(MaintenanceCategoryRequest request);
@@ -13,4 +15,5 @@ public interface MaintenanceCategoryService {
 
     MaintenanceCategoryInfoWithItems getMaintenanceCategoryInfo(Long id);
 
+    List<MaintenanceCategoryInfoWithItems> getMaintenanceProvider();
 }

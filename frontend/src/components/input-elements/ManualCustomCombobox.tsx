@@ -22,7 +22,7 @@ interface ManualCustomComboboxProps {
   defaultValue?: any;
   value?: any;
   name?: string;
-  isLoading: boolean;
+  isLoading?: boolean;
   required?: boolean;
   errors?: string | null;
   placeholder?: string;
@@ -326,7 +326,6 @@ const ManualCustomCombobox = ({
         />
         <ComboboxDropdownList
           isOpen={state.isOpen}
-
           filteredItems={filteredItems}
           selectedValues={state.selectedValues || []}
           selectedIndex={state.selectedIndex}

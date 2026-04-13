@@ -14,4 +14,8 @@ public class MaintenanceCategoryRequest {
     private String categoryTitle;
 
     private Boolean hashChild = true;
+
+    private Boolean isDeleted = false;
+
+    private Boolean active = true;
 }
