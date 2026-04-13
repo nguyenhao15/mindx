@@ -2,13 +2,13 @@ import z from 'zod';
 
 export const MaintenanceRequest = z.object({
   id: z.string(),
+  description: z.string().min(1, 'Vui lòng nhập mô tả sự cố'),
   maintenanceCategoryId: z
     .string()
     .min(3, 'Vui lòng chọn một danh mục bảo trì'),
   maintenanceItemId: z.string().min(3, 'Vui lòng chọn một hạng mục bảo trì'),
   issueDate: z.string().min(1, 'Vui lòng chọn ngày phát sinh sự cố'),
   locationId: z.string().min(3, 'Vui lòng chọn một địa điểm'),
-  requestedBy: z.string(),
 
   totalCost: z.number().min(0, 'Tổng chi phí phải là một số dương'),
 
@@ -30,13 +30,13 @@ export type CreateMaintenanceRequestDTO = Omit<
   | 'createdBy'
   | 'lastModifiedBy'
   | 'maintenanceStatus'
-  | 'totalCost'
 >;
 export type MaintenanceInfoDTO = MaintenanceRequestDTO & {
   fixCategory: string;
   fixItem: string;
   locationName: string;
   reWork: boolean;
+  isDeleted: boolean;
   totalProposals: number;
 };
 

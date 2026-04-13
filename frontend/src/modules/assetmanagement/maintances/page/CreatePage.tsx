@@ -1,22 +1,57 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import type { CreateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
+import { FormProvider, useForm } from 'react-hook-form';
+import {
+  MaintenanceRequest,
+  type CreateMaintenanceRequestDTO,
+} from '../schema/maintenaceSchema';
+import { Button } from '@/components/ui/button';
 
 const CreatePage = () => {
   const methods = useForm<CreateMaintenanceRequestDTO>({
-
+    mode: 'onBlur',
+    resolver: zodResolver(
+      MaintenanceRequest.pick({
+        description: true,
+        maintenanceCategoryId: true,
+        maintenanceItemId: true,
+        issueDate: true,
+        locationId: true,
+        totalCost: true,
+      }),
+    ),
     defaultValues: {
-      // Define your form's default values here
+      description: '',
+      maintenanceCategoryId: '',
+      maintenanceItemId: '',
+      issueDate: '',
+      locationId: '',
+      totalCost: 0,
     },
   });
+
+  const onSubmit = async (data: CreateMaintenanceRequestDTO) => {
+    console.log('Form data:', data);
+  };
+
   return (
     <div className='p-6 bg-white rounded-lg shadow-md'>
-      <h1 className='text-2xl font-bold'>Create New Asset</h1>
+      <h1 className='text-2xl font-bold'>Create New Maintenance Request</h1>
       <p className='mt-4 text-gray-600'>
-        Use this page to create a new asset. Fill in the required information
-        and submit the form.
+        Use this page to create a new maintenance request. Fill in the required
+        information and submit the form.
       </p>
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className='mt-6 space-y-4'
+        >
+          {/* Form fields will go here */}
+          <Button type='submit' variant={'positive'}>
+            Submit Maintenance Request
+          </Button>
+        </form>
+      </FormProvider>
     </div>
   );
 };
