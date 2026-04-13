@@ -1,5 +1,6 @@
 import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
 import TextInputField from '@/components/input-elements/TextInputField';
+import MaintanceCategory from '@/modules/assetmanagement/dimension/components/MaintanceCateogry';
 import { Controller, useFormContext } from 'react-hook-form';
 
 interface MaintanceFormProps {
@@ -10,47 +11,22 @@ const MaintanceForm = ({ control }: MaintanceFormProps) => {
   const {
     register,
     handleSubmit,
+    getValues,
     watch,
     formState: { errors },
   } = useFormContext();
 
+  console.log('Get form value: ', getValues());
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex flex-wrap max-w-2xl gap-2 mx-auto shadow-md p-5 rounded-md bg-white'>
-        {/* <TextInputField
-          label='Diễn giải'
-          id='description'
-          control={control}
-          type='textarea'
-          register={register}
-          errors={errors}
-          required  
-          placeholder='Enter description'
-        /> */}
-        <Controller
+        {'Mateance value: ' + watch('maintenanceCategoryId')}
+        <MaintanceCategory
+          label='Loại bảo trì'
           name='maintenanceCategoryId'
           control={control}
-          render={({ field }) => (
-            <ManualCustomCombobox
-              {...field}
-              id='maintenanceCategoryId'
-              name='maintenanceCategoryId'
-              isLoading={false}
-              label='Loại bảo trì'
-              required
-              placeholder='Chọn loại bảo trì...'
-              options={[
-                { value: 'SCHEDULED', label: 'Định kỳ' },
-                { value: 'UNSCHEDULED', label: 'Không định kỳ' },
-                { value: 'EMERGENCY', label: 'Khẩn cấp' },
-              ]}
-              errors={
-                typeof errors?.maintenanceCategoryId?.message === 'string'
-                  ? errors.maintenanceCategoryId.message
-                  : undefined
-              }
-            />
-          )}
+          defaultValue={watch('categoryId') || null}
         />
       </div>
       <div className='w-full items-center justify-center mx-auto '>

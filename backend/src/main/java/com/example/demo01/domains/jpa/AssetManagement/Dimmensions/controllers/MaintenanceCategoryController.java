@@ -30,7 +30,7 @@ public class MaintenanceCategoryController {
         return ResponseEntity.ok(maintenanceCategoryService.getMaintenanceCategoryInfo(id));
     }
 
-    @GetMapping("/frovider")
+    @GetMapping("/provider/form")
     public ResponseEntity<?> getMaintenanceCategoryForValue() {
         List<MaintenanceCategoryInfoWithItems> categoryInfos = maintenanceCategoryService.getMaintenanceProvider();
         return ResponseEntity.ok(categoryInfos);

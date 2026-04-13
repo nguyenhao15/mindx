@@ -44,7 +44,6 @@ public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryServic
     @Override
     public List<MaintenanceCategoryInfoWithItems> getMaintenanceProvider() {
         List<MaintenanceCategoryEntity> categories = maintenanceCategoryRepository.findByActive(true);
-        System.out.println("Active Maintenance Categories: " + categories.size());
         return maintenanceCategoryMapper.fromEntityToInfoWithItems(categories);
     }
 
