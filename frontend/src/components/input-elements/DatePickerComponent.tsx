@@ -54,7 +54,7 @@ const DatePickerComponent = ({
           <Button
             variant={errors ? 'invalid' : 'outline'}
             id='date'
-            className='flex justify-between gap-2 font-normal h-13 border-2 w-full cursor-pointer '
+            className='flex justify-between gap-2 font-normal bg-input-background h-13 border-2 w-full cursor-pointer '
           >
             <span
               className={`text-md ${date ? 'font-semibold' : 'text-muted-foreground'}`}

@@ -84,7 +84,7 @@ function MultipleComboboxComponent({
         itemToStringValue={(item) => String(item.value)}
       >
         <ComboboxChips
-          className={`w-full ${open ? 'ring-2 ring-primary' : 'ring-1 ring-slate-300'}`}
+          className={`w-full ${open ? 'ring-2 ring-primary' : 'ring-1 ring-slate-300'} py-2 rounded-sm h-15 shadow bg-input-background`}
           ref={anchor}
           aria-label='Select options'
         >
@@ -176,7 +176,7 @@ function SingleComboboxComponent({
           aria-invalid={!!errors}
           size={20}
           placeholder={placeholder}
-          className={`py-4 rounded-sm h-15 shadow border-2 `}
+          className={`py-4 rounded-sm h-15 shadow border-2 bg-input-background ${errors ? 'border-red-500' : 'border-slate-300'} focus:ring-2 focus:ring-primary focus:outline-none`}
         >
           {IconNode && (
             <InputGroupAddon>

@@ -2,7 +2,6 @@ import DatePickerComponent from '@/components/input-elements/DatePickerComponent
 import TextInputField from '@/components/input-elements/TextInputField';
 import MaintanceCategoryOptions from '@/modules/assetmanagement/dimension/components/MaintanceCateogryOptions';
 import MaintanceFixItemOptions from '@/modules/assetmanagement/dimension/components/MaintanceFixItemOptions';
-import AttachmentCard from '@/modules/core/attachments/components/AttachmentCard';
 import AttachmentControl from '@/modules/core/attachments/components/AttachmentControlComponent';
 import BasementOptions from '@/modules/core/basement/components/BasementOptions';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -11,7 +10,7 @@ const MaintanceForm = () => {
   const {
     watch,
     control,
-    getValues,
+
     formState: { errors },
   } = useFormContext();
 

@@ -51,6 +51,7 @@ body {
   --radius-4xl: calc(var(--radius) + 16px);
   --color-brand-primary: #e42124;
   --color-background: var(--background);
+  --color-input-background: #f1f5f9;
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
