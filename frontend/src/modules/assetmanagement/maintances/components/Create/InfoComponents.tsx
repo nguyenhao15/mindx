@@ -1,6 +1,6 @@
 const InfoComponents = () => {
   return (
-    <div className='w-full p-4 rounded-lg shadow'>
+    <div className='w-full p-4 bg-slate-200 rounded-lg shadow'>
       <h2 className='text-xl font-semibold'>Thông tin lưu ý</h2>
       <div className='space-y-4'>
         <div className='flex gap-4'>

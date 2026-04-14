@@ -36,8 +36,6 @@ const CreatePage = () => {
 
   const { reset, handleSubmit } = methods;
 
-  console.log();
-
   const onSubmit = async (data: CreateMaintenanceRequestDTO) => {
     const formData = new FormData();
     const { attachments, ...rest } = data;
@@ -60,7 +58,7 @@ const CreatePage = () => {
   };
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col gap-6 items-center'>
       <div className='flex justify-center items-start flex-col gap-4 lg:flex-row'>
         <div className='flex-1 min-w-0'>
           <FormProvider {...methods}>

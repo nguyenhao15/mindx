@@ -1,4 +1,6 @@
 import z from 'zod';
+import { MaintenanceCategoryNestInfo } from '../../dimension/schema/maintanceCategory';
+import { MaintanceItemInfoDto } from '../../dimension/schema/maintanceItem';
 
 export const MaintenanceRequest = z.object({
   id: z.string(),
@@ -26,6 +28,7 @@ export const MaintenanceRequest = z.object({
 });
 
 export type MaintenanceRequestDTO = z.infer<typeof MaintenanceRequest>;
+
 export type CreateMaintenanceRequestDTO = Omit<
   MaintenanceRequestDTO,
   | 'id'
@@ -35,17 +38,36 @@ export type CreateMaintenanceRequestDTO = Omit<
   | 'lastModifiedBy'
   | 'maintenanceStatus'
 >;
-export type MaintenanceInfoDTO = MaintenanceRequestDTO & {
-  fixCategory: string;
-  fixItem: string;
-  locationName: string;
-  reWork: boolean;
-  isDeleted: boolean;
-  totalProposals: number;
-};
 
-export type MaintananceDetailsDTO = MaintenanceInfoDTO & {
-  proposals: [];
-};
+export const MaintenanceSumarySchema = MaintenanceRequest.omit({
+  maintenanceCategoryId: true,
+  maintenanceItemId: true,
+  attachments: true,
+}).extend({
+  fixCategory: z.object(MaintenanceCategoryNestInfo),
+  fixItem: z.object(MaintanceItemInfoDto),
+  locationName: z.string(),
+  reWork: z.boolean(),
+  isDeleted: z.boolean(),
+  totalProposals: z.number(),
+});
+
+export const MaintananceDetailsDTO = MaintenanceSumarySchema.extend({
+  proposals: z.array(
+    z.object({
+      id: z.string(),
+      proposedBy: z.string(),
+      proposedDate: z.string(),
+      proposalDetails: z.string(),
+      estimatedCost: z.number(),
+      attachments: z.array(z.any()),
+    }),
+  ),
+});
+
+export const MaintenanceSumarySchemaArray = z.array(MaintenanceSumarySchema);
+
+export type MaintananceDetailsDTO = z.infer<typeof MaintananceDetailsDTO>;
+export type MaintenanceItemResponse = z.infer<typeof MaintenanceSumarySchema>;
 
 export type UpdateMaintenanceRequestDTO = Partial<CreateMaintenanceRequestDTO>;
