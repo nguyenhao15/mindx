@@ -9,8 +9,13 @@ import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/asset/maintenance/request")
@@ -22,9 +27,10 @@ public class MaintenanceController {
     @Autowired
     MaintenanceWorkflow maintenanceWorkflow;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createMaintenance(@RequestBody MaintenanceRequestDto requestDto) {
-        MaintenanceSummaryDTO maintenanceInfo = maintenanceService.createMaintenance(requestDto);
+    @PostMapping(value = "/create",consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> createMaintenance(@RequestPart(value = "data") MaintenanceRequestDto requestDto,
+                                               @RequestPart(value = "files") List<MultipartFile> files) {
+        MaintenanceSummaryDTO maintenanceInfo = maintenanceService.createMaintenance(requestDto, files);
         return ResponseEntity.ok(maintenanceInfo);
     }
 

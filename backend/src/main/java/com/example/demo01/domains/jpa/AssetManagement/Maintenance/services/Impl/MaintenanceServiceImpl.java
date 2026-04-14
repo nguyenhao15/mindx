@@ -1,5 +1,6 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Impl;
 
+import com.example.demo01.core.Attachment.service.AttachmentService;
 import com.example.demo01.core.Basement.dto.basement.BUInfoDto;
 import com.example.demo01.core.Basement.service.BasementService;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -35,6 +37,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     private MaintenanceItemService maintenanceItemService;
+
+    @Autowired
+    private AttachmentService attachmentService;
 
     @Autowired
     private MaintenanceCategoryService maintenanceCategoryService;
@@ -52,10 +57,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     private BasementService  basementService;
 
     @Override
-    public MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto) {
+    public MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto, List<MultipartFile> files) {
         Long categoryId = requestDto.getMaintenanceCategoryId();
         Long maintenanceItemId = requestDto.getMaintenanceItemId();
         String locationId = requestDto.getLocationId();
+
 
         MaintenanceCategoryEntity  categoryEntity = maintenanceCategoryService.getMaintenanceCategory(categoryId);
         MaintenanceItemEntity  itemEntity = maintenanceItemService.getMaintenanceItem(maintenanceItemId);
@@ -67,6 +73,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenanceEntity.setFixItem(itemEntity);
 
         MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
+
+        attachmentService.addAttachment(files, maintenance.getId().toString(), "maintenance", false);
+
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
     }
 

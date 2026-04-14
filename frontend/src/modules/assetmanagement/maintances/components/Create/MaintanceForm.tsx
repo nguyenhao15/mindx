@@ -82,7 +82,11 @@ const MaintanceForm = () => {
               isMultiFile
               supportedFileTypes={['PDF', 'DOCX', 'PNG', 'JPG', 'JPEG']}
               maxFileSize={10 * 1024 * 1024} // 10MB
-              errorMessage={errors.attachments?.message as string}
+              errorMessage={
+                errors.attachments?.message
+                  ? 'Vui lòng chọn tệp hợp lệ'
+                  : undefined
+              }
             />
           )}
         />

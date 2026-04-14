@@ -6,8 +6,12 @@ import {
 } from '../schema/maintenaceSchema';
 import { Button } from '@/components/ui/button';
 import MaintanceForm from '../components/Create/MaintanceForm';
+import { useCreateMaintance } from '../hooks/useMaintenanceHooks';
+import toast from 'react-hot-toast';
 
 const CreatePage = () => {
+  const { mutateAsync: createItem, isPending } = useCreateMaintance();
+
   const methods = useForm<CreateMaintenanceRequestDTO>({
     mode: 'onBlur',
     resolver: zodResolver(
@@ -29,10 +33,35 @@ const CreatePage = () => {
     },
   });
 
-  const { handleSubmit } = methods;
+  const {
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  console.log();
 
   const onSubmit = async (data: CreateMaintenanceRequestDTO) => {
-    console.log('Form data for submited:', data);
+    const formData = new FormData();
+    const { attachments, ...rest } = data;
+
+    console.log('Attachments: ', attachments);
+
+    const jsonBlob = new Blob([JSON.stringify(data)], {
+      type: 'application/json',
+    });
+    formData.append('data', jsonBlob);
+    attachments.forEach((file: any) => {
+      formData.append('files', file);
+    });
+
+    try {
+      await createItem(formData);
+      reset();
+      toast.success('Maintenance request created successfully');
+    } catch (error) {
+      toast.error('Failed to create maintenance request');
+    }
   };
 
   return (
@@ -49,7 +78,8 @@ const CreatePage = () => {
         >
           <MaintanceForm />
           <Button
-            className='cursor-pointer p-4'
+            disabled={isPending}
+            className='cursor-pointer p-4 font-bold'
             type='submit'
             variant={'default'}
           >

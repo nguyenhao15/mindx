@@ -10,7 +10,7 @@ export const MaintenanceRequest = z.object({
   issueDate: z.date().min(1, 'Vui lòng chọn ngày phát sinh sự cố'),
   locationId: z.string().min(1, 'Vui lòng chọn một địa điểm'),
   attachments: z
-    .array(z.object({ url: z.string(), name: z.string() }), {
+    .array(z.any(), {
       message: 'Vui lòng đính kèm ít nhất 1 tệp',
     })
     .min(1, 'Vui lòng đính kèm ít nhất 1 tệp'),

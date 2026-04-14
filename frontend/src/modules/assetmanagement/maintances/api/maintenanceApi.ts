@@ -10,8 +10,12 @@ export const mainteanceApi = {
     return axiosClient.get(`${MAINTANANCE_ENDPOINT}/${assetId}`);
   },
 
-  createMaintenance: (data: CreateMaintenanceRequestDTO) => {
-    return axiosClient.post(`${MAINTANANCE_ENDPOINT}/create`, data);
+  createMaintenance: (data: FormData) => {
+    return axiosClient.post(`${MAINTANANCE_ENDPOINT}/create`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   },
 
   updateMaintenance: (id: string, data: UpdateMaintenanceRequestDTO) => {

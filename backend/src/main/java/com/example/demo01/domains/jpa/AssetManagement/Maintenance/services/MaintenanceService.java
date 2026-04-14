@@ -7,12 +7,13 @@ import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface MaintenanceService {
 
-    MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto);
+    MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto, List<MultipartFile> files);
 
     MaintenanceEntity getMaintenanceById(Long id);
 

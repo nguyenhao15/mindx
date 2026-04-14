@@ -4,7 +4,7 @@ import type {
   UpdateMaintenanceRequestDTO,
 } from '../schema/maintenaceSchema';
 
-export const createMaintanceAction = (data: CreateMaintenanceRequestDTO) => {
+export const createMaintanceAction = (data: FormData) => {
   return mainteanceApi.createMaintenance(data);
 };
 

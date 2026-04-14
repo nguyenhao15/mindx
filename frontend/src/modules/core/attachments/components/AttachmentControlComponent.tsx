@@ -123,6 +123,8 @@ const AttachmentControl = ({
       }
     });
 
+    
+
     setFilePreviews(newPreviewsFile);
     onFileAttach(uploadedFiles);
     setLocalAttachedFile(uploadedFiles);
