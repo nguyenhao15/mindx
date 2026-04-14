@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useActiveBuItems } from '../hooks/useBasementHook';
 import { SingleComboboxComponent } from '@/components/input-elements/ComboboxComponent';
 import { Controller, useFormContext } from 'react-hook-form';
+import { Building } from 'lucide-react';
 
 interface MaintanceCategoryOptionsProps {
   label: string;
@@ -48,6 +49,7 @@ const BasementOptions = ({
   ) => {
     return (
       <SingleComboboxComponent
+        IconNode={Building}
         {...props}
         required={required}
         disabled={disabled}

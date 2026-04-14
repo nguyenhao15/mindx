@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import {
   MaintenanceRequest,
@@ -19,6 +18,7 @@ const CreatePage = () => {
         issueDate: true,
         locationId: true,
         totalCost: true,
+        attachments: true,
       }),
     ),
     defaultValues: {
@@ -32,7 +32,7 @@ const CreatePage = () => {
   const { handleSubmit } = methods;
 
   const onSubmit = async (data: CreateMaintenanceRequestDTO) => {
-    console.log('Form data:', data);
+    console.log('Form data for submited:', data);
   };
 
   return (

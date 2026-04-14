@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/combobox';
 import { useMemo, useState } from 'react';
 import CustomInputCard from './CustomInputCard';
+import { InputGroupAddon } from '../ui/input-group';
+import { GlobeIcon } from 'lucide-react';
 
 type DynamicOption = Record<string, unknown>;
 
@@ -24,6 +26,7 @@ type NormalizedOption = {
 };
 
 interface ComboboxComponentProps {
+  IconNode?: any;
   options?: DynamicOption[];
   onChange?: (value: (string | number)[] | string | number | null) => void;
   defaultValue?: (string | number)[] | (string | number) | null;
@@ -124,6 +127,7 @@ function MultipleComboboxComponent({
 }
 
 function SingleComboboxComponent({
+  IconNode,
   options,
   onChange,
   defaultValue,
@@ -173,7 +177,13 @@ function SingleComboboxComponent({
           size={20}
           placeholder={placeholder}
           className={`py-4 rounded-sm h-15 shadow border-2 `}
-        />
+        >
+          {IconNode && (
+            <InputGroupAddon>
+              <IconNode className='w-5 h-5 text-gray-400' />
+            </InputGroupAddon>
+          )}
+        </ComboboxInput>
         <ComboboxContent anchor={anchor} className='mt-3 w-full p-1'>
           <ComboboxEmpty>No items found.</ComboboxEmpty>
           <ComboboxList>

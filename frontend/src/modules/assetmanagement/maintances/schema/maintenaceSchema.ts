@@ -8,8 +8,12 @@ export const MaintenanceRequest = z.object({
     .min(0, 'Vui lòng chọn một danh mục bảo trì'),
   maintenanceItemId: z.number().min(0, 'Vui lòng chọn một hạng mục bảo trì'),
   issueDate: z.date().min(1, 'Vui lòng chọn ngày phát sinh sự cố'),
-  locationId: z.string().min(3, 'Vui lòng chọn một địa điểm'),
-
+  locationId: z.string().min(1, 'Vui lòng chọn một địa điểm'),
+  attachments: z
+    .array(z.object({ url: z.string(), name: z.string() }), {
+      message: 'Vui lòng đính kèm ít nhất 1 tệp',
+    })
+    .min(1, 'Vui lòng đính kèm ít nhất 1 tệp'),
   totalCost: z.number().min(0, 'Tổng chi phí phải là một số dương'),
 
   maintenanceStatus: z

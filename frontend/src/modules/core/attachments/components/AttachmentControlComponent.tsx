@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { BsFileText, BsUpload, BsX } from 'react-icons/bs';
 import { FaImage } from 'react-icons/fa';
 import { Input } from '@/components/ui/input';
+import { useFormContext } from 'react-hook-form';
 
 interface AttachementControlProps {
   attachedFile?: File[];
@@ -12,6 +13,8 @@ interface AttachementControlProps {
   isMultiFile?: boolean;
   supportedFileTypes?: string[];
   maxFileSize?: number;
+  rest: {};
+  errorMessage?: string;
 }
 
 const AttachmentControl = ({
@@ -21,6 +24,8 @@ const AttachmentControl = ({
   isMultiFile = true,
   supportedFileTypes = ['PDF', 'DOCX', 'PNG', 'JPG', 'JPEG'],
   maxFileSize = 10 * 1024 * 1024, // 10MB
+  errorMessage,
+  ...rest
 }: AttachementControlProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [localAttachedFile, setLocalAttachedFile] = useState(attachedFile);
@@ -170,12 +175,13 @@ const AttachmentControl = ({
           onDrop={handleDrop}
           className={`
                   relative border-2 border-dashed rounded-xl p-12 text-center transition-all duration-200
-                  ${isDragging ? 'border-[#e31f20] bg-red-50/20' : 'border-slate-300 hover:border-slate-400 bg-slate-50'}
+                  ${isDragging || errorMessage ? 'border-[#e31f20] bg-red-50/20' : 'border-slate-300 hover:border-slate-400 bg-slate-50'}
                   ${isFocus ? 'border-2' : ''}
                 `}
         >
           <Input
             type='file'
+            {...rest}
             id='file-upload'
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
@@ -186,6 +192,7 @@ const AttachmentControl = ({
               .join(',')}
             multiple={isMultiFile}
           />
+
           <label htmlFor='file-upload' className='cursor-pointer'>
             <div
               className={`w-16 h-16 mx-auto mb-4 focus:outline-none rounded-full flex items-center justify-center ${isDragging ? 'bg-[#e31f20] text-white' : 'bg-slate-200 text-slate-500'}`}
@@ -203,7 +210,11 @@ const AttachmentControl = ({
           </label>
         </div>
       )}
-
+      <div className='h-2'>
+        {errorMessage && (
+          <p className='text-sm text-red-600 mt-2'>{errorMessage}</p>
+        )}
+      </div>
       {localAttachedFile?.length > 0 && (
         <div className='space-y-3 mt-6'>
           {localAttachedFile.map((file, index) => (
@@ -225,6 +236,7 @@ const AttachmentControl = ({
                 </div>
               </div>
               <button
+                type='button'
                 onClick={() => removeFile(index)}
                 className='p-2 text-slate-400 cursor-pointer hover:text-[#e31f20] hover:bg-red-50 rounded-lg transition-all shrink-0 ml-4'
                 title='Remove file'
