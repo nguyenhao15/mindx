@@ -3,6 +3,7 @@ import { Plus, ClipboardList } from 'lucide-react';
 import { useGetMaintenances } from '../hooks/useMaintenanceHooks';
 import { useState } from 'react';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
+import MaintanceGallery from '../components/shared/MaintanceGallery';
 
 const HomePage = () => {
   const [filterInput] = useState<FilterWithPaginationInput>({
@@ -19,11 +20,7 @@ const HomePage = () => {
     },
   });
 
-  const { data, isLoading } = useGetMaintenances(filterInput);
-  const content = Array.isArray((data as any)?.content)
-    ? (data as any).content
-    : [];
-  const hasData = content.length > 0;
+  const { data, isLoading, error } = useGetMaintenances(filterInput);
 
   return (
     <div className='flex flex-col gap-6'>
@@ -47,21 +44,12 @@ const HomePage = () => {
             Danh sách yêu cầu bảo trì
           </h2>
         </div>
-        <div className='flex flex-col items-center justify-center py-16 text-slate-400 gap-3'>
-          <ClipboardList size={40} className='text-slate-200' />
-          <p className='text-sm'>
-            {isLoading
-              ? 'Đang tải danh sách yêu cầu bảo trì...'
-              : hasData
-                ? 'Đã có dữ liệu yêu cầu bảo trì'
-                : 'Chưa có yêu cầu bảo trì nào'}
-          </p>
-          <Link
-            to='/assets/maintance/create'
-            className='text-sm text-[#1d3557] font-medium hover:underline'
-          >
-            Tạo yêu cầu đầu tiên →
-          </Link>
+        <div className='flex flex-col items-center justify-center py-12 px-4 text-slate-400 gap-3'>
+          <MaintanceGallery
+            data={data || []}
+            isLoading={isLoading}
+            error={error}
+          />
         </div>
       </div>
     </div>

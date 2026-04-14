@@ -3,7 +3,7 @@ import { MaintenanceCategoryNestInfo } from '../../dimension/schema/maintanceCat
 import { MaintanceItemInfoDto } from '../../dimension/schema/maintanceItem';
 
 export const MaintenanceRequest = z.object({
-  id: z.string(),
+  id: z.number(),
   description: z.string().min(3, 'Vui lòng nhập mô tả sự cố'),
   maintenanceCategoryId: z
     .number('Vui lòng chọn một loại bảo trì')
@@ -17,10 +17,18 @@ export const MaintenanceRequest = z.object({
     })
     .min(1, 'Vui lòng đính kèm ít nhất 1 tệp'),
   totalCost: z.number().min(0, 'Tổng chi phí phải là một số dương'),
-
-  maintenanceStatus: z
-    .enum(['PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'])
-    .default('PENDING'),
+  isDeleted: z.boolean().default(false),
+  maintenancesStatus: z
+    .enum([
+      'WAITING',
+      'APPROVED',
+      'REJECTED',
+      'CHECKED',
+      'PROCESSING',
+      'FINISHED',
+      'COMPLETED',
+    ])
+    .default('WAITING'),
   createdDate: z.string(),
   lastModifiedDate: z.string(),
   createdBy: z.string(),
@@ -36,19 +44,20 @@ export type CreateMaintenanceRequestDTO = Omit<
   | 'lastModifiedDate'
   | 'createdBy'
   | 'lastModifiedBy'
-  | 'maintenanceStatus'
+  | 'maintenancesStatus'
 >;
 
 export const MaintenanceSumarySchema = MaintenanceRequest.omit({
   maintenanceCategoryId: true,
   maintenanceItemId: true,
   attachments: true,
+  issueDate: true,
 }).extend({
-  fixCategory: z.object(MaintenanceCategoryNestInfo),
-  fixItem: z.object(MaintanceItemInfoDto),
-  locationName: z.string(),
+  issueDate: z.string(),
+  fixCategory: MaintenanceCategoryNestInfo,
+  fixItem: MaintanceItemInfoDto,
   reWork: z.boolean(),
-  isDeleted: z.boolean(),
+  isDeleted: z.boolean().default(false),
   totalProposals: z.number(),
 });
 
@@ -69,5 +78,7 @@ export const MaintenanceSumarySchemaArray = z.array(MaintenanceSumarySchema);
 
 export type MaintananceDetailsDTO = z.infer<typeof MaintananceDetailsDTO>;
 export type MaintenanceItemResponse = z.infer<typeof MaintenanceSumarySchema>;
-
+export type MaintenanceSummaryResponse = z.infer<
+  typeof MaintenanceSumarySchemaArray
+>;
 export type UpdateMaintenanceRequestDTO = Partial<CreateMaintenanceRequestDTO>;

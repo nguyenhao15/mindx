@@ -13,12 +13,14 @@ export const getMaintanceAction = async (
   filterInput: FilterWithPaginationInput,
 ) => {
   const response = await mainteanceApi.getMaintenance(filterInput);
-  const results = MaintenanceSumarySchemaArray.safeParse(response.data.content);
+  const { content, ...rest } = response.data;
+  const results = MaintenanceSumarySchemaArray.safeParse(content);
   if (!results.success) {
     console.warn('API Data Mismatch:', results.error.format());
     return response.data;
   }
-  const data = { ...response.data, content: results.data };
+  const data = { ...rest, content: results.data };
+
   return data;
 };
 
