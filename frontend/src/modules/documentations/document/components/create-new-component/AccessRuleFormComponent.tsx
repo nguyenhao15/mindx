@@ -1,8 +1,8 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
 import RadioInputField from '@/components/shared/RadioInputField';
-import { useDepartmentForForm } from '@/hookQueries/useDepartmentForForm';
 import TextInputField from '@/components/input-elements/TextInputField';
+import { useDepartmentForForm } from '@/modules/core/utils/hook/useDepartmentForForm';
 
 interface AccessRuleFormComponentProps {
   initialData?: {

@@ -1,10 +1,19 @@
-import { ClipboardList, Plus, Wrench, type LucideIcon } from 'lucide-react';
+import {
+  ClipboardList,
+  LayoutDashboard,
+  List,
+  Plus,
+  Wrench,
+  type LucideIcon,
+} from 'lucide-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { MAINTANCE_MENU_ITEMS } from './constants/maintanace-const.api';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   ClipboardList,
   Plus,
+  LayoutDashboard,
+  List,
   Wrench,
 };
 

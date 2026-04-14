@@ -45,6 +45,7 @@ export type CreateMaintenanceRequestDTO = Omit<
   | 'createdBy'
   | 'lastModifiedBy'
   | 'maintenancesStatus'
+  | 'isDeleted'
 >;
 
 export const MaintenanceSumarySchema = MaintenanceRequest.omit({
