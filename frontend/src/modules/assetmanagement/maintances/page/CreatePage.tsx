@@ -23,7 +23,7 @@ const CreatePage = () => {
     ),
     defaultValues: {
       description: '',
-      issueDate: '',
+      issueDate: new Date(),
       locationId: '',
       totalCost: 0,
     },
@@ -48,7 +48,11 @@ const CreatePage = () => {
           className='mt-6 space-y-4 w-full'
         >
           <MaintanceForm />
-          <Button type='submit' variant={'positive'}>
+          <Button
+            className='cursor-pointer p-4'
+            type='submit'
+            variant={'default'}
+          >
             Submit Maintenance Request
           </Button>
         </form>

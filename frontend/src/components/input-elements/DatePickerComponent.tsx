@@ -3,6 +3,7 @@ import CustomInputCard from './CustomInputCard';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { Calendar } from '../ui/calendar';
+import { CalendarIcon } from 'lucide-react';
 
 interface DatePickerComponentProps {
   // Define any props you need for the DatePickerComponent
@@ -32,6 +33,7 @@ const DatePickerComponent = ({
     onChangeAction?.(selectedDate);
     onChange?.(selectedDate);
     setOpen(false);
+    onBlur?.();
   };
 
   const handleOnChange = () => {
@@ -52,13 +54,14 @@ const DatePickerComponent = ({
           <Button
             variant={errors ? 'invalid' : 'outline'}
             id='date'
-            className='justify-start font-normal h-13 border-2 w-full cursor-pointer '
+            className='flex justify-between gap-2 font-normal h-13 border-2 w-full cursor-pointer '
           >
             <span
               className={`text-md ${date ? 'font-semibold' : 'text-muted-foreground'}`}
             >
               {date ? date.toLocaleDateString() : 'Chọn ngày'}
             </span>
+            <CalendarIcon className='text-muted-foreground' />
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto overflow-hidden p-0' align='start'>

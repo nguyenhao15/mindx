@@ -1,11 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useGetCategoryOptions } from '../hooks/useCategoryHook';
-import {
-  Controller,
-  useFormContext,
-  type Control,
-  type FieldValues,
-} from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { SingleComboboxComponent } from '@/components/input-elements/ComboboxComponent';
 
 type ComboboxValue = string | number | null | undefined;
@@ -15,7 +10,7 @@ type CategoryOption = {
   categoryTitle: string;
 };
 
-interface MaintanceCategoryProps {
+interface MaintanceCategoryOptionsProps {
   label: string;
   placeholder?: string;
   name: string;
@@ -27,7 +22,7 @@ interface MaintanceCategoryProps {
   onChange?: (value: ComboboxValue) => void;
 }
 
-const MaintanceCategory = ({
+const MaintanceCategoryOptions = ({
   label,
   name,
   placeholder,
@@ -37,12 +32,12 @@ const MaintanceCategory = ({
   defaultValue,
   errors,
   onChange,
-}: MaintanceCategoryProps) => {
+}: MaintanceCategoryOptionsProps) => {
   const [internalValue, setInternalValue] =
     useState<ComboboxValue>(defaultValue);
+  const { data, isLoading } = useGetCategoryOptions();
 
   const { control } = useFormContext();
-  const { data, isLoading } = useGetCategoryOptions();
 
   const categoryOptions = useMemo(() => {
     if (!data) return [];
@@ -73,6 +68,7 @@ const MaintanceCategory = ({
       />
     );
   };
+
   if (control) {
     return (
       <Controller
@@ -104,4 +100,4 @@ const MaintanceCategory = ({
   );
 };
 
-export default MaintanceCategory;
+export default MaintanceCategoryOptions;

@@ -169,7 +169,6 @@ function SingleComboboxComponent({
         {...props}
       >
         <ComboboxInput
-          showTrigger={false}
           aria-invalid={!!errors}
           size={20}
           placeholder={placeholder}
