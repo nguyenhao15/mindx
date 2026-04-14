@@ -44,7 +44,7 @@ const HomePage = () => {
             Danh sách yêu cầu bảo trì
           </h2>
         </div>
-        <div className='flex flex-col items-center justify-center py-12 px-4 text-slate-400 gap-3'>
+        <div className='flex flex-col items-center justify-center py-2 px-4 text-slate-400 gap-3'>
           <MaintanceGallery
             data={data || []}
             isLoading={isLoading}

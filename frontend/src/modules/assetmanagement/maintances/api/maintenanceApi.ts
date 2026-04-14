@@ -1,10 +1,7 @@
 import { MAINTANANCE_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
 import type { UpdateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
-import type {
-  FilterInput,
-  FilterWithPaginationInput,
-} from '@/validations/filterWithPagination';
+import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const mainteanceApi = {
   getMaintenances: (assetId: string) => {

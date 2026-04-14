@@ -1,6 +1,7 @@
-import z, { any } from 'zod';
+import z from 'zod';
+import { maintanceItemBaseEntity, MaintanceItemInfoDto } from './maintanceItem';
 
-export const maintanceCategoryBase = z.object({
+export const MaintanceCategoryBase = z.object({
   id: z.number(),
   categoryTitle: z.string(),
   description: z.string(),
@@ -8,29 +9,42 @@ export const maintanceCategoryBase = z.object({
   isDeleted: z.boolean(),
   active: z.boolean(),
 
-  maintainItems: z.array(any()).optional(),
+  maintenanceItems: z.array(maintanceItemBaseEntity).nullable().optional(),
   createdDate: z.string(),
   lastModifiedDate: z.string(),
   createdBy: z.string(),
   lastModifiedBy: z.string(),
 });
 
-export const MaintanceCategoryInfo = maintanceCategoryBase.omit({
-  maintainItems: true,
+export const MaintanceCategoryInfo = MaintanceCategoryBase.omit({
+  maintenanceItems: true,
   createdBy: true,
   createdDate: true,
   lastModifiedBy: true,
   lastModifiedDate: true,
 });
 
-export const MaintenanceCategoryInfoWithItems = maintanceCategoryBase.extend({
-  maintainItems: z.array(any()),
+export const MaintenanceCategoryInfoWithItems = MaintanceCategoryBase.pick({
+  id: true,
+  categoryTitle: true,
+  description: true,
+  hashChild: true,
+  createdBy: true,
+  createdDate: true,
+  lastModifiedBy: true,
+  lastModifiedDate: true,
+}).extend({
+  maintenanceItems: z.array(MaintanceItemInfoDto).nullable().optional(),
 });
 
 export const MaintenanceCategoryNestInfo = MaintanceCategoryInfo.pick({
   id: true,
   categoryTitle: true,
 });
+
+export const MaintenanceCategoryInfoWithItemsArray = z.array(
+  MaintenanceCategoryInfoWithItems,
+);
 
 export type CreateMaintanceCategoryRequest = Omit<
   MaintanceCategoryEntities,
@@ -40,10 +54,10 @@ export type CreateMaintanceCategoryRequest = Omit<
   | 'createdBy'
   | 'lastModifiedBy'
   | 'maintenanceStatus'
-  | 'maintainItems'
+  | 'maintenanceItems'
   | 'hashChild'
 >;
-export type MaintanceCategoryEntities = z.infer<typeof maintanceCategoryBase>;
+export type MaintanceCategoryEntities = z.infer<typeof MaintanceCategoryBase>;
 export type MaintanceCategoryInfo = z.infer<typeof MaintanceCategoryInfo>;
 export type MaintenanceCategoryInfoWithItems = z.infer<
   typeof MaintenanceCategoryInfoWithItems

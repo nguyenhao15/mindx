@@ -1,8 +1,4 @@
-import z from 'zod';
-import {
-  maintanceCategoryBase,
-  MaintanceCategoryInfo,
-} from './maintanceCategory';
+import z, { any } from 'zod';
 
 export const maintanceItemBaseEntity = z.object({
   id: z.number(),
@@ -14,7 +10,7 @@ export const maintanceItemBaseEntity = z.object({
   lastModifiedDate: z.string(),
   createdBy: z.string(),
   lastModifiedBy: z.string(),
-  maintenanceCategory: z.object(maintanceCategoryBase).optional(),
+  maintenanceCategory: z.object(any()),
 });
 
 export const MaintanceItemInfo = maintanceItemBaseEntity
@@ -23,7 +19,10 @@ export const MaintanceItemInfo = maintanceItemBaseEntity
     maintenanceCategory: true,
   })
   .extend({
-    maintenanceCategory: z.object(MaintanceCategoryInfo),
+    maintenanceCategory: z.object({
+      id: z.number(),
+      categoryTitle: z.string(),
+    }),
   });
 
 export const MaintanceItemInfoDto = maintanceItemBaseEntity.pick({

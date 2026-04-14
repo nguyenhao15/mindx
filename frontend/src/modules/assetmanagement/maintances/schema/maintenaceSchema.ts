@@ -77,8 +77,8 @@ export const MaintananceDetailsDTO = MaintenanceSumarySchema.extend({
 export const MaintenanceSumarySchemaArray = z.array(MaintenanceSumarySchema);
 
 export type MaintananceDetailsDTO = z.infer<typeof MaintananceDetailsDTO>;
-export type MaintenanceItemResponse = z.infer<typeof MaintenanceSumarySchema>;
-export type MaintenanceSummaryResponse = z.infer<
+export type MaintenanceSumaryResponse = z.infer<typeof MaintenanceSumarySchema>;
+export type MaintenanceSummaryResponseArray = z.infer<
   typeof MaintenanceSumarySchemaArray
 >;
 export type UpdateMaintenanceRequestDTO = Partial<CreateMaintenanceRequestDTO>;
