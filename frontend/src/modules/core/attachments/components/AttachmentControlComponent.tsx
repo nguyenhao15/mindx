@@ -123,8 +123,6 @@ const AttachmentControl = ({
       }
     });
 
-    
-
     setFilePreviews(newPreviewsFile);
     onFileAttach(uploadedFiles);
     setLocalAttachedFile(uploadedFiles);
@@ -166,7 +164,7 @@ const AttachmentControl = ({
   };
 
   return (
-    <div className='bg-white p-8 rounded-xl border border-slate-200 shadow-sm'>
+    <div className='bg-input-background p-8 rounded-xl border border-slate-200 shadow-sm'>
       <h3 className='text-lg font-semibold text-slate-900 mb-6'>{title}</h3>
 
       {(isMultiFile || localAttachedFile.length === 0) && (

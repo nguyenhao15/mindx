@@ -34,11 +34,7 @@ const CreatePage = () => {
     },
   });
 
-  const {
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { reset, handleSubmit } = methods;
 
   console.log();
 
@@ -64,32 +60,24 @@ const CreatePage = () => {
   };
 
   return (
-    <div className='p-6 w-fit bg-white rounded-lg shadow-md'>
-      <h1 className='text-2xl font-bold'>Create New Maintenance Request</h1>
-      <p className='mt-4 text-gray-600'>
-        Use this page to create a new maintenance request. Fill in the required
-        information and submit the form.
-      </p>
-      <div className='flex justify-center items-start flex-col gap-2 lg:flex-row p-2'>
-        <div className='w-2/3 p-2'>
+    <div className='flex flex-col gap-6'>
+      <div className='flex justify-center items-start flex-col gap-4 lg:flex-row'>
+        <div className='flex-1 min-w-0'>
           <FormProvider {...methods}>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className='mt-6 space-y-4 w-full'
-            >
+            <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
               <MaintanceForm />
             </form>
           </FormProvider>
         </div>
-        <div className='w-1/3 grid p-2 mt-6 space-y-4'>
+        <div className='w-full lg:w-80 flex flex-col gap-4'>
           <InfoComponents />
           <Button
             disabled={isPending}
-            className='cursor-pointer p-5 font-bold'
-            variant={'default'}
+            className='cursor-pointer w-full py-3 font-semibold bg-[#1d3557] hover:bg-[#162840]'
+            variant='default'
             onClick={handleSubmit(onSubmit)}
           >
-            Submit Maintenance Request
+            Gửi yêu cầu bảo trì
           </Button>
         </div>
       </div>
