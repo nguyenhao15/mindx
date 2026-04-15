@@ -1,8 +1,9 @@
-import { ClipboardList, Link, Plus } from 'lucide-react';
-import React, { useState } from 'react';
+import { ClipboardList, Plus } from 'lucide-react';
+import { useState } from 'react';
 import { useGetMaintenances } from '../hooks/useMaintenanceHooks';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 import MaintanceGallery from '../components/shared/MaintanceGallery';
+import { Link } from 'react-router-dom';
 
 const ProcessingRequest = () => {
   const [filterInput] = useState<FilterWithPaginationInput>({
@@ -31,8 +32,8 @@ const ProcessingRequest = () => {
           to='/assets/maintance/create'
           className='flex items-center gap-2 bg-[#1d3557] text-white px-4 py-2.5 rounded-xl hover:bg-[#162840] transition text-sm font-medium'
         >
-          <Plus size={16} />
           Tạo yêu cầu mới
+          <Plus size={16} />
         </Link>
       </div>
 

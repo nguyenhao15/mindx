@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { useFormContext } from 'react-hook-form';
 
 interface AttachementControlProps {
+  isLoading?: boolean;
+  disabled?: boolean;
   attachedFile?: File[];
   onFileAttach: (files: File[]) => void;
   title: string;
@@ -18,6 +20,8 @@ interface AttachementControlProps {
 }
 
 const AttachmentControl = ({
+  isLoading,
+  disabled,
   attachedFile = [],
   onFileAttach,
   title,
@@ -187,6 +191,7 @@ const AttachmentControl = ({
             onBlur={() => setIsFocus(false)}
             onChange={handleFileSelect}
             className='sr-only'
+            disabled={disabled || isLoading}
             accept={supportedFileTypes
               .map((type) => `.${type.toLowerCase()}`)
               .join(',')}

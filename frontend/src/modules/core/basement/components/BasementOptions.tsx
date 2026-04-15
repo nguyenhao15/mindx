@@ -13,6 +13,7 @@ interface MaintanceCategoryOptionsProps {
   value?: any;
   defaultValue?: any;
   errors?: string | null;
+  isLoading?: boolean;
   onChange?: (value: any) => void;
 }
 
@@ -25,10 +26,11 @@ const BasementOptions = ({
   value,
   defaultValue,
   errors,
+  isLoading,
   onChange,
 }: MaintanceCategoryOptionsProps) => {
   const [internalValue, setInternalValue] = useState(defaultValue);
-  const { data, isLoading } = useActiveBuItems();
+  const { data, isLoading: isLoadingData } = useActiveBuItems();
   const { control } = useFormContext();
 
   const buOptions = useMemo(() => {
@@ -49,6 +51,7 @@ const BasementOptions = ({
   ) => {
     return (
       <SingleComboboxComponent
+        isLoading={isLoading || isLoadingData}
         IconNode={Building}
         {...props}
         required={required}

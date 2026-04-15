@@ -38,6 +38,7 @@ interface ComboboxComponentProps {
   props: {};
   errors?: string | null;
   isMultiple?: boolean;
+  isLoading?: boolean;
 }
 
 function MultipleComboboxComponent({
@@ -50,6 +51,8 @@ function MultipleComboboxComponent({
   limit,
   errors = null,
   isMultiple = false,
+  isLoading = false,
+  disabled = false,
   ...props
 }: ComboboxComponentProps) {
   const anchor = useComboboxAnchor();
@@ -77,6 +80,8 @@ function MultipleComboboxComponent({
       <Combobox
         items={options}
         multiple
+        disabled={disabled}
+        readOnly={isLoading || disabled}
         value={value}
         onValueChange={handleValueChange}
         onOpenChange={setOpen}
@@ -136,6 +141,7 @@ function SingleComboboxComponent({
   required = false,
   errors = null,
   disabled = false,
+  isLoading,
   ...props
 }: Omit<ComboboxComponentProps, 'isMultiple'>) {
   const defaultValueNormalized: NormalizedOption | null = useMemo(() => {
@@ -167,6 +173,7 @@ function SingleComboboxComponent({
         items={options}
         disabled={disabled}
         value={value}
+        readOnly={isLoading}
         onValueChange={handleValueChange}
         itemToStringLabel={(item) => item.label}
         itemToStringValue={(item) => String(item.value)}
@@ -174,6 +181,9 @@ function SingleComboboxComponent({
       >
         <ComboboxInput
           aria-invalid={!!errors}
+          showTrigger={!isLoading}
+          readOnly={isLoading}
+          disabled={disabled || isLoading}
           size={20}
           placeholder={placeholder}
           className={`py-4 rounded-sm h-15 shadow border-2 bg-input-background ${errors ? 'border-red-500' : 'border-slate-300'} focus:ring-2 focus:ring-primary focus:outline-none`}

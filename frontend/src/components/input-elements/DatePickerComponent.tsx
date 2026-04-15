@@ -6,7 +6,7 @@ import { Calendar } from '../ui/calendar';
 import { CalendarIcon } from 'lucide-react';
 
 interface DatePickerComponentProps {
-  // Define any props you need for the DatePickerComponent
+  disabled?: boolean;
   onChange?: (date: Date) => void;
   value?: Date;
   label?: string;
@@ -15,6 +15,7 @@ interface DatePickerComponentProps {
 }
 
 const DatePickerComponent = ({
+  disabled,
   onChange: onChangeAction,
   value: initialValue,
   label,
@@ -54,6 +55,7 @@ const DatePickerComponent = ({
           <Button
             variant={errors ? 'invalid' : 'outline'}
             id='date'
+            disabled={disabled}
             className='flex justify-between gap-2 font-normal bg-input-background h-13 border-2 w-full cursor-pointer '
           >
             <span

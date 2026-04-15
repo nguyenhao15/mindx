@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const NotFoundComponent = () => {
   return (
-    <div className='relative flex my-auto mx-auto p-2 max-h-screen items-center justify-center overflow-hidden bg-slate-50 px-6'>
+    <div className='flex-1 relative flex my-auto mx-auto p-2 max-h-screen items-center justify-center overflow-hidden bg-slate-50 px-6'>
       <div className='pointer-events-none absolute inset-0'>
         <div className='absolute -left-10 top-10 h-40 w-40 rounded-full bg-cyan-200/50 blur-3xl' />
         <div className='absolute right-0 top-1/3 h-56 w-56 rounded-full bg-emerald-200/40 blur-3xl' />

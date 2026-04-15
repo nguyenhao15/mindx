@@ -6,7 +6,11 @@ import AttachmentControl from '@/modules/core/attachments/components/AttachmentC
 import BasementOptions from '@/modules/core/basement/components/BasementOptions';
 import { Controller, useFormContext } from 'react-hook-form';
 
-const MaintanceForm = () => {
+interface MaintanceFormProps {
+  isLoading: boolean;
+}
+
+const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
   const {
     watch,
     control,
@@ -19,6 +23,7 @@ const MaintanceForm = () => {
       <div className='flex flex-col gap-2 p-5 bg-white'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
           <MaintanceCategoryOptions
+            disabled={isLoading}
             label='Loại bảo trì'
             required
             name='maintenanceCategoryId'
@@ -26,6 +31,7 @@ const MaintanceForm = () => {
           />
           <MaintanceFixItemOptions
             label='Hạng mục bảo trì'
+            disabled={isLoading}
             required
             name='maintenanceItemId'
             categoryId={watch('maintenanceCategoryId')}
@@ -34,7 +40,9 @@ const MaintanceForm = () => {
         </div>
         <BasementOptions
           label='Cơ sở'
+          isLoading={true}
           required
+          disabled={isLoading}
           placeholder='Chọn cơ sở'
           name='locationId'
           defaultValue={watch('locationId')}
@@ -47,7 +55,8 @@ const MaintanceForm = () => {
             <TextInputField
               {...field}
               labelSize='lg'
-              type='textarea'
+              type='email'
+              isLoading={isLoading}
               label='Mô tả sự cố'
               id='description'
               errors={errors}
@@ -61,6 +70,7 @@ const MaintanceForm = () => {
             <DatePickerComponent
               {...field}
               label='Ngày phát sinh sự cố'
+              disabled={isLoading}
               required
               errors={errors.issueDate}
             />

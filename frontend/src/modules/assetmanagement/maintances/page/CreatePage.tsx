@@ -63,7 +63,7 @@ const CreatePage = () => {
         <div className='flex-1 min-w-0'>
           <FormProvider {...methods}>
             <form className='space-y-4'>
-              <MaintanceForm />
+              <MaintanceForm isLoading={isPending} />
             </form>
           </FormProvider>
         </div>
