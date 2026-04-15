@@ -15,6 +15,8 @@ public class MaintenanceCategoryRequest {
 
     private Boolean hashChild = true;
 
+    private String description;
+
     private Boolean isDeleted = false;
 
     private Boolean active = true;

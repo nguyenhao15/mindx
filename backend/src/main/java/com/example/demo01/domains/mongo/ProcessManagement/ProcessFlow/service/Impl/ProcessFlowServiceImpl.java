@@ -58,8 +58,6 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
 
     private final String ProcessFolder = FolderConstants.PROCESS;
 
-    private final AppUtil appUtils;
-
     private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final MongoTemplate mongoTemplate;
@@ -95,7 +93,7 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
         ProcessFlowContentRequest processFlowContentRequest = request.getProcessContent();
         processFlowContentRequest.setProcessFlowId(savedProcessFlow.getId());
 
-        attachmentService.addAttachment(files, savedProcessFlow.getId(), ProcessFolder, false);
+        attachmentService.addAttachment(files, savedProcessFlow.getId(), ProcessFolder, ModuleEnum.DOCUMENTS, false);
         processFlowTextContentService.createNewContent(processFlowContentRequest);
 
         return processFlowMapper.toProcessFlowDto(savedProcessFlow);
@@ -155,7 +153,7 @@ public class ProcessFlowServiceImpl implements ProcessFlowService {
         ProcessFlow processFlow = getProcessFlowById(id);
         processFlowTextContentService.updateProcessFlowTextContent(request.getProcessContent());
         if (files != null) {
-            attachmentService.addAttachment(files, id , ProcessFolder, false);
+            attachmentService.addAttachment(files, id , ProcessFolder, ModuleEnum.DOCUMENTS, false);
         }
         processFlowMapper.updateProcessFlowFromDto(request, processFlow);
         ProcessFlow updatedProcessFlow = processFlowRepository.save(processFlow);

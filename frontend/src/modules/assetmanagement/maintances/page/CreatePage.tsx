@@ -59,7 +59,7 @@ const CreatePage = () => {
 
   return (
     <div className='flex flex-col gap-6 items-center'>
-      <div className='flex justify-center items-start flex-col gap-4 lg:flex-row'>
+      <div className='flex-1 max-w-3xl flex justify-center items-start flex-col gap-4 lg:flex-row'>
         <div className='flex-1 min-w-0'>
           <FormProvider {...methods}>
             <form className='space-y-4'>

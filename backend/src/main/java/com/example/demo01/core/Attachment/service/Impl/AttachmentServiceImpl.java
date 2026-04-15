@@ -9,6 +9,7 @@ import com.example.demo01.core.Aws3.dtos.FileResponseDTO;
 import com.example.demo01.core.Aws3.service.S3Service;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.utils.AppUtil;
+import com.example.demo01.utils.ModuleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +30,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     private final AppUtil appUtil;
 
     @Override
-    public List<AttachmentDto> addAttachment(List<MultipartFile> files, String ownerId, String pathName, Boolean isPublic) {
+    public List<AttachmentDto> addAttachment(List<MultipartFile> files, String ownerId, String pathName, ModuleEnum moduleEnum, Boolean isPublic) {
 
         List<AttachmentItem> attachmentItems = new ArrayList<>();
 
@@ -44,6 +45,7 @@ public class AttachmentServiceImpl implements AttachmentService {
             attachmentItem.setPathName(attachment.getFileName());
             attachmentItem.setFileSize(file.getSize());
             attachmentItem.setFileName(fileName);
+            attachmentItem.setModule(moduleEnum);
             attachmentItem.setFileType(file.getContentType());
             attachmentItem.setIsPublic(isPublic);
             attachmentItem.setFileUrl(attachment.getFileUrl());

@@ -25,7 +25,7 @@ const CustomInputCard = ({
   return (
     <Field
       {...props}
-      className={`text-sm font-bold text-gray-700 gap-1 ${className}`}
+      className={`min-w-full text-sm font-bold overflow-x-visible text-gray-700 gap-1 ${className}`}
     >
       <FieldLabel className={`text-${labelSize} font-bold text-gray-700 `}>
         {label}
@@ -34,7 +34,7 @@ const CustomInputCard = ({
       {children}
       {description && <FieldDescription>{description}</FieldDescription>}
       {errorMessage && (
-        <FieldDescription className='text-sm font-semibold text-red-600 animate-pulse'>
+        <FieldDescription className='w-full max-w-full whitespace-normal wrap-break-word text-sm font-semibold text-red-600 animate-pulse'>
           {errorMessage}
         </FieldDescription>
       )}

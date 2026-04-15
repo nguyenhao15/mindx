@@ -1,5 +1,9 @@
 package com.example.demo01.core.Attachment.dto;
 
+import com.example.demo01.utils.ModuleEnum;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +23,11 @@ public class AttachmentDto {
     private String fileUrl;
     private Boolean isPublic;
     private Boolean isDeleted;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "module", length = 20)
+    private ModuleEnum module;
+
     private long fileSize;
     private String ownerId;
 

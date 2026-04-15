@@ -1,6 +1,10 @@
 package com.example.demo01.core.Attachment.model;
 
 import com.example.demo01.utils.BaseEntity.Mongo.BaseAuditModel;
+import com.example.demo01.utils.ModuleEnum;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +29,10 @@ public class AttachmentItem extends BaseAuditModel {
     private String fileType;
 
     private String fileUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "module", length = 20)
+    private ModuleEnum module;
 
     private Boolean isPublic;
 

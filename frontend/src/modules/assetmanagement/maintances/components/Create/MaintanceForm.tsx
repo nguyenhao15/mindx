@@ -14,16 +14,13 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
   const {
     watch,
     control,
-    getValues,
     formState: { errors },
   } = useFormContext();
 
-  console.log('Form value: ', getValues());
-
   return (
-    <div className='max-w-2xl flex flex-col gap-4 shadow-xl rounded-lg'>
+    <div className='w-full flex flex-col gap-4 shadow-xl rounded-lg'>
       <div className='flex flex-col gap-2 p-5 bg-white'>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+        <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-2'>
           <MaintanceCategoryOptions
             disabled={isLoading}
             label='Loại bảo trì'

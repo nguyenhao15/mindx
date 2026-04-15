@@ -2,13 +2,14 @@ package com.example.demo01.core.Attachment.service;
 
 import com.example.demo01.core.Attachment.dto.AttachmentDto;
 import com.example.demo01.core.Attachment.model.AttachmentItem;
+import com.example.demo01.utils.ModuleEnum;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface AttachmentService {
 
-    List<AttachmentDto> addAttachment(List<MultipartFile> files, String ownerId, String pathName, Boolean isPublic);
+    List<AttachmentDto> addAttachment(List<MultipartFile> files, String ownerId, String pathName, ModuleEnum moduleEnum, Boolean isPublic);
 
     List<AttachmentDto> getAttachmentByOwnerId(String ownerId);
 

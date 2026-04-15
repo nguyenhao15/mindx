@@ -15,10 +15,7 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.Mainten
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepository.MaintenanceRepository;
-import com.example.demo01.utils.BasePageResponse;
-import com.example.demo01.utils.FilterRequest;
-import com.example.demo01.utils.FilterWithPagination;
-import com.example.demo01.utils.PageInput;
+import com.example.demo01.utils.*;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +71,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
 
-        attachmentService.addAttachment(files, maintenance.getId().toString(), "maintenance", false);
+        attachmentService.addAttachment(files, maintenance.getId().toString(), "maintenance", ModuleEnum.MAINTENANCE, false);
 
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
     }
