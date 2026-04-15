@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useGetCategoryOptions } from '../hooks/useCategoryHook';
 import { Controller, useFormContext } from 'react-hook-form';
 import { SingleComboboxComponent } from '@/components/input-elements/ComboboxComponent';
@@ -66,7 +66,7 @@ const MaintanceFixItemOptions = ({
         errors={errorMessage || null}
         options={itemOptions}
         onChange={handleValueChange}
-        defaultValue={selectedValue ? [selectedValue] : []}
+        defaultValue={selectedValue ?? null}
         label={label}
         placeholder={placeholder}
       />

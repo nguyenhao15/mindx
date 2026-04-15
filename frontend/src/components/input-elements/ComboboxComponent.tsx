@@ -13,10 +13,9 @@ import {
   ComboboxInput,
   useComboboxAnchor,
 } from '@/components/ui/combobox';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import CustomInputCard from './CustomInputCard';
 import { InputGroupAddon } from '../ui/input-group';
-import { GlobeIcon } from 'lucide-react';
 
 type DynamicOption = Record<string, unknown>;
 
@@ -56,13 +55,22 @@ function MultipleComboboxComponent({
   ...props
 }: ComboboxComponentProps) {
   const anchor = useComboboxAnchor();
+  const normalizedDefaultValue = useMemo(
+    () =>
+      Array.isArray(defaultValue)
+        ? defaultValue.map((val) => ({ label: String(val), value: val }))
+        : [],
+    [defaultValue],
+  );
   const [value, setValue] = useState<NormalizedOption[]>(
-    Array.isArray(defaultValue)
-      ? defaultValue.map((val) => ({ label: String(val), value: val }))
-      : [],
+    normalizedDefaultValue,
   );
 
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setValue(normalizedDefaultValue);
+  }, [normalizedDefaultValue]);
 
   const handleValueChange = (nextValue: NormalizedOption[]) => {
     setValue(nextValue);
@@ -147,14 +155,21 @@ function SingleComboboxComponent({
   const defaultValueNormalized: NormalizedOption | null = useMemo(() => {
     if (defaultValue === null || defaultValue === undefined) return null;
     if (typeof defaultValue === 'string' || typeof defaultValue === 'number') {
-      return { label: String(defaultValue), value: defaultValue };
+      const matchedOption = options?.find(
+        (opt) => String(opt.value) === String(defaultValue),
+      );
+      return (matchedOption as NormalizedOption) || null;
     }
     return null;
-  }, [defaultValue]);
+  }, [defaultValue, options]);
   const anchor = useComboboxAnchor();
   const [value, setValue] = useState<NormalizedOption | null>(
     defaultValueNormalized,
   );
+
+  useEffect(() => {
+    setValue(defaultValueNormalized);
+  }, [defaultValueNormalized]);
 
   const handleValueChange = (nextValue: NormalizedOption | null) => {
     setValue(nextValue);

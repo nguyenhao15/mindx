@@ -29,6 +29,10 @@ const DatePickerComponent = ({
     initialValue || value,
   );
 
+  React.useEffect(() => {
+    setDate(initialValue || value);
+  }, [initialValue, value]);
+
   const handleOnSelect = (selectedDate: any) => {
     setDate(selectedDate);
     onChangeAction?.(selectedDate);

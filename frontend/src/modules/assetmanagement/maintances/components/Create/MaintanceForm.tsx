@@ -14,9 +14,11 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
   const {
     watch,
     control,
-
+    getValues,
     formState: { errors },
   } = useFormContext();
+
+  console.log('Form value: ', getValues());
 
   return (
     <div className='max-w-2xl flex flex-col gap-4 shadow-xl rounded-lg'>
@@ -40,7 +42,7 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
         </div>
         <BasementOptions
           label='Cơ sở'
-          isLoading={true}
+          isLoading={isLoading}
           required
           disabled={isLoading}
           placeholder='Chọn cơ sở'
@@ -55,7 +57,7 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
             <TextInputField
               {...field}
               labelSize='lg'
-              type='email'
+              type='textarea'
               isLoading={isLoading}
               label='Mô tả sự cố'
               id='description'
@@ -87,6 +89,7 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
               rest={field}
               title='Đính kèm tệp'
               attachedFile={value}
+              isLoading={isLoading}
               onFileAttach={onChange}
               isMultiFile
               supportedFileTypes={['PDF', 'DOCX', 'PNG', 'JPG', 'JPEG']}

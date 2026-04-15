@@ -58,11 +58,12 @@ const MaintanceCategoryOptions = ({
       <SingleComboboxComponent
         {...props}
         required={required}
+        isLoading={isLoading}
         disabled={disabled}
         errors={errorMessage || null}
         options={categoryOptions}
         onChange={handleValueChange}
-        defaultValue={selectedValue ? [selectedValue] : []}
+        defaultValue={selectedValue ? selectedValue : null}
         label={label}
         placeholder={placeholder}
       />
@@ -74,9 +75,16 @@ const MaintanceCategoryOptions = ({
       <Controller
         name={name}
         control={control}
-        render={({ field: { onChange, value, ...field }, fieldState }) =>
-          renderCombobox(value, onChange, fieldState.error?.message, field)
-        }
+        render={({ field: { onChange, value, ...field }, fieldState }) => {
+          console.log('Value: ', value);
+
+          return renderCombobox(
+            value,
+            onChange,
+            fieldState.error?.message,
+            field,
+          );
+        }}
       />
     );
   }

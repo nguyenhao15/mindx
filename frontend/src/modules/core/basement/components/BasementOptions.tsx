@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useActiveBuItems } from '../hooks/useBasementHook';
 import { SingleComboboxComponent } from '@/components/input-elements/ComboboxComponent';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -59,7 +59,7 @@ const BasementOptions = ({
         errors={errorMessage || null}
         options={buOptions}
         onChange={handleValueChange}
-        defaultValue={selectedValue ? [selectedValue] : []}
+        defaultValue={selectedValue ?? null}
         label={label}
         placeholder={placeholder}
       />

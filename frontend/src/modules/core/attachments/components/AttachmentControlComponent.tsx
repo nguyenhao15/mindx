@@ -4,7 +4,6 @@ import toast from 'react-hot-toast';
 import { BsFileText, BsUpload, BsX } from 'react-icons/bs';
 import { FaImage } from 'react-icons/fa';
 import { Input } from '@/components/ui/input';
-import { useFormContext } from 'react-hook-form';
 
 interface AttachementControlProps {
   isLoading?: boolean;
@@ -32,7 +31,6 @@ const AttachmentControl = ({
   ...rest
 }: AttachementControlProps) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [localAttachedFile, setLocalAttachedFile] = useState(attachedFile);
   const [isFocus, setIsFocus] = useState(false);
   const [filePreviews, setFilePreviews] = useState<{
     [key: string]: string | ArrayBuffer | null;
@@ -117,7 +115,7 @@ const AttachmentControl = ({
     if (validFiles.length === 0) return;
 
     const uploadedFiles = isMultiFile
-      ? [...localAttachedFile, ...filesArray]
+      ? [...attachedFile, ...filesArray]
       : filesArray.slice(0, 1);
 
     const newPreviewsFile = { ...filePreviews };
@@ -129,14 +127,12 @@ const AttachmentControl = ({
 
     setFilePreviews(newPreviewsFile);
     onFileAttach(uploadedFiles);
-    setLocalAttachedFile(uploadedFiles);
   };
 
   const removeFile = (index: number) => {
-    const fileToRemove = localAttachedFile[index];
-    const updatedFiles = localAttachedFile.filter((_, i) => i !== index);
+    const fileToRemove = attachedFile[index];
+    const updatedFiles = attachedFile.filter((_, i) => i !== index);
     onFileAttach(updatedFiles);
-    setLocalAttachedFile(updatedFiles);
     // Remove preview
     setFilePreviews((prev) => {
       const newPreviews = {
@@ -171,7 +167,7 @@ const AttachmentControl = ({
     <div className='bg-input-background p-8 rounded-xl border border-slate-200 shadow-sm'>
       <h3 className='text-lg font-semibold text-slate-900 mb-6'>{title}</h3>
 
-      {(isMultiFile || localAttachedFile.length === 0) && (
+      {(isMultiFile || attachedFile.length === 0) && (
         <div
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
@@ -220,9 +216,9 @@ const AttachmentControl = ({
           <p className='text-sm text-red-600 mt-2'>{errorMessage}</p>
         )}
       </div>
-      {localAttachedFile?.length > 0 && (
+      {attachedFile?.length > 0 && (
         <div className='space-y-3 mt-6'>
-          {localAttachedFile.map((file, index) => (
+          {attachedFile.map((file, index) => (
             <div
               key={index}
               className='flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-slate-300'
@@ -242,6 +238,7 @@ const AttachmentControl = ({
               </div>
               <button
                 type='button'
+                disabled={disabled || isLoading}
                 onClick={() => removeFile(index)}
                 className='p-2 text-slate-400 cursor-pointer hover:text-[#e31f20] hover:bg-red-50 rounded-lg transition-all shrink-0 ml-4'
                 title='Remove file'
