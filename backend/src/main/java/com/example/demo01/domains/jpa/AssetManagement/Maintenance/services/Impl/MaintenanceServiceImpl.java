@@ -18,6 +18,7 @@ import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepos
 import com.example.demo01.utils.*;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
+import org.javers.spring.annotation.JaversAuditable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -133,6 +134,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    @JaversAuditable
     public MaintenanceSummaryDTO updateMaintenance(Long id, MaintenanceRequestDto requestDto) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         if (canTransition(maintenanceEntity.getMaintenancesStatus(), requestDto.getMaintenancesStatus())) {
@@ -155,6 +157,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    @JaversAuditable
     public MaintenanceSummaryDTO upadteMaintenanceStatus(Long id, MaintenancesStatus status) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         if (status == null || maintenanceEntity.getMaintenancesStatus() == null ) return null;

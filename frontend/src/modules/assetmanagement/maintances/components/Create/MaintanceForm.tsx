@@ -89,7 +89,7 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
               isLoading={isLoading}
               onFileAttach={onChange}
               isMultiFile
-              supportedFileTypes={['PDF', 'DOCX', 'PNG', 'JPG', 'JPEG']}
+              supportedFileTypes={['PDF', 'PNG', 'JPG', 'JPEG']}
               maxFileSize={10 * 1024 * 1024} // 10MB
               errorMessage={
                 errors.attachments?.message
