@@ -13,6 +13,7 @@ import {
 } from '@/utils/formatValue';
 import { DataTable, type Column } from '@/components/shared/DataTable';
 import Status from '@/components/shared/Status';
+import { useNavigate } from 'react-router-dom';
 
 interface MaintanceGalleryProps {
   data: any;
@@ -25,7 +26,13 @@ const MaintanceGallery = ({
   isLoading,
   error,
 }: MaintanceGalleryProps) => {
+  const navigation = useNavigate();
   const { content, ...rest } = data || {};
+
+  const handleOnEdit = (item: any) => {
+    // Implement edit functionality here
+    navigation(`/assets/maintance/detail/${item.id}`);
+  };
 
   const rows = useMemo<MaintenanceSumaryResponse[]>(() => {
     const source = toArray<MaintenanceSumaryResponse>(content);
@@ -94,7 +101,12 @@ const MaintanceGallery = ({
 
   return (
     <div className='bg-input-background p-2 shadow m-3 rounded-lg flex flex-row gap-4 overflow-x-auto w-full'>
-      <DataTable columns={columns} data={rows} pagination={rest} />
+      <DataTable
+        columns={columns}
+        data={rows}
+        pagination={rest}
+        onEdit={handleOnEdit}
+      />
     </div>
   );
 };

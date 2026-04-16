@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createMaintanceAction,
   getMaintanceAction,
+  getMaintanceDetailById,
 } from '../queries/maintanceActions';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
@@ -30,6 +31,22 @@ export const useGetMaintenances = (
       return response;
     },
     enabled: !!filterWithPaginationInput,
+    staleTime: 1000 * 60 * 15, // 15 minutes
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    ...options,
+  });
+};
+
+export const useGetMaintanceDetailById = (assetId: number, options = {}) => {
+  return useQuery({
+    queryKey: ['maintenances', assetId],
+    queryFn: async () => {
+      const response = await getMaintanceDetailById(assetId);
+      return response;
+    },
+    enabled: !!assetId,
     staleTime: 1000 * 60 * 15, // 15 minutes
     refetchOnMount: false,
     refetchOnWindowFocus: false,

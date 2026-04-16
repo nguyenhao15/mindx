@@ -6,21 +6,34 @@ interface DetailHeaderProps {
   location: string;
   reporter: string;
   issueDate: string;
-  status: 'WAITING' | 'PROCESSING' | 'CHECKED' | 'FINISHED';
+  status:
+    | 'WAITING'
+    | 'APPROVED'
+    | 'REJECTED'
+    | 'PROCESSING'
+    | 'CHECKED'
+    | 'FINISHED'
+    | 'COMPLETED';
 }
 
 const STATUS_STYLES: Record<DetailHeaderProps['status'], string> = {
   WAITING: 'bg-amber-100 text-amber-700',
+  APPROVED: 'bg-sky-100 text-sky-700',
+  REJECTED: 'bg-rose-100 text-rose-700',
   PROCESSING: 'bg-sky-100 text-sky-700',
   CHECKED: 'bg-indigo-100 text-indigo-700',
   FINISHED: 'bg-emerald-100 text-emerald-700',
+  COMPLETED: 'bg-emerald-100 text-emerald-700',
 };
 
 const STATUS_LABELS: Record<DetailHeaderProps['status'], string> = {
   WAITING: 'Chờ duyệt',
+  APPROVED: 'Đã duyệt',
+  REJECTED: 'Từ chối',
   PROCESSING: 'Đang sửa',
   CHECKED: 'Đợi nghiệm thu',
   FINISHED: 'Hoàn thành',
+  COMPLETED: 'Hoàn thành',
 };
 
 const DetailHeader = ({

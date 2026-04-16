@@ -24,6 +24,11 @@ export const getMaintanceAction = async (
   return data;
 };
 
+export const getMaintanceDetailById = async (assetId: number) => {
+  const res = await mainteanceApi.getMaintenances(assetId);
+  return res.data;
+};
+
 export const updateMaintanceAction = (
   id: string,
   data: UpdateMaintenanceRequestDTO,
