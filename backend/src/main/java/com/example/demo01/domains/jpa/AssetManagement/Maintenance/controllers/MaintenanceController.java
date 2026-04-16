@@ -41,7 +41,7 @@ public class MaintenanceController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMaintenanceById(@PathVariable Long id){
-        return ResponseEntity.ok(maintenanceService.getMaintenanceSummaryById(id));
+        return ResponseEntity.ok(maintenanceService.getMaintenanceDetailsInfo(id));
     }
 
     @PutMapping("/update-status/{id}")

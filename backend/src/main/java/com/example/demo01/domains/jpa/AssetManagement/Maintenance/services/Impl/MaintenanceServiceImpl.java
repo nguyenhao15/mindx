@@ -1,5 +1,6 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Impl;
 
+import com.example.demo01.core.Attachment.dto.AttachmentDto;
 import com.example.demo01.core.Attachment.service.AttachmentService;
 import com.example.demo01.core.Basement.dto.basement.BUInfoDto;
 import com.example.demo01.core.Basement.service.BasementService;
@@ -78,7 +79,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
 
-        attachmentService.addAttachment(files, maintenance.getId().toString(), "maintenance", ModuleEnum.MAINTENANCE, false);
+        String identify = ModuleEnum.MAINTENANCE +"-"+ maintenance.getId();
+        attachmentService.addAttachment(files,identify, "maintenance", ModuleEnum.MAINTENANCE, false);
 
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
     }
@@ -109,6 +111,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         List<AuditUpdateDto> auditUpdate = auditUpdateService.getAuditUpdatesByEntityName(ModuleEnum.MAINTENANCE, maintenanceId);
         maintenanceDetailResponse.setMaintenanceDetailsInfo(detailsInfoDto);
         maintenanceDetailResponse.setUpdateHistory(auditUpdate);
+        List<AttachmentDto> attachmentDtos  = attachmentService.getAttachmentsWithPreUrl(ModuleEnum.MAINTENANCE + "-"+ maintenanceId);
+        maintenanceDetailResponse.setFiles(attachmentDtos);
         return maintenanceDetailResponse;
     }
 

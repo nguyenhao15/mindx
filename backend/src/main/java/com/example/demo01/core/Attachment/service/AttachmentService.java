@@ -17,6 +17,8 @@ public interface AttachmentService {
 
     AttachmentItem getAttachmentItemById(String id);
 
+    List<AttachmentDto> getAttachmentsWithPreUrl(String ownerId);
+
     List<AttachmentItem> getDeletedAttachments();
 
     AttachmentDto getAttachmentById(String id);

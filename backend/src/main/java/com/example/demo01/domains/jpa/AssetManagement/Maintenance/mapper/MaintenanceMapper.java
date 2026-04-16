@@ -21,6 +21,7 @@ public interface MaintenanceMapper {
     @Mapping(target = "totalProposals", expression = "java(entity.getMaintenancesProposals().size())")
     MaintenanceSummaryDTO fromEntityToMaintenanceInfoDto(MaintenanceEntity entity);
 
+    @Mapping(target = "totalProposals", expression = "java(entity.getMaintenancesProposals().size())")
     MaintenanceDetailsInfoDto fromEntityToMaintenanceDetailsInfoDto(MaintenanceEntity entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

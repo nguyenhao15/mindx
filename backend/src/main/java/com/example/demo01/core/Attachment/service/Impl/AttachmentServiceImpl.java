@@ -94,6 +94,19 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
+    public List<AttachmentDto> getAttachmentsWithPreUrl(String ownerId) {
+        List<AttachmentDto>  attachmentDtos = getAttachmentByOwnerId(ownerId);
+        if (attachmentDtos.isEmpty()) {
+            return List.of();
+        }
+        for (AttachmentDto attachmentItem : attachmentDtos) {
+            String preUrlThisFile = getPreUrl(attachmentItem.getId(), 3600L);
+            attachmentItem.setFileUrl(preUrlThisFile);
+        }
+        return attachmentDtos;
+    }
+
+    @Override
     public List<AttachmentItem> getDeletedAttachments() {
         return attachmentRepository.findByIsDeleted(true);
     }
