@@ -10,15 +10,19 @@ import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.services.Maint
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.services.MaintenanceItemService;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceUpdateRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.MaintenanceMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
+import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
+import com.example.demo01.domains.jpa.Core.Audit.service.AuditUpdateService;
 import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepository.MaintenanceRepository;
 import com.example.demo01.utils.*;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
 import org.javers.spring.annotation.JaversAuditable;
+import org.jetbrains.annotations.UnknownNullability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,6 +45,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     private MaintenanceCategoryService maintenanceCategoryService;
+
+    @Autowired
+    private AuditUpdateService  auditUpdateService;
 
     @Autowired
     private DynamicSpecificationBuilder<MaintenanceEntity> dynamicSpecificationBuilder;
@@ -135,15 +142,29 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     @JaversAuditable
-    public MaintenanceSummaryDTO updateMaintenance(Long id, MaintenanceRequestDto requestDto) {
+    public MaintenanceSummaryDTO updateMaintenance(Long id, @UnknownNullability MaintenanceUpdateRequest requestDto) {
+        MaintenanceRequestDto maintenanceRequestDto = requestDto.getRequestDto();
+        AuditUpdateRequest auditUpdateRequest = requestDto.getAuditUpdateRequest();
+
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
-        if (canTransition(maintenanceEntity.getMaintenancesStatus(), requestDto.getMaintenancesStatus())) {
-            maintenanceEntity.setMaintenancesStatus(requestDto.getMaintenancesStatus());
-        } else if (requestDto.getMaintenancesStatus() != null && !maintenanceEntity.getMaintenancesStatus().equals(requestDto.getMaintenancesStatus())) {
-            throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + requestDto.getMaintenancesStatus());
+        if (canTransition(maintenanceEntity.getMaintenancesStatus(), maintenanceRequestDto.getMaintenancesStatus())) {
+            maintenanceEntity.setMaintenancesStatus(maintenanceRequestDto.getMaintenancesStatus());
+        } else if (maintenanceRequestDto.getMaintenancesStatus() != null && !maintenanceEntity.getMaintenancesStatus().equals(maintenanceRequestDto.getMaintenancesStatus())) {
+            throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + maintenanceRequestDto.getMaintenancesStatus());
         }
 
-        maintenanceMapper.updateEntityFromRequest(requestDto, maintenanceEntity);
+        assert maintenanceRequestDto.getMaintenancesStatus() != null;
+
+        auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);
+        auditUpdateRequest.setIdentifier(ModuleEnum.MAINTENANCE + "-" + id);
+
+        auditUpdateService.createAuditUpdate(auditUpdateRequest);
+
+        if (maintenanceEntity.getMaintenancesStatus() !=maintenanceRequestDto.getMaintenancesStatus()) {
+            return updateMaintenanceStatus(id, maintenanceRequestDto.getMaintenancesStatus());
+        }
+
+        maintenanceMapper.updateEntityFromRequest(maintenanceRequestDto, maintenanceEntity);
         maintenanceRepository.save(maintenanceEntity);
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
     }
@@ -157,14 +178,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    @JaversAuditable
-    public MaintenanceSummaryDTO upadteMaintenanceStatus(Long id, MaintenancesStatus status) {
+    public MaintenanceSummaryDTO updateMaintenanceStatus(Long id, MaintenancesStatus status) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         if (status == null || maintenanceEntity.getMaintenancesStatus() == null ) return null;
         if (!canTransition(maintenanceEntity.getMaintenancesStatus(), status)) {
             throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);
         }
-        if (maintenanceEntity.getMaintenancesStatus().toString().equals("FINISHED") && status.equals(MaintenancesStatus.WAITING)) {
+        if (maintenanceEntity.getMaintenancesStatus().equals(MaintenancesStatus.FINISHED) && status.equals(MaintenancesStatus.WAITING)) {
             maintenanceEntity.setReWork(true);
         }
         maintenanceEntity.setMaintenancesStatus(status);

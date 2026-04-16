@@ -2,14 +2,13 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.controllers;
 
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceUpdateRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceWorkflow;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
-import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,12 +46,12 @@ public class MaintenanceController {
 
     @PutMapping("/update-status/{id}")
     public ResponseEntity<?> updateMaintenanceStatus(@PathVariable Long id, @RequestParam("status") MaintenancesStatus MaintenanceStatus) {
-        MaintenanceSummaryDTO updatedMaintenance = maintenanceService.upadteMaintenanceStatus(id, MaintenanceStatus);
+        MaintenanceSummaryDTO updatedMaintenance = maintenanceService.updateMaintenanceStatus(id, MaintenanceStatus);
         return ResponseEntity.ok(updatedMaintenance);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMaintenance(@PathVariable Long id, @RequestBody MaintenanceRequestDto requestDto) {
+    public ResponseEntity<?> updateMaintenance(@PathVariable Long id, @RequestBody MaintenanceUpdateRequest requestDto) {
         MaintenanceSummaryDTO maintenanceSummaryDTO = maintenanceService.updateMaintenance(id, requestDto);
         return ResponseEntity.ok(maintenanceSummaryDTO);
     }
