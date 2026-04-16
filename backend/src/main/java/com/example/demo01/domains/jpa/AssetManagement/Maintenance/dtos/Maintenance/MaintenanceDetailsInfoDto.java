@@ -18,6 +18,12 @@ public record MaintenanceDetailsInfoDto(
 
         MaintenancesStatus maintenancesStatus,
 
+        LocalDate completionAt,
+
+        LocalDate verifiedAt,
+
+        LocalDate inspection_at,
+
         MaintenanceCategoryNestInfo fixCategory,
 
         MaintenanceItemInfoDto fixItem,
@@ -27,6 +33,8 @@ public record MaintenanceDetailsInfoDto(
         Integer totalProposals,
 
         Double totalCost,
+
+        Boolean reWork,
 
         List<MaintenancesProposalsDto> maintenancesProposals,
 

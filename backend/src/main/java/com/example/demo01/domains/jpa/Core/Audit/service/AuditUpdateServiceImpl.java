@@ -5,6 +5,7 @@ import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
 import com.example.demo01.domains.jpa.Core.Audit.entity.AuditUpdateEntity;
 import com.example.demo01.domains.jpa.Core.Audit.mapper.AuditUpdateJpaMapper;
 import com.example.demo01.repository.postgreSQL.Core.AuditRepository.AuditUpdateRepository;
+import com.example.demo01.utils.ModuleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,9 @@ public class AuditUpdateServiceImpl implements AuditUpdateService  {
     }
 
     @Override
-    public List<AuditUpdateDto> getAuditUpdatesByEntityName(String entityName) {
-        List<AuditUpdateEntity> auditUpdateEntities = auditUpdateRepository.findByIdentifier(entityName);
+    public List<AuditUpdateDto> getAuditUpdatesByEntityName(ModuleEnum moduleEnum, Long id) {
+        String identifier = moduleEnum + "-" + id;
+        List<AuditUpdateEntity> auditUpdateEntities = auditUpdateRepository.findByIdentifier(identifier);
         return auditUpdateJpaMapper.fromEntityToDto(auditUpdateEntities);
     }
 

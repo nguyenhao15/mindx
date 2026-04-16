@@ -8,13 +8,12 @@ import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.Maint
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.entities.MaintenanceItemEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.services.MaintenanceCategoryService;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.services.MaintenanceItemService;
-import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
-import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
-import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceUpdateRequest;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.*;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.MaintenanceMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
+import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateDto;
 import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
 import com.example.demo01.domains.jpa.Core.Audit.service.AuditUpdateService;
 import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepository.MaintenanceRepository;
@@ -100,6 +99,17 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public MaintenanceEntity getReference(Long maintenanceId) {
         getMaintenanceById(maintenanceId);
         return maintenanceRepository.getReferenceById(maintenanceId);
+    }
+
+    @Override
+    public MaintenanceDetailResponse getMaintenanceDetailsInfo(Long maintenanceId) {
+        MaintenanceDetailResponse maintenanceDetailResponse = new MaintenanceDetailResponse();
+        MaintenanceEntity maintenanceEntity = getMaintenanceById(maintenanceId);
+        MaintenanceDetailsInfoDto detailsInfoDto = maintenanceMapper.fromEntityToMaintenanceDetailsInfoDto(maintenanceEntity);
+        List<AuditUpdateDto> auditUpdate = auditUpdateService.getAuditUpdatesByEntityName(ModuleEnum.MAINTENANCE, maintenanceId);
+        maintenanceDetailResponse.setMaintenanceDetailsInfo(detailsInfoDto);
+        maintenanceDetailResponse.setUpdateHistory(auditUpdate);
+        return maintenanceDetailResponse;
     }
 
     @Override

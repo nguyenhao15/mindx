@@ -1,5 +1,6 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services;
 
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceDetailResponse;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceUpdateRequest;
@@ -21,6 +22,8 @@ public interface MaintenanceService {
     MaintenanceSummaryDTO getMaintenanceSummaryById(Long id);
 
     MaintenanceEntity getReference(Long maintenanceId);
+
+    MaintenanceDetailResponse getMaintenanceDetailsInfo(Long maintenanceId);
 
     List<MaintenanceEntity> getAllMaintenances();
 

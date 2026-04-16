@@ -2,6 +2,7 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper;
 
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.mappers.MaintenanceCategoryMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Dimmensions.mappers.MaintenanceItemMapper;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceDetailsInfoDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
@@ -19,6 +20,8 @@ public interface MaintenanceMapper {
 
     @Mapping(target = "totalProposals", expression = "java(entity.getMaintenancesProposals().size())")
     MaintenanceSummaryDTO fromEntityToMaintenanceInfoDto(MaintenanceEntity entity);
+
+    MaintenanceDetailsInfoDto fromEntityToMaintenanceDetailsInfoDto(MaintenanceEntity entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromRequest(MaintenanceRequestDto requestDto, @MappingTarget MaintenanceEntity entity);
