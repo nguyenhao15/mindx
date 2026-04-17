@@ -8,6 +8,17 @@ import {
 } from 'react-icons/fa';
 import type { AttachmentItem } from '../components/AttachmentCard';
 
+export const IMAGE_EXTENSIONS = [
+  'jpg',
+  'jpeg',
+  'png',
+  'gif',
+  'webp',
+  'bmp',
+  'svg',
+];
+export const VIDEO_EXTENSIONS = ['mp4', 'mov', 'avi', 'mkv', 'webm', 'm4v'];
+
 export const getFileNameFromPath = (path: string) => {
   const pathSections = path.split('/').filter(Boolean);
   if (pathSections.length === 0) {
@@ -21,6 +32,31 @@ export const parseFileSize = (size: AttachmentItem['fileSize']) => {
     return Number(size);
   }
   return Number(size.$numberLong ?? 0);
+};
+
+export const isImageFile = (file: any) => {
+  const normalizedType = String(file?.fileType || '').toLowerCase();
+  if (normalizedType.startsWith('image/')) return true;
+  const extension = getExtensionFromPath(
+    String(file?.pathName || file?.fileName || ''),
+  );
+  return IMAGE_EXTENSIONS.includes(extension);
+};
+
+export const isVideoFile = (file: any) => {
+  const normalizedType = String(file?.fileType || '').toLowerCase();
+  if (normalizedType.startsWith('video/')) return true;
+  const extension = getExtensionFromPath(
+    String(file?.pathName || file?.fileName || ''),
+  );
+  return VIDEO_EXTENSIONS.includes(extension);
+};
+
+export const getExtensionFromPath = (pathName: string) => {
+  if (!pathName) return '';
+  const sanitized = pathName.split('?')[0];
+  const parts = sanitized.split('.');
+  return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
 };
 
 export const getFileVisual = (fileType: string) => {

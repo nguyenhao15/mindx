@@ -6,43 +6,15 @@ import { FilePreviewer } from './FilePreview';
 import ModalComponent from '@/components/shared/ModalComponent';
 import Loader from '@/components/shared/Loader';
 import ErrorPage from '@/components/shared/ErrorPage';
-import { SmartImage } from '@/components/shared/SmartImage';
-import { getFileNameFromPath } from '../utils/fileUtils';
-import { ExternalLink } from 'lucide-react';
-import { en } from 'zod/v4/locales';
+
+import { isImageFile, isVideoFile } from '../utils/fileUtils';
+
+import MediaCard from './MediaCard';
 
 interface AttachmentsGalleryProps {
   editable?: boolean;
   attachments: any[];
 }
-
-const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'];
-const VIDEO_EXTENSIONS = ['mp4', 'mov', 'avi', 'mkv', 'webm', 'm4v'];
-
-const getExtensionFromPath = (pathName: string) => {
-  if (!pathName) return '';
-  const sanitized = pathName.split('?')[0];
-  const parts = sanitized.split('.');
-  return parts.length > 1 ? parts[parts.length - 1].toLowerCase() : '';
-};
-
-const isImageFile = (file: any) => {
-  const normalizedType = String(file?.fileType || '').toLowerCase();
-  if (normalizedType.startsWith('image/')) return true;
-  const extension = getExtensionFromPath(
-    String(file?.pathName || file?.fileName || ''),
-  );
-  return IMAGE_EXTENSIONS.includes(extension);
-};
-
-const isVideoFile = (file: any) => {
-  const normalizedType = String(file?.fileType || '').toLowerCase();
-  if (normalizedType.startsWith('video/')) return true;
-  const extension = getExtensionFromPath(
-    String(file?.pathName || file?.fileName || ''),
-  );
-  return VIDEO_EXTENSIONS.includes(extension);
-};
 
 const AttachmentsGallery = ({ attachments }: AttachmentsGalleryProps) => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -86,51 +58,13 @@ const AttachmentsGallery = ({ attachments }: AttachmentsGalleryProps) => {
             Hình Ảnh / Video Đính Kèm
           </h2>
           <div className='mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3'>
-            {mediaAttachments.map((file) => {
-              const mediaUrl = file.fileUrl || '';
-              const displayName = getFileNameFromPath(
-                file.pathName || file.fileName || 'attachment',
-              );
-              const fileKey = file.id || file._id || file.pathName;
-
-              return (
-                <article key={fileKey} className='rounded-xl bg-slate-50 p-3'>
-                  {isImageFile(file) ? (
-                    <SmartImage
-                      src={mediaUrl}
-                      alt={displayName}
-                      className='h-52 w-full object-cover'
-                    />
-                  ) : (
-                    <video
-                      className='h-52 w-full rounded-lg bg-slate-200 object-cover'
-                      controls
-                      preload='metadata'
-                    >
-                      <source src={mediaUrl} type={file.fileType} />
-                      Trình duyệt không hỗ trợ video.
-                    </video>
-                  )}
-
-                  <div className='mt-2 flex items-center justify-between gap-2'>
-                    <p className='truncate text-xs font-medium text-slate-700'>
-                      {displayName}
-                    </p>
-                    {mediaUrl && (
-                      <a
-                        href={mediaUrl}
-                        target='_blank'
-                        rel='noreferrer'
-                        className='inline-flex items-center gap-1 text-xs font-semibold text-[#1d3557] hover:underline'
-                      >
-                        Mở link
-                        <ExternalLink size={12} />
-                      </a>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
+            {mediaAttachments.map((file) => (
+              <MediaCard
+                key={file.id || file._id || file.pathName}
+                file={file}
+                onSelectItem={onAttachmentClick}
+              />
+            ))}
           </div>
         </section>
       )}

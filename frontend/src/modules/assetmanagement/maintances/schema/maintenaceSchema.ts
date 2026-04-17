@@ -1,6 +1,17 @@
 import z from 'zod';
 import { MaintenanceCategoryNestInfo } from '../../dimension/schema/maintanceCategory';
 import { MaintanceItemInfoDto } from '../../dimension/schema/maintanceItem';
+import { AuditUpdateJPASchema } from '@/validations/auditSchema';
+
+export const MAINTENANCE_STATUS_VALUES = [
+  'WAITING',
+  'APPROVED',
+  'REJECTED',
+  'CHECKED',
+  'PROCESSING',
+  'FINISHED',
+  'COMPLETED',
+] as const;
 
 export const MaintenanceRequest = z.object({
   id: z.number(),
@@ -18,17 +29,7 @@ export const MaintenanceRequest = z.object({
     .min(1, 'Vui lòng đính kèm ít nhất 1 tệp'),
   totalCost: z.number().min(0, 'Tổng chi phí phải là một số dương'),
   isDeleted: z.boolean().default(false),
-  maintenancesStatus: z
-    .enum([
-      'WAITING',
-      'APPROVED',
-      'REJECTED',
-      'CHECKED',
-      'PROCESSING',
-      'FINISHED',
-      'COMPLETED',
-    ])
-    .default('WAITING'),
+  maintenancesStatus: z.enum(MAINTENANCE_STATUS_VALUES).default('WAITING'),
   createdDate: z.string(),
   lastModifiedDate: z.string(),
   createdBy: z.string(),
@@ -75,6 +76,15 @@ export const MaintananceDetailsDTO = MaintenanceSumarySchema.extend({
   ),
 });
 
+export const MaintenanceUpdateRequest = MaintenanceSumarySchema.partial()
+  .pick({
+    maintenancesStatus: true,
+    reWork: true,
+    totalCost: true,
+    isDeleted: true,
+  })
+  .merge(AuditUpdateJPASchema);
+
 export const MaintenanceSumarySchemaArray = z.array(MaintenanceSumarySchema);
 
 export type MaintananceDetailsDTO = z.infer<typeof MaintananceDetailsDTO>;
@@ -82,4 +92,8 @@ export type MaintenanceSumaryResponse = z.infer<typeof MaintenanceSumarySchema>;
 export type MaintenanceSummaryResponseArray = z.infer<
   typeof MaintenanceSumarySchemaArray
 >;
-export type UpdateMaintenanceRequestDTO = Partial<CreateMaintenanceRequestDTO>;
+export type UpdateMaintenanceRequestDTO = z.infer<
+  typeof MaintenanceUpdateRequest
+>;
+
+export type MaintenanceStatus = (typeof MAINTENANCE_STATUS_VALUES)[number];

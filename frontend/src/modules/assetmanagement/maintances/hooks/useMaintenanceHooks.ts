@@ -3,8 +3,10 @@ import {
   createMaintanceAction,
   getMaintanceAction,
   getMaintanceDetailById,
+  updateMaintanceAction,
 } from '../queries/maintanceActions';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
+import type { UpdateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
 
 export const useCreateMaintance = (options = {}) => {
   const queryClient = useQueryClient();
@@ -35,6 +37,25 @@ export const useGetMaintenances = (
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    ...options,
+  });
+};
+
+export const useUpdateMaintance = (options = {}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: UpdateMaintenanceRequestDTO;
+    }) => {
+      return updateMaintanceAction(id, data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['maintenances'] });
+    },
     ...options,
   });
 };

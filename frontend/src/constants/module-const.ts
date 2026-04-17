@@ -15,3 +15,14 @@ export const MODULE_NAME = [
     desc: 'Quản lý tài sản công ty, bao gồm theo dõi và bảo trì.',
   },
 ];
+
+export const MODULENUM = ['DOCUMENTS', 'MAINTENANCE', 'CONTRACT'] as const;
+
+export const CHANGE_TYPE = [
+  'CREATE',
+  'UPDATE',
+  'DELETE',
+  'CANCEL',
+  'REJECT',
+  'APPROVE',
+] as const;
