@@ -1,12 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createMaintanceAction,
+  getAvailableActionUpdate,
   getMaintanceAction,
   getMaintanceDetailById,
   updateMaintanceAction,
 } from '../queries/maintanceActions';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { UpdateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
+import type {
+  MaintenanceStatus,
+  UpdateMaintenanceRequestDTO,
+} from '../schema/maintenaceSchema';
 
 export const useCreateMaintance = (options = {}) => {
   const queryClient = useQueryClient();
@@ -68,6 +72,25 @@ export const useGetMaintanceDetailById = (assetId: number, options = {}) => {
       return response;
     },
     enabled: !!assetId,
+    staleTime: 1000 * 60 * 15, // 15 minutes
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    ...options,
+  });
+};
+
+export const useGetAvailableActionUpdate = (
+  currentStatus: MaintenanceStatus,
+  options = {},
+) => {
+  return useQuery({
+    queryKey: ['availableActions', currentStatus],
+    queryFn: async () => {
+      const response = await getAvailableActionUpdate(currentStatus);
+      return response;
+    },
+    enabled: !!currentStatus,
     staleTime: 1000 * 60 * 15, // 15 minutes
     refetchOnMount: false,
     refetchOnWindowFocus: false,

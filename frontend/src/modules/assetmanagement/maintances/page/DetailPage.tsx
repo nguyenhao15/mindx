@@ -1,36 +1,32 @@
-import React, { useState } from 'react';
 import DetailMasterPage from '../components/Details/DetailMasterPage';
-import ModalComponent from '@/components/shared/ModalComponent';
 import UpdateItemComponent from '../components/Updates/UpdateItemComponent';
 import { useParams } from 'react-router-dom';
+import { useGetMaintanceDetailById } from '../hooks/useMaintenanceHooks';
+import { useState } from 'react';
+import ModalComponent from '@/components/shared/ModalComponent';
 
 const DetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const [selectedItem, setSelectedItem] = useState<any>(null);
-  const [openUpdateModal, setOpenUpdateModal] = useState(false);
-
-  const handleSelectItemUpdate = (item: any) => {
-    // Handle the logic when an item is selected for update
-    console.log('Selected item for update:', item);
-    setSelectedItem(item);
-    setOpenUpdateModal(true);
-  };
+  const { data, isLoading, error } = useGetMaintanceDetailById(Number(id));
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <div className='p-2'>
       <DetailMasterPage
-        id={Number(id)}
-        onSelectItemUpdate={handleSelectItemUpdate}
+        onUpdateOpen={() => setOpenModal(true)}
+        item={data}
+        isLoading={isLoading}
+        error={error}
       />
-      <ModalComponent
-        open={openUpdateModal}
-        onClose={() => setOpenUpdateModal(false)}
-      >
+
+      <ModalComponent open={openModal} onClose={() => setOpenModal(false)}>
         <UpdateItemComponent
-          id={selectedItem?.id || 0}
-          maintenancesStatus={selectedItem?.maintenancesStatus || ''}
-          reWork={selectedItem?.reWork || false}
-          totalCost={selectedItem?.totalCost || 0}
+          id={data?.maintenanceDetailsInfo?.id || 0}
+          maintenancesStatus={
+            data?.maintenanceDetailsInfo?.maintenancesStatus || ''
+          }
+          reWork={data?.maintenanceDetailsInfo?.reWork || false}
+          totalCost={data?.maintenanceDetailsInfo?.totalCost || 0}
         />
       </ModalComponent>
     </div>

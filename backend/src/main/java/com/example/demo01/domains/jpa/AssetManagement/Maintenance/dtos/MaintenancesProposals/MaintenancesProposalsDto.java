@@ -9,7 +9,7 @@ public record MaintenancesProposalsDto(
 
     Long id,
 
-    MaintenanceSummaryDTO maintenanceItem,
+//    MaintenanceSummaryDTO maintenanceItem,
 
     String proposalDescription,
 

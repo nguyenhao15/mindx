@@ -1,6 +1,7 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance;
 
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,12 @@ public class MaintenanceRequestDto {
 
     @NotNull(message = "Vui lòng chọn hạng mục cần sửa")
     private Long maintenanceCategoryId;
+
+    private LocalDate completionAt;
+
+    private LocalDate verifiedAt;
+
+    private LocalDate inspection_at;
 
     private LocalDate issueDate;
 

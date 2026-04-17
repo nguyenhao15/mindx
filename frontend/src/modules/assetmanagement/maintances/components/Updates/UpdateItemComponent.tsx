@@ -6,6 +6,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import UpdateForm from './UpdateForm';
 import { Button } from '@/components/ui/button';
+import { useGetAvailableActionUpdate } from '../../hooks/useMaintenanceHooks';
 
 interface UpdateItemComponentProps {
   id: number;
@@ -29,6 +30,10 @@ const UpdateItemComponent = ({
     },
   });
 
+  const { data } = useGetAvailableActionUpdate(maintenancesStatus, {
+    enabled: !!maintenancesStatus,
+  });
+
   const {
     handleSubmit,
     register,
@@ -41,23 +46,37 @@ const UpdateItemComponent = ({
   };
 
   return (
-    <div className='p-10 bg-slate-100 rounded-lg w-full'>
+    <div className='p-10 bg- rounded-lg w-full bg-white border border-slate-100 '>
       <FormProvider {...methods}>
         <form
           action=''
           onSubmit={handleSubmit(onSubmitData)}
           className='w-full min-w-96'
         >
-          <UpdateForm control={control} register={register} errors={errors} />
+          <UpdateForm
+            currentStatus={maintenancesStatus}
+            control={control}
+            register={register}
+            errors={errors}
+          />
         </form>
-        <Button
-          type='submit'
-          variant={'default'}
-          onClick={handleSubmit(onSubmitData)}
-          className='mt-4'
-        >
-          Cập Nhật
-        </Button>
+        <div className='flex gap-2 p-2 items-center justify-self-center'>
+          {data?.length > 0 &&
+            data.map((action: string) => (
+              <Button
+                key={action}
+                className='mt-4'
+                onClick={handleSubmit(onSubmitData)}
+                disabled={
+                  data?.length === 0 || Object.keys(errors).length > 0
+                    ? true
+                    : false
+                }
+              >
+                {action}
+              </Button>
+            ))}
+        </div>
       </FormProvider>
     </div>
   );

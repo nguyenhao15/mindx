@@ -70,7 +70,10 @@ const DatePickerComponent = ({
             <CalendarIcon className='text-muted-foreground' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-auto overflow-hidden p-0' align='start'>
+        <PopoverContent
+          className='w-auto overflow-hidden p-0 z-auto'
+          align='start'
+        >
           <Calendar
             mode='single'
             selected={date}

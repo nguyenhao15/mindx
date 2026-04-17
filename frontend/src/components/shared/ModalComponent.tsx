@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-
 import {
   Dialog,
   DialogPanel,
@@ -7,18 +6,30 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 
+type ModalRenderProps = {
+  portalContainer: HTMLElement | null;
+};
+
 interface ModalComponentProps {
   open: boolean;
   onClose?: () => void;
-  children: React.ReactNode;
+  children: React.ReactNode | ((props: ModalRenderProps) => React.ReactNode);
 }
 
 const ModalComponent = ({ open, onClose, children }: ModalComponentProps) => {
+  const [portalContainer, setPortalContainer] =
+    React.useState<HTMLElement | null>(null);
+  const renderedChildren =
+    typeof children === 'function'
+      ? (children as (props: ModalRenderProps) => React.ReactNode)({
+          portalContainer,
+        })
+      : children;
   return (
     <Transition show={open} as={Fragment}>
       <Dialog
         as='div'
-        className='relative z-2000'
+        className='relative '
         onClose={onClose ? onClose : () => {}}
         static
       >
@@ -39,13 +50,13 @@ const ModalComponent = ({ open, onClose, children }: ModalComponentProps) => {
         </TransitionChild>
 
         {/* Full-screen container */}
-        <div className='fixed inset-0 '>
+        <div className='fixed inset-0' ref={setPortalContainer}>
           <div className='flex h-full items-center justify-center p-4'>
             <TransitionChild as={Fragment}>
               <DialogPanel
                 className={`h-fit max-h-[95vh] overflow-y-scroll rounded`}
               >
-                {children}
+                {renderedChildren}
               </DialogPanel>
             </TransitionChild>
           </div>

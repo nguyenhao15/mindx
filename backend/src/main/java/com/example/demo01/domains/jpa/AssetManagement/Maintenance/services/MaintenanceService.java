@@ -27,6 +27,8 @@ public interface MaintenanceService {
 
     List<MaintenanceEntity> getAllMaintenances();
 
+    List<MaintenancesStatus> getAvailableActions(MaintenancesStatus maintenancesStatus);
+
     BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination);
 
     BasePageResponse<MaintenanceSummaryDTO> buildPageResponse(Page<MaintenanceEntity> page);

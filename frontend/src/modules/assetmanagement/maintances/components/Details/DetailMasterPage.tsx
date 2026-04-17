@@ -2,17 +2,11 @@ import ActivityTimeline from '@/modules/assetmanagement/maintances/components/De
 import DetailHeader from '@/modules/assetmanagement/maintances/components/Details/DetailHeader';
 import ProgressStepper from '@/modules/assetmanagement/maintances/components/Details/ProgressStepper';
 import TechnicalSolutionsCard from '@/modules/assetmanagement/maintances/components/Details/TechnicalSolutionsCard';
-import { useParams } from 'react-router-dom';
-import { useGetMaintanceDetailById } from '../../hooks/useMaintenanceHooks';
 import AttachmentsGallery from '@/modules/core/attachments/components/AttachmentsGallery';
 import Loader from '@/components/shared/Loader';
 import ErrorPage from '@/components/shared/ErrorPage';
 import DetailInfo from './DetailInfo';
 import { Button } from '@/components/ui/button';
-
-interface DetailMasterPageProps {
-  id: number;
-}
 
 const DETAIL_STEPS = [
   { key: 'waiting', label: 'Chờ duyệt' },
@@ -32,25 +26,22 @@ const STEP_INDEX_BY_STATUS: Record<string, number> = {
 };
 
 interface DetailMasterPageProps {
-  id: number;
-  onSelectItemUpdate: (item: any) => void;
+  item: any;
+  isLoading: boolean;
+  error: any;
+  onUpdateOpen: () => void;
 }
 
 const DetailMasterPage = ({
-  id,
-  onSelectItemUpdate,
+  item,
+  isLoading,
+  error,
+  onUpdateOpen,
 }: DetailMasterPageProps) => {
-  const { data, isLoading, error } = useGetMaintanceDetailById(Number(id));
+  const { maintenanceDetailsInfo, files, updateHistory } = item || {};
 
-  const { maintenanceDetailsInfo, files, updateHistory } = data || {};
   const detailStatus = maintenanceDetailsInfo?.maintenancesStatus || 'WAITING';
   const currentStep = STEP_INDEX_BY_STATUS[detailStatus] ?? 0;
-
-  const handleOnSelectItemUpdate = () => {
-    if (maintenanceDetailsInfo) {
-      onSelectItemUpdate(maintenanceDetailsInfo);
-    }
-  };
 
   if (isLoading) {
     return <Loader text='Đang tải chi tiết đơn bảo trì...' />;
@@ -62,19 +53,31 @@ const DetailMasterPage = ({
 
   return (
     <div className='bg-slate-50 min-h-full p-4 sm:p-6 lg:p-8'>
-      <Button onClick={handleOnSelectItemUpdate}>Update item</Button>
       <div className='mx-auto max-w-7xl space-y-4 sm:space-y-5'>
         <DetailHeader
           desrciption={
             maintenanceDetailsInfo?.description ||
             'Không có mô tả nào được cung cấp.'
           }
-          ticketCode={id ? `MNT-${id}` : 'MNT-2026-0042'}
+          ticketCode={
+            maintenanceDetailsInfo?.id
+              ? `MNT-${maintenanceDetailsInfo.id}`
+              : 'MNT-2026-0042'
+          }
           location={maintenanceDetailsInfo?.locationId || 'N/A'}
           reporter={maintenanceDetailsInfo?.createdBy || 'N/A'}
           issueDate={maintenanceDetailsInfo?.issueDate}
           status={detailStatus}
         />
+        <div className='w-full flex justify-end items-end'>
+          <Button
+            variant={'default'}
+            className='cursor-pointer w-fit self-end'
+            onClick={onUpdateOpen}
+          >
+            Cập nhật
+          </Button>
+        </div>
 
         <ProgressStepper steps={DETAIL_STEPS} currentStep={currentStep} />
 
@@ -91,7 +94,17 @@ const DetailMasterPage = ({
         />
 
         <AttachmentsGallery attachments={files || []} />
-
+        {/* <div className='bg-white p-3 rounded shadow'>
+          <h2>Cập nhật thông tin</h2>
+          <UpdateItemComponent
+            id={item?.maintenanceDetailsInfo?.id || 0}
+            maintenancesStatus={
+              item?.maintenanceDetailsInfo?.maintenancesStatus || ''
+            }
+            reWork={item?.maintenanceDetailsInfo?.reWork || false}
+            totalCost={item?.maintenanceDetailsInfo?.totalCost || 0}
+          />
+        </div> */}
         <div className='grid grid-cols-1 xl:grid-cols-12 gap-4'>
           <div className='xl:col-span-5'>
             <TechnicalSolutionsCard

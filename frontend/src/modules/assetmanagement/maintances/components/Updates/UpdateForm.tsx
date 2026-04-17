@@ -1,72 +1,60 @@
 import { Controller } from 'react-hook-form';
 import TextInputField from '@/components/input-elements/TextInputField';
-import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
-import { Switch } from '@/components/input-elements/Switch';
-import {
-  MAINTENANCE_STATUS_VALUES,
-  type UpdateMaintenanceRequestDTO,
-} from '../../schema/maintenaceSchema';
-import { CHANGE_TYPE, MODULENUM } from '@/constants/module-const';
+import DatePickerComponent from '@/components/input-elements/DatePickerComponent';
+import type { MaintenanceStatus } from '../../schema/maintenaceSchema';
 
 interface UpdateFormProps {
+  currentStatus: MaintenanceStatus;
   control: any;
   errors: any;
   register: any;
-
   isLoading?: boolean;
 }
 
-const statusOptions = MAINTENANCE_STATUS_VALUES.map((s) => ({
-  label: s,
-  value: s,
-}));
-
-const changeTypeOptions = CHANGE_TYPE.map((c) => ({ label: c, value: c }));
-
-const moduleOptions = MODULENUM.map((m) => ({ label: m, value: m }));
-
 const UpdateForm = ({
+  currentStatus,
   control,
   errors,
   register,
   isLoading = false,
 }: UpdateFormProps) => {
   return (
-    <div className='min-w-full'>
-      {/* ── Maintenance fields ── */}
+    <div className='min-w-full flex flex-col gap-4 bg-white p-4'>
+      {currentStatus === 'APPROVED' && (
+        <TextInputField
+          id='totalCost'
+          label='Tổng chi phí'
+          type='number'
+          register={register}
+          errors={errors}
+          min={0}
+          placeholder='Nhập tổng chi phí'
+        />
+      )}
 
-      <TextInputField
-        id='totalCost'
-        label='Tổng chi phí'
-        type='number'
-        register={register}
-        errors={errors}
-        min={0}
-        placeholder='Nhập tổng chi phí'
+      <Controller
+        name='inspection_at'
+        control={control}
+        render={({ field }) => (
+          <DatePickerComponent
+            {...field}
+            disabled={isLoading}
+            label='Ngày kiểm tra'
+            errors={errors.inspection_at}
+          />
+        )}
       />
 
-      {/* ── Audit fields ── */}
-      <div className='border-t border-slate-100 pt-4 flex flex-col gap-4'>
-        <TextInputField
-          id='updateValue'
-          label='Giá trị cập nhật'
-          required
-          register={register}
-          errors={errors}
-          placeholder='Nhập giá trị cần cập nhật'
-        />
-
-        <TextInputField
-          id='description'
-          label='Ghi chú'
-          type='textarea'
-          required
-          register={register}
-          errors={errors}
-          rows={3}
-          placeholder='Nhập mô tả lý do thay đổi'
-        />
-      </div>
+      <TextInputField
+        id='description'
+        label='Ghi chú'
+        type='textarea'
+        required
+        register={register}
+        errors={errors}
+        rows={3}
+        placeholder='Nhập mô tả lý do thay đổi'
+      />
     </div>
   );
 };

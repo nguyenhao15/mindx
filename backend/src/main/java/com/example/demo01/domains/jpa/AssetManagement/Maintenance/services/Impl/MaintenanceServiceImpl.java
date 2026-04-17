@@ -122,6 +122,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
+    public List<MaintenancesStatus> getAvailableActions(MaintenancesStatus maintenancesStatus) {
+        if (maintenancesStatus == null) {
+            throw new IllegalArgumentException("Current status cannot be null");
+        }
+        return ALLOWED_TRANSITIONS.getOrDefault(maintenancesStatus, Collections.emptyList());
+    }
+
+    @Override
     public BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
         PageInput pageInput = filterWithPagination.getPagination();
         List<FilterRequest> filters = filterWithPagination.getFilters();

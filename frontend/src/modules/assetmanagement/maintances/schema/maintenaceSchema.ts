@@ -33,6 +33,9 @@ export const MaintenanceRequest = z.object({
   createdDate: z.string(),
   lastModifiedDate: z.string(),
   createdBy: z.string(),
+  inspection_at: z.date().min(1, 'Vui lòng chọn ngày kiểm tra'),
+  completionAt: z.date().min(1, 'Vui lòng chọn ngày hoàn thành'),
+  verifiedAt: z.date().min(1, 'Vui lòng chọn ngày nghiệm thu'),
   lastModifiedBy: z.string(),
 });
 
@@ -44,6 +47,9 @@ export type CreateMaintenanceRequestDTO = Omit<
   | 'createdDate'
   | 'lastModifiedDate'
   | 'createdBy'
+  | 'inspection_at'
+  | 'completionAt'
+  | 'verifiedAt'
   | 'lastModifiedBy'
   | 'maintenancesStatus'
   | 'isDeleted'
@@ -82,6 +88,9 @@ export const MaintenanceUpdateRequest = MaintenanceSumarySchema.partial()
     reWork: true,
     totalCost: true,
     isDeleted: true,
+    inspection_at: true,
+    completionAt: true,
+    verifiedAt: true,
   })
   .merge(AuditUpdateJPASchema);
 

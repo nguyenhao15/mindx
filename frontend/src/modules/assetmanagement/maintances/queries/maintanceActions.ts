@@ -2,6 +2,7 @@ import type { FilterWithPaginationInput } from '@/validations/filterWithPaginati
 import { mainteanceApi } from '../api/maintenanceApi';
 import {
   MaintenanceSumarySchemaArray,
+  type MaintenanceStatus,
   type UpdateMaintenanceRequestDTO,
 } from '../schema/maintenaceSchema';
 
@@ -38,4 +39,11 @@ export const updateMaintanceAction = (
 
 export const deleteMaintanceAction = (id: number) => {
   return mainteanceApi.deleteMaintenance(id);
+};
+
+export const getAvailableActionUpdate = async (
+  currentStatus: MaintenanceStatus,
+) => {
+  const res = await mainteanceApi.getAvailableActionUpdate(currentStatus);
+  return res.data;
 };

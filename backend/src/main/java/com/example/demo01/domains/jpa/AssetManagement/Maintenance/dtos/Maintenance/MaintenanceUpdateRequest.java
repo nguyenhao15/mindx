@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class MaintenanceUpdateRequest {
     @NotNull(message = "Vui lòng cung cấp ID bảo trì")
-    MaintenanceRequestDto requestDto;
+    private MaintenanceRequestDto requestDto;
 
     @NotNull(message = "Thông tin cập nhật là bắt buộc")
-    AuditUpdateRequest auditUpdateRequest;
+    private AuditUpdateRequest auditUpdateRequest;
 }

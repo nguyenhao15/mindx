@@ -44,6 +44,12 @@ public class MaintenanceController {
         return ResponseEntity.ok(maintenanceService.getMaintenanceDetailsInfo(id));
     }
 
+    @GetMapping("/available-actions/{currentStatus}")
+    public ResponseEntity<?> getAvailableActions(@PathVariable MaintenancesStatus currentStatus) {
+        List<MaintenancesStatus> availableActions = maintenanceService.getAvailableActions(currentStatus);
+        return ResponseEntity.ok(availableActions);
+    }
+
     @PutMapping("/update-status/{id}")
     public ResponseEntity<?> updateMaintenanceStatus(@PathVariable Long id, @RequestParam("status") MaintenancesStatus MaintenanceStatus) {
         MaintenanceSummaryDTO updatedMaintenance = maintenanceService.updateMaintenanceStatus(id, MaintenanceStatus);
