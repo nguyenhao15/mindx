@@ -6,7 +6,10 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import UpdateForm from './UpdateForm';
 import { Button } from '@/components/ui/button';
-import { useGetAvailableActionUpdate } from '../../hooks/useMaintenanceHooks';
+import {
+  useGetAvailableActionUpdate,
+  useUpdateMaintance,
+} from '../../hooks/useMaintenanceHooks';
 
 interface UpdateItemComponentProps {
   id: number;
@@ -24,11 +27,16 @@ const UpdateItemComponent = ({
   const methods = useForm({
     resolver: zodResolver(MaintenanceUpdateRequest),
     defaultValues: {
-      maintenancesStatus,
+      maintenancesStatus: 'APPROVED',
+      module: 'MAINTENANCE',
+      changeType: 'UPDATE',
+      identifier: String(id),
       reWork,
       totalCost,
     },
   });
+
+  const { mutateAsync, isPending } = useUpdateMaintance();
 
   const { data } = useGetAvailableActionUpdate(maintenancesStatus, {
     enabled: !!maintenancesStatus,
@@ -41,9 +49,41 @@ const UpdateItemComponent = ({
     formState: { errors },
   } = methods;
 
-  const onSubmitData = (data: any) => {
-    console.log('Form Data:', data);
+  const onSubmitData = async (data: any) => {
+    const maintenanceUpdatePayload = MaintenanceUpdateRequest.parse(data);
+
+    const updateAuditPayload = {
+      identifier: String(id),
+      changeType: 'UPDATE',
+      updateValue: 'APPROVED',
+      module: 'MAINTENANCE',
+      description: data.description,
+    };
+
+    const { maintenancesStatus, ...rest } = maintenanceUpdatePayload;
+
+    const sendinData = {
+      maintenancesStatus: 'APPROVED' as MaintenanceStatus,
+      ...rest,
+    };
+
+    const finalPayload = {
+      requestDto: sendinData,
+      auditUpdateRequest: updateAuditPayload,
+    };
+
+    const payload = {
+      id: String(id),
+      data: finalPayload,
+    };
+    try {
+      await mutateAsync(payload);
+    } catch (error) {
+      console.log('Error: ', error);
+    }
   };
+
+  console.log('Errors: ', errors);
 
   return (
     <div className='p-10 bg- rounded-lg w-full bg-white border border-slate-100 '>
@@ -67,11 +107,7 @@ const UpdateItemComponent = ({
                 key={action}
                 className='mt-4'
                 onClick={handleSubmit(onSubmitData)}
-                disabled={
-                  data?.length === 0 || Object.keys(errors).length > 0
-                    ? true
-                    : false
-                }
+                disabled={isPending}
               >
                 {action}
               </Button>

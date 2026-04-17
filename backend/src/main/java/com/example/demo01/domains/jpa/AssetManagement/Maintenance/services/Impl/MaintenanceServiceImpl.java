@@ -164,7 +164,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    @JaversAuditable
+//    @JaversAuditable
     public MaintenanceSummaryDTO updateMaintenance(Long id, @UnknownNullability MaintenanceUpdateRequest requestDto) {
         MaintenanceRequestDto maintenanceRequestDto = requestDto.getRequestDto();
         AuditUpdateRequest auditUpdateRequest = requestDto.getAuditUpdateRequest();

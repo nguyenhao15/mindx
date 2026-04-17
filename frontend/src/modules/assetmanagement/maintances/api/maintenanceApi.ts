@@ -24,11 +24,11 @@ export const mainteanceApi = {
   },
 
   updateMaintenance: (id: string, data: UpdateMaintenanceRequestDTO) => {
-    return axiosClient.put(`${MAINTANANCE_ENDPOINT}/request/${id}`, data);
+    return axiosClient.put(`${MAINTANANCE_ENDPOINT}/${id}`, data);
   },
 
   deleteMaintenance: (id: number) => {
-    return axiosClient.delete(`${MAINTANANCE_ENDPOINT}/request/${id}`);
+    return axiosClient.delete(`${MAINTANANCE_ENDPOINT}/${id}`);
   },
 
   getAvailableActionUpdate: (currentStatus: MaintenanceStatus) => {
