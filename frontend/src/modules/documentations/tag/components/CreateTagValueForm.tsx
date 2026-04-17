@@ -13,7 +13,7 @@ import {
 } from '@/modules/documentations/tag/hooks/useProcessTagValueHooks';
 import toast from 'react-hot-toast';
 import RadioInputField from '@/components/shared/RadioInputField';
-import { useInitialValue } from '@/hookQueries/useInitialValue';
+import { useInitialValue } from '@/modules/core/utils/hook/useInitialValue';
 
 const CreateTagValueForm = ({
   updateMode = false,

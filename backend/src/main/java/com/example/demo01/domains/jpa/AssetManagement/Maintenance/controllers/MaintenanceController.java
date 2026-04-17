@@ -50,12 +50,6 @@ public class MaintenanceController {
         return ResponseEntity.ok(availableActions);
     }
 
-    @PutMapping("/update-status/{id}")
-    public ResponseEntity<?> updateMaintenanceStatus(@PathVariable Long id, @RequestParam("status") MaintenancesStatus MaintenanceStatus) {
-        MaintenanceSummaryDTO updatedMaintenance = maintenanceService.updateMaintenanceStatus(id, MaintenanceStatus);
-        return ResponseEntity.ok(updatedMaintenance);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMaintenance(@PathVariable Long id, @RequestBody MaintenanceUpdateRequest requestDto) {
         MaintenanceSummaryDTO maintenanceSummaryDTO = maintenanceService.updateMaintenance(id, requestDto);

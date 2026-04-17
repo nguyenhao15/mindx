@@ -19,7 +19,7 @@ export function DepartmentGrid() {
   });
 
   const handleOnView = (data: any) => {
-    navigate(`/departments/${data.departmentCode}`, {
+    navigate(`/docs/departments/${data.departmentCode}`, {
       state: {
         departmentItem: data,
       },
@@ -30,8 +30,8 @@ export function DepartmentGrid() {
     <div>
       <div className='flex items-center justify-between mb-6'>
         <h3 className='text-xl font-bold'>Departmental Categories</h3>
-        <Link to='/departments'>
-          <span className='text-sm font-medium text-brand-primary hover:underline'>
+        <Link to='/docs/departments'>
+          <span className='text-sm font-medium xtext-brand-primary hover:underline'>
             View All
           </span>
         </Link>

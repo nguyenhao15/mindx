@@ -31,7 +31,8 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
     @Column(name = "verified_at")
     private LocalDate verifiedAt;
 
-    private LocalDate inspection_at;
+    @Column(name = "inspect_at")
+    private LocalDate inspectAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maintenance_category_id")

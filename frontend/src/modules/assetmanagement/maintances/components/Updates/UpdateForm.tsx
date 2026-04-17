@@ -33,7 +33,7 @@ const UpdateForm = ({
       )}
 
       <Controller
-        name='inspection_at'
+        name='inspectAt'
         control={control}
         render={({ field }) => (
           <DatePickerComponent

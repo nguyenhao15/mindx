@@ -28,7 +28,7 @@ public class MaintenanceRequestDto {
 
     private LocalDate verifiedAt;
 
-    private LocalDate inspection_at;
+    private LocalDate inspectAt;
 
     private LocalDate issueDate;
 

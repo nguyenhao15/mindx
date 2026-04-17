@@ -28,6 +28,10 @@ public record MaintenanceSummaryDTO (
 
         Double totalCost,
 
+        LocalDate inspectAt,
+
+        LocalDate verifiedAt,
+
         String createdBy,
 
         String lastModifiedBy,

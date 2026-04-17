@@ -33,7 +33,7 @@ export const MaintenanceRequest = z.object({
   createdDate: z.string(),
   lastModifiedDate: z.string(),
   createdBy: z.string(),
-  inspection_at: z.date().min(1, 'Vui lòng chọn ngày kiểm tra'),
+  inspectAt: z.date().min(1, 'Vui lòng chọn ngày kiểm tra'),
   completionAt: z.date().min(1, 'Vui lòng chọn ngày hoàn thành'),
   verifiedAt: z.date().min(1, 'Vui lòng chọn ngày nghiệm thu'),
   lastModifiedBy: z.string(),
@@ -47,7 +47,7 @@ export type CreateMaintenanceRequestDTO = Omit<
   | 'createdDate'
   | 'lastModifiedDate'
   | 'createdBy'
-  | 'inspection_at'
+  | 'inspectAt'
   | 'completionAt'
   | 'verifiedAt'
   | 'lastModifiedBy'
@@ -82,17 +82,24 @@ export const MaintananceDetailsDTO = MaintenanceSumarySchema.extend({
   ),
 });
 
-export const MaintenanceUpdateRequest = MaintenanceSumarySchema.partial()
-  .pick({
+export const MaintenanceUpdateRequestDtoSchema =
+  MaintenanceSumarySchema.partial().pick({
     maintenancesStatus: true,
     reWork: true,
     totalCost: true,
     isDeleted: true,
-    inspection_at: true,
+    inspectAt: true,
     completionAt: true,
     verifiedAt: true,
-  })
-  .merge(AuditUpdateJPASchema);
+  });
+
+export const MaintenanceUpdateFormSchema =
+  MaintenanceUpdateRequestDtoSchema.merge(AuditUpdateJPASchema);
+
+export const MaintenanceUpdateRequest = z.object({
+  requestDto: MaintenanceUpdateRequestDtoSchema,
+  auditUpdateRequest: AuditUpdateJPASchema,
+});
 
 export const MaintenanceSumarySchemaArray = z.array(MaintenanceSumarySchema);
 
@@ -103,6 +110,15 @@ export type MaintenanceSummaryResponseArray = z.infer<
 >;
 export type UpdateMaintenanceRequestDTO = z.infer<
   typeof MaintenanceUpdateRequest
+>;
+export type UpdateMaintenanceRequestDataDTO = z.infer<
+  typeof MaintenanceUpdateRequestDtoSchema
+>;
+export type UpdateMaintenanceFormDTO = z.infer<
+  typeof MaintenanceUpdateFormSchema
+>;
+export type UpdateMaintenanceFormInputDTO = z.input<
+  typeof MaintenanceUpdateFormSchema
 >;
 
 export type MaintenanceStatus = (typeof MAINTENANCE_STATUS_VALUES)[number];

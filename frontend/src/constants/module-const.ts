@@ -16,6 +16,12 @@ export const MODULE_NAME = [
   },
 ];
 
+export const MODULE_PATH = {
+  ADMIN: '/admin',
+  DOCUMENTS: '/docs',
+  ASSETS: '/assets',
+};
+
 export const MODULENUM = ['DOCUMENTS', 'MAINTENANCE', 'CONTRACT'] as const;
 
 export const CHANGE_TYPE = [

@@ -37,7 +37,5 @@ public interface MaintenanceService {
 
     String softDeleteMaintenance(Long maintenanceId);
 
-    MaintenanceSummaryDTO updateMaintenanceStatus(Long id, MaintenancesStatus status);
-
     String deleteMaintenanceById(Long id);
 }

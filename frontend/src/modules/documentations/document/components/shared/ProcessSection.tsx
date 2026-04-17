@@ -1,3 +1,5 @@
+import { MODULE_PREFIX } from '@/constants/api-endpoint';
+import { MODULE_NAME, MODULE_PATH } from '@/constants/module-const';
 import ProcessCard from '@/modules/documentations/document/components/processFlow/ProcessCard';
 import { useGetActiveProcessFlows } from '@/modules/documentations/document/hooks/useProcessFlowHooks';
 
@@ -23,7 +25,7 @@ export function ProcessSection() {
   );
 
   const handleOnCardClick = (item: (typeof processFlows.content)[number]) => {
-    navigate(`/documents/tag-flow/${item.id}`, {
+    navigate(`${MODULE_PATH.DOCUMENTS}/tag-flow/${item.id}`, {
       state: { processItem: item },
     });
   };

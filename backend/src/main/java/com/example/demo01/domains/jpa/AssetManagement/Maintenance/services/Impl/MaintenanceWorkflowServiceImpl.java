@@ -1,8 +1,10 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Impl;
 
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalsDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.MaintenanceMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceWorkflow;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenancesProposalService;
@@ -23,6 +25,9 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
     @Autowired
     private MaintenancesProposalService maintenancesProposalService;
 
+    @Autowired
+    private MaintenanceMapper maintenanceMapper;
+
     @Override
     @Transactional
     public List<MaintenancesProposalsDto> createProposals(List<MaintenancesProposalRequest> requests) {
@@ -38,9 +43,6 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
     @Transactional
     public MaintenancesProposalsDto createProposal(MaintenancesProposalRequest maintenancesProposalRequest) {
         MaintenanceEntity maintenance = maintenanceService.getReference(maintenancesProposalRequest.getMaintenanceId());
-        if (maintenance.getMaintenancesStatus().toString().equals("APPROVED")) {
-            maintenanceService.updateMaintenanceStatus(maintenancesProposalRequest.getMaintenanceId(), MaintenancesStatus.CHECKED);
-        }
         return maintenancesProposalService.createProposal(maintenancesProposalRequest, maintenance);
     }
 }

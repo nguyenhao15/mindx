@@ -19,7 +19,7 @@ const DocumentRoute = () => {
         <Route path='departments/:id' element={<ProcessFlowByDepartment />} />
         <Route path='my-documents' element={<MyDocuments />} />
         <Route
-          path='documents/tag-flow/:id'
+          path='/tag-flow/:id'
           element={<ProcessDetail viewMode='user' />}
         />
         <Route path='create-document' element={<CreateNewProcessPage />} />

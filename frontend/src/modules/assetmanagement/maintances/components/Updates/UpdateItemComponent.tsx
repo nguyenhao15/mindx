@@ -1,11 +1,17 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import {
+  MAINTENANCE_STATUS_VALUES,
+  MaintenanceUpdateFormSchema,
   MaintenanceUpdateRequest,
   type MaintenanceStatus,
+  type UpdateMaintenanceFormInputDTO,
+  type UpdateMaintenanceRequestDataDTO,
+  type UpdateMaintenanceRequestDTO,
 } from '../../schema/maintenaceSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import UpdateForm from './UpdateForm';
 import { Button } from '@/components/ui/button';
+import type { AuditUpdateJPADTO } from '@/validations/auditSchema';
 import {
   useGetAvailableActionUpdate,
   useUpdateMaintance,
@@ -24,10 +30,10 @@ const UpdateItemComponent = ({
   reWork,
   totalCost,
 }: UpdateItemComponentProps) => {
-  const methods = useForm({
-    resolver: zodResolver(MaintenanceUpdateRequest),
+  const methods = useForm<UpdateMaintenanceFormInputDTO>({
+    resolver: zodResolver(MaintenanceUpdateFormSchema),
     defaultValues: {
-      maintenancesStatus: 'APPROVED',
+      maintenancesStatus,
       module: 'MAINTENANCE',
       changeType: 'UPDATE',
       identifier: String(id),
@@ -49,32 +55,46 @@ const UpdateItemComponent = ({
     formState: { errors },
   } = methods;
 
-  const onSubmitData = async (data: any) => {
-    const maintenanceUpdatePayload = MaintenanceUpdateRequest.parse(data);
+  const onSubmitData = async (
+    formData: UpdateMaintenanceFormInputDTO,
+    action?: string,
+  ) => {
+    const maintenanceUpdatePayload =
+      MaintenanceUpdateFormSchema.parse(formData);
 
-    const updateAuditPayload = {
+    const nextStatus = MAINTENANCE_STATUS_VALUES.includes(
+      action as MaintenanceStatus,
+    )
+      ? (action as MaintenanceStatus)
+      : maintenancesStatus;
+
+    const updateAuditPayload: AuditUpdateJPADTO = {
       identifier: String(id),
       changeType: 'UPDATE',
-      updateValue: 'APPROVED',
+      updateValue: nextStatus,
       module: 'MAINTENANCE',
-      description: data.description,
+      description: formData.description,
     };
 
-    const { maintenancesStatus, ...rest } = maintenanceUpdatePayload;
-
-    const sendinData = {
-      maintenancesStatus: 'APPROVED' as MaintenanceStatus,
-      ...rest,
+    const requestDto: UpdateMaintenanceRequestDataDTO = {
+      maintenancesStatus: nextStatus,
+      reWork: maintenanceUpdatePayload.reWork,
+      totalCost: maintenanceUpdatePayload.totalCost,
+      isDeleted: maintenanceUpdatePayload.isDeleted,
+      inspectAt: maintenanceUpdatePayload.inspectAt,
+      completionAt: maintenanceUpdatePayload.completionAt,
+      verifiedAt: maintenanceUpdatePayload.verifiedAt,
     };
 
-    const finalPayload = {
-      requestDto: sendinData,
-      auditUpdateRequest: updateAuditPayload,
-    };
+    const sendingData: UpdateMaintenanceRequestDTO =
+      MaintenanceUpdateRequest.parse({
+        requestDto,
+        auditUpdateRequest: updateAuditPayload,
+      });
 
     const payload = {
       id: String(id),
-      data: finalPayload,
+      data: sendingData,
     };
     try {
       await mutateAsync(payload);
@@ -83,14 +103,15 @@ const UpdateItemComponent = ({
     }
   };
 
-  console.log('Errors: ', errors);
+  const submitWithAction = (action?: string) =>
+    handleSubmit((formData) => onSubmitData(formData, action));
 
   return (
     <div className='p-10 bg- rounded-lg w-full bg-white border border-slate-100 '>
       <FormProvider {...methods}>
         <form
           action=''
-          onSubmit={handleSubmit(onSubmitData)}
+          onSubmit={submitWithAction()}
           className='w-full min-w-96'
         >
           <UpdateForm
@@ -105,8 +126,9 @@ const UpdateItemComponent = ({
             data.map((action: string) => (
               <Button
                 key={action}
+                type='button'
                 className='mt-4'
-                onClick={handleSubmit(onSubmitData)}
+                onClick={submitWithAction(action)}
                 disabled={isPending}
               >
                 {action}

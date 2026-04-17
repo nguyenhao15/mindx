@@ -22,7 +22,7 @@ public record MaintenanceDetailsInfoDto(
 
         LocalDate verifiedAt,
 
-        LocalDate inspection_at,
+        LocalDate inspectAt,
 
         MaintenanceCategoryNestInfo fixCategory,
 

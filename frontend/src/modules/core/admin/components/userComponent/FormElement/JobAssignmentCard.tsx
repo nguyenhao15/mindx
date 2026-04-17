@@ -1,13 +1,14 @@
 import { useEffect, useRef, type ChangeEvent } from 'react';
 import { TrashIcon } from 'lucide-react';
 import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
-import { useDepartmentForForm } from '@/hookQueries/useDepartmentForForm';
+
 import { Controller, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import TextInputField from '@/components/input-elements/TextInputField';
 import { WorkProfile } from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@/components/input-elements/Switch';
+import { useDepartmentForForm } from '@/modules/core/utils/hook/useDepartmentForForm';
 
 export interface Assignment {
   id: string;

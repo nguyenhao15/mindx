@@ -21,7 +21,6 @@ import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepos
 import com.example.demo01.utils.*;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
-import org.javers.spring.annotation.JaversAuditable;
 import org.jetbrains.annotations.UnknownNullability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -168,26 +167,25 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public MaintenanceSummaryDTO updateMaintenance(Long id, @UnknownNullability MaintenanceUpdateRequest requestDto) {
         MaintenanceRequestDto maintenanceRequestDto = requestDto.getRequestDto();
         AuditUpdateRequest auditUpdateRequest = requestDto.getAuditUpdateRequest();
-
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
-        if (canTransition(maintenanceEntity.getMaintenancesStatus(), maintenanceRequestDto.getMaintenancesStatus())) {
-            maintenanceEntity.setMaintenancesStatus(maintenanceRequestDto.getMaintenancesStatus());
-        } else if (maintenanceRequestDto.getMaintenancesStatus() != null && !maintenanceEntity.getMaintenancesStatus().equals(maintenanceRequestDto.getMaintenancesStatus())) {
-            throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + maintenanceRequestDto.getMaintenancesStatus());
-        }
-
         assert maintenanceRequestDto.getMaintenancesStatus() != null;
+        MaintenancesStatus status = maintenanceRequestDto.getMaintenancesStatus();
+
+        if (maintenanceEntity.getMaintenancesStatus() != status) {
+            if (!canTransition(maintenanceEntity.getMaintenancesStatus(), status)) {
+                throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);
+            }
+            if (maintenanceEntity.getMaintenancesStatus().equals(MaintenancesStatus.FINISHED) && status.equals(MaintenancesStatus.WAITING)) {
+                maintenanceEntity.setReWork(true);
+            }
+        }
 
         auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);
         auditUpdateRequest.setIdentifier(ModuleEnum.MAINTENANCE + "-" + id);
 
         auditUpdateService.createAuditUpdate(auditUpdateRequest);
-
-        if (maintenanceEntity.getMaintenancesStatus() !=maintenanceRequestDto.getMaintenancesStatus()) {
-            return updateMaintenanceStatus(id, maintenanceRequestDto.getMaintenancesStatus());
-        }
-
         maintenanceMapper.updateEntityFromRequest(maintenanceRequestDto, maintenanceEntity);
+        System.out.println("Updated Maintenance Entity: " + maintenanceEntity);
         maintenanceRepository.save(maintenanceEntity);
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
     }
@@ -198,21 +196,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenanceEntity.setIsDeleted(true);
         maintenanceRepository.save(maintenanceEntity);
         return "Soft deleted successfully";
-    }
-
-    @Override
-    public MaintenanceSummaryDTO updateMaintenanceStatus(Long id, MaintenancesStatus status) {
-        MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
-        if (status == null || maintenanceEntity.getMaintenancesStatus() == null ) return null;
-        if (!canTransition(maintenanceEntity.getMaintenancesStatus(), status)) {
-            throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);
-        }
-        if (maintenanceEntity.getMaintenancesStatus().equals(MaintenancesStatus.FINISHED) && status.equals(MaintenancesStatus.WAITING)) {
-            maintenanceEntity.setReWork(true);
-        }
-        maintenanceEntity.setMaintenancesStatus(status);
-        MaintenanceEntity maintenance = maintenanceRepository.save(maintenanceEntity);
-        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
     }
 
     @Override
