@@ -4,10 +4,11 @@ import ProgressStepper from '@/modules/assetmanagement/maintances/components/Det
 import TechnicalSolutionsCard from '@/modules/assetmanagement/maintances/components/Details/TechnicalSolutionsCard';
 import { useParams } from 'react-router-dom';
 import { useGetMaintanceDetailById } from '../hooks/useMaintenanceHooks';
-import { formatDate, formatDateTime, formatPrice } from '@/utils/formatValue';
+
 import AttachmentsGallery from '@/modules/core/attachments/components/AttachmentsGallery';
 import Loader from '@/components/shared/Loader';
 import ErrorPage from '@/components/shared/ErrorPage';
+import DetailInfo from '../components/Details/DetailInfo';
 
 const DETAIL_STEPS = [
   { key: 'waiting', label: 'Chờ duyệt' },
@@ -100,79 +101,30 @@ const DetailPage = () => {
     <div className='bg-slate-50 min-h-full p-4 sm:p-6 lg:p-8'>
       <div className='mx-auto max-w-7xl space-y-4 sm:space-y-5'>
         <DetailHeader
+          desrciption={
+            maintenanceDetailsInfo?.description ||
+            'Không có mô tả nào được cung cấp.'
+          }
           ticketCode={id ? `MNT-${id}` : 'MNT-2026-0042'}
           location={maintenanceDetailsInfo?.locationId || 'N/A'}
           reporter={maintenanceDetailsInfo?.createdBy || 'N/A'}
-          issueDate={formatDate(maintenanceDetailsInfo?.issueDate)}
+          issueDate={maintenanceDetailsInfo?.issueDate}
           status={detailStatus}
         />
 
         <ProgressStepper steps={DETAIL_STEPS} currentStep={currentStep} />
 
-        <section className='w-full bg-white rounded-2xl border border-slate-100 p-5 sm:p-6'>
-          <div className='flex items-center justify-between gap-3'>
-            <h2 className='text-base font-semibold text-slate-800'>
-              Thông Tin Sự Cố
-            </h2>
-            <span className='inline-flex rounded-full bg-[#1d3557]/10 px-3 py-1 text-xs font-semibold text-[#1d3557]'>
-              ID #{maintenanceDetailsInfo?.id ?? id}
-            </span>
-          </div>
-
-          <div className='mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3'>
-            <article className='rounded-xl bg-slate-50 p-4'>
-              <p className='text-xs text-slate-500'>Danh mục sửa chữa</p>
-              <p className='mt-1 text-sm font-semibold text-slate-800'>
-                {maintenanceDetailsInfo?.fixCategory?.categoryTitle || 'N/A'}
-              </p>
-            </article>
-
-            <article className='rounded-xl bg-slate-50 p-4'>
-              <p className='text-xs text-slate-500'>Hạng mục</p>
-              <p className='mt-1 text-sm font-semibold text-slate-800'>
-                {maintenanceDetailsInfo?.fixItem?.itemTitle || 'N/A'}
-              </p>
-            </article>
-
-            <article className='rounded-xl bg-slate-50 p-4'>
-              <p className='text-xs text-slate-500'>Tổng phương án</p>
-              <p className='mt-1 text-sm font-semibold text-slate-800'>
-                {maintenanceDetailsInfo?.totalProposals ?? 0}
-              </p>
-            </article>
-
-            <article className='rounded-xl bg-slate-50 p-4'>
-              <p className='text-xs text-slate-500'>Tổng chi phí</p>
-              <p className='mt-1 text-sm font-semibold text-slate-800'>
-                {formatPrice(maintenanceDetailsInfo?.totalCost ?? 0)}
-              </p>
-            </article>
-
-            <article className='rounded-xl bg-slate-50 p-4'>
-              <p className='text-xs text-slate-500'>Ngày tạo đơn</p>
-              <p className='mt-1 text-sm font-semibold text-slate-800'>
-                {formatDateTime(maintenanceDetailsInfo?.createdDate)}
-              </p>
-            </article>
-
-            <article className='rounded-xl bg-slate-50 p-4'>
-              <p className='text-xs text-slate-500'>Cập nhật gần nhất</p>
-              <p className='mt-1 text-sm font-semibold text-slate-800'>
-                {formatDateTime(maintenanceDetailsInfo?.lastModifiedDate)}
-              </p>
-            </article>
-          </div>
-
-          <article className='mt-3 rounded-xl bg-slate-50 p-4'>
-            <p className='text-xs text-slate-500'>Mô tả sự cố</p>
-            <p className='mt-1 text-sm text-slate-700'>
-              {maintenanceDetailsInfo?.description || 'Chưa có mô tả'}
-            </p>
-            <p className='mt-2 text-xs text-slate-500'>
-              Re-work: {maintenanceDetailsInfo?.reWork ? 'Có' : 'Không'}
-            </p>
-          </article>
-        </section>
+        <DetailInfo
+          id={maintenanceDetailsInfo?.id || 0}
+          fixCategory={maintenanceDetailsInfo?.fixCategory}
+          fixItem={maintenanceDetailsInfo?.fixItem}
+          totalProposals={maintenanceDetailsInfo?.totalProposals}
+          totalCost={maintenanceDetailsInfo?.totalCost}
+          createdDate={maintenanceDetailsInfo?.createdDate}
+          lastModifiedDate={maintenanceDetailsInfo?.lastModifiedDate}
+          description={maintenanceDetailsInfo?.description || 'N/A'}
+          reWork={maintenanceDetailsInfo?.reWork || false}
+        />
 
         <AttachmentsGallery attachments={files || []} />
 

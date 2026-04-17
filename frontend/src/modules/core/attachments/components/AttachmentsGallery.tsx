@@ -9,6 +9,7 @@ import ErrorPage from '@/components/shared/ErrorPage';
 import { SmartImage } from '@/components/shared/SmartImage';
 import { getFileNameFromPath } from '../utils/fileUtils';
 import { ExternalLink } from 'lucide-react';
+import { en } from 'zod/v4/locales';
 
 interface AttachmentsGalleryProps {
   editable?: boolean;
@@ -55,6 +56,8 @@ const AttachmentsGallery = ({ attachments }: AttachmentsGalleryProps) => {
   );
 
   const onAttachmentClick = (attachment: any) => {
+    console.log('Attachments: ', attachment);
+
     setSelectedAttachment(attachment);
     setOpenDialog(true);
   };
@@ -64,8 +67,13 @@ const AttachmentsGallery = ({ attachments }: AttachmentsGalleryProps) => {
     isLoading: isPresignedUrlLoading,
     error: presignedUrlError,
   } = useGetFlowAttachmentById({
-    id: selectedAttachment?.fileUrl ? '' : selectedAttachment?.id || '',
-    expirationTime: 600,
+    params: {
+      id: selectedAttachment?.fileUrl ? '' : selectedAttachment?.id || '',
+      expirationTime: 600,
+    },
+    options: {
+      enabled: !!selectedAttachment && !selectedAttachment?.fileUrl,
+    },
   });
 
   const selectedFileUrl = selectedAttachment?.fileUrl || presignedUrlData;

@@ -148,6 +148,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         response.setContent(content);
         response.setPageNumber(page.getNumber());
         response.setPageSize(page.getSize());
+        response.setTotalPages(page.getTotalPages());
         response.setTotalElements(page.getTotalElements());
         response.setLastPage(page.isLast());
 

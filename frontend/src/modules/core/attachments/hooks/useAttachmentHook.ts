@@ -2,13 +2,13 @@ import { getFlowAttachmentById } from '@/modules/core/attachments/quries/attachm
 import { useQuery } from '@tanstack/react-query';
 
 type UseGetFlowAttachmentByIdResult = {
-  id: string;
-  expirationTime: number;
+  params: { id: string; expirationTime: number };
+  options?: {};
 };
 
 export const useGetFlowAttachmentById = ({
-  id,
-  expirationTime,
+  params: { id, expirationTime },
+  options = {},
 }: UseGetFlowAttachmentByIdResult) => {
   return useQuery({
     queryKey: ['flowAttachment', id, expirationTime],
@@ -17,5 +17,6 @@ export const useGetFlowAttachmentById = ({
       return response;
     },
     enabled: !!id, // Chỉ chạy query khi id tồn tại
+    ...options,
   });
 };

@@ -1,7 +1,7 @@
-import DetailPage from './DetailPage';
+import React from 'react';
 
 const HomePage = () => {
-  return <DetailPage />;
+  return <div>HomePage</div>;
 };
 
 export default HomePage;

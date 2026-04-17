@@ -19,12 +19,14 @@ interface MaintanceGalleryProps {
   data: any;
   isLoading: boolean;
   error: any;
+  handlePageChange: (page: number) => void;
 }
 
 const MaintanceGallery = ({
   data,
   isLoading,
   error,
+  handlePageChange,
 }: MaintanceGalleryProps) => {
   const navigation = useNavigate();
   const { content, ...rest } = data || {};
@@ -106,6 +108,7 @@ const MaintanceGallery = ({
         data={rows}
         pagination={rest}
         onEdit={handleOnEdit}
+        handlePageChange={handlePageChange}
       />
     </div>
   );

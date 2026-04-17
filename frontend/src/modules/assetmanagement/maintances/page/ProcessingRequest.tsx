@@ -6,11 +6,11 @@ import MaintanceGallery from '../components/shared/MaintanceGallery';
 import { Link } from 'react-router-dom';
 
 const ProcessingRequest = () => {
-  const [filterInput] = useState<FilterWithPaginationInput>({
+  const [filterInput, setFilterInput] = useState<FilterWithPaginationInput>({
     filters: [],
     pagination: {
       page: 0,
-      size: 10,
+      size: 12,
       sortOrder: [
         {
           property: 'createdAt',
@@ -20,7 +20,20 @@ const ProcessingRequest = () => {
     },
   });
 
+  const handleOnPageChange = (page: number) => {
+    setFilterInput((prev) => ({
+      ...prev,
+      pagination: {
+        ...prev.pagination,
+        page: page, // Assuming the API is 0-indexed
+      },
+    }));
+
+    console.log('Filter: ', filterInput);
+  };
+
   const { data, isLoading, error } = useGetMaintenances(filterInput);
+
   return (
     <div className='flex flex-col gap-6'>
       <div className='flex items-center justify-between'>
@@ -48,6 +61,7 @@ const ProcessingRequest = () => {
             data={data || []}
             isLoading={isLoading}
             error={error}
+            handlePageChange={handleOnPageChange}
           />
         </div>
       </div>

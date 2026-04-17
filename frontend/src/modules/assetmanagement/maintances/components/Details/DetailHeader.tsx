@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CalendarDays, MapPin, UserRound } from 'lucide-react';
+import { formatDate } from 'date-fns';
 
 interface DetailHeaderProps {
+  desrciption: string;
   ticketCode: string;
   location: string;
   reporter: string;
@@ -37,6 +39,7 @@ const STATUS_LABELS: Record<DetailHeaderProps['status'], string> = {
 };
 
 const DetailHeader = ({
+  desrciption,
   ticketCode,
   location,
   reporter,
@@ -48,7 +51,7 @@ const DetailHeader = ({
       <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
         <div className='space-y-3'>
           <Link
-            to='/assets/maintance'
+            to='/assets/maintance/list'
             className='inline-flex items-center gap-1.5 text-sm text-[#1d3557] hover:underline'
           >
             <ArrowLeft size={14} />
@@ -58,9 +61,8 @@ const DetailHeader = ({
             <h1 className='text-xl sm:text-2xl font-bold text-slate-800'>
               Chi tiết Đơn Sửa Chữa {ticketCode}
             </h1>
-            <p className='text-sm text-slate-500 mt-1'>
-              Theo dõi tiến độ, phương án kỹ thuật và lịch sử xử lý theo thời
-              gian thực.
+            <p className='text-lg font-bold text-slate-900 mt-1'>
+              {desrciption || 'Không có mô tả nào được cung cấp.'}
             </p>
           </div>
         </div>
@@ -83,7 +85,7 @@ const DetailHeader = ({
         </p>
         <p className='flex items-center gap-2 text-sm text-slate-600'>
           <CalendarDays size={15} className='text-slate-400' />
-          {issueDate}
+          {issueDate ? formatDate(new Date(issueDate), 'dd/MM/yyyy') : 'N/A'}
         </p>
       </div>
     </section>
