@@ -1,5 +1,6 @@
 package com.example.demo01.domains.jpa.Core.Approval.dto.Approval;
 
+import com.example.demo01.domains.jpa.Core.Approval.entities.AllowTypeEnum;
 import com.example.demo01.utils.ModuleEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,8 +26,14 @@ public class ApprovalPolicyRequestDto {
     @NotBlank(message = "Requester position is required")
     private String requesterPosition;
 
+//    @NotNull
+//    private List<String> approverPositions = new ArrayList<>();
+
     @NotNull
-    private List<String> approverPositions = new ArrayList<>();
+    private AllowTypeEnum allowType;
+
+    @NotNull
+    private String allowValue;
 
     private Integer priority = 0;
 

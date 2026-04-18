@@ -4,12 +4,15 @@ import com.example.demo01.utils.BaseEntity.Jpa.BaseAuditJpaModel;
 import com.example.demo01.utils.ModuleEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
-import java.util.List;
-
-@Entity(name = "approval_policies")
+@Entity
+@Table(name = "approval_policies",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"target_status","requester_position","module"})
+        },
+        indexes = {
+        @Index(name = "idx_dept_status", columnList = "module, target_status, requester_position")
+})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -21,8 +24,9 @@ public class ApprovalPolicyEntity extends BaseAuditJpaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "current_status", length = 50, nullable = false)
-    private String currentStatus;
+
+    @Column(name = "target_status", length = 50, nullable = false)
+    private String targetStatus;
 
     @Column(nullable = false)
     private ModuleEnum module;
@@ -30,9 +34,10 @@ public class ApprovalPolicyEntity extends BaseAuditJpaModel {
     @Column(name = "requester_position", nullable = false, length = 50)
     private String requesterPosition;
 
-    @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(name = "approver_positions", columnDefinition = "varchar(50)[]", nullable = false)
-    private List<String> approverPositions;
+    @Enumerated(EnumType.STRING)
+    private AllowTypeEnum allowType;
+
+    private String allowValue;
 
     private Integer priority = 0;
 

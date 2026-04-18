@@ -23,4 +23,6 @@ public class WorkFlowTransitionRequestDto {
 
     private String description;
 
+    private Boolean enabled;
+
 }

@@ -6,8 +6,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity(name = "workflow_transitions")
-@Table(name = "workflow_transitions", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"from_status","to_status","module_enum"})
+@Table(name = "workflow_transitions",
+        indexes = {
+                @Index(name = "idx", columnList = "module, from_status, to_status, enabled")
+        },
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"from_status","to_status","module"})
 })
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,5 +33,7 @@ public class WorkFlowTransitionEntity extends BaseAuditJpaModel {
     private String toStatus;
 
     private String description;
+
+    private Boolean enabled = true;
 
 }

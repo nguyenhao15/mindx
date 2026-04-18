@@ -19,6 +19,8 @@ public class WorkFlowTransitionInfoDto {
     private String description;
     private ModuleEnum module;
 
+    private Boolean enabled;
+
     private String createdBy;
     private Instant createdDate;
     private String lastModifiedBy;

@@ -1,10 +1,9 @@
 package com.example.demo01.domains.jpa.Core.Approval.dto.Approval;
 
+import com.example.demo01.domains.jpa.Core.Approval.entities.AllowTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +12,11 @@ public class ApprovalPolicyInfoDto {
 
     private Long id;
     private String currentStatus;
-    private List<String> approverPositions;
+
+    private AllowTypeEnum allowType;
+
+    private String allowValue;
+
     private String requesterPosition;
     private String module;
     private Integer priority;
