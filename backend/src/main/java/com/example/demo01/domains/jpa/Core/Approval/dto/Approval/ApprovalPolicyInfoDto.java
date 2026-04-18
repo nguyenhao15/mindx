@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class ApprovalPolicyInfoDto {
 
     private Long id;
-    private String currentStatus;
+    private String targetStatus;
 
     private AllowTypeEnum allowType;
 

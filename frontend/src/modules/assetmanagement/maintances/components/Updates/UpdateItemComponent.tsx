@@ -121,19 +121,28 @@ const UpdateItemComponent = ({
             errors={errors}
           />
         </form>
-        <div className='flex gap-2 p-2 items-center justify-self-center'>
+        <div
+          className={`grid grid-cols-${data?.length} gap-2 p-2 items-center justify-self-center`}
+        >
           {data?.length > 0 &&
-            data.map((action: string) => (
-              <Button
-                key={action}
-                type='button'
-                className='mt-4'
-                onClick={submitWithAction(action)}
-                disabled={isPending}
-              >
-                {action}
-              </Button>
-            ))}
+            data.map(
+              (action: {
+                label: string;
+                nextStatus: string;
+                actionType: string;
+              }) => (
+                <Button
+                  key={action.nextStatus}
+                  type='button'
+                  variant={action.actionType.toLowerCase() as any}
+                  className='mt-4'
+                  onClick={submitWithAction(action.nextStatus)}
+                  disabled={isPending}
+                >
+                  {action?.label}
+                </Button>
+              ),
+            )}
         </div>
       </FormProvider>
     </div>

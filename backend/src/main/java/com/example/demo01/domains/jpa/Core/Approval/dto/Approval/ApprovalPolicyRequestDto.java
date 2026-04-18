@@ -18,7 +18,7 @@ import java.util.List;
 public class ApprovalPolicyRequestDto {
 
     @NotBlank(message = "Current status is required")
-    private String currentStatus;
+    private String targetStatus;
 
     @NotNull(message = "Module is required")
     private ModuleEnum module;

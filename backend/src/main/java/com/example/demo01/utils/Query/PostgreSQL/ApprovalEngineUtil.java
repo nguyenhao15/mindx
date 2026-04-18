@@ -22,7 +22,6 @@ public class ApprovalEngineUtil {
     public List<ActionResponse> getAvailableAction(String currentStatus,String fromDepartment , ModuleEnum moduleEnum) {
         List<WorkFlowTransitionInfoDto> availableAction = workFlowTransitionService.getWorkFlowTransitionDtoByCurrentStatusAndModule(currentStatus, moduleEnum);
         if (availableAction == null || availableAction.isEmpty()) {
-            System.out.println("Something null");
             return List.of();
         }
         List<WorkFlowTransitionInfoDto> filteredArr = availableAction.stream()
@@ -30,11 +29,9 @@ public class ApprovalEngineUtil {
                 .distinct()
                 .toList();
 
-        System.out.println("Filtered list: " + filteredArr);
-
         List<ActionResponse> actionResponseList = new ArrayList<>();
         for (WorkFlowTransitionInfoDto dto : filteredArr) {
-            ActionResponse actionResponse =  new ActionResponse(dto.getToStatus(), dto.getLabelName(), dto.getActionType());
+            ActionResponse actionResponse =  new ActionResponse( dto.getLabelName(),dto.getToStatus(), dto.getActionType());
             actionResponseList.add(actionResponse);
         }
         return actionResponseList;
