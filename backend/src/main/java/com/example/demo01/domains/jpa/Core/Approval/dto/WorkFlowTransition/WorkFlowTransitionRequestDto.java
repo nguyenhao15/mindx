@@ -21,6 +21,12 @@ public class WorkFlowTransitionRequestDto {
     @NotNull(message = "Module is required")
     private ModuleEnum module;
 
+    @NotBlank(message = "Label name is required")
+    private String labelName;
+
+    @NotBlank(message = "Action type is required")
+    private String actionType;
+
     private String description;
 
     private Boolean enabled;

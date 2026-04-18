@@ -17,6 +17,9 @@ public class ApprovalPolicyInfoDto {
 
     private String allowValue;
 
+    private String description;
+
+
     private String requesterPosition;
     private String module;
     private Integer priority;

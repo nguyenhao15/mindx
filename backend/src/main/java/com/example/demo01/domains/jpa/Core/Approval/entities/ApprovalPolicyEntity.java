@@ -4,6 +4,7 @@ import com.example.demo01.utils.BaseEntity.Jpa.BaseAuditJpaModel;
 import com.example.demo01.utils.ModuleEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import software.amazon.awssdk.core.pagination.sync.PaginatedResponsesIterator;
 
 @Entity
 @Table(name = "approval_policies",
@@ -28,6 +29,7 @@ public class ApprovalPolicyEntity extends BaseAuditJpaModel {
     @Column(name = "target_status", length = 50, nullable = false)
     private String targetStatus;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ModuleEnum module;
 
@@ -36,6 +38,8 @@ public class ApprovalPolicyEntity extends BaseAuditJpaModel {
 
     @Enumerated(EnumType.STRING)
     private AllowTypeEnum allowType;
+
+    private String description;
 
     private String allowValue;
 

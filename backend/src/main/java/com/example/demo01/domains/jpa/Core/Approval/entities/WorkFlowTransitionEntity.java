@@ -8,7 +8,7 @@ import lombok.*;
 @Entity(name = "workflow_transitions")
 @Table(name = "workflow_transitions",
         indexes = {
-                @Index(name = "idx", columnList = "module, from_status, to_status, enabled")
+                @Index(name = "idx", columnList = "module, from_status, to_status")
         },
         uniqueConstraints = {
         @UniqueConstraint(columnNames = {"from_status","to_status","module"})
@@ -24,6 +24,7 @@ public class WorkFlowTransitionEntity extends BaseAuditJpaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private ModuleEnum module;
 
     @Column(name = "from_status", length = 50, nullable = false)
@@ -31,6 +32,10 @@ public class WorkFlowTransitionEntity extends BaseAuditJpaModel {
 
     @Column(name = "to_status", length = 50, nullable = false)
     private String toStatus;
+
+    private String labelName;
+
+    private String actionType;
 
     private String description;
 

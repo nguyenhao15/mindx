@@ -26,8 +26,7 @@ public class ApprovalPolicyRequestDto {
     @NotBlank(message = "Requester position is required")
     private String requesterPosition;
 
-//    @NotNull
-//    private List<String> approverPositions = new ArrayList<>();
+    private String description;
 
     @NotNull
     private AllowTypeEnum allowType;

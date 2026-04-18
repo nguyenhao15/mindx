@@ -9,6 +9,7 @@ import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,9 +46,8 @@ public class MaintenanceController {
     }
 
     @GetMapping("/available-actions/{currentStatus}")
-    public ResponseEntity<?> getAvailableActions(@PathVariable MaintenancesStatus currentStatus) {
-        List<MaintenancesStatus> availableActions = maintenanceService.getAvailableActions(currentStatus);
-        return ResponseEntity.ok(availableActions);
+    public ResponseEntity<?> getAvailableActions(@PathVariable MaintenancesStatus currentStatus){
+        return ResponseEntity.ok(maintenanceService.getAvailableActions(currentStatus));
     }
 
     @PutMapping("/{id}")

@@ -69,15 +69,19 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
     @Override
     public Boolean getExactRule(String targetStatus, String from, ModuleEnum moduleEnum) {
         CustomUserDetails currentUser = securityRepoUtil.getCurrentUserDetails();
-
         ApprovalPolicyEntity approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus, from, moduleEnum);
-        if (approvalPolicyEntity == null) {
+        if (Objects.equals(from, "*")) {
+            return true;
+        }
+
+        if (approvalPolicyEntity == null ) {
             approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus,"*", moduleEnum);
         }
 
         if (approvalPolicyEntity == null) {
             return false;
         }
+
 
         AllowTypeEnum allowType = approvalPolicyEntity.getAllowType();
         String allowTypeValue = approvalPolicyEntity.getAllowValue();

@@ -19,6 +19,8 @@ import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
 import com.example.demo01.domains.jpa.Core.Audit.service.AuditUpdateService;
 import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepository.MaintenanceRepository;
 import com.example.demo01.utils.*;
+import com.example.demo01.utils.Query.PostgreSQL.ActionResponse;
+import com.example.demo01.utils.Query.PostgreSQL.ApprovalEngineUtil;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
 import org.jetbrains.annotations.UnknownNullability;
@@ -59,6 +61,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     private BasementService  basementService;
+
+    @Autowired
+    private ApprovalEngineUtil  approvalEngineUtil;
 
     @Override
     public MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto, List<MultipartFile> files) {
@@ -121,11 +126,10 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public List<MaintenancesStatus> getAvailableActions(MaintenancesStatus maintenancesStatus) {
-        if (maintenancesStatus == null) {
-            throw new IllegalArgumentException("Current status cannot be null");
-        }
-        return ALLOWED_TRANSITIONS.getOrDefault(maintenancesStatus, Collections.emptyList());
+    public List<ActionResponse> getAvailableActions(MaintenancesStatus maintenancesStatus) {
+        String mainStatus = maintenancesStatus.toString();
+        System.out.println("MaintenanceServiceImpl.getAvailableActions " + mainStatus);
+        return approvalEngineUtil.getAvailableAction(maintenancesStatus.toString(), "*", ModuleEnum.MAINTENANCE);
     }
 
     @Override
@@ -185,7 +189,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         auditUpdateService.createAuditUpdate(auditUpdateRequest);
         maintenanceMapper.updateEntityFromRequest(maintenanceRequestDto, maintenanceEntity);
-        System.out.println("Updated Maintenance Entity: " + maintenanceEntity);
         maintenanceRepository.save(maintenanceEntity);
         return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
     }

@@ -345,7 +345,6 @@ public class InvoiceServiceImpl implements InvoiceService{
         };
     }
 
-    // Mapping để Frontend quyết định style (Primary, Danger, v.v.)
     private String getActionType(InvoiceStatus status) {
         return switch (status) {
             case CANCELED -> "DANGER";

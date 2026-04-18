@@ -19,6 +19,10 @@ public class WorkFlowTransitionInfoDto {
     private String description;
     private ModuleEnum module;
 
+    private String labelName;
+
+    private String actionType;
+
     private Boolean enabled;
 
     private String createdBy;
