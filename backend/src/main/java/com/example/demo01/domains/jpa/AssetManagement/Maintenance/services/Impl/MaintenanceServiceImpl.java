@@ -13,6 +13,7 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.MaintenanceMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.utils.MaintenanceQueryUtil;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateDto;
 import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
@@ -49,6 +50,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     private DynamicSpecificationBuilder<MaintenanceEntity> dynamicSpecificationBuilder;
+
+    @Autowired
+    private MaintenanceQueryUtil  maintenanceQueryUtil;
 
     @Autowired
     private PostgreSQLPageUtil postgreSQLPageUtil;
@@ -134,14 +138,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
         PageInput pageInput = filterWithPagination.getPagination();
-        List<FilterRequest> filters = filterWithPagination.getFilters();
-        Map<String, Specification<MaintenanceEntity>> specification = new HashMap<>();
-        Specification<MaintenanceEntity> allow = staticSpecs.validLocation("locationId");
-        Specification<MaintenanceEntity> isNotDelete = staticSpecs.isNotDeleted("isDeleted");
-        specification.put("locationId", allow);
-        specification.put("isDeleted", isNotDelete);
-        Specification<MaintenanceEntity> finalSpecification = dynamicSpecificationBuilder.build(filters, specification);
-
+        Specification<MaintenanceEntity> finalSpecification = maintenanceQueryUtil.buildSpecification(filterWithPagination);
         Page<MaintenanceEntity> page = postgreSQLPageUtil.buildPageResponse(
                 finalSpecification,
                 pageInput,

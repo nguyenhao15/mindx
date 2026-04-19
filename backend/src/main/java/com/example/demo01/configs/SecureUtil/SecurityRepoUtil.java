@@ -29,6 +29,8 @@ public interface SecurityRepoUtil {
 
     List<WorkProfile> getCurrentWorkProfiles();
 
+    WorkProfile getMainCurrentWorkProfile();
+
     int getViewLevel();
 
 }

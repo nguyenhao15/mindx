@@ -91,7 +91,13 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
     public List<WorkProfile> getCurrentWorkProfiles() {
         return getCurrentUserDetails().getWorkProfiles();
     }
-    
+
+    @Override
+    public WorkProfile getMainCurrentWorkProfile() {
+        return getCurrentWorkProfiles().stream().filter(
+                WorkProfile::getIsMainPosition
+                ).findFirst().orElseThrow(() -> new InvalidCredentialsException("Main work profile not found"));
+    }
 
     @Override
     public int getViewLevel() {

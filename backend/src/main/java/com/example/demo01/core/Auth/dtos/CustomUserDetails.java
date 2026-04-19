@@ -53,7 +53,7 @@ public class CustomUserDetails implements UserDetails {
 
     public boolean isGlobalAdmin() {
         return systemRole.equals("ADMIN") || workProfiles.stream()
-                .anyMatch(p -> p.getPositionLevel() > 3 );
+                .anyMatch(p -> p.getPositionLevel() > 2 );
     }
 
     public List<String> getAllowedLocations() {
