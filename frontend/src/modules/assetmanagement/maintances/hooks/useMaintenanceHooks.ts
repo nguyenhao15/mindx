@@ -7,10 +7,7 @@ import {
   updateMaintanceAction,
 } from '../queries/maintanceActions';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type {
-  MaintenanceStatus,
-  UpdateMaintenanceRequestDTO,
-} from '../schema/maintenaceSchema';
+import type { UpdateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
 
 export const useCreateMaintance = (options = {}) => {
   const queryClient = useQueryClient();
@@ -80,17 +77,14 @@ export const useGetMaintanceDetailById = (assetId: number, options = {}) => {
   });
 };
 
-export const useGetAvailableActionUpdate = (
-  currentStatus: MaintenanceStatus,
-  options = {},
-) => {
+export const useGetAvailableActionUpdate = (id: number, options = {}) => {
   return useQuery({
-    queryKey: ['availableActions', currentStatus],
+    queryKey: ['availableActions', id],
     queryFn: async () => {
-      const response = await getAvailableActionUpdate(currentStatus);
+      const response = await getAvailableActionUpdate(id);
       return response;
     },
-    enabled: !!currentStatus,
+    enabled: !!id,
     staleTime: 1000 * 60 * 15, // 15 minutes
     refetchOnMount: false,
     refetchOnWindowFocus: false,

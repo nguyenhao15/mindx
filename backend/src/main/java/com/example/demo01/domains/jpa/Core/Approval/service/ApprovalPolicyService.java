@@ -19,7 +19,7 @@ public interface ApprovalPolicyService {
 
     List<ApprovalPolicyInfoDto> getRule(String targetStatus, ModuleEnum moduleEnum);
 
-    Boolean getExactRule(String targetStatus,String from , ModuleEnum moduleEnum);
+    Boolean getExactRule(String targetStatus,String from , ModuleEnum moduleEnum, String author);
 
     BasePageResponse<ApprovalPolicyInfoDto> getAllApprovalPolicies(FilterWithPagination filter);
 

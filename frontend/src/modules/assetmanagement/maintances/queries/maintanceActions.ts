@@ -41,9 +41,7 @@ export const deleteMaintanceAction = (id: number) => {
   return mainteanceApi.deleteMaintenance(id);
 };
 
-export const getAvailableActionUpdate = async (
-  currentStatus: MaintenanceStatus,
-) => {
-  const res = await mainteanceApi.getAvailableActionUpdate(currentStatus);
+export const getAvailableActionUpdate = async (id: number) => {
+  const res = await mainteanceApi.getAvailableActionUpdate(id);
   return res.data;
 };

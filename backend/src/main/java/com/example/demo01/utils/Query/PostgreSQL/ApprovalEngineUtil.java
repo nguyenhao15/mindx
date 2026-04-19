@@ -19,13 +19,13 @@ public class ApprovalEngineUtil {
     @Autowired
     private WorkFlowTransitionService workFlowTransitionService;
 
-    public List<ActionResponse> getAvailableAction(String currentStatus,String fromDepartment , ModuleEnum moduleEnum) {
+    public List<ActionResponse> getAvailableAction(String currentStatus,String fromDepartment,String author , ModuleEnum moduleEnum) {
         List<WorkFlowTransitionInfoDto> availableAction = workFlowTransitionService.getWorkFlowTransitionDtoByCurrentStatusAndModule(currentStatus, moduleEnum);
         if (availableAction == null || availableAction.isEmpty()) {
             return List.of();
         }
         List<WorkFlowTransitionInfoDto> filteredArr = availableAction.stream()
-                .filter(action -> approvalPolicyService.getExactRule(action.getToStatus(), fromDepartment, moduleEnum))
+                .filter(action -> approvalPolicyService.getExactRule(action.getToStatus(), fromDepartment, moduleEnum, author ))
                 .distinct()
                 .toList();
 

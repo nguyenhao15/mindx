@@ -126,10 +126,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     }
 
     @Override
-    public List<ActionResponse> getAvailableActions(MaintenancesStatus maintenancesStatus) {
-        String mainStatus = maintenancesStatus.toString();
-        System.out.println("MaintenanceServiceImpl.getAvailableActions " + mainStatus);
-        return approvalEngineUtil.getAvailableAction(maintenancesStatus.toString(), "*", ModuleEnum.MAINTENANCE);
+    public List<ActionResponse> getAvailableActions(Long id) {
+        MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
+        return approvalEngineUtil.getAvailableAction(maintenanceEntity.getMaintenancesStatus().toString(), "*", maintenanceEntity.getCreatedBy(), ModuleEnum.MAINTENANCE);
     }
 
     @Override

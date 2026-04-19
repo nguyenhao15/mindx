@@ -1,9 +1,6 @@
 import { MAINTANANCE_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
-import type {
-  MaintenanceStatus,
-  UpdateMaintenanceRequestDTO,
-} from '../schema/maintenaceSchema';
+import type { UpdateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const mainteanceApi = {
@@ -31,9 +28,7 @@ export const mainteanceApi = {
     return axiosClient.delete(`${MAINTANANCE_ENDPOINT}/${id}`);
   },
 
-  getAvailableActionUpdate: (currentStatus: MaintenanceStatus) => {
-    return axiosClient.get(
-      `${MAINTANANCE_ENDPOINT}/available-actions/${currentStatus}`,
-    );
+  getAvailableActionUpdate: (id: number) => {
+    return axiosClient.get(`${MAINTANANCE_ENDPOINT}/available-actions/${id}`);
   },
 };

@@ -67,7 +67,7 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
     }
 
     @Override
-    public Boolean getExactRule(String targetStatus, String from, ModuleEnum moduleEnum) {
+    public Boolean getExactRule(String targetStatus, String from, ModuleEnum moduleEnum, String author) {
         CustomUserDetails currentUser = securityRepoUtil.getCurrentUserDetails();
         ApprovalPolicyEntity approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus, from, moduleEnum);
 
@@ -79,26 +79,30 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
             return Objects.equals(from, "*");
         }
 
-        System.out.println("True in first expresstion");
-
-
         AllowTypeEnum allowType = approvalPolicyEntity.getAllowType();
         String allowTypeValue = approvalPolicyEntity.getAllowValue();
 
-        List<String> defaultDepartmentId = currentUser.getWorkProfiles().stream().filter(
-                WorkProfile::getIsMainPosition).map(WorkProfile::getDepartmentId).toList();
-
-        List<String> position = currentUser.getWorkProfiles().stream().filter(
-                WorkProfile::getIsMainPosition).map(WorkProfile::getPositionCode).toList();
-
-
-        return switch (allowType) {
-            case USERID -> Objects.equals(approvalPolicyEntity.getAllowValue(), currentUser.getStaffId());
-            case DEPARTMENT -> defaultDepartmentId.contains(allowTypeValue);
-            case POSITION -> position.contains(allowTypeValue);
-            default -> false;
-        };
-
+        switch (allowType) {
+            case USERID -> {
+                return Objects.equals(approvalPolicyEntity.getAllowValue(), currentUser.getStaffId());
+            }
+            case DEPARTMENT -> {
+                List<String> defaultDepartmentId = currentUser.getWorkProfiles().stream().filter(
+                        WorkProfile::getIsMainPosition).map(WorkProfile::getDepartmentId).toList();
+                return defaultDepartmentId.contains(allowTypeValue);
+            }
+            case POSITION -> {
+                List<String> position = currentUser.getWorkProfiles().stream().filter(
+                        WorkProfile::getIsMainPosition).map(WorkProfile::getPositionCode).toList();
+                return position.contains(allowTypeValue);
+            }
+            case AUTHOR -> {
+                return Objects.equals(currentUser.getStaffId(), author);
+            }
+            default -> {
+                return false;
+            }
+        }
     }
 
     @Override

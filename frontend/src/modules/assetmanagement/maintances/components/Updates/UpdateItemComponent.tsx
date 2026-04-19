@@ -44,8 +44,8 @@ const UpdateItemComponent = ({
 
   const { mutateAsync, isPending } = useUpdateMaintance();
 
-  const { data } = useGetAvailableActionUpdate(maintenancesStatus, {
-    enabled: !!maintenancesStatus,
+  const { data } = useGetAvailableActionUpdate(id, {
+    enabled: !!id,
   });
 
   const {
