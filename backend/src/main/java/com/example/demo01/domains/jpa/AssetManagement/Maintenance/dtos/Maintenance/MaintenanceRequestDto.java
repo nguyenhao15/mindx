@@ -32,6 +32,8 @@ public class MaintenanceRequestDto {
 
     private LocalDate issueDate;
 
+    private String assignedTo;
+
     private MaintenancesStatus maintenancesStatus = MaintenancesStatus.WAITING;
 
     private String locationId;

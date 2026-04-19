@@ -34,7 +34,7 @@ public class MaintenanceQueryUtil {
         Specification<MaintenanceEntity> allow = staticSpecs.validLocation("locationId");
         Specification<MaintenanceEntity> isNotDelete = staticSpecs.isNotDeleted("isDeleted");
         Specification<MaintenanceEntity> isAssign = (root, query, criteriaBuilder) -> {
-            if (isGlobalAdmin || mainWorkProfile.getPositionCode().equals("TECHNICAL_STAFF")  ) {
+            if (isGlobalAdmin || !mainWorkProfile.getPositionCode().equals("TECHNICAL_STAFF")  ) {
                 return criteriaBuilder.conjunction();
             }
             return root.get("assignedTo").in(userId);

@@ -26,7 +26,7 @@ public class TransactionCustomRepoImpl implements TransactionCustomRepo {
     @Override
     public Double getRevenueBetween(LocalDate startDate, LocalDate endDate) {
         Criteria criteria = Criteria.where("paymentDate").gte(startDate).lte(endDate);
-        Criteria securityCriteria = securityRepoUtil.getSecurityCriteria();
+        Criteria securityCriteria = securityRepoUtil.getSecurityCriteriaByBu("buId");
 
         if (securityCriteria != null && !securityCriteria.getCriteriaObject().isEmpty()) {
             criteria = criteria.andOperator(securityCriteria);
@@ -55,7 +55,7 @@ public class TransactionCustomRepoImpl implements TransactionCustomRepo {
     @Override
     public Page<Transaction> getPaymentDetail(Pageable pageable) {
         Query query = new Query();
-        securityRepoUtil.createSecureQuery(query);
+        securityRepoUtil.createSecureQuery(query,"buId" );
         List<Transaction> transactions = mongoTemplate.find(query.with(pageable), Transaction.class);
         long count = mongoTemplate.count(query, Transaction.class);
         return new PageImpl<>(transactions, pageable, count);

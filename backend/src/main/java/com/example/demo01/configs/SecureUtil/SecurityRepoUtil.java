@@ -21,9 +21,9 @@ public interface SecurityRepoUtil {
 
     String getCurrentUserId();
 
-    Criteria getSecurityCriteria();
+    Criteria getSecurityCriteriaByBu(String buFieldName);
 
-    Query createSecureQuery(Query query);
+    Query createSecureQuery(Query query, String buFieldName);
 
     List<String> getCurrentPositionIds();
 

@@ -49,7 +49,7 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
     }
 
     @Override
-    public Criteria getSecurityCriteria() {
+    public Criteria getSecurityCriteriaByBu(String buFieldName) {
         if (isCurrentUserGlobalAdmin()) {
             return new Criteria();
         }
@@ -62,8 +62,8 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
     }
 
     @Override
-    public Query createSecureQuery(Query query) {
-        Criteria securityCriteria = getSecurityCriteria();
+    public Query createSecureQuery(Query query, String buFieldName) {
+        Criteria securityCriteria = getSecurityCriteriaByBu(buFieldName);
         if (securityCriteria.getCriteriaObject().isEmpty()) {
             return query;
         }

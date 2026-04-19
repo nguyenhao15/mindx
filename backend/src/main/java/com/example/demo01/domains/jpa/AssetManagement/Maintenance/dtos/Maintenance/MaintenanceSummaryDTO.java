@@ -30,6 +30,8 @@ public record MaintenanceSummaryDTO (
 
         LocalDate inspectAt,
 
+        String assignedTo,
+
         LocalDate verifiedAt,
 
         String createdBy,

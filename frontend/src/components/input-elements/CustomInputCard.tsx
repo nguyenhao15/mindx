@@ -34,7 +34,7 @@ const CustomInputCard = ({
       {children}
       {description && <FieldDescription>{description}</FieldDescription>}
       {errorMessage && (
-        <FieldDescription className='w-full max-w-full whitespace-normal wrap-break-word text-sm font-semibold text-red-600 animate-pulse'>
+        <FieldDescription className='w-full min-w-full whitespace-normal wrap-break-word text-sm font-semibold text-red-600 animate-pulse'>
           {errorMessage}
         </FieldDescription>
       )}

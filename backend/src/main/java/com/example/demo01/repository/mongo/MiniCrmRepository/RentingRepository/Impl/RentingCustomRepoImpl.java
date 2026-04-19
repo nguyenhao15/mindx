@@ -24,7 +24,7 @@ public class RentingCustomRepoImpl implements RentingCustomRepo {
     public double getActiveRoomCount() {
 
         long count = mongoTemplate.count(
-                securityRepoUtil.createSecureQuery(new Query()),
+                securityRepoUtil.createSecureQuery(new Query(),"buId" ),
                 RentingRecord.class
         );
 
@@ -38,7 +38,7 @@ public class RentingCustomRepoImpl implements RentingCustomRepo {
         criteria.andOperator(Criteria.where("bu_id").is(buShortName).and("active").is(true));
 
         Query query = query(criteria);
-        securityRepoUtil.createSecureQuery(query);
+        securityRepoUtil.createSecureQuery(query, "buId");
         return mongoTemplate.find(query, RentingRecord.class);
     }
 }

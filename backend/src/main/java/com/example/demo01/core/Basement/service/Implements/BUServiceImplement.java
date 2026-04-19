@@ -103,8 +103,7 @@ public class BUServiceImplement implements BasementService {
         String CACHE_KEY  = "bu_active_buInfos";
         Cache cache = cacheManager.getCache(CacheConstants.BRANCH_CACHE);
         Query query = new Query();
-
-        List<String> allowedBuShortNames = securityRepoUtil.getCurrentUserBuIds();
+        
         if (cache != null) {
             List<BUInfoDto> cached = cache.get(CACHE_KEY, List.class);
             if (cached != null) {
@@ -113,7 +112,9 @@ public class BUServiceImplement implements BasementService {
         }
         query.addCriteria(Criteria.where("active").is(true));
 
-        List<BranchUnit> branchUnits = mongoTemplate.find(query, BranchUnit.class);
+        Query finalQuery = securityRepoUtil.createSecureQuery(query, "buShortName");
+
+        List<BranchUnit> branchUnits = mongoTemplate.find(finalQuery, BranchUnit.class);
         return basementMapper.toDtoList(branchUnits);
     }
 

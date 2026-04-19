@@ -24,6 +24,8 @@ public record MaintenanceDetailsInfoDto(
 
         LocalDate inspectAt,
 
+        String assignedTo,
+
         MaintenanceCategoryNestInfo fixCategory,
 
         MaintenanceItemInfoDto fixItem,
