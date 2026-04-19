@@ -1,9 +1,12 @@
 package com.example.demo01.utils.Query.PostgreSQL;
 
 import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
+import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.utils.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,14 +21,22 @@ public class StaticSpecs {
     private SecurityRepoUtil securityRepoUtil;
 
     public <T> Specification<T> validLocation(String locationFieldName) {
-        List<String> allowLocations = securityRepoUtil.getCurrentAllowedLocations();
-        if (allowLocations == null || allowLocations.isEmpty()) {
-            return (root, query, cb) -> cb.disjunction();
-        }
-        return (root, query, cb) -> root.get(locationFieldName).in(allowLocations);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        List<String> allowBuIds = securityRepoUtil.getCurrentAllowedLocations();
+
+        return (root, query, criteriaBuilder) -> {
+            if (userDetails.isGlobalAdmin()) {
+                return criteriaBuilder.conjunction();
+            }
+            if (allowBuIds == null || allowBuIds.isEmpty()) {
+                return criteriaBuilder.disjunction();
+            }
+            return root.get(locationFieldName).in(allowBuIds);
+        };
     }
 
-    public static <T> Specification<T> isNotDeleted() {
-        return (root, query, cb) -> cb.equal(root.get("isDeleted"), false);
+    public <T> Specification<T> isNotDeleted(String localIsDeletedFieldName) {
+        return (root, query, cb) -> cb.equal(root.get(localIsDeletedFieldName), false);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo01.configs.SecureUtil;
 
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
+import com.example.demo01.core.Auth.dtos.WorkProfile;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -25,6 +26,8 @@ public interface SecurityRepoUtil {
     Query createSecureQuery(Query query);
 
     List<String> getCurrentPositionIds();
+
+    List<WorkProfile> getCurrentWorkProfiles();
 
     int getViewLevel();
 

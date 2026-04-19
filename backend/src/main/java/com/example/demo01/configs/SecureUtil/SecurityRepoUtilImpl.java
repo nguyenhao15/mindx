@@ -88,6 +88,12 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
     }
 
     @Override
+    public List<WorkProfile> getCurrentWorkProfiles() {
+        return getCurrentUserDetails().getWorkProfiles();
+    }
+    
+
+    @Override
     public int getViewLevel() {
         CustomUserDetails user = getCurrentUserDetails();
             return user.getWorkProfiles().stream()

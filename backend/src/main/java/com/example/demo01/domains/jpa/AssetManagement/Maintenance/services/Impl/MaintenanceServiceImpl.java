@@ -19,10 +19,7 @@ import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
 import com.example.demo01.domains.jpa.Core.Audit.service.AuditUpdateService;
 import com.example.demo01.repository.postgreSQL.AssetManagement.MaintenanceRepository.MaintenanceRepository;
 import com.example.demo01.utils.*;
-import com.example.demo01.utils.Query.PostgreSQL.ActionResponse;
-import com.example.demo01.utils.Query.PostgreSQL.ApprovalEngineUtil;
-import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
-import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
+import com.example.demo01.utils.Query.PostgreSQL.*;
 import org.jetbrains.annotations.UnknownNullability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,6 +61,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Autowired
     private ApprovalEngineUtil  approvalEngineUtil;
+
+    @Autowired
+    private StaticSpecs staticSpecs;
 
     @Override
     public MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto, List<MultipartFile> files) {
@@ -135,9 +135,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public BasePageResponse<MaintenanceSummaryDTO> getBasePageResponseWithFilter(FilterWithPagination filterWithPagination) {
         PageInput pageInput = filterWithPagination.getPagination();
         List<FilterRequest> filters = filterWithPagination.getFilters();
-        Map<String, Specification<MaintenanceEntity>> specification = Map.of(
-                "isDeleted", (root, query, cb) -> cb.isFalse(root.get("isDeleted"))
-        );
+        Map<String, Specification<MaintenanceEntity>> specification = new HashMap<>();
+        Specification<MaintenanceEntity> allow = staticSpecs.validLocation("locationId");
+        Specification<MaintenanceEntity> isNotDelete = staticSpecs.isNotDeleted("isDeleted");
+        specification.put("locationId", allow);
+        specification.put("isDeleted", isNotDelete);
         Specification<MaintenanceEntity> finalSpecification = dynamicSpecificationBuilder.build(filters, specification);
 
         Page<MaintenanceEntity> page = postgreSQLPageUtil.buildPageResponse(

@@ -40,8 +40,6 @@ public class DynamicSpecificationBuilder<T> {
             }
         }
 
-        System.out.println("Final Specification: " + finalSpec);
-
         return finalSpec;
     }
 
