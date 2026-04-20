@@ -2,6 +2,8 @@ package com.example.demo01.domains.mongo.HRManagment.HumanResource.service;
 
 import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
+import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
+import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.mapper.StaffProfileMapper;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.pagination.sync.PaginatedResponsesIterator;
 
 import java.util.List;
 
@@ -28,7 +31,6 @@ public class StaffProfileServiceImpl implements StaffProfileService {
 
     @Override
     public StaffProfileInfoDto createNewStaffProfile(StaffProfileRequestDto requestDto) {
-
         StaffProfileModels staffProfileModels = staffProfileMapper.fromRequestToEntity(requestDto);
         StaffProfileModels result = staffProfileRepository.save(staffProfileModels);
         return staffProfileMapper.fromEntityToDto(result);

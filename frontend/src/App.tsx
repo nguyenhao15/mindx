@@ -1,6 +1,7 @@
 import './App.css';
 import Loader from './components/shared/Loader';
 import ActivatePassword from './modules/core/auth/components/ActivatePassword';
+import StaffProfile from './modules/core/auth/components/StaffProfile';
 import { useGetUserInfo } from './modules/core/auth/hooks/useAuthentication';
 import LockAccountPage from './modules/core/auth/pages/LockAccountPage';
 import LoginPage from './modules/core/auth/pages/LoginPage';
@@ -33,6 +34,7 @@ function App() {
   const { isLoading, isError } = useGetUserInfo();
   const user = useAuthStore((state) => state.user);
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  const isProfileSet = localStorage.getItem('profile_id') !== null;
 
   const isAuthenticated = !isError && !!user;
   const isAdmin = user?.systemRole === 'ADMIN';
@@ -47,6 +49,8 @@ function App() {
       </div>
     );
   }
+
+  console.log('Is Profile set: ', isProfileSet);
 
   if (!isLoggedIn) {
     handleLogout();
@@ -64,6 +68,17 @@ function App() {
     );
   }
 
+  if (isAuthenticated && !isProfileSet) {
+    return (
+      <StaffProfile
+        profiles={user.workProfileList || []}
+        onSelect={() => {
+          window.location.reload();
+        }}
+      />
+    );
+  }
+
   return (
     <>
       <Router>
@@ -72,6 +87,7 @@ function App() {
             path='/login'
             element={isAuthenticated ? <Navigate to='/' /> : <LoginPage />}
           />
+
           {isAdmin && (
             <Route
               path='/admin/*'

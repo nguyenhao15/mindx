@@ -52,6 +52,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 StaffProfileInfoDto activeProfileInfo = null;
 
+
                 if (activeProfileId != null && !activeProfileId.isEmpty()) {
                     activeProfileInfo = staffProfileService.getStaffProfileInfoById(activeProfileId);
                 }

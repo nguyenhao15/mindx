@@ -15,7 +15,6 @@ import toast from 'react-hot-toast';
 import { useAdminUpdateToolKits } from '@/modules/core/admin/hooks/useAdminUpdateToolKits';
 import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 import WorkProfileInfo from './WorkProfileInfo';
-import { JobAssignmentCard } from './FormElement/JobAssignmentCard';
 
 const UserForm = ({
   initialUser,
@@ -64,13 +63,6 @@ const UserForm = ({
       systemRole: data.systemRole,
       enabled: data.enabled,
       accountNonLocked: data.accountNonLocked,
-      workProfileList: data.workProfileList.map((workProfile) => ({
-        departmentId: workProfile.departmentId,
-        positionCode: workProfile.positionCode,
-        positionLevel: Number(workProfile.positionLevel),
-        isMainPosition: workProfile.isMainPosition,
-        buAllowedList: workProfile.buAllowedList ?? [],
-      })),
     };
 
     try {
@@ -147,11 +139,8 @@ const UserForm = ({
                 <UserCredential register={register} errors={errors} />
                 <SystemPermission register={register} errors={errors} />
                 <UserAccountStatus />
-                {isUpdateMode ? (
-                  <WorkProfileInfo data={initialUser?.workProfileList || []} />
-                ) : (
-                  <JobAssignmentCard errors={errors} />
-                )}
+
+                <WorkProfileInfo data={initialUser?.workProfileList || []} />
               </div>
             </form>
           </FormProvider>

@@ -23,6 +23,7 @@ export const handleLogout = () => {
   const { logOut } = useAuthStore.getState();
   logOut();
   localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('profile_id');
   queryClient.clear();
   localStorage.clear();
 };

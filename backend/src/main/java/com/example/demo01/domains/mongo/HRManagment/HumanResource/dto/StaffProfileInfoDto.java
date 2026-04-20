@@ -10,6 +10,8 @@ public record StaffProfileInfoDto(
         String positionId,
         String departmentName,
         String positionName,
+        Boolean active,
+        Boolean isDefault,
         int positionLevel,
         List<String> buAllowedList
 ) {

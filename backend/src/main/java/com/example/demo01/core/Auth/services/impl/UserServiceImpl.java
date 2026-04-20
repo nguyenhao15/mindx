@@ -2,6 +2,7 @@ package com.example.demo01.core.Auth.services.impl;
 
 import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
+import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.dtos.UserSummaryDto;
 import com.example.demo01.core.Auth.mapper.UserMapper;
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     private final DynamicQueryCriteria  dynamicQueryCriteria;
 
-    private final SecurityRepoUtil  securityRepoUtil;
+    private final SecurityRepoUtil securityRepoUtil;
 
     private final HttpServletRequest request;
 
@@ -166,16 +167,11 @@ public class UserServiceImpl implements UserService {
 
         setRefreshTokenInCookie(refreshTokenSession.getRefreshToken(), refreshTokenExpirationMs);
 
-        User userInfo = getUserByUsername(username);
-
-        UserDTO userDTO = userMapper.toDto(userInfo);
-
-        List<StaffProfileInfoDto> profileList = staffProfileService.getCurrentStaffProfile(username);
-        userDTO.setWorkProfileList(profileList);
+        CustomUserDetails customUserDetails = securityRepoUtil.getCurrentUserDetails();
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setAccessToken(accessToken);
-        loginResponse.setUserDTO(userDTO);
+        loginResponse.setUserDetails(customUserDetails);
 
         return loginResponse;
     }

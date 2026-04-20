@@ -1,8 +1,11 @@
-import type { WorkProfileType } from '@/modules/core/auth/schemas/userSchema';
+import type {
+  WorkProfileEmbeddedType,
+  WorkProfileType,
+} from '@/modules/core/auth/schemas/userSchema';
 import WorkProfileList from './WorkProfileComponent/WorkProfileList';
 
 interface WorkProfileInfoProps {
-  data: WorkProfileType[];
+  data: WorkProfileEmbeddedType[];
 }
 
 const WorkProfileInfo = ({ data }: WorkProfileInfoProps) => {

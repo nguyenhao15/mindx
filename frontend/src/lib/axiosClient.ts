@@ -16,6 +16,10 @@ type RetryRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean;
 };
 
+const PROFILE_STORAGE_KEY = 'profile_id';
+const PROFILE_HEADER_NAME =
+  import.meta.env.PROFILE_HEADER || 'X-Active-Profile';
+
 const ensureHeaders = (config: InternalAxiosRequestConfig) => {
   if (config.headers instanceof AxiosHeaders) {
     return config.headers;
@@ -43,6 +47,11 @@ axiosClient.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);
+  }
+
+  const activeProfileId = localStorage.getItem(PROFILE_STORAGE_KEY);
+  if (activeProfileId) {
+    headers.set(PROFILE_HEADER_NAME, activeProfileId);
   }
 
   return config;

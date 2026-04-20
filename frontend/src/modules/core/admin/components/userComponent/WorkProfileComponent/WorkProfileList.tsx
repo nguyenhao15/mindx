@@ -1,16 +1,14 @@
-import type { WorkProfileType } from '@/modules/core/auth/schemas/userSchema';
+import type { WorkProfileEmbeddedType } from '@/modules/core/auth/schemas/userSchema';
 import WorkProfileHeader from './WorkProfileHeader';
 import WorkProfileCard from './WorkProfileCard';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-import ModalComponent from '@/components/shared/ModalComponent';
 
 type WorkProfileListProps = {
-  data: WorkProfileType[];
+  data: WorkProfileEmbeddedType[];
 };
 
 const WorkProfileList = ({ data }: WorkProfileListProps) => {
-  const [openModal, setOpenModal] = useState(false);
   const assignmentCount = data.length;
 
   return (
@@ -31,10 +29,7 @@ const WorkProfileList = ({ data }: WorkProfileListProps) => {
         ) : (
           <div className='grid gap-4 xl:grid-cols-2'>
             {data.map((workProfile) => (
-              <WorkProfileCard
-                key={workProfile.uuid}
-                workProfile={workProfile}
-              />
+              <WorkProfileCard key={workProfile.id} workProfile={workProfile} />
             ))}
           </div>
         )}

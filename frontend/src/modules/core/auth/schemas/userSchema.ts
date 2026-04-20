@@ -1,12 +1,30 @@
 import z from 'zod';
 
 export const WorkProfile = z.object({
-  uuid: z.string().optional(),
+  id: z.string(),
+  staffId: z.string(),
+  userId: z.string(),
   departmentId: z.string().trim().min(1, 'Mã phòng ban không được để trống'),
-  positionCode: z.string().trim().min(1, 'Mã vị trí không được để trống'),
+  departmentName: z.string(),
+  positionName: z.string(),
+  positionId: z.string().trim().min(1, 'Mã vị trí không được để trống'),
   positionLevel: z.number().min(0, 'Cấp bậc phải là số dương'),
-  isMainPosition: z.boolean().nullable().default(false),
+  isDefault: z.boolean().nullable().default(false),
   buAllowedList: z.array(z.string()).nullable().optional().default([]),
+  active: z.boolean().default(true),
+});
+
+export const WorkProfileEmbedded = WorkProfile.pick({
+  id: true,
+  staffId: true,
+  userId: true,
+  departmentName: true,
+  positionName: true,
+  departmentId: true,
+  positionId: true,
+  positionLevel: true,
+  isDefault: true,
+  buAllowedList: true,
 });
 
 export const userSchema = z.object({
@@ -17,9 +35,13 @@ export const userSchema = z.object({
     .string('Vui lòng chọn vai trò hệ thống ')
     .trim()
     .min(3, 'Vai trò hệ thống phải có ít nhất 3 ký tự'),
-  workProfileList: z
-    .array(WorkProfile)
-    .min(1, 'Phải có ít nhất một profile công việc'),
+  workProfileList: WorkProfile.pick({
+    departmentId: true,
+    positionId: true,
+    positionLevel: true,
+    isDefault: true,
+    buAllowedList: true,
+  }),
 });
 
 export const userManagementSchema = userSchema.extend({
@@ -72,7 +94,7 @@ export const UserResponseObject = z
       .min(3, 'Vai trò hệ thống phải có ít nhất 3 ký tự')
       .nullable(),
     email: z.string(),
-    workProfileList: z.array(WorkProfile),
+    workProfileList: z.array(WorkProfileEmbedded),
     accountNonLocked: z.boolean(),
     accountNonExpired: z.boolean(),
     credentialsNonExpired: z.boolean(),
@@ -110,3 +132,4 @@ export type UserResponse = z.infer<typeof UserResponseSchema>;
 export type ActivatePasswordDTO = z.infer<typeof activatePasswordSchema>;
 export type UserResponseObjectType = z.infer<typeof UserResponseObject>;
 export type WorkProfileType = z.infer<typeof WorkProfile>;
+export type WorkProfileEmbeddedType = z.infer<typeof WorkProfileEmbedded>;

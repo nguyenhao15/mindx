@@ -34,6 +34,9 @@ public class CacheConfig {
                         .build()
                 );
 
+        cacheManager.registerCustomCache(CacheConstants.STAFF_PROFILE,
+                buildCache(10080, 100));
+
         cacheManager.registerCustomCache(CacheConstants.AUDIT_CACHE,
                 Caffeine.newBuilder()
                         .expireAfterWrite(20, TimeUnit.MINUTES)
