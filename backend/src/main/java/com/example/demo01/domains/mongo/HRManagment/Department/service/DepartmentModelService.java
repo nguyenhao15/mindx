@@ -21,7 +21,7 @@ public interface DepartmentModelService {
 
     BasePageResponse<DepartmentInfoDto> buildPageResponse(Page<DepartmentModel> page);
 
-    List<DepartmentModel> getCurrentWorkingDepartment();
+    DepartmentModel getCurrentWorkingDepartment();
 
     BasePageResponse<DepartmentInfoDto> getAllDepartments(FilterWithPagination filter);
 

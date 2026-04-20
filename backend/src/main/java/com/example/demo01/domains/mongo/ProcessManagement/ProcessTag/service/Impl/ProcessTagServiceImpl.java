@@ -36,8 +36,6 @@ public class ProcessTagServiceImpl implements ProcessTagService {
 
     private final DynamicQueryCriteria dynamicQueryCriteria;
 
-    private final AppUtil appUtils;
-
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override

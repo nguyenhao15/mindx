@@ -1,7 +1,7 @@
 package com.example.demo01.configs.SecureUtil;
 
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
-import com.example.demo01.core.Auth.dtos.WorkProfile;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -13,7 +13,7 @@ public interface SecurityRepoUtil {
 
     List<String> getCurrentAllowedLocations();
 
-    List<String> getCurrentDepartmentIds();
+    String getCurrentDepartmentIds();
 
     List<String> getCurrentUserBuIds();
 
@@ -25,11 +25,11 @@ public interface SecurityRepoUtil {
 
     Query createSecureQuery(Query query, String buFieldName);
 
-    List<String> getCurrentPositionIds();
+    String getCurrentPositionIds();
 
-    List<WorkProfile> getCurrentWorkProfiles();
+    List<StaffProfileInfoDto> getCurrentWorkProfiles();
 
-    WorkProfile getMainCurrentWorkProfile();
+    StaffProfileInfoDto getMainCurrentWorkProfile();
 
     int getViewLevel();
 

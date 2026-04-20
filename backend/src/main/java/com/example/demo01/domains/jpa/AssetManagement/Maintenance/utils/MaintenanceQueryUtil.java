@@ -3,6 +3,7 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.utils;
 import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
 import com.example.demo01.core.Auth.dtos.WorkProfile;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.utils.FilterWithPagination;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.StaticSpecs;
@@ -27,14 +28,14 @@ public class MaintenanceQueryUtil {
 
     public Specification<MaintenanceEntity> buildSpecification(FilterWithPagination filterWithPagination) {
         Boolean isGlobalAdmin = securityRepoUtil.isCurrentUserGlobalAdmin();
-        WorkProfile mainWorkProfile = securityRepoUtil.getMainCurrentWorkProfile();
+        StaffProfileInfoDto mainWorkProfile = securityRepoUtil.getMainCurrentWorkProfile();
         String userId = securityRepoUtil.getCurrentUserId();
 
         Map<String, Specification<MaintenanceEntity>> specification = new HashMap<>();
         Specification<MaintenanceEntity> allow = staticSpecs.validLocation("locationId");
         Specification<MaintenanceEntity> isNotDelete = staticSpecs.isNotDeleted("isDeleted");
         Specification<MaintenanceEntity> isAssign = (root, query, criteriaBuilder) -> {
-            if (isGlobalAdmin || !mainWorkProfile.getPositionCode().equals("TECHNICAL_STAFF")  ) {
+            if (isGlobalAdmin || !mainWorkProfile.positionId().equals("TECHNICAL_STAFF")  ) {
                 return criteriaBuilder.conjunction();
             }
             return root.get("assignedTo").in(userId);

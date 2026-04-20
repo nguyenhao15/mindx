@@ -103,7 +103,7 @@ public class BUServiceImplement implements BasementService {
         String CACHE_KEY  = "bu_active_buInfos";
         Cache cache = cacheManager.getCache(CacheConstants.BRANCH_CACHE);
         Query query = new Query();
-        
+
         if (cache != null) {
             List<BUInfoDto> cached = cache.get(CACHE_KEY, List.class);
             if (cached != null) {
@@ -131,13 +131,6 @@ public class BUServiceImplement implements BasementService {
         }
 
         List<BUInfoDto> fullBuList = cache != null ? cache.get(CACHE_KEY, List.class) : null;
-
-//        if (fullBuList == null) {
-////            fullBuList = fetchDataFromDbAndMap();
-//            if (cache != null && !fullBuList.isEmpty()) {
-//                cache.put(CACHE_KEY, fullBuList);
-//            }
-//        }
 
         Page<BranchUnit> branchUnits = dynamicQueryCriteria.buildPageResponse(filter.getFilters(),new ArrayList<>(), filter.getPagination(), BranchUnit.class);
         return buildPageResponse(branchUnits);

@@ -1,13 +1,17 @@
 package com.example.demo01.core.Auth.dtos;
 
 import com.example.demo01.core.Auth.models.User;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,44 +30,56 @@ public class CustomUserDetails implements UserDetails {
     private String email;
     private String staffId;
     private String systemRole;
-    private List<WorkProfile> workProfiles;
 
+    private String profileId;
+    private String position;
+    private String positionTitle;
+    private String departmentId;
+    private String departmentTitle;
+    private int PositionLevel;
+    private List<String> allowLocationIds;
 
-    public CustomUserDetails(User user) {
+    public CustomUserDetails(User user,@Nullable StaffProfileInfoDto staffProfileInfoDto) {
         this._id = user.get_id();
+
         this.username = user.getUsername();
+
         this.fullName = user.getFullName();
+
         this.password = user.getPassword();
+
         this.email = user.getEmail();
+
         this.staffId = user.getStaffId();
+
         this.systemRole = user.getSystemRole();
-        this.workProfiles = user.getWorkProfileList();
-        this.authorities = workProfiles.stream()
-                .map(profile -> {
-                    String roleName = profile.getPositionCode();
-                    return new SimpleGrantedAuthority("ROLE_"+ roleName);
-                }).toList();
+
+        if (staffProfileInfoDto != null) {
+            this.profileId = staffProfileInfoDto.id();
+            this.positionTitle = staffProfileInfoDto.positionName();
+            this.position = staffProfileInfoDto.positionId();
+            this.departmentId = staffProfileInfoDto.departmentId();
+            this.departmentTitle = staffProfileInfoDto.departmentName();
+            this.allowLocationIds = staffProfileInfoDto.buAllowedList();
+            this.PositionLevel = staffProfileInfoDto.positionLevel();
+        }
+
+        List<SimpleGrantedAuthority> auths = new ArrayList<>();
+
+        auths.add(new SimpleGrantedAuthority("ROLE_" + user.getSystemRole()));
+        this.authorities = auths;
     }
 
-    public boolean checkPermission(String deptId, int minLevel) {
-        if (workProfiles == null) return false;
-        return workProfiles.stream()
-                .anyMatch(p -> p.getDepartmentId().equals(deptId) && p.getPositionLevel() >= minLevel);
-    }
 
     public boolean isGlobalAdmin() {
-        return systemRole.equals("ADMIN") || workProfiles.stream()
-                .anyMatch(p -> p.getPositionLevel() > 2 );
+        return systemRole.equals("ADMIN") || this.getPositionLevel() > 2;
     }
 
     public List<String> getAllowedLocations() {
         if (isGlobalAdmin()) {
             return null;
         }
-        return workProfiles.stream()
-                .flatMap(w -> w.getBuAllowedList().stream())
-                .distinct()
-                .collect(Collectors.toList());
+        return this.allowLocationIds;
     }
 
     @Override

@@ -9,12 +9,13 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { InfoIcon } from 'lucide-react';
 import UserCredential from './FormElement/UserCredential';
 import SystemPermission from './FormElement/SystemPermission';
-import JobAssignmentManagment from './FormElement/JobAssignmentManagment';
 import UserAccountStatus from './FormElement/UserAccountStatus';
 import UserFormToolbar from './FormElement/UserFormToolbar';
 import toast from 'react-hot-toast';
 import { useAdminUpdateToolKits } from '@/modules/core/admin/hooks/useAdminUpdateToolKits';
 import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
+import WorkProfileInfo from './WorkProfileInfo';
+import { JobAssignmentCard } from './FormElement/JobAssignmentCard';
 
 const UserForm = ({
   initialUser,
@@ -146,9 +147,11 @@ const UserForm = ({
                 <UserCredential register={register} errors={errors} />
                 <SystemPermission register={register} errors={errors} />
                 <UserAccountStatus />
-                <JobAssignmentManagment
-                  initialForm={initialUser?.workProfileList || []}
-                />
+                {isUpdateMode ? (
+                  <WorkProfileInfo data={initialUser?.workProfileList || []} />
+                ) : (
+                  <JobAssignmentCard errors={errors} />
+                )}
               </div>
             </form>
           </FormProvider>

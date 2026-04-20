@@ -87,13 +87,11 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
                 return Objects.equals(approvalPolicyEntity.getAllowValue(), currentUser.getStaffId());
             }
             case DEPARTMENT -> {
-                List<String> defaultDepartmentId = currentUser.getWorkProfiles().stream().filter(
-                        WorkProfile::getIsMainPosition).map(WorkProfile::getDepartmentId).toList();
+                String defaultDepartmentId = currentUser.getDepartmentId();
                 return defaultDepartmentId.contains(allowTypeValue);
             }
             case POSITION -> {
-                List<String> position = currentUser.getWorkProfiles().stream().filter(
-                        WorkProfile::getIsMainPosition).map(WorkProfile::getPositionCode).toList();
+                String position = currentUser.getPosition();
                 return position.contains(allowTypeValue);
             }
             case AUTHOR -> {

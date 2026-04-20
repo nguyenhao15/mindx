@@ -97,9 +97,9 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
     }
 
     @Override
-    public List<DepartmentModel> getCurrentWorkingDepartment() {
-        List<String> departmentIds = securityRepoUtil.getCurrentDepartmentIds();
-        return departmentModelRepository.findByDepartmentCodeIn(departmentIds);
+    public DepartmentModel getCurrentWorkingDepartment() {
+        String departmentIds = securityRepoUtil.getCurrentDepartmentIds();
+        return departmentModelRepository.findByDepartmentCode(departmentIds);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
         if (isGlobal) {
             return getActiveDepartments();
         } else {
-            return getCurrentWorkingDepartment();
+            return new ArrayList<>(getActiveDepartments());
         }
     }
 

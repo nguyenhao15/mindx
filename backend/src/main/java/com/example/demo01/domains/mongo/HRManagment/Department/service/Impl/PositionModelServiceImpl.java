@@ -6,6 +6,7 @@ import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.Posi
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.PositionRequest;
 import com.example.demo01.domains.mongo.HRManagment.Department.mapper.PositionMapper;
 import com.example.demo01.domains.mongo.HRManagment.Department.model.PositionModel;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.repository.mongo.HRManagement.departmentRepository.PositionModelRepository;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
@@ -84,7 +85,10 @@ public class PositionModelServiceImpl implements PositionModelService {
 
     @Override
     public List<PositionModel> getCurrentWorkingPosition() {
-        List<String> currentPositionIds = securityRepoUtil.getCurrentPositionIds();
+        List<StaffProfileInfoDto> staffProfileInfoDtos = securityRepoUtil.getCurrentWorkProfiles();
+        List<String> currentPositionIds = staffProfileInfoDtos.stream().map(
+                StaffProfileInfoDto::positionId
+        ).toList();
         return positionModelRepository.findByIdIn(currentPositionIds);
     }
 

@@ -1,9 +1,6 @@
 import { useEffect, useRef, type ChangeEvent } from 'react';
-import { TrashIcon } from 'lucide-react';
 import ManualCustomCombobox from '@/components/input-elements/ManualCustomCombobox';
-
 import { Controller, useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
 import TextInputField from '@/components/input-elements/TextInputField';
 import { WorkProfile } from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -26,7 +23,7 @@ interface JobAssignmentCardProps {
   assignment: Assignment;
   index: number;
   canRemove: boolean;
-  isEditing: boolean;
+
   disableActions?: boolean;
   onStartEdit: (id: string) => void;
   onCancelEdit: (id: string) => void;
@@ -38,13 +35,9 @@ export function JobAssignmentCard({
   errors,
   assignment,
   index,
-  canRemove,
-  isEditing,
-  disableActions,
-  onStartEdit,
+
   onCancelEdit,
   onSave,
-  onRemove,
 }: JobAssignmentCardProps) {
   const methods = useForm<Assignment>({
     mode: 'onBlur',
@@ -86,7 +79,6 @@ export function JobAssignmentCard({
 
     const previousDepartmentId = previousDepartmentIdRef.current;
 
-    // Keep initial positionCode from user data; reset only when department is changed by user.
     if (
       previousDepartmentId !== undefined &&
       previousDepartmentId !== departmentId
@@ -97,63 +89,17 @@ export function JobAssignmentCard({
     previousDepartmentIdRef.current = departmentId;
   }, [departmentId, setValue]);
 
-  const handleSave = handleSubmit((data) => {
-    onSave({
-      ...assignment,
-      ...data,
-      isPrimary: Boolean(data.isPrimary),
-      isMainPosition: Boolean(data.isPrimary),
-      positionLevel: Number(data.positionLevel) || 0,
-      buAllowedList: data.buAllowedList ?? [],
-      isNew: false,
-    });
-  });
-
-  const handleCancel = () => {
-    reset(assignment);
-    onCancelEdit(assignment.id);
-  };
-
-  console.log('Local Errors: ', localErrors);
-
   return (
     <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 transition-all hover:shadow-md'>
-      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-100'>
-        <div className='flex flex-col sm:flex-row items-center gap-3'>
-          <h3 className='text-lg font-semibold text-gray-900 my-auto'>
-            Assignment #{index + 1}
-          </h3>
-          {isPrimary && (
-            <span className='px-2.5 py-0.5 h-full rounded-full bg-red-100 text-[#e31f20] text-xs font-medium'>
-              Primary
-            </span>
-          )}
-        </div>
-
-        <div className='flex items-center gap-3'>
-          {!isEditing && (
-            <Button
-              type='button'
-              variant='outline'
-              onClick={() => onStartEdit(assignment.id)}
-              disabled={disableActions}
-            >
-              Edit
-            </Button>
-          )}
-
-          {canRemove && !isEditing && (
-            <button
-              type='button'
-              onClick={() => onRemove(assignment.id)}
-              className='text-gray-400 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500/20'
-              aria-label='Remove assignment'
-              disabled={disableActions}
-            >
-              <TrashIcon className='w-5 h-5' />
-            </button>
-          )}
-        </div>
+      <div className='flex flex-col sm:flex-row m-4 items-center gap-3'>
+        <h3 className='text-lg font-semibold text-gray-900 my-auto'>
+          Assignment #{index + 1}
+        </h3>
+        {isPrimary && (
+          <span className='px-2.5 py-0.5 h-full rounded-full bg-red-100 text-[#e31f20] text-xs font-medium'>
+            Primary
+          </span>
+        )}
       </div>
 
       <Switch
@@ -163,7 +109,7 @@ export function JobAssignmentCard({
         label='Set as Primary Position (Vị trí chính)'
       />
 
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
+      <div className='mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
         <Controller
           name='departmentId'
           control={methods.control}
@@ -173,7 +119,7 @@ export function JobAssignmentCard({
               id={`departmentId`}
               label='Bộ phận làm việc'
               required
-              disabled={isLoading || !isEditing}
+              disabled={isLoading}
               isLoading={isLoading}
               placeholder='Chọn mã phòng ban...'
               options={departmentOptions || []}
@@ -194,7 +140,7 @@ export function JobAssignmentCard({
               id={`positionCode`}
               label='Vị trí làm việc'
               required
-              disabled={!departmentId || isLoading || !isEditing}
+              disabled={!departmentId || isLoading}
               isLoading={isLoading}
               options={positionOptions || []}
               placeholder='Mã vị trí...'
@@ -219,7 +165,7 @@ export function JobAssignmentCard({
             errors={localErrors}
             refValue={watch('positionLevel')}
             placeholder='Cấp bậc vị trí...'
-            disabled={!departmentId || isLoading || !isEditing}
+            disabled={!departmentId || isLoading}
           />
         </div>
       </div>
@@ -242,22 +188,11 @@ export function JobAssignmentCard({
                 localErrors?.buAllowedList?.message ??
                 errors?.buAllowedList?.message
               }
-              disabled={!departmentId || isLoading || !isEditing}
+              disabled={!departmentId || isLoading}
             />
           )}
         />
       </div>
-
-      {isEditing && (
-        <div className='mt-6 flex items-center justify-end gap-3'>
-          <Button type='button' variant='outline' onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button type='button' variant='positive' onClick={handleSave}>
-            Save Assignment
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

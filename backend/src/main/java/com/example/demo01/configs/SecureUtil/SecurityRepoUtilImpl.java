@@ -1,9 +1,11 @@
 package com.example.demo01.configs.SecureUtil;
 
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
-import com.example.demo01.core.Auth.dtos.WorkProfile;
 import com.example.demo01.core.Exceptions.InvalidCredentialsException;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.service.StaffProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.Authentication;
@@ -16,6 +18,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SecurityRepoUtilImpl implements SecurityRepoUtil {
 
+    @Autowired
+    private StaffProfileService staffProfileService;
 
     @Override
     public CustomUserDetails getCurrentUserDetails() {
@@ -72,40 +76,29 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
     }
 
     @Override
-    public List<String> getCurrentDepartmentIds() {
-        CustomUserDetails user = getCurrentUserDetails();
-            return user.getWorkProfiles().stream()
-                    .map(WorkProfile::getDepartmentId)
-                    .toList();
+    public String getCurrentDepartmentIds() {
+        return getCurrentUserDetails().getDepartmentId();
     }
 
     @Override
-    public List<String> getCurrentPositionIds() {
-        CustomUserDetails user = getCurrentUserDetails();
-            return user.getWorkProfiles().stream()
-                    .map(WorkProfile::getPositionCode)
-                    .toList();
+    public String getCurrentPositionIds() {
+        return getCurrentUserDetails().getPosition();
     }
 
     @Override
-    public List<WorkProfile> getCurrentWorkProfiles() {
-        return getCurrentUserDetails().getWorkProfiles();
+    public List<StaffProfileInfoDto> getCurrentWorkProfiles() {
+        return staffProfileService.getCurrentStaffProfile();
     }
 
     @Override
-    public WorkProfile getMainCurrentWorkProfile() {
-        return getCurrentWorkProfiles().stream().filter(
-                WorkProfile::getIsMainPosition
-                ).findFirst().orElseThrow(() -> new InvalidCredentialsException("Main work profile not found"));
+    public StaffProfileInfoDto getMainCurrentWorkProfile() {
+        String userId = getCurrentUserId();
+       return staffProfileService.getDefaultStaffProfile();
     }
 
     @Override
     public int getViewLevel() {
-        CustomUserDetails user = getCurrentUserDetails();
-            return user.getWorkProfiles().stream()
-                    .mapToInt(WorkProfile::getPositionLevel)
-                    .max()
-                    .orElse(0);
+        return getCurrentUserDetails().getPositionLevel();
     }
 
 

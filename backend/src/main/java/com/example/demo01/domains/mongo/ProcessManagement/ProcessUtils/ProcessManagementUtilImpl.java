@@ -3,6 +3,7 @@ package com.example.demo01.domains.mongo.ProcessManagement.ProcessUtils;
 import com.example.demo01.configs.SecureUtil.SecurityRepoUtilImpl;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.WorkingField.WorkingFieldUpdate;
 import com.example.demo01.domains.mongo.HRManagment.Department.model.DepartmentModel;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessFlow.model.ACCESSPOLICY;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessFlow.model.ProcessFlow;
 import com.example.demo01.domains.mongo.ProcessManagement.ProcessTag.dtos.processTag.ProcessTagUpdateRecord;
@@ -49,8 +50,13 @@ public class ProcessManagementUtilImpl implements ProcessManagementUtil {
 
     @Override
     public Criteria buildRestrictlyCriteria() {
-        List<String> departmentIds = securityRepoUtil.getCurrentDepartmentIds();
-        List<String> positionIds = securityRepoUtil.getCurrentPositionIds();
+        List<StaffProfileInfoDto> staffProfileInfoDtos = securityRepoUtil.getCurrentWorkProfiles();
+        List<String> departmentIds = staffProfileInfoDtos.stream().map(
+                StaffProfileInfoDto::departmentId
+        ).toList();
+        List<String> positionIds = staffProfileInfoDtos.stream().map(
+                StaffProfileInfoDto::positionId
+        ).toList();;
         List<String> buIds = securityRepoUtil.getCurrentUserBuIds();
         int viewLevel = securityRepoUtil.getViewLevel();
 
@@ -93,8 +99,13 @@ public class ProcessManagementUtilImpl implements ProcessManagementUtil {
 
     @Override
     public Criteria buildLoosenCriteria() {
-        List<String> departmentIds = securityRepoUtil.getCurrentDepartmentIds();
-        List<String> positionIds = securityRepoUtil.getCurrentPositionIds();
+        List<StaffProfileInfoDto> staffProfileInfoDtos = securityRepoUtil.getCurrentWorkProfiles();
+        List<String> departmentIds = staffProfileInfoDtos.stream().map(
+                StaffProfileInfoDto::departmentId
+        ).toList();
+        List<String> positionIds = staffProfileInfoDtos.stream().map(
+                StaffProfileInfoDto::positionId
+        ).toList();;
         List<String> buIds = securityRepoUtil.getCurrentUserBuIds();
         int viewLevel = securityRepoUtil.getViewLevel();
 

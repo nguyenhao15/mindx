@@ -1,12 +1,17 @@
 package com.example.demo01.core.Security.jwt;
 
+import com.example.demo01.core.Auth.dtos.CustomUserDetails;
+import com.example.demo01.core.Auth.models.User;
 import com.example.demo01.core.Auth.services.UserDetailsServiceImpl;
 import com.example.demo01.core.Exceptions.InvalidCredentialsException;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.service.StaffProfileService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +30,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private StaffProfileService staffProfileService;
+
+    @Value("${PROFILE_HEADER}")
+    private String PROFILE_HEADER;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -34,10 +45,30 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                String activeProfileId = request.getHeader(PROFILE_HEADER);
+
+                StaffProfileInfoDto activeProfileInfo = null;
+
+                if (activeProfileId != null && !activeProfileId.isEmpty()) {
+
+                    activeProfileInfo = staffProfileService.getStaffProfileInfoById(activeProfileId);
+
+                    if (activeProfileInfo == null) {
+                        throw new InvalidCredentialsException("Invalid active profile");
+                    }
+                }
+                User userEntity = (User) userDetails;
+
+                CustomUserDetails contextualUserDetails = new CustomUserDetails(userEntity, activeProfileInfo);
+
+
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails,
+                        new UsernamePasswordAuthenticationToken(
+                                contextualUserDetails,
                                 null,
-                                userDetails.getAuthorities());
+                                userDetails.getAuthorities()
+                        );
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

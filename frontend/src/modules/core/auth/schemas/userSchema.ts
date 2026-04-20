@@ -1,6 +1,7 @@
 import z from 'zod';
 
 export const WorkProfile = z.object({
+  uuid: z.string().optional(),
   departmentId: z.string().trim().min(1, 'Mã phòng ban không được để trống'),
   positionCode: z.string().trim().min(1, 'Mã vị trí không được để trống'),
   positionLevel: z.number().min(0, 'Cấp bậc phải là số dương'),

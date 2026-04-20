@@ -60,8 +60,6 @@ public class UserServiceImpl implements UserService {
 
     private final HttpServletResponse response;
 
-    private final AppUtil appUtil;
-
     private final DynamicQueryCriteria  dynamicQueryCriteria;
 
     private final SecurityRepoUtil  securityRepoUtil;
@@ -174,7 +172,7 @@ public class UserServiceImpl implements UserService {
         User userInfo = getUserByUsername(username);
 
         UserDTO userDTO = userMapper.toDto(userInfo);
-        userDTO.setWorkProfileList(userDetails.getWorkProfiles());
+
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setAccessToken(accessToken);
@@ -337,8 +335,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUserInfo(String userId, UserDTO updateUserRequest) {
         User user = getUserById(userId);
-        User updatedUser = userMapper.updateUserInfo(updateUserRequest, user);
-        User savedInfo = userRepository.save(updatedUser);
+        userMapper.updateUserInfo(updateUserRequest, user);
+        User savedInfo = userRepository.save(user);
         evictUserCachesByUsername(savedInfo.getUsername());
         return userMapper.toDto(savedInfo);
     }
