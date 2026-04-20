@@ -3,6 +3,7 @@ import type { FilterWithPaginationInput } from '@/validations/filterWithPaginati
 import {
   UserResponseObject,
   UserResponseSchema,
+  type UserCreateDTO,
   type UserManagementDTO,
 } from '@/modules/core/auth/schemas/userSchema';
 
@@ -16,7 +17,7 @@ export const getAllUsers = async (payload: FilterWithPaginationInput) => {
   return finalData;
 };
 
-export const addUser = async (userData: UserManagementDTO) => {
+export const addUser = async (userData: UserCreateDTO) => {
   const response = await adminApi.addUser(userData);
   const reuslt = UserResponseObject.safeParse(response.data);
   if (!reuslt.success) {

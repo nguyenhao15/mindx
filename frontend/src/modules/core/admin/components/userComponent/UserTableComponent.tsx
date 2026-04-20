@@ -11,7 +11,6 @@ import { safeString, toArray } from '@/utils/formatValue';
 import type {
   UserManagementDTO,
   UserResponseObjectType,
-  WorkProfileType,
 } from '@/modules/core/auth/schemas/userSchema';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import Status from '@/components/shared/Status';
@@ -26,7 +25,6 @@ type UserRow = {
   department: string;
   enabled: boolean;
   accountNonLocked: boolean;
-  workProfileList?: WorkProfileType[];
   rawUser: UserResponseObjectType;
 };
 
@@ -63,7 +61,6 @@ export function UserTableComponent({}) {
         role: safeString(record.systemRole),
         accountNonLocked: Boolean(record.accountNonLocked),
         department: safeString(workProfileList),
-        workProfileList: record.workProfileList as WorkProfileType[],
         rawUser,
       };
     });
@@ -123,14 +120,8 @@ export function UserTableComponent({}) {
       email: user.email,
       systemRole: user.systemRole ?? '',
       enabled: user.enabled,
+      workProfileList: user.workProfileList,
       accountNonLocked: user.accountNonLocked,
-      workProfileList: user.workProfileList.map((profile) => ({
-        departmentId: profile.departmentId,
-        positionCode: profile.positionCode,
-        positionLevel: profile.positionLevel,
-        isMainPosition: profile.isMainPosition ?? false,
-        buAllowedList: profile.buAllowedList ?? [],
-      })),
     };
 
     setIsModalOpen(true);

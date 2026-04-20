@@ -1,8 +1,8 @@
 import {
   userManagementSchema,
-  type UserDTO,
   type UserManagementFormInput,
   type UserManagementDTO,
+  type UserCreateDTO,
 } from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -16,32 +16,30 @@ import { useAdminUpdateToolKits } from '@/modules/core/admin/hooks/useAdminUpdat
 import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 import WorkProfileInfo from './WorkProfileInfo';
 
-const UserForm = ({
-  initialUser,
-  onClose,
-}: {
-  initialUser?: UserManagementDTO | null;
+interface UserFormProps {
+  initialUser: UserManagementDTO | null;
   onClose: () => void;
-}) => {
+}
+
+const UserForm = ({ initialUser, onClose }: UserFormProps) => {
+  const isUpdateMode = !!initialUser?._id;
   const methods = useForm<UserManagementFormInput>({
     mode: 'onBlur',
     resolver: zodResolver(userManagementSchema),
     defaultValues: {
-      _id: initialUser?._id,
+      _id: initialUser?._id ?? '',
+      workProfileList: initialUser?.workProfileList ?? [],
+      enabled: initialUser?.enabled ?? true,
+      accountNonLocked: initialUser?.accountNonLocked ?? true,
       staffId: initialUser?.staffId ?? '',
       fullName: initialUser?.fullName ?? '',
       email: initialUser?.email ?? '',
       systemRole: initialUser?.systemRole ?? 'USER',
-      workProfileList: initialUser?.workProfileList ?? [],
-      enabled: initialUser?.enabled ?? true,
-      accountNonLocked: initialUser?.accountNonLocked ?? true,
     },
   });
 
   const { createUser, updateUser, lockUser, resetPassword, isLoading, error } =
     useAdminUpdateToolKits(initialUser?._id ?? '');
-
-  const isUpdateMode = !!initialUser?._id;
 
   const {
     handleSubmit,
@@ -51,29 +49,36 @@ const UserForm = ({
   } = methods;
 
   const onSubmit = async (formData: UserManagementFormInput) => {
-    const data: UserManagementDTO = userManagementSchema.parse(formData);
-
-    const payload: UserDTO & {
-      enabled: boolean;
-      accountNonLocked: boolean;
-    } = {
-      staffId: data.staffId,
-      fullName: data.fullName,
-      email: data.email,
-      systemRole: data.systemRole,
-      enabled: data.enabled,
-      accountNonLocked: data.accountNonLocked,
-    };
-
     try {
+      const datToUpdate = userManagementSchema.parse(formData);
+
       if (isUpdateMode) {
-        await updateUser(payload);
+        await updateUser(datToUpdate);
         toast.success('User updated successfully');
         onClose();
         return;
       }
 
-      await createUser(payload);
+      const primaryProfile = datToUpdate.workProfileList?.[0];
+      if (!primaryProfile) {
+        toast.error('Thiếu hồ sơ công việc để tạo người dùng');
+        return;
+      }
+
+      const createPayload: UserCreateDTO = {
+        staffId: datToUpdate.staffId,
+        fullName: datToUpdate.fullName,
+        email: datToUpdate.email,
+        systemRole: datToUpdate.systemRole,
+        userId: primaryProfile.userId,
+        departmentId: primaryProfile.departmentId,
+        positionId: primaryProfile.positionId,
+        positionLevel: primaryProfile.positionLevel,
+        isDefault: primaryProfile.isDefault ?? false,
+        buAllowedList: primaryProfile.buAllowedList ?? [],
+      };
+
+      await createUser(createPayload);
       toast.success('User created successfully');
       onClose();
     } catch (error) {

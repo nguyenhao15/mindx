@@ -14,6 +14,16 @@ export const WorkProfile = z.object({
   active: z.boolean().default(true),
 });
 
+export const WorkProfileCreate = WorkProfile.pick({
+  staffId: true,
+  userId: true,
+  departmentId: true,
+  positionId: true,
+  positionLevel: true,
+  isDefault: true,
+  buAllowedList: true,
+});
+
 export const WorkProfileEmbedded = WorkProfile.pick({
   id: true,
   staffId: true,
@@ -35,20 +45,23 @@ export const userSchema = z.object({
     .string('Vui lòng chọn vai trò hệ thống ')
     .trim()
     .min(3, 'Vai trò hệ thống phải có ít nhất 3 ký tự'),
-  workProfileList: WorkProfile.pick({
-    departmentId: true,
-    positionId: true,
-    positionLevel: true,
-    isDefault: true,
-    buAllowedList: true,
-  }),
+  workProfileList: z.array(WorkProfileEmbedded).default([]),
 });
 
 export const userManagementSchema = userSchema.extend({
-  _id: z.string().optional(),
+  _id: z.string(),
   enabled: z.boolean().default(true),
   accountNonLocked: z.boolean().default(true),
 });
+
+export const userCreateSchema = userManagementSchema
+  .pick({
+    staffId: true,
+    fullName: true,
+    email: true,
+    systemRole: true,
+  })
+  .extend(WorkProfileCreate.shape);
 
 export const updatePasswordSchema = z
   .object({
@@ -83,31 +96,10 @@ export type UserManagementDTO = z.infer<typeof userManagementSchema>;
 export type UserManagementFormInput = z.input<typeof userManagementSchema>;
 export type UpdatePasswordDTO = z.infer<typeof updatePasswordSchema>;
 
-export const UserResponseObject = z
-  .object({
-    _id: z.string(),
-    staffId: z.string(),
-    fullName: z.string(),
-    systemRole: z
-      .string('Vui lòng chọn vai trò hệ thống ')
-      .trim()
-      .min(3, 'Vai trò hệ thống phải có ít nhất 3 ký tự')
-      .nullable(),
-    email: z.string(),
-    workProfileList: z.array(WorkProfileEmbedded),
-    accountNonLocked: z.boolean(),
-    accountNonExpired: z.boolean(),
-    credentialsNonExpired: z.boolean(),
-    enabled: z.boolean(),
-    createdDate: z.string(),
-    updatedDate: z.string(),
-    username: z.string().nullable(),
-    twoFactorEnabled: z.boolean(),
-  })
-  .transform((user) => ({
-    id: user._id,
-    ...user,
-  }));
+export const UserResponseObject = userManagementSchema.extend({
+  _id: z.string(),
+  workProfileList: z.array(WorkProfileEmbedded).default([]),
+});
 
 export const activatePasswordSchema = z
   .object({
@@ -133,3 +125,5 @@ export type ActivatePasswordDTO = z.infer<typeof activatePasswordSchema>;
 export type UserResponseObjectType = z.infer<typeof UserResponseObject>;
 export type WorkProfileType = z.infer<typeof WorkProfile>;
 export type WorkProfileEmbeddedType = z.infer<typeof WorkProfileEmbedded>;
+export type WorkProfileCreateType = z.infer<typeof WorkProfileCreate>;
+export type UserCreateDTO = z.infer<typeof userCreateSchema>;

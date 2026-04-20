@@ -8,7 +8,10 @@ import {
   updateUser,
 } from '@/modules/core/admin/queries/adminAction';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import type { UserManagementDTO } from '@/modules/core/auth/schemas/userSchema';
+import type {
+  UserCreateDTO,
+  UserManagementDTO,
+} from '@/modules/core/auth/schemas/userSchema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useGetAllUsers = (
@@ -41,7 +44,7 @@ export const useGetUserById = (userId: string, options = {}) => {
 export const useAddUser = (options = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (userData: UserManagementDTO) => {
+    mutationFn: async (userData: UserCreateDTO) => {
       const response = await addUser(userData);
       return response;
     },
