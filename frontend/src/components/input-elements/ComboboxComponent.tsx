@@ -2,14 +2,10 @@
 
 import {
   Combobox,
-  ComboboxChip,
-  ComboboxChips,
-  ComboboxChipsInput,
   ComboboxContent,
   ComboboxEmpty,
   ComboboxItem,
   ComboboxList,
-  ComboboxValue,
   ComboboxInput,
   useComboboxAnchor,
 } from '@/components/ui/combobox';
@@ -66,8 +62,9 @@ const handleSliceValueByLimit = (
     <div className='mt-2 flex flex-row flex-wrap gap-2'>
       {value.slice(0, limit).map((item: NormalizedOption) => (
         <div
-          className='bg-primary text-white rounded-md p-2 text-sm font-semibold flex items-center gap-1'
+          className='cursor-pointer bg-primary text-white rounded-md p-2 text-sm font-semibold flex items-center gap-1'
           key={String(item.value)}
+          title='Remove'
           onClick={() => handleRemoveChip?.(item.value)}
         >
           <span>{item.label}</span>
@@ -204,120 +201,6 @@ const ComboboxComponent = ({
   );
 };
 
-function MultipleComboboxComponent({
-  options,
-  onChange,
-  defaultValue = [],
-  label = 'Multiple Combobox Example',
-  placeholder = 'Add option',
-  required = false,
-  limit,
-  errors = null,
-  isMultiple = false,
-  isLoading = false,
-  disabled = false,
-  IconNode,
-  ...props
-}: ComboboxComponentProps) {
-  const normalizedDefaultValue = useMemo(
-    () =>
-      Array.isArray(defaultValue)
-        ? defaultValue.map((val) => ({ label: String(val), value: val }))
-        : [],
-    [defaultValue],
-  );
-
-  const [value, setValue] = useState<NormalizedOption[]>(
-    normalizedDefaultValue,
-  );
-
-  const handleValueChange = (nextValue: NormalizedOption) => {
-    const isExisting = value.some((item) => item.value === nextValue.value);
-    const resultValue = isExisting
-      ? value.filter((item) => item.value !== nextValue.value)
-      : [...value, nextValue];
-    setValue(resultValue);
-    onChange?.(resultValue.map((item) => item.value));
-  };
-
-  const handleRemoveChip = (chipValue: string | number) => {
-    const updatedValue = value.filter((item) => item.value !== chipValue);
-    setValue(updatedValue);
-    onChange?.(updatedValue.map((item) => item.value));
-  };
-
-  return (
-    <CustomInputCard
-      {...props}
-      labelSize='lg'
-      label={label}
-      required={required}
-      errorMessage={errors}
-    >
-      <Combobox
-        items={options}
-        multiple
-        disabled={disabled}
-        readOnly={isLoading || disabled}
-        value={value}
-        openOnInputClick={true}
-        itemToStringLabel={(item) => item.label}
-        itemToStringValue={(item) => String(item.value)}
-      >
-        <ComboboxInput
-          aria-invalid={!!errors}
-          showTrigger={!isLoading}
-          readOnly={isLoading}
-          disabled={disabled || isLoading}
-          size={20}
-          placeholder={placeholder}
-          className={`py-4 rounded-sm h-15 shadow border-2 bg-input-background ${errors ? 'border-red-500' : 'border-slate-300'} focus:ring-2 focus:ring-primary focus:outline-none`}
-        >
-          {IconNode && (
-            <InputGroupAddon>
-              <IconNode className='w-5 h-5 text-gray-400' />
-            </InputGroupAddon>
-          )}
-        </ComboboxInput>
-
-        <ComboboxContent className='w-full p-1'>
-          <ComboboxEmpty>No items found.</ComboboxEmpty>
-          <ComboboxList>
-            {(item) => (
-              <ComboboxItem
-                className='cursor-pointer'
-                onClick={() => handleValueChange(item)}
-                key={item.value}
-                value={item}
-              >
-                {item.label}
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-        </ComboboxContent>
-        {value.length > 0 && (
-          <div className='mt-2 flex flex-row flex-wrap gap-2'>
-            {value.slice(0, limit).map((item) => (
-              <div
-                className='bg-primary text-white rounded-md px-2 py-1 text-sm font-semibold flex items-center gap-1'
-                key={String(item.value)}
-                onClick={() => handleRemoveChip(item.value)}
-              >
-                <span key={String(item.value)}>{item.label}</span>
-              </div>
-            ))}
-            {limit && value.length > limit ? (
-              <span className='text-sm self-center items-center text-gray-500'>
-                +{value.length - limit} more
-              </span>
-            ) : null}
-          </div>
-        )}
-      </Combobox>
-    </CustomInputCard>
-  );
-}
-
 function SingleComboboxComponent({
   IconNode,
   options,
@@ -407,8 +290,4 @@ function SingleComboboxComponent({
   );
 }
 
-export {
-  MultipleComboboxComponent,
-  ComboboxComponent,
-  SingleComboboxComponent,
-};
+export { ComboboxComponent, SingleComboboxComponent };

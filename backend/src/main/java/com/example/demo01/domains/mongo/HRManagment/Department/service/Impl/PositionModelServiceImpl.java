@@ -32,8 +32,6 @@ public class PositionModelServiceImpl implements PositionModelService {
 
     private final PositionMapper positionMapper;
 
-    private final AppUtil appUtil;
-
     private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final SecurityRepoUtilImpl securityRepoUtil;
@@ -96,6 +94,15 @@ public class PositionModelServiceImpl implements PositionModelService {
     public PositionModel getPositionById(String id) {
        return positionModelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("PositionModel", "id", id));
+    }
+
+    @Override
+    public PositionDto getPositionDtoByPositionCode(String positionCode) {
+        PositionModel positionModel = positionModelRepository.findByPositionCode(positionCode);
+        if (positionModel == null) {
+            throw new ResourceNotFoundException("PositionModel", "positionCode", positionCode);
+        }
+        return positionMapper.toPositionDto(positionModel);
     }
 
     @Override

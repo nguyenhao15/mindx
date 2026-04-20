@@ -86,7 +86,7 @@ const TextInputField = ({
   };
 
   const styleInput = clsx(
-    'px-3 py-4 mt-2 bg-input-background text-sm rounded border outline-none shadow-sm transition-colors',
+    'px-3 py-4 mt-1 bg-input-background text-sm rounded border outline-none shadow-sm transition-colors',
     'bg-input-background text-slate-800 placeholder:text-gray-400',
     'hover:bg-gray-50 focus:ring-2 focus:ring-offset-1 focus:ring-blue-200',
     isError

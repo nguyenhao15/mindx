@@ -17,8 +17,6 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
 
   const departmentId = watch('departmentId');
 
-  console.log('Errors: ', localErrors);
-
   return (
     <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 transition-all hover:shadow-md'>
       <div className='mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
@@ -64,6 +62,7 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
           type='number'
           min={0}
           max={5}
+          labelSize='lg'
           control={control}
           label='Cấp bậc vị trí'
           required
@@ -71,7 +70,6 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
           errors={localErrors}
           refValue={watch('positionLevel')}
           placeholder='Cấp bậc vị trí...'
-          disabled={!departmentId}
         />
         <div className='col-span-3'>
           <BasementOptions

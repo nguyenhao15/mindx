@@ -1,10 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useActiveBuItems } from '../hooks/useBasementHook';
-import {
-  ComboboxComponent,
-  MultipleComboboxComponent,
-  SingleComboboxComponent,
-} from '@/components/input-elements/ComboboxComponent';
+import { ComboboxComponent } from '@/components/input-elements/ComboboxComponent';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Building } from 'lucide-react';
 
@@ -72,39 +68,6 @@ const BasementOptions = ({
         {...props}
       />
     );
-    // if (multiple) {
-    //   return (
-    //     <MultipleComboboxComponent
-    //       isLoading={isLoading || isLoadingData}
-    //       {...props}
-    //       required={required}
-    //       disabled={disabled}
-    //       IconNode={Building}
-    //       errors={errorMessage || null}
-    //       limit={2}
-    //       options={buOptions}
-    //       onChange={handleValueChange}
-    //       defaultValue={selectedValue ?? []}
-    //       label={label}
-    //       placeholder={placeholder}
-    //     />
-    //   );
-    // }
-    // return (
-    //   <SingleComboboxComponent
-    //     isLoading={isLoading || isLoadingData}
-    //     IconNode={Building}
-    //     {...props}
-    //     required={required}
-    //     disabled={disabled}
-    //     errors={errorMessage || null}
-    //     options={buOptions}
-    //     onChange={handleValueChange}
-    //     defaultValue={selectedValue ?? null}
-    //     label={label}
-    //     placeholder={placeholder}
-    //   />
-    // );
   };
 
   if (control) {

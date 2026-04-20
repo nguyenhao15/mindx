@@ -146,15 +146,23 @@ const DepartmentForm = ({ initialData, onUpdate }: DepartmentFormProps) => {
             )}
           />
           <br />
-          <RadioInputField
+          <Controller
             control={control}
             name='active'
-            options={[
-              { label: 'Active', value: 'true' },
-              { label: 'Inactive', value: 'false' },
-            ]}
-            value={initialData?.active ? 'true' : 'false'}
-            error={errors?.active?.message as string | null}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <RadioInputField
+                control={control}
+                options={[
+                  { label: 'Active', value: 'true' },
+                  { label: 'Inactive', value: 'false' },
+                ]}
+                value={value}
+                onChange={onChange}
+                label='Trạng thái'
+                {...rest}
+                error={errors?.active?.message as string | null}
+              />
+            )}
           />
           <br />
           <RadioInputField

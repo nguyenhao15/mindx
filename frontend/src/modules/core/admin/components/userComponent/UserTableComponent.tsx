@@ -14,6 +14,8 @@ import type {
 } from '@/modules/core/auth/schemas/userSchema';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import Status from '@/components/shared/Status';
+import CreateUserComponent from './CreateUserComponent';
+import UpdateUserComponent from './UpdateUserComponent';
 
 type UserRow = {
   id: string | number;
@@ -157,7 +159,11 @@ export function UserTableComponent({}) {
         />
       )}
       <ModalComponent open={isModalOpen} onClose={handleCloseModal}>
-        <UserForm initialUser={selectedUser} onClose={handleCloseModal} />
+        {!selectedUser ? (
+          <CreateUserComponent />
+        ) : (
+          <UpdateUserComponent staffId={selectedUser.staffId} />
+        )}
       </ModalComponent>
     </div>
   );

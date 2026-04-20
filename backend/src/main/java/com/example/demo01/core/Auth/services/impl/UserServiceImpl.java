@@ -8,6 +8,9 @@ import com.example.demo01.core.Auth.dtos.UserSummaryDto;
 import com.example.demo01.core.Auth.mapper.UserMapper;
 import com.example.demo01.core.Auth.models.Session;
 import com.example.demo01.core.Auth.models.User;
+import com.example.demo01.domains.mongo.HRManagment.Department.dto.Department.DepartmentInfoDto;
+import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.PositionDto;
+import com.example.demo01.domains.mongo.HRManagment.Department.model.PositionModel;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
@@ -142,7 +145,14 @@ public class UserServiceImpl implements UserService {
         newUser.setEnabled(true);
         newUser.setAccountNonLocked(true);
 
-        staffProfileService.createNewStaffProfile(createUserRequest.getStaffProfileRequestDto());
+        StaffProfileRequestDto staffProfileRequestDto = createUserRequest.getStaffProfileRequestDto();
+
+        DepartmentInfoDto departmentInfoDto = departmentModelService.getDepartmentByDepartmentCode(staffProfileRequestDto.getDepartmentId());
+        PositionDto positionModel = positionModelService.getPositionDtoByPositionCode(staffProfileRequestDto.getPositionId());
+
+        staffProfileRequestDto.setPositionName(positionModel.getPositionName());
+        staffProfileRequestDto.setDepartmentName(departmentInfoDto.getDepartmentName());
+        staffProfileService.createNewStaffProfile(staffProfileRequestDto);
 
         User savedUser = userRepository.save(newUser);
         return userMapper.toDto(savedUser);
@@ -286,6 +296,13 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = getUserDtoByStaffId(createStaffProfileRequestDto.getStaffId());
         createStaffProfileRequestDto.setStaffId(userDTO.getStaffId());
         createStaffProfileRequestDto.setUserId(userDTO.get_id());
+
+        DepartmentInfoDto departmentInfoDto = departmentModelService.getDepartmentByDepartmentCode(createStaffProfileRequestDto.getDepartmentId());
+        PositionDto positionModel = positionModelService.getPositionDtoByPositionCode(createStaffProfileRequestDto.getPositionId());
+
+        createStaffProfileRequestDto.setPositionName(positionModel.getPositionName());
+        createStaffProfileRequestDto.setDepartmentName(departmentInfoDto.getDepartmentName());
+
         StaffProfileInfoDto staffProfileInfoDto = staffProfileService.createNewStaffProfile(createStaffProfileRequestDto);
 
         userDTO.getWorkProfileList().add(staffProfileInfoDto);
@@ -294,8 +311,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserDtoByStaffId(String staffId) {
-        User user = userRepository.findByStaffId(staffId);
-        return userMapper.toDto(user);
+        return getUserInfo(staffId);
     }
 
     @Override

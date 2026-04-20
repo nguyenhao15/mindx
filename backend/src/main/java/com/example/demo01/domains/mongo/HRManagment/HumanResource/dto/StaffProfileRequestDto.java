@@ -25,6 +25,10 @@ public class StaffProfileRequestDto {
     @NotBlank(message = "Position Id is required")
     private String positionId;
 
+    private String departmentName;
+
+    private String positionName;
+
     @NotNull(message = "Position Level is required")
     private int positionLevel;
 

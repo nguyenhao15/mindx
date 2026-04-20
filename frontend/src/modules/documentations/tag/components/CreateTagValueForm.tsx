@@ -118,15 +118,21 @@ const CreateTagValueForm = ({
                 />
               )}
             />
-            <RadioInputField
+            <Controller
               name='active'
               control={control}
-              label='Active Status'
-              options={[
-                { label: 'Active', value: 'true' },
-                { label: 'Inactive', value: 'false' },
-              ]}
-              value={initialData?.active?.toString() ?? 'true'}
+              render={({ field: { onChange, value, ...rest } }) => (
+                <RadioInputField
+                  label='Active Status'
+                  options={[
+                    { label: 'Active', value: 'true' },
+                    { label: 'Inactive', value: 'false' },
+                  ]}
+                  value={value}
+                  onChange={onChange}
+                  {...rest}
+                />
+              )}
             />
             <Button
               disabled={isCreating || isUpdating}

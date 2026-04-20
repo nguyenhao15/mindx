@@ -3,7 +3,7 @@ import {
   type TagDTO,
   type TagInfo,
 } from '@/modules/documentations/tag/schema/tagSchema';
-import { FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import TextInputField from '@/components/input-elements/TextInputField';
 import { Button } from '@/components/ui/button';
@@ -97,15 +97,21 @@ const CreateTagForm = ({
               required
               placeholder='Enter description'
             />
-            <RadioInputField
+            <Controller
               name='active'
-              label='Active Status'
-              options={[
-                { label: 'Active', value: 'true' },
-                { label: 'Inactive', value: 'false' },
-              ]}
               control={methods.control}
-              error={errors.active?.message}
+              render={({ field: { onChange, value, ...rest } }) => (
+                <RadioInputField
+                  label='Active Status'
+                  options={[
+                    { label: 'Active', value: 'true' },
+                    { label: 'Inactive', value: 'false' },
+                  ]}
+                  value={value}
+                  onChange={onChange}
+                  {...rest}
+                />
+              )}
             />
           </div>
           <Button

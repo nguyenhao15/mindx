@@ -25,6 +25,8 @@ public interface PositionModelService {
 
     PositionModel getPositionById(String id);
 
+    PositionDto getPositionDtoByPositionCode(String positionCode);
+
     PositionModel updatePosition(String id, PositionRequest request);
 
     void deletePosition(String id);

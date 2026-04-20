@@ -1,6 +1,6 @@
 import RadioInputField from '@/components/shared/RadioInputField';
 
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 const SystemPermission = ({
   register,
@@ -20,17 +20,24 @@ const SystemPermission = ({
           Basic login information for the new user.
         </p>
       </div>
-      <RadioInputField
-        required
+      <Controller
         control={control}
-        label='Quyền hệ thống'
         name='systemRole'
-        value='USER'
-        options={[
-          { label: 'Admin', value: 'ADMIN' },
-          { label: 'User', value: 'USER' },
-        ]}
-        error={errors.systemRole?.message}
+        render={({ field: { onChange, value, ...rest } }) => (
+          <RadioInputField
+            required
+            label='Quyền hệ thống'
+            value={value}
+            {...rest}
+            onChange={onChange}
+            {...rest}
+            options={[
+              { label: 'Admin', value: 'ADMIN' },
+              { label: 'User', value: 'USER' },
+            ]}
+            error={errors.systemRole?.message}
+          />
+        )}
       />
     </div>
   );

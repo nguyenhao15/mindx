@@ -15,6 +15,8 @@ public interface PositionMapper {
 
     PositionModel toPositionModel(PositionRequest request);
 
+    PositionDto toPositionDto(PositionModel model);
+
     List<PositionDto> toDtoPositionList(List<PositionModel> positionModels);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -4,9 +4,10 @@ import {
   type UserManagementDTO,
   type UserCreateDTO,
   userCreateSchema,
+  WorkProfileCreate,
 } from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 import { InfoIcon } from 'lucide-react';
 import UserCredential from './FormElement/UserCredential';
 import SystemPermission from './FormElement/SystemPermission';
@@ -19,89 +20,27 @@ import WorkProfileInfo from './WorkProfileInfo';
 import { JobAssignmentCard } from './FormElement/JobAssignmentCard';
 
 interface UserFormProps {
+  updateMode?: boolean;
   initialUser: UserManagementDTO | null;
-  onClose: () => void;
+  error?: any;
 }
 
-const UserForm = ({ initialUser, onClose }: UserFormProps) => {
-  const isUpdateMode = !!initialUser?._id;
-  const schemaToUse = isUpdateMode ? userManagementSchema : userCreateSchema;
-  const methods = useForm({
-    mode: 'onBlur',
-    resolver: zodResolver(schemaToUse),
-    defaultValues: {
-      ...(isUpdateMode && {
-        _id: initialUser?._id,
-        workProfileList: initialUser?.workProfileList ?? [],
-        enabled: initialUser?.enabled ?? true,
-        accountNonLocked: initialUser?.accountNonLocked ?? true,
-      }),
-      staffId: initialUser?.staffId ?? '',
-      fullName: initialUser?.fullName ?? '',
-      email: initialUser?.email ?? '',
-      systemRole: initialUser?.systemRole ?? 'USER',
-    },
-  });
-
-  const { createUser, updateUser, lockUser, resetPassword, isLoading, error } =
-    useAdminUpdateToolKits(initialUser?._id ?? '');
-
+const UserForm = ({
+  updateMode = false,
+  initialUser,
+  error,
+}: UserFormProps) => {
   const {
-    handleSubmit,
     register,
-    watch,
     formState: { errors },
-  } = methods;
-
-  const onSubmit = async (formData: any) => {
-    try {
-      if (isUpdateMode) {
-        const payloadToUpdate = userManagementSchema.parse(formData);
-        await updateUser(payloadToUpdate);
-        toast.success('User updated successfully');
-        onClose();
-        return;
-      }
-
-      const payloadToCreate = userCreateSchema.parse(formData);
-      await createUser(payloadToCreate);
-      toast.success('User created successfully');
-      onClose();
-    } catch (error) {
-      console.error('Error saving user:', error);
-      toast.error('Failed to save user');
-    }
-  };
-
-  const handleLockUser = async () => {
-    const currentLockState = watch('accountNonLocked') ?? true;
-    await lockUser({ locked: !currentLockState });
-    methods.setValue('accountNonLocked', !currentLockState);
-  };
-
-  const handleResetPassword = async () => {
-    try {
-      await resetPassword();
-      toast.success('Password reset successfully');
-    } catch (error) {
-      toast.error('Failed to reset password');
-    }
-  };
+    control,
+  } = useFormContext();
 
   return (
-    <div className='p-10 h-screen w-screen overflow-hidden'>
-      <div className='h-full overflow-y-auto  bg-white border border-slate-100 rounded-xl shadow-sm'>
-        <UserFormToolbar
-          isUpdateMode={isUpdateMode}
-          isSubmitting={isLoading}
-          accountNonLocked={watch('accountNonLocked') ?? true}
-          onClose={onClose}
-          onResetPassword={handleResetPassword}
-          onSave={handleSubmit(onSubmit)}
-          onLockUser={handleLockUser}
-        />
+    <div className='p-4 overflow-hidden'>
+      <div className='h-full overflow-y-auto  bg-white border border-slate-100 rounded-xl '>
         <main className='xl:max-w-5xl lg:max-w-4xl md:max-w-3xl max-w-xl mx-auto px-6 py-8 pb-24'>
-          {!isUpdateMode && (
+          {!updateMode && (
             <div className='mb-10 bg-blue-50 border border-blue-100 rounded-lg p-4 flex items-start gap-3'>
               <InfoIcon className='w-5 h-5 text-blue-600 shrink-0 mt-0.5' />
               <p className='text-sm text-blue-800'>
@@ -112,7 +51,7 @@ const UserForm = ({ initialUser, onClose }: UserFormProps) => {
             </div>
           )}
 
-          {isUpdateMode && (
+          {updateMode && (
             <div className='mb-10 bg-amber-50 border border-amber-100 rounded-lg p-4 flex items-start gap-3'>
               <InfoIcon className='w-5 h-5 text-amber-600 shrink-0 mt-0.5' />
               <p className='text-sm text-amber-800'>
@@ -124,21 +63,17 @@ const UserForm = ({ initialUser, onClose }: UserFormProps) => {
 
           <ErrorCatchComponent error={error} />
 
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className='space-y-6'>
-                <UserCredential register={register} errors={errors} />
-                <SystemPermission register={register} errors={errors} />
+          <div className='space-y-6'>
+            <UserCredential register={register} errors={errors} />
+            <SystemPermission register={register} errors={errors} />
+            {!updateMode && <JobAssignmentCard control={control} />}
+            {updateMode && (
+              <>
                 <UserAccountStatus />
-                {!isUpdateMode && (
-                  <JobAssignmentCard control={methods.control} />
-                )}
-                {isUpdateMode && (
-                  <WorkProfileInfo data={initialUser?.workProfileList || []} />
-                )}
-              </div>
-            </form>
-          </FormProvider>
+                <WorkProfileInfo data={initialUser?.workProfileList || []} />
+              </>
+            )}
+          </div>
         </main>
       </div>
     </div>

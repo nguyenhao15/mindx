@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import TextInputField from '@/components/input-elements/TextInputField';
 import RadioInputField from '@/components/shared/RadioInputField';
@@ -91,18 +91,23 @@ const WorkingFieldForm = ({
             errors={errors}
           />
           <br />
-          <RadioInputField
-            name='active'
-            options={[
-              { label: 'Active', value: 'true' },
-              { label: 'Inactive', value: 'false' },
-            ]}
+          <Controller
             control={control}
-            value={
-              initialData?.active.toString() === 'Active' ? 'true' : 'false'
-            }
-            error={errors.active?.message}
-            required
+            name='active'
+            render={({ field: { onChange, value, ...rest } }) => (
+              <RadioInputField
+                options={[
+                  { label: 'Active', value: 'true' },
+                  { label: 'Inactive', value: 'false' },
+                ]}
+                control={control}
+                value={Boolean(value).toString()}
+                onChange={onChange}
+                {...rest}
+                error={errors.active?.message}
+                required
+              />
+            )}
           />
         </div>
         <Button

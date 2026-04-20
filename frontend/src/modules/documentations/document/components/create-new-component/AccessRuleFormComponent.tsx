@@ -41,17 +41,24 @@ const AccessRuleFormComponent = ({
     <div className='@container w-full p-2'>
       <div className='flex flex-col gap-5'>
         <div className='w-full col-span-3 m-5'>
-          <RadioInputField
+          <Controller
             name='accessRule.accessType'
             control={control}
-            label='Loại truy cập'
-            options={[
-              { label: 'Công khai', value: 'PUBLIC' },
-              { label: 'Nghiêm ngặt', value: 'STRICT' },
-              { label: 'Hạn chế', value: 'RESTRICTED' },
-            ]}
-            value={initialData?.accessRule?.accessType || 'PUBLIC'}
-            error={errors.accessRule?.accessType}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <RadioInputField
+                control={control}
+                label='Loại truy cập'
+                options={[
+                  { label: 'Công khai', value: 'PUBLIC' },
+                  { label: 'Nghiêm ngặt', value: 'STRICT' },
+                  { label: 'Hạn chế', value: 'RESTRICTED' },
+                ]}
+                value={value}
+                onChange={onChange}
+                error={errors.accessRule?.accessType}
+                {...rest}
+              />
+            )}
           />
         </div>
 

@@ -33,15 +33,13 @@ const RadioInputField = ({
   error,
   required = false,
   className,
+  ...rest
 }: RadioInputFieldProps) => {
   const normalizedExternalValue = externalValue ?? '';
   const normalizedExternalOnChange = externalOnChange ?? (() => {});
 
-  const renderRadioGroup = (
-    currentValue: string | undefined,
-    handleChange: (value: string) => void,
-  ) => (
-    <Field className={clsx('flex flex-col gap-3', className)}>
+  return (
+    <Field {...rest} className={clsx('flex flex-col gap-3', className)}>
       {label && (
         <Label className='text-xl font-semibold text-slate-800'>
           {label} {required && <span className='text-red-500'>*</span>}
@@ -49,8 +47,9 @@ const RadioInputField = ({
       )}
 
       <RadioGroup
-        value={currentValue ?? ''}
-        onChange={handleChange}
+        id={name}
+        value={normalizedExternalValue}
+        onChange={normalizedExternalOnChange}
         disabled={disabled}
         className='flex flex-wrap gap-4'
       >
@@ -109,21 +108,8 @@ const RadioInputField = ({
   );
 
   // Trường hợp dùng với React Hook Form
-  if (control && name) {
-    return (
-      <Controller
-        name={name}
-        control={control}
-        defaultValue={normalizedExternalValue}
-        render={({ field: { value, onChange } }) =>
-          renderRadioGroup(value, onChange)
-        }
-      />
-    );
-  }
 
   // Trường hợp dùng độc lập
-  return renderRadioGroup(normalizedExternalValue, normalizedExternalOnChange);
 };
 
 export default RadioInputField;

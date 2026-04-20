@@ -1,6 +1,6 @@
 import { basementSchema } from '@/modules/core/basement/schema/basementSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import TextInputField from '@/components/input-elements/TextInputField';
 import RadioInputField from '@/components/shared/RadioInputField';
 import { Button } from '@/components/ui/button';
@@ -169,16 +169,23 @@ const BasementForm = ({
               placeholder='Nhập địa chỉ'
               errors={errors}
             />
-            <RadioInputField
-              label='Trạng thái'
+            <Controller
               control={control}
-              disabled={isLoading}
               name='active'
-              options={[
-                { label: 'Active', value: 'true' },
-                { label: 'Inactive', value: 'false' },
-              ]}
-              value={initialValues?.active ? 'true' : 'false'}
+              render={({ field: { onChange, value, ...rest } }) => (
+                <RadioInputField
+                  label='Trạng thái'
+                  control={control}
+                  disabled={isLoading}
+                  options={[
+                    { label: 'Active', value: 'true' },
+                    { label: 'Inactive', value: 'false' },
+                  ]}
+                  value={value}
+                  onChange={onChange}
+                  {...rest}
+                />
+              )}
             />
           </div>
           <Button

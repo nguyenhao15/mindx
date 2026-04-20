@@ -8,6 +8,9 @@ import java.util.List;
 
 @Repository
 public interface PositionModelRepository extends MongoRepository<PositionModel, String> {
+
+    PositionModel findByPositionCode(String positionCode);
+
     List<PositionModel> findByDepartmentCode(String departmentId);
 
     List<PositionModel> findByIdIn(List<String> positionIds);

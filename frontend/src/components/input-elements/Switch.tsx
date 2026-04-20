@@ -6,7 +6,7 @@ interface SwitchProps {
   label?: string;
   id?: string;
 }
-export function Switch({ checked, onChange, label, id }: SwitchProps) {
+export function Switch({ checked, onChange, label, id, ...rest }: SwitchProps) {
   return (
     <div className='flex items-center gap-3'>
       <button
@@ -16,6 +16,7 @@ export function Switch({ checked, onChange, label, id }: SwitchProps) {
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#e31f20]/20 focus:border-[#e31f20] ${checked ? 'bg-brand-primary' : 'bg-gray-300'}`}
+        {...rest}
       >
         <span className='sr-only'>Use setting</span>
         <motion.span
