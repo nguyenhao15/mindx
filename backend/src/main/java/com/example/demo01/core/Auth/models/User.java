@@ -46,8 +46,6 @@ public class User {
 
     private String systemRole;
 
-    private List<WorkProfile> workProfileList = new ArrayList<>();
-
     @Size(max = 120)
     @JsonIgnore
     private String password;

@@ -19,15 +19,4 @@ public class WorkProfile {
     private int positionLevel;
     private List<String> buAllowedList;
 
-    // Trong class WorkProfile
-    public WorkProfile(WorkProfile dto) {
-        if (dto == null) return;
-        this.uuid = dto.getUuid() != null ? dto.getUuid() : this.uuid;
-        this.departmentId = dto.getDepartmentId();
-        this.positionCode = dto.getPositionCode();
-        this.isMainPosition = dto.getIsMainPosition();
-        this.positionLevel = dto.getPositionLevel();
-        this.buAllowedList = dto.getBuAllowedList();
-    }
-
 }

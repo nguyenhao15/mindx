@@ -87,13 +87,14 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
 
     @Override
     public List<StaffProfileInfoDto> getCurrentWorkProfiles() {
-        return staffProfileService.getCurrentStaffProfile();
+        String userId = getCurrentUserId();
+        return staffProfileService.getCurrentStaffProfile(userId);
     }
 
     @Override
     public StaffProfileInfoDto getMainCurrentWorkProfile() {
         String userId = getCurrentUserId();
-       return staffProfileService.getDefaultStaffProfile();
+       return staffProfileService.getDefaultStaffProfile(userId);
     }
 
     @Override

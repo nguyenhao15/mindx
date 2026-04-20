@@ -2,6 +2,7 @@
 package com.example.demo01.core.Auth.request;
 
 import com.example.demo01.core.Auth.dtos.WorkProfile;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -27,5 +28,5 @@ public class CreateUserRequest {
 
     private String systemRole;
 
-    private List<WorkProfile> workProfileList;
+    private StaffProfileRequestDto staffProfileRequestDto;
 }

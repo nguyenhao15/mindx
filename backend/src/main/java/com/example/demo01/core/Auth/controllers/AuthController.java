@@ -5,6 +5,8 @@ import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.request.LoginRequest;
 import com.example.demo01.core.Auth.response.LoginResponse;
 import com.example.demo01.core.Auth.services.UserService;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +25,12 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         LoginResponse loginResponse = userService.login(loginRequest);
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @PostMapping("/create/staff-profile")
+    public ResponseEntity<?> createNewProfile(@Valid @RequestBody StaffProfileRequestDto requestDto) {
+        UserDTO userDTO = userService.createNewStaffProfile(requestDto);
+        return ResponseEntity.ok(userDTO);
     }
 
     @PostMapping("/refresh-token")

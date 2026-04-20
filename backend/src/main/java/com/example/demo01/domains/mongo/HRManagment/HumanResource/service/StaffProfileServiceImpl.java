@@ -1,7 +1,6 @@
 package com.example.demo01.domains.mongo.HRManagment.HumanResource.service;
 
-import com.example.demo01.core.Auth.dtos.CustomUserDetails;
-import com.example.demo01.core.Exceptions.InvalidCredentialsException;
+import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
@@ -11,8 +10,8 @@ import com.example.demo01.repository.mongo.HRManagement.StaffProfileRepository.S
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,19 +27,9 @@ public class StaffProfileServiceImpl implements StaffProfileService {
 
 
     @Override
-    public CustomUserDetails getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() instanceof CustomUserDetails user) {
-            return user;
-        }
-        throw new InvalidCredentialsException("User not authenticated");
-    }
-
-    @Override
     public StaffProfileInfoDto createNewStaffProfile(StaffProfileRequestDto requestDto) {
 
         StaffProfileModels staffProfileModels = staffProfileMapper.fromRequestToEntity(requestDto);
-
         StaffProfileModels result = staffProfileRepository.save(staffProfileModels);
         return staffProfileMapper.fromEntityToDto(result);
     }
@@ -52,24 +41,23 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     }
 
     @Override
-    public List<StaffProfileInfoDto> getCurrentStaffProfile() {
-        String staffId = getCurrentUser().getStaffId();
+    public List<StaffProfileInfoDto> getCurrentStaffProfile(String staffId) {
         List<StaffProfileModels> staffProfileInfoDtos = staffProfileRepository.getByStaffIdAndActive(staffId,true);
         if (staffProfileInfoDtos.isEmpty()) {
-            throw new ResourceNotFoundException("StaffProfile", "staffId", staffId);
+            return List.of();
         }
         return staffProfileMapper.fromEntitiesFromInFoDto(staffProfileInfoDtos);
     }
 
     @Override
+    @Cacheable(value = CacheConstants.STAFF_PROFILE, key = "#id")
     public StaffProfileInfoDto getStaffProfileInfoById(String id) {
         StaffProfileModels staffProfileModels = getStaffProfileById(id);
         return staffProfileMapper.fromEntityToDto(staffProfileModels);
     }
 
     @Override
-    public StaffProfileInfoDto getDefaultStaffProfile() {
-        String staffId = getCurrentUser().getStaffId();
+    public StaffProfileInfoDto getDefaultStaffProfile(String staffId) {
         StaffProfileModels staffProfileModels = staffProfileRepository.findByStaffIdAndIsDefault(staffId, true);
         return staffProfileMapper.fromEntityToDto(staffProfileModels);
     }
@@ -82,9 +70,8 @@ public class StaffProfileServiceImpl implements StaffProfileService {
         return staffProfileMapper.fromEntityToDto(result);
     }
 
-    //TODO
-
     @Override
+    @PreAuthorize("hashRole('ADMIN')")
     public BasePageResponse<StaffProfileInfoDto> getStaffInfoList(FilterWithPagination filterWithPagination) {
         return null;
     }

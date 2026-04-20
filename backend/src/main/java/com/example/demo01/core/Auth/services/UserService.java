@@ -1,10 +1,12 @@
 package com.example.demo01.core.Auth.services;
 
 import com.example.demo01.core.Auth.dtos.UserDTO;
+import com.example.demo01.core.Auth.dtos.UserSummaryDto;
 import com.example.demo01.core.Auth.models.User;
 import com.example.demo01.core.Auth.request.CreateUserRequest;
 import com.example.demo01.core.Auth.request.LoginRequest;
 import com.example.demo01.core.Auth.response.LoginResponse;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 
@@ -24,7 +26,7 @@ public interface UserService {
 
     String logout();
 
-    BasePageResponse<UserDTO> getAllUsers(FilterWithPagination filter);
+    BasePageResponse<UserSummaryDto> getAllUsers(FilterWithPagination filter);
 
     String refreshToken();
 
@@ -32,11 +34,13 @@ public interface UserService {
 
     UserDTO getUserInfo(String username);
 
+    UserDTO createNewStaffProfile(StaffProfileRequestDto createStaffProfileRequestDto);
+
     UserDTO getUserDtoByStaffId(String staffId);
 
-    UserDTO updateUserRole(String userId, String roleName);
+    void updateUserRole(String userId, String roleName);
 
-    UserDTO updatePassword(String oldPassword, String newPassword);
+    void updatePassword(String oldPassword, String newPassword);
 
     UserDTO updateLockUser(String userId, boolean locked);
 

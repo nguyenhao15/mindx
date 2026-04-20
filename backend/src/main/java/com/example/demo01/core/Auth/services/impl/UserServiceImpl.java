@@ -2,12 +2,14 @@ package com.example.demo01.core.Auth.services.impl;
 
 import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
-import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.dtos.UserDTO;
-import com.example.demo01.core.Auth.dtos.WorkProfile;
+import com.example.demo01.core.Auth.dtos.UserSummaryDto;
 import com.example.demo01.core.Auth.mapper.UserMapper;
 import com.example.demo01.core.Auth.models.Session;
 import com.example.demo01.core.Auth.models.User;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.service.StaffProfileService;
 import com.example.demo01.repository.mongo.CoreRepo.AuthRepositories.UserRepository;
 import com.example.demo01.core.Auth.request.CreateUserRequest;
 import com.example.demo01.core.Auth.request.LoginRequest;
@@ -82,14 +84,16 @@ public class UserServiceImpl implements UserService {
 
     private final CacheManager cacheManager;
 
+    private final StaffProfileService staffProfileService;
+
     @Override
-    public UserDTO updateUserRole(String username, String roleName) {
+    public void updateUserRole(String username, String roleName) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
         user.setSystemRole(roleName);
         User savedInfo = userRepository.save(user);
         evictUserCachesByUsername(savedInfo.getUsername());
-        return userMapper.toDto(user);
+        userMapper.toDto(user);
     }
 
     @Override
@@ -121,23 +125,17 @@ public class UserServiceImpl implements UserService {
         String defaultPassword = tempPassword;
         User newUser = new User();
         newUser.setStaffId(staffId);
-
         newUser.setUsername(staffId);
-
         newUser.setFullName(userFullName);
         newUser.setEmail(emailValue);
         newUser.setSystemRole(createUserRequest.getSystemRole());
 
         newUser.setPassword(encoder.encode(defaultPassword));
 
-
-        if (createUserRequest.getWorkProfileList() != null) {
-            List<WorkProfile> profiles = createUserRequest.getWorkProfileList().stream()
-                    .map(WorkProfile::new).toList();
-            newUser.setWorkProfileList(profiles);
-        }
         newUser.setEnabled(true);
         newUser.setAccountNonLocked(true);
+
+        staffProfileService.createNewStaffProfile(createUserRequest.getStaffProfileRequestDto());
 
         User savedUser = userRepository.save(newUser);
         return userMapper.toDto(savedUser);
@@ -161,7 +159,6 @@ public class UserServiceImpl implements UserService {
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         String accessToken = jwtUtils.generateAccessToken(username);
 
@@ -173,6 +170,8 @@ public class UserServiceImpl implements UserService {
 
         UserDTO userDTO = userMapper.toDto(userInfo);
 
+        List<StaffProfileInfoDto> profileList = staffProfileService.getCurrentStaffProfile(username);
+        userDTO.setWorkProfileList(profileList);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setAccessToken(accessToken);
@@ -248,7 +247,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public BasePageResponse<UserDTO> getAllUsers(FilterWithPagination filter) {
+    public BasePageResponse<UserSummaryDto> getAllUsers(FilterWithPagination filter) {
         List<FilterRequest> filters = filter.getFilters();
         PageInput pageInput = filter.getPagination();
 
@@ -256,10 +255,9 @@ public class UserServiceImpl implements UserService {
 
         Page<User> userList = dynamicQueryCriteria.buildPageResponse(filters, criteria, pageInput, User.class);
 
-        BasePageResponse<UserDTO> userDTOBasePageResponse = new BasePageResponse<>();
-        userDTOBasePageResponse.setContent(userList.getContent().stream()
-                .map(userMapper::toDto)
-                .toList());
+        BasePageResponse<UserSummaryDto> userDTOBasePageResponse = new BasePageResponse<>();
+        List<UserSummaryDto> summaryDtos = userMapper.fromUsersToUserSummaryDto(userList.getContent());
+        userDTOBasePageResponse.setContent(summaryDtos);
         userDTOBasePageResponse.setPageNumber(userList.getNumber());
         userDTOBasePageResponse.setPageSize(userList.getSize());
         userDTOBasePageResponse.setTotalElements(userList.getTotalElements());
@@ -274,7 +272,22 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserInfo(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
-        return userMapper.toDto(user);
+
+        List<StaffProfileInfoDto> staffProfileInfoDtos = staffProfileService.getCurrentStaffProfile(username);
+        UserDTO userDTO = userMapper.toDto(user);
+        userDTO.setWorkProfileList(staffProfileInfoDtos);
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO createNewStaffProfile(StaffProfileRequestDto createStaffProfileRequestDto) {
+        UserDTO userDTO = getUserDtoByStaffId(createStaffProfileRequestDto.getStaffId());
+        createStaffProfileRequestDto.setStaffId(userDTO.getStaffId());
+        createStaffProfileRequestDto.setUserId(userDTO.get_id());
+        StaffProfileInfoDto staffProfileInfoDto = staffProfileService.createNewStaffProfile(createStaffProfileRequestDto);
+
+        userDTO.getWorkProfileList().add(staffProfileInfoDto);
+        return userDTO;
     }
 
     @Override
@@ -284,7 +297,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updatePassword(String oldPassword, String newPassword) {
+    public void updatePassword(String oldPassword, String newPassword) {
         String staffId = securityRepoUtil.getCurrentUserId();
         User user = getUserByStaffId(staffId);
         boolean isValidPassword = encoder.matches(oldPassword, user.getPassword());
@@ -294,7 +307,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encoder.encode(newPassword));
         User saved = userRepository.save(user);
         evictUserCachesByUsername(saved.getUsername());
-        return userMapper.toDto(saved);
+        userMapper.toDto(saved);
     }
 
     @Override

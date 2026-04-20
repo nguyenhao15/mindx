@@ -39,5 +39,5 @@ public class StaffProfileModels extends BaseAuditModel {
 
     private Boolean isDefault;
 
-    private Boolean active;
+    private Boolean active = true;
 }

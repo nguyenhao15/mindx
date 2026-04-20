@@ -17,6 +17,8 @@ public class StaffProfileRequestDto {
     @NotBlank(message = "Staff Id is required")
     private String staffId;
 
+    private String userId;
+
     @NotBlank(message = "Department Id is required")
     private String departmentId;
 
@@ -33,4 +35,8 @@ public class StaffProfileRequestDto {
     private int positionLevel;
 
     private List<String> buAllowedList = new ArrayList<>();
+
+    private Boolean isDefault;
+
+    private Boolean active = true;
 }
