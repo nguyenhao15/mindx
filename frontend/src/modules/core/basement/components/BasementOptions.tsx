@@ -1,6 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useActiveBuItems } from '../hooks/useBasementHook';
-import { SingleComboboxComponent } from '@/components/input-elements/ComboboxComponent';
+import {
+  ComboboxComponent,
+  MultipleComboboxComponent,
+  SingleComboboxComponent,
+} from '@/components/input-elements/ComboboxComponent';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Building } from 'lucide-react';
 
@@ -14,6 +18,7 @@ interface MaintanceCategoryOptionsProps {
   defaultValue?: any;
   errors?: string | null;
   isLoading?: boolean;
+  multiple?: boolean;
   onChange?: (value: any) => void;
 }
 
@@ -26,6 +31,7 @@ const BasementOptions = ({
   value,
   defaultValue,
   errors,
+  multiple = false,
   isLoading,
   onChange,
 }: MaintanceCategoryOptionsProps) => {
@@ -50,20 +56,55 @@ const BasementOptions = ({
     props?: any,
   ) => {
     return (
-      <SingleComboboxComponent
+      <ComboboxComponent
         isLoading={isLoading || isLoadingData}
         IconNode={Building}
-        {...props}
         required={required}
+        limit={multiple ? 2 : undefined}
         disabled={disabled}
+        isMultiple={multiple}
         errors={errorMessage || null}
         options={buOptions}
         onChange={handleValueChange}
         defaultValue={selectedValue ?? null}
         label={label}
         placeholder={placeholder}
+        {...props}
       />
     );
+    // if (multiple) {
+    //   return (
+    //     <MultipleComboboxComponent
+    //       isLoading={isLoading || isLoadingData}
+    //       {...props}
+    //       required={required}
+    //       disabled={disabled}
+    //       IconNode={Building}
+    //       errors={errorMessage || null}
+    //       limit={2}
+    //       options={buOptions}
+    //       onChange={handleValueChange}
+    //       defaultValue={selectedValue ?? []}
+    //       label={label}
+    //       placeholder={placeholder}
+    //     />
+    //   );
+    // }
+    // return (
+    //   <SingleComboboxComponent
+    //     isLoading={isLoading || isLoadingData}
+    //     IconNode={Building}
+    //     {...props}
+    //     required={required}
+    //     disabled={disabled}
+    //     errors={errorMessage || null}
+    //     options={buOptions}
+    //     onChange={handleValueChange}
+    //     defaultValue={selectedValue ?? null}
+    //     label={label}
+    //     placeholder={placeholder}
+    //   />
+    // );
   };
 
   if (control) {

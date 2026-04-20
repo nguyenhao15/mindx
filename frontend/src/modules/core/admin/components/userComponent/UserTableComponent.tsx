@@ -100,10 +100,6 @@ export function UserTableComponent({}) {
       key: 'role',
       label: 'Role',
     },
-    {
-      key: 'department',
-      label: 'Department',
-    },
   ];
 
   const handlePageChange = (page: number) => {

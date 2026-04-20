@@ -1,6 +1,7 @@
 import {
   createPositionAction,
   getPositionByActiveAction,
+  getPositionByDepartmentIdAction,
   getPositionsAction,
   updatePositionAction,
 } from '@/modules/core/positions/queries/positionAction';
@@ -44,6 +45,17 @@ export const useGetActivePositions = () => {
       const response = await getPositionByActiveAction(true);
       return response;
     },
+  });
+};
+
+export const useGetPositionByDepartment = (departmentId: string) => {
+  return useQuery({
+    queryKey: ['positions', departmentId],
+    queryFn: async () => {
+      const response = await getPositionByDepartmentIdAction(departmentId);
+      return response;
+    },
+    enabled: !!departmentId,
   });
 };
 

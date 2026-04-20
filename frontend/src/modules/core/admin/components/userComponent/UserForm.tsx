@@ -3,6 +3,7 @@ import {
   type UserManagementFormInput,
   type UserManagementDTO,
   type UserCreateDTO,
+  userCreateSchema,
 } from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -15,6 +16,7 @@ import toast from 'react-hot-toast';
 import { useAdminUpdateToolKits } from '@/modules/core/admin/hooks/useAdminUpdateToolKits';
 import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
 import WorkProfileInfo from './WorkProfileInfo';
+import { JobAssignmentCard } from './FormElement/JobAssignmentCard';
 
 interface UserFormProps {
   initialUser: UserManagementDTO | null;
@@ -23,14 +25,17 @@ interface UserFormProps {
 
 const UserForm = ({ initialUser, onClose }: UserFormProps) => {
   const isUpdateMode = !!initialUser?._id;
-  const methods = useForm<UserManagementFormInput>({
+  const schemaToUse = isUpdateMode ? userManagementSchema : userCreateSchema;
+  const methods = useForm({
     mode: 'onBlur',
-    resolver: zodResolver(userManagementSchema),
+    resolver: zodResolver(schemaToUse),
     defaultValues: {
-      _id: initialUser?._id ?? '',
-      workProfileList: initialUser?.workProfileList ?? [],
-      enabled: initialUser?.enabled ?? true,
-      accountNonLocked: initialUser?.accountNonLocked ?? true,
+      ...(isUpdateMode && {
+        _id: initialUser?._id,
+        workProfileList: initialUser?.workProfileList ?? [],
+        enabled: initialUser?.enabled ?? true,
+        accountNonLocked: initialUser?.accountNonLocked ?? true,
+      }),
       staffId: initialUser?.staffId ?? '',
       fullName: initialUser?.fullName ?? '',
       email: initialUser?.email ?? '',
@@ -48,37 +53,18 @@ const UserForm = ({ initialUser, onClose }: UserFormProps) => {
     formState: { errors },
   } = methods;
 
-  const onSubmit = async (formData: UserManagementFormInput) => {
+  const onSubmit = async (formData: any) => {
     try {
-      const datToUpdate = userManagementSchema.parse(formData);
-
       if (isUpdateMode) {
-        await updateUser(datToUpdate);
+        const payloadToUpdate = userManagementSchema.parse(formData);
+        await updateUser(payloadToUpdate);
         toast.success('User updated successfully');
         onClose();
         return;
       }
 
-      const primaryProfile = datToUpdate.workProfileList?.[0];
-      if (!primaryProfile) {
-        toast.error('Thiếu hồ sơ công việc để tạo người dùng');
-        return;
-      }
-
-      const createPayload: UserCreateDTO = {
-        staffId: datToUpdate.staffId,
-        fullName: datToUpdate.fullName,
-        email: datToUpdate.email,
-        systemRole: datToUpdate.systemRole,
-        userId: primaryProfile.userId,
-        departmentId: primaryProfile.departmentId,
-        positionId: primaryProfile.positionId,
-        positionLevel: primaryProfile.positionLevel,
-        isDefault: primaryProfile.isDefault ?? false,
-        buAllowedList: primaryProfile.buAllowedList ?? [],
-      };
-
-      await createUser(createPayload);
+      const payloadToCreate = userCreateSchema.parse(formData);
+      await createUser(payloadToCreate);
       toast.success('User created successfully');
       onClose();
     } catch (error) {
@@ -144,8 +130,12 @@ const UserForm = ({ initialUser, onClose }: UserFormProps) => {
                 <UserCredential register={register} errors={errors} />
                 <SystemPermission register={register} errors={errors} />
                 <UserAccountStatus />
-
-                <WorkProfileInfo data={initialUser?.workProfileList || []} />
+                {!isUpdateMode && (
+                  <JobAssignmentCard control={methods.control} />
+                )}
+                {isUpdateMode && (
+                  <WorkProfileInfo data={initialUser?.workProfileList || []} />
+                )}
               </div>
             </form>
           </FormProvider>

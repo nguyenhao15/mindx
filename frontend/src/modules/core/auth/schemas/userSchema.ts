@@ -4,13 +4,13 @@ export const WorkProfile = z.object({
   id: z.string(),
   staffId: z.string(),
   userId: z.string(),
-  departmentId: z.string().trim().min(1, 'Mã phòng ban không được để trống'),
+  departmentId: z.string().min(1, 'Mã phòng ban không được để trống'),
   departmentName: z.string(),
   positionName: z.string(),
-  positionId: z.string().trim().min(1, 'Mã vị trí không được để trống'),
+  positionId: z.string().min(1, 'Mã vị trí không được để trống'),
   positionLevel: z.number().min(0, 'Cấp bậc phải là số dương'),
   isDefault: z.boolean().nullable().default(false),
-  buAllowedList: z.array(z.string()).nullable().optional().default([]),
+  buAllowedList: z.array(z.string()).default([]),
   active: z.boolean().default(true),
 });
 

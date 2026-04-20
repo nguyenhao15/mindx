@@ -8,6 +8,8 @@ import com.example.demo01.core.Auth.dtos.UserSummaryDto;
 import com.example.demo01.core.Auth.mapper.UserMapper;
 import com.example.demo01.core.Auth.models.Session;
 import com.example.demo01.core.Auth.models.User;
+import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
+import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.service.StaffProfileService;
@@ -86,6 +88,10 @@ public class UserServiceImpl implements UserService {
     private final CacheManager cacheManager;
 
     private final StaffProfileService staffProfileService;
+
+    private final DepartmentModelService departmentModelService;
+
+    private final PositionModelService positionModelService;
 
     @Override
     public void updateUserRole(String username, String roleName) {
