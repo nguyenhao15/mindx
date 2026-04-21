@@ -20,20 +20,17 @@ interface MaintanceCategoryOptionsProps {
 
 const BasementOptions = ({
   label,
-  name,
   placeholder,
   required = true,
   disabled = false,
   value,
-  defaultValue,
   errors,
   multiple = false,
   isLoading,
   onChange,
+  ...props
 }: MaintanceCategoryOptionsProps) => {
-  const [internalValue, setInternalValue] = useState(defaultValue);
   const { data, isLoading: isLoadingData } = useActiveBuItems();
-  const { control } = useFormContext();
 
   const buOptions = useMemo(() => {
     if (!data) return [];
@@ -41,63 +38,28 @@ const BasementOptions = ({
     return (data as any)?.data.map((item: any) => ({
       label: item?.buFullName,
       value: item?.buId,
-      ...item,
     }));
   }, [data]);
 
-  const renderCombobox = (
-    selectedValue: any,
-    handleValueChange: (nextValue: any) => void,
-    errorMessage?: string,
-    props?: any,
-  ) => {
-    return (
-      <ComboboxComponent
-        isLoading={isLoading || isLoadingData}
-        IconNode={Building}
-        required={required}
-        limit={multiple ? 2 : undefined}
-        disabled={disabled}
-        isMultiple={multiple}
-        errors={errorMessage || null}
-        options={buOptions}
-        onChange={handleValueChange}
-        defaultValue={selectedValue ?? null}
-        label={label}
-        placeholder={placeholder}
-        {...props}
-      />
-    );
-  };
-
-  if (control) {
-    return (
-      <Controller
-        name={name}
-        control={control}
-        render={({ field: { onChange, value, ...field }, fieldState }) =>
-          renderCombobox(value, onChange, fieldState.error?.message, field)
-        }
-      />
-    );
-  }
-
-  const isExternallyControlled = value !== undefined;
-  const selectedValue = isExternallyControlled ? value : internalValue;
+  console.log('Value: ', value);
 
   return (
-    <div className='w-full'>
-      {renderCombobox(
-        selectedValue,
-        (nextValue) => {
-          if (!isExternallyControlled) {
-            setInternalValue(nextValue);
-          }
-          onChange?.(nextValue);
-        },
-        errors || undefined,
-      )}
-    </div>
+    <ComboboxComponent
+      props={props}
+      isLoading={isLoading || isLoadingData}
+      IconNode={Building}
+      required={required}
+      limit={multiple ? 2 : undefined}
+      disabled={disabled}
+      isMultiple={multiple}
+      errors={errors || null}
+      options={buOptions}
+      onChange={onChange}
+      defaultValue={value}
+      label={label}
+      placeholder={placeholder}
+      {...props}
+    />
   );
 };
 

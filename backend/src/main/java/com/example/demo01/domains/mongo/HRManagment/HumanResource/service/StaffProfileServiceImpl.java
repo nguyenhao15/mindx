@@ -33,16 +33,8 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     @Override
     public StaffProfileInfoDto createNewStaffProfile(StaffProfileRequestDto requestDto) {
         Boolean isDefault = requestDto.getIsDefault();
-        StaffProfileModels staffProfileModels = staffProfileRepository.findByStaffIdAndIsDefault(requestDto.getStaffId(), true);
-        if (isDefault != null && isDefault) {
-            if (staffProfileModels != null) {
-                staffProfileModels.setIsDefault(false);
-                staffProfileRepository.save(staffProfileModels);
-            }
-        }
-
-        if (staffProfileModels == null && (isDefault == null || !isDefault) ) {
-            requestDto.setIsDefault(true);
+        if (isDefault) {
+            validateDefaultStaffProfile(requestDto.getStaffId());
         }
 
         StaffProfileModels newItem = staffProfileMapper.fromRequestToEntity(requestDto);
@@ -66,6 +58,12 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     }
 
     @Override
+    public List<StaffProfileInfoDto> getActiveStaffProfile(String staffId) {
+        List<StaffProfileModels>  staffProfileInfoDtos = staffProfileRepository.getByStaffIdAndActive(staffId,true);
+        return staffProfileMapper.fromEntitiesFromInFoDto(staffProfileInfoDtos);
+    }
+
+    @Override
     @Cacheable(value = CacheConstants.STAFF_PROFILE, key = "#id")
     public StaffProfileInfoDto getStaffProfileInfoById(String id) {
         StaffProfileModels staffProfileModels = getStaffProfileById(id);
@@ -81,6 +79,9 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     @Override
     public StaffProfileInfoDto updateStaffProfileInfoById(String id, StaffProfileRequestDto requestDto) {
         StaffProfileModels staffProfileModels = getStaffProfileById(id);
+        if (requestDto.getIsDefault() != null && requestDto.getIsDefault() && !staffProfileModels.getIsDefault()) {
+            validateDefaultStaffProfile(requestDto.getStaffId());
+        }
         staffProfileMapper.updateModelFromRequestDto(requestDto, staffProfileModels);
         StaffProfileModels result = staffProfileRepository.save(staffProfileModels);
         return staffProfileMapper.fromEntityToDto(result);
@@ -90,6 +91,15 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     @PreAuthorize("hashRole('ADMIN')")
     public BasePageResponse<StaffProfileInfoDto> getStaffInfoList(FilterWithPagination filterWithPagination) {
         return null;
+    }
+
+    @Override
+    public void validateDefaultStaffProfile(String staffId) {
+        StaffProfileModels staffProfileModels = staffProfileRepository.findByStaffIdAndIsDefault(staffId, true);
+            if (staffProfileModels != null) {
+                staffProfileModels.setIsDefault(false);
+                staffProfileRepository.save(staffProfileModels);
+            }
     }
 
     @Override

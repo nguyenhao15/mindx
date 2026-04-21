@@ -7,12 +7,17 @@ import { Switch } from '@/components/input-elements/Switch';
 
 interface JobAssignmentCardProps {
   control: any;
+  isLoading?: boolean;
 }
 
-export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
+export function JobAssignmentCard({
+  control,
+  isLoading,
+}: JobAssignmentCardProps) {
   const {
     register,
     watch,
+    getValues,
     formState: { errors: localErrors },
   } = useFormContext();
 
@@ -27,6 +32,7 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
           <Switch
             id='isDefault'
             onChange={onChange}
+            disabled={isLoading}
             checked={value}
             {...rest}
             label='Công việc chính'
@@ -45,7 +51,7 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
               {...rest}
               label='Phòng ban'
               required
-              isLoading={false}
+              isLoading={isLoading}
               placeholder='Chọn phòng ban...'
               errorMessage={localErrors?.departmentId?.message as string}
             />
@@ -63,7 +69,7 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
               {...rest}
               label='Vị trí'
               required
-              isLoading={false}
+              isLoading={isLoading}
               placeholder='Chọn vị trí...'
               errorMessage={localErrors?.positionId?.message as string}
               disabled={!departmentId}
@@ -79,6 +85,7 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
           labelSize='lg'
           control={control}
           label='Cấp bậc vị trí'
+          isLoading={isLoading}
           required
           register={register}
           errors={localErrors}
@@ -86,12 +93,20 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
           placeholder='Cấp bậc vị trí...'
         />
         <div className='col-span-3'>
-          <BasementOptions
-            label='Trụ sở làm việc'
-            multiple={true}
+          <Controller
+            control={control}
             name='buAllowedList'
-            required
-            errors={localErrors?.buAllowedList?.message as string}
+            render={({ field: { onChange, value, ...rest } }) => (
+              <BasementOptions
+                label='Trụ sở làm việc'
+                multiple={true}
+                value={value}
+                isLoading={isLoading}
+                {...rest}
+                required
+                errors={localErrors?.buAllowedList?.message as string}
+              />
+            )}
           />
         </div>
       </div>

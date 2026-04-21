@@ -285,7 +285,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new InvalidCredentialsException("User not found"));
 
-        List<StaffProfileInfoDto> staffProfileInfoDtos = staffProfileService.getCurrentStaffProfile(username);
+        List<StaffProfileInfoDto> staffProfileInfoDtos = staffProfileService.getActiveStaffProfile(username);
         UserDTO userDTO = userMapper.toDto(user);
         userDTO.setWorkProfileList(staffProfileInfoDtos);
         return userDTO;

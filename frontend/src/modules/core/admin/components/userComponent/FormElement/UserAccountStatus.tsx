@@ -9,8 +9,6 @@ const UserAccountStatus = () => {
   const enabled = watch('enabled');
   const accountNonLocked = watch('accountNonLocked');
 
-  console.log('Enabled: ', enabled, 'Account non locked: ', accountNonLocked);
-
   return (
     <div className='space-y-4'>
       <div>

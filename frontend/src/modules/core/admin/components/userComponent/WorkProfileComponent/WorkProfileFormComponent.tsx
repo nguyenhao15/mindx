@@ -9,11 +9,13 @@ import toast from 'react-hot-toast';
 interface WorkProfileFormComponentProps {
   userId: string;
   staffId: string;
+  afterSubmitAction?: () => void;
 }
 
 const WorkProfileFormComponent = ({
   userId,
   staffId,
+  afterSubmitAction,
 }: WorkProfileFormComponentProps) => {
   const methods = useForm({
     mode: 'onBlur',
@@ -32,8 +34,6 @@ const WorkProfileFormComponent = ({
     formState: { errors },
   } = methods;
 
-  console.log('errors: ', errors);
-
   const onSubmit = async (data: any) => {
     const payload = {
       ...data,
@@ -45,6 +45,9 @@ const WorkProfileFormComponent = ({
       const response = await createNewProfile(payload);
       console.log('Profile created successfully:', response);
       toast.success('Hồ sơ công việc đã được tạo thành công');
+      if (afterSubmitAction) {
+        afterSubmitAction();
+      }
     } catch (error) {
       console.error('Error creating profile:', error);
       toast.error('Đã xảy ra lỗi khi tạo hồ sơ công việc');
@@ -58,7 +61,7 @@ const WorkProfileFormComponent = ({
       </h2>
       <FormProvider {...methods}>
         <form id='create-profile' onSubmit={handleSubmit(onSubmit)}>
-          <JobAssignmentCard control={control} />
+          <JobAssignmentCard isLoading={isPending} control={control} />
         </form>
         <Button
           onClick={handleSubmit(onSubmit)}

@@ -50,6 +50,7 @@ const handleOnChangeValueWhenMultiple = (
 };
 
 const handleSliceValueByLimit = (
+  options: DynamicOption[] | undefined,
   value: NormalizedOption[] | null,
   limit?: number,
   handleRemoveChip?: (chipValue: string | number) => void,
@@ -58,9 +59,18 @@ const handleSliceValueByLimit = (
     return <></>;
   }
 
+  const labelingValue = value.slice(0, limit).map((val) => {
+    const matchedOption = options?.find(
+      (opt) => String(opt.value) === String(val.value),
+    );
+    return matchedOption
+      ? { label: String(matchedOption.label), value: val.value }
+      : val;
+  });
+
   return (
     <div className='mt-2 flex flex-row flex-wrap gap-2'>
-      {value.slice(0, limit).map((item: NormalizedOption) => (
+      {labelingValue.map((item: NormalizedOption) => (
         <div
           className='cursor-pointer bg-primary text-white rounded-md p-2 text-sm font-semibold flex items-center gap-1'
           key={String(item.value)}
@@ -192,6 +202,7 @@ const ComboboxComponent = ({
         </ComboboxContent>
         {isMultiple &&
           handleSliceValueByLimit(
+            options,
             value as NormalizedOption[] | null,
             limit,
             handleRemoveChip,

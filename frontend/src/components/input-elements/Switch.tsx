@@ -4,14 +4,23 @@ interface SwitchProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   label?: string;
+  disabled?: boolean;
   id?: string;
 }
-export function Switch({ checked, onChange, label, id, ...rest }: SwitchProps) {
+export function Switch({
+  checked,
+  onChange,
+  label,
+  id,
+  disabled,
+  ...rest
+}: SwitchProps) {
   return (
     <div className='flex items-center gap-3'>
       <button
         type='button'
         id={id}
+        disabled={disabled}
         role='switch'
         aria-checked={checked}
         onClick={() => onChange(!checked)}

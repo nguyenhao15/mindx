@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import ModalComponent from '@/components/shared/ModalComponent';
 import WorkProfileFormComponent from './WorkProfileFormComponent';
+import UpdateWorkProfileForm from './UpdateWorkProfileForm';
 
 type WorkProfileListProps = {
   userId: string;
@@ -15,6 +16,19 @@ type WorkProfileListProps = {
 const WorkProfileList = ({ userId, staffId, data }: WorkProfileListProps) => {
   const assignmentCount = data.length;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProfile, setSelectedProfile] =
+    useState<WorkProfileEmbeddedType | null>(null);
+  const [mode, setMode] = useState<'create' | 'update'>('create');
+
+  const handleOnChangeDefault = (mode: 'create' | 'update') => {
+    setMode(mode);
+    setIsModalOpen(true);
+  };
+
+  const handleOnCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProfile(null);
+  };
 
   return (
     <div>
@@ -24,7 +38,7 @@ const WorkProfileList = ({ userId, staffId, data }: WorkProfileListProps) => {
           className='cursor-pointer my-2'
           type='button'
           variant='outline'
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => handleOnChangeDefault('create')}
         >
           Thêm hồ sơ công việc
         </Button>
@@ -41,13 +55,31 @@ const WorkProfileList = ({ userId, staffId, data }: WorkProfileListProps) => {
         ) : (
           <div className='grid gap-4 xl:grid-cols-2'>
             {data.map((workProfile) => (
-              <WorkProfileCard key={workProfile.id} workProfile={workProfile} />
+              <WorkProfileCard
+                onSelectCard={() => {
+                  setSelectedProfile(workProfile);
+                  handleOnChangeDefault('update');
+                }}
+                key={workProfile.id}
+                workProfile={workProfile}
+              />
             ))}
           </div>
         )}
       </section>
-      <ModalComponent open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <WorkProfileFormComponent userId={userId} staffId={staffId} />
+      <ModalComponent open={isModalOpen} onClose={handleOnCloseModal}>
+        {mode === 'create' ? (
+          <WorkProfileFormComponent
+            userId={userId}
+            staffId={staffId}
+            afterSubmitAction={handleOnCloseModal}
+          />
+        ) : (
+          <UpdateWorkProfileForm
+            initalData={selectedProfile}
+            afterSubmitAction={handleOnCloseModal}
+          />
+        )}
       </ModalComponent>
     </div>
   );

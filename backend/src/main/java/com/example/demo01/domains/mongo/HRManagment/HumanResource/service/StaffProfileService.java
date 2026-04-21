@@ -16,6 +16,8 @@ public interface StaffProfileService {
 
     List<StaffProfileInfoDto> getCurrentStaffProfile(String staffId);
 
+    List<StaffProfileInfoDto> getActiveStaffProfile(String staffId);
+
     StaffProfileInfoDto getStaffProfileInfoById(String id);
 
     StaffProfileInfoDto getDefaultStaffProfile(String staffId);
@@ -23,6 +25,8 @@ public interface StaffProfileService {
     StaffProfileInfoDto updateStaffProfileInfoById(String id, StaffProfileRequestDto requestDto);
 
     BasePageResponse<StaffProfileInfoDto> getStaffInfoList(FilterWithPagination filterWithPagination);
+
+    void validateDefaultStaffProfile(String staffId);
 
     void terminateStaffProfile(String id);
 }

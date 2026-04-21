@@ -10,18 +10,23 @@ import {
 } from 'lucide-react';
 import { useGetUserById } from '../../../hooks/useAdminHook';
 import toast from 'react-hot-toast';
+import { Button } from '@/components/ui/button';
 
 interface WorkProfileCardProps {
+  onSelectCard?: () => void;
   workProfile: WorkProfileEmbeddedType;
 }
 
-const WorkProfileCard = ({ workProfile }: WorkProfileCardProps) => {
+const WorkProfileCard = ({
+  workProfile,
+  onSelectCard,
+}: WorkProfileCardProps) => {
   const { mutateAsync: updateStaffProfile, isPending: isUpdatingStaffProfile } =
     useUpdateStaffProfile(workProfile.id);
 
   const { refetch } = useGetUserById(workProfile.staffId);
 
-  const handleOnChangeDefault = async () => {
+  const handleOnChangeActive = async () => {
     const { active, ...rest } = workProfile;
     const dataToUpdate = {
       ...rest,
@@ -38,11 +43,54 @@ const WorkProfileCard = ({ workProfile }: WorkProfileCardProps) => {
     }
   };
 
+  const handleOnChangeDefault = async () => {
+    const { isDefault, ...rest } = workProfile;
+    const dataToUpdate = {
+      ...rest,
+      isDefault: !isDefault,
+    };
+    try {
+      await updateStaffProfile(dataToUpdate);
+      refetch();
+      toast.success(
+        `Cập nhật hồ sơ công việc thành công! Hồ sơ này hiện đang ${
+          !isDefault
+            ? 'được đặt làm công việc chính'
+            : 'không còn là công việc chính'
+        }.`,
+      );
+    } catch (error) {
+      console.log('Error');
+    }
+  };
+
   return (
     <article
       key={workProfile.id}
-      className='group rounded-2xl border border-slate-100 bg-white p-4 transition-colors hover:border-[#1d3557]/20 focus-within:ring-2 focus-within:ring-[#1d3557]/20 sm:p-5'
+      className='group rounded-2xl border cursor-pointer border-slate-100 bg-white p-4 transition-colors hover:border-[#1d3557]/20 focus-within:ring-2 focus-within:ring-[#1d3557]/20 sm:p-5'
     >
+      <div className='mb-5 flex items-center justify-between gap-2'>
+        <Button
+          variant={workProfile.isDefault ? 'positive' : 'neutral'}
+          size='xs'
+          type='button'
+          disabled={Boolean(workProfile.isDefault) && isUpdatingStaffProfile}
+          onClick={handleOnChangeDefault}
+          className='p-4'
+        >
+          {workProfile.isDefault ? 'Công việc chính' : 'Công việc phụ'}
+        </Button>
+        <Button
+          variant='outline'
+          type='button'
+          size='xs'
+          disabled={isUpdatingStaffProfile}
+          onClick={onSelectCard}
+          className='cursor-pointer p-4'
+        >
+          Chỉnh sửa
+        </Button>
+      </div>
       <div className='mb-4 flex items-start justify-between gap-3'>
         <div className='space-y-2'>
           <p className='inline-flex items-center gap-2 text-xs font-medium text-slate-500'>
@@ -53,22 +101,13 @@ const WorkProfileCard = ({ workProfile }: WorkProfileCardProps) => {
             {workProfile.positionName}
           </h3>
         </div>
-        <span
-          className={
-            workProfile.isDefault
-              ? 'rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200'
-              : 'rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-200'
-          }
-        >
-          {workProfile.isDefault ? 'Main' : 'Secondary'}
-        </span>
       </div>
       <div className='m-2'>
         <Switch
           id={`default-switch-${workProfile.id}`} // Unique ID for accessibility
           label='Active'
           checked={Boolean(workProfile.active)}
-          onChange={handleOnChangeDefault}
+          onChange={handleOnChangeActive}
         />
       </div>
 
