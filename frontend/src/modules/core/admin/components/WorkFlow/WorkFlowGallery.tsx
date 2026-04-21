@@ -1,15 +1,18 @@
 import { DataTable, type Column } from '@/components/shared/DataTable';
+import Loader from '@/components/shared/Loader';
 import Status from '@/components/shared/Status';
 import { safeString, toArray } from '@/utils/formatValue';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 interface WorkFlowGalleryProps {
+  isLoading?: boolean;
   data: unknown[];
   pagination: Record<string, unknown>;
   onPageChange: (page: number) => void;
 }
 
 const WorkFlowGallery = ({
+  isLoading,
   data,
   pagination,
   onPageChange,
@@ -54,6 +57,9 @@ const WorkFlowGallery = ({
     },
   ];
 
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div>
       <DataTable

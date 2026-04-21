@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 
+import java.lang.reflect.Array;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,6 +33,9 @@ public class DynamicSpecificationBuilder<T> {
         if (filters != null && !filters.isEmpty()) {
             for (FilterRequest filter : filters) {
                 if (baseFields.contains(filter.getField())) continue;
+
+                if (filter.getValue() == null) continue; // Bỏ qua filter có giá trị null
+
 
                 Specification<T> spec = buildSingleFilter(filter);
 
@@ -65,7 +69,9 @@ public class DynamicSpecificationBuilder<T> {
                     );
 
                 case IN:
+
                     if (value instanceof List<?> list) {
+                        if (list.isEmpty()) return null;
                         CriteriaBuilder.In<Object> inClause = cb.in(path);
                         for (Object v : list) {
                             inClause.value(v);

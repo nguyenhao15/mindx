@@ -12,6 +12,7 @@ import {
 import { useEffect, useMemo, useState, type JSX } from 'react';
 import CustomInputCard from './CustomInputCard';
 import { InputGroupAddon } from '../ui/input-group';
+import { sortExtensions } from '@tiptap/core';
 
 type DynamicOption = Record<string, unknown>;
 
@@ -30,7 +31,7 @@ interface ComboboxComponentProps {
   required?: boolean;
   limit?: number;
   disabled?: boolean;
-  props: {};
+  props?: {};
   errors?: string | null;
   isMultiple?: boolean;
   isLoading?: boolean;
@@ -151,6 +152,22 @@ const ComboboxComponent = ({
     onChange?.(updatedValue.map((item) => item.value));
   };
 
+  const handleOnValueChange = (
+    nextValue: NormalizedOption | NormalizedOption[] | null,
+  ) => {
+    console.log('On valu changed: ', nextValue);
+
+    if (
+      nextValue === null ||
+      (Array.isArray(nextValue) && nextValue.length === 0)
+    ) {
+      console.log('NEXT VALUE is null');
+
+      setValue(isMultiple ? [] : null);
+      onChange?.(isMultiple ? [] : null);
+    }
+  };
+
   return (
     <CustomInputCard
       {...props}
@@ -163,6 +180,7 @@ const ComboboxComponent = ({
         items={options}
         multiple={isMultiple}
         disabled={disabled}
+        onValueChange={handleOnValueChange}
         readOnly={isLoading || disabled}
         value={value}
         openOnInputClick={true}
@@ -176,6 +194,7 @@ const ComboboxComponent = ({
           disabled={disabled || isLoading}
           size={20}
           placeholder={placeholder}
+          showClear
           className={`py-4 rounded-sm h-15 shadow border-2 bg-input-background ${errors ? 'border-red-500' : 'border-slate-300'} focus:ring-2 focus:ring-primary focus:outline-none`}
         >
           {IconNode && (

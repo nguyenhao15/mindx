@@ -11,7 +11,7 @@ export const useTypeQueryState = () => {
       pagination: {
         page: 0,
         size: 12,
-        sortOrder: [{ property: 'id', direction: 'ASC' }],
+        sorts: [{ property: 'id', direction: 'ASC' }],
       },
     });
     return parsed;
