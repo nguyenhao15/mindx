@@ -3,6 +3,7 @@ import TextInputField from '@/components/input-elements/TextInputField';
 import DepartmentOptionsControl from '@/modules/core/departments/components/DepartmentOptionsControl';
 import PositionComponentOptionControl from '@/modules/core/positions/components/PositionComponentOptionControl';
 import BasementOptions from '@/modules/core/basement/components/BasementOptions';
+import { Switch } from '@/components/input-elements/Switch';
 
 interface JobAssignmentCardProps {
   control: any;
@@ -19,6 +20,19 @@ export function JobAssignmentCard({ control }: JobAssignmentCardProps) {
 
   return (
     <div className='bg-white rounded-xl shadow-sm border border-gray-200 p-8 transition-all hover:shadow-md'>
+      <Controller
+        control={control}
+        name='isDefault'
+        render={({ field: { onChange, value, ...rest } }) => (
+          <Switch
+            id='isDefault'
+            onChange={onChange}
+            checked={value}
+            {...rest}
+            label='Công việc chính'
+          />
+        )}
+      />
       <div className='mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6'>
         <Controller
           control={control}

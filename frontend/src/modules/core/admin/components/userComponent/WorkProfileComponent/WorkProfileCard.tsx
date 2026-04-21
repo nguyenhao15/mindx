@@ -1,20 +1,43 @@
-import type {
-  WorkProfileEmbeddedType,
-  WorkProfileType,
-} from '@/modules/core/auth/schemas/userSchema';
+import { Switch } from '@/components/input-elements/Switch';
+
+import type { WorkProfileEmbeddedType } from '@/modules/core/auth/schemas/userSchema';
+import { useUpdateStaffProfile } from '@/modules/core/humanResource/hooks/useStaffProfileHook';
 import {
   BriefcaseBusiness,
   Building2,
   Layers3,
   ShieldCheck,
 } from 'lucide-react';
-import React from 'react';
+import { useGetUserById } from '../../../hooks/useAdminHook';
+import toast from 'react-hot-toast';
 
 interface WorkProfileCardProps {
   workProfile: WorkProfileEmbeddedType;
 }
 
 const WorkProfileCard = ({ workProfile }: WorkProfileCardProps) => {
+  const { mutateAsync: updateStaffProfile, isPending: isUpdatingStaffProfile } =
+    useUpdateStaffProfile(workProfile.id);
+
+  const { refetch } = useGetUserById(workProfile.staffId);
+
+  const handleOnChangeDefault = async () => {
+    const { active, ...rest } = workProfile;
+    const dataToUpdate = {
+      ...rest,
+      active: !active,
+    };
+    try {
+      await updateStaffProfile(dataToUpdate);
+      refetch();
+      toast.success(
+        `Cập nhật hồ sơ công việc thành công! Hồ sơ này hiện đang ${!active ? 'kích hoạt' : 'vô hiệu hóa'}.`,
+      );
+    } catch (error) {
+      console.log('Error');
+    }
+  };
+
   return (
     <article
       key={workProfile.id}
@@ -27,7 +50,7 @@ const WorkProfileCard = ({ workProfile }: WorkProfileCardProps) => {
             Vị trí công việc
           </p>
           <h3 className='text-base font-semibold text-slate-900'>
-            {workProfile.positionId}
+            {workProfile.positionName}
           </h3>
         </div>
         <span
@@ -37,8 +60,16 @@ const WorkProfileCard = ({ workProfile }: WorkProfileCardProps) => {
               : 'rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-200'
           }
         >
-          {workProfile.isDefault ? 'Main Position' : 'Secondary'}
+          {workProfile.isDefault ? 'Main' : 'Secondary'}
         </span>
+      </div>
+      <div className='m-2'>
+        <Switch
+          id={`default-switch-${workProfile.id}`} // Unique ID for accessibility
+          label='Active'
+          checked={Boolean(workProfile.active)}
+          onChange={handleOnChangeDefault}
+        />
       </div>
 
       <dl className='grid gap-3 sm:grid-cols-2'>
@@ -48,7 +79,7 @@ const WorkProfileCard = ({ workProfile }: WorkProfileCardProps) => {
             Department
           </dt>
           <dd className='mt-1 text-sm font-semibold text-slate-800'>
-            {workProfile.departmentId}
+            {workProfile.departmentName}
           </dd>
         </div>
         <div className='rounded-lg bg-slate-50 p-3'>

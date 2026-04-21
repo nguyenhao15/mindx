@@ -16,7 +16,7 @@ interface UpdateUserComponentProps {
 const UpdateUserComponent = ({ staffId }: UpdateUserComponentProps) => {
   const { data, isLoading, error, isSuccess } = useGetUserById(staffId);
 
-  const { mutateAsync: update, isLoading: isUpdating } = useUpdateUser(staffId);
+  const { mutateAsync: update, isPending: isUpdating } = useUpdateUser(staffId);
 
   const methods = useForm({
     mode: 'onBlur',

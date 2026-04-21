@@ -1,5 +1,6 @@
 import {
   addUser,
+  createNewProfile,
   getAllUsers,
   getUserById,
   lockUser,
@@ -11,6 +12,7 @@ import type { FilterWithPaginationInput } from '@/validations/filterWithPaginati
 import type {
   UserCreateDTO,
   UserManagementDTO,
+  WorkProfileCreateType,
 } from '@/modules/core/auth/schemas/userSchema';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -135,6 +137,22 @@ export const useResetPassword = (userId: string, options = {}) => {
       queryClient.setQueryData(['admin', 'user', userId], (oldData: any) => {
         if (!oldData) return data;
         return data;
+      });
+    },
+  });
+};
+
+export const useCreateNewProfile = (options = {}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: WorkProfileCreateType) => {
+      const response = await createNewProfile(data);
+      return response;
+    },
+    ...options,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['admin', 'user', data.staffId],
       });
     },
   });

@@ -27,11 +27,6 @@ public class AuthController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    @PostMapping("/create/staff-profile")
-    public ResponseEntity<?> createNewProfile(@Valid @RequestBody StaffProfileRequestDto requestDto) {
-        UserDTO userDTO = userService.createNewStaffProfile(requestDto);
-        return ResponseEntity.ok(userDTO);
-    }
 
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken() {

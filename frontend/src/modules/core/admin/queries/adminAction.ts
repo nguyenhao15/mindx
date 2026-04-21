@@ -5,6 +5,7 @@ import {
   UserResponseSchema,
   type UserCreateDTO,
   type UserManagementDTO,
+  type WorkProfileCreateType,
 } from '@/modules/core/auth/schemas/userSchema';
 
 export const getAllUsers = async (payload: FilterWithPaginationInput) => {
@@ -67,5 +68,10 @@ export const updateUser = async (
 
 export const resetPassword = async (userId: string) => {
   const response = await adminApi.resetPassword(userId);
+  return response.data;
+};
+
+export const createNewProfile = async (data: WorkProfileCreateType) => {
+  const response = await adminApi.createNewProfile(data);
   return response.data;
 };

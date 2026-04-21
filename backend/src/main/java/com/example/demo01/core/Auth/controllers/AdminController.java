@@ -3,6 +3,7 @@ package com.example.demo01.core.Auth.controllers;
 import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.request.CreateUserRequest;
 import com.example.demo01.core.Auth.services.UserService;
+import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
 import com.example.demo01.utils.FilterWithPagination;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,12 @@ public class AdminController {
     @PostMapping("/get-users")
     public ResponseEntity<?> getAllUsers(@RequestBody FilterWithPagination filter) {
         return new ResponseEntity<>(userService.getAllUsers(filter), HttpStatus.OK);
+    }
+
+    @PostMapping("/create/staff-profile")
+    public ResponseEntity<?> createNewProfile(@Valid @RequestBody StaffProfileRequestDto requestDto) {
+        UserDTO userDTO = userService.createNewStaffProfile(requestDto);
+        return ResponseEntity.ok(userDTO);
     }
 
     @PostMapping("/add")

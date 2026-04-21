@@ -3,6 +3,7 @@ export const MODULE_PREFIX = {
   PROCESS: '/v1/process',
   DOCUMENT: '/v1/document',
   ASSET: '/v1/asset',
+  STAFF_PROFILE: '/v1/staff-profile',
 };
 
 // API endpoints for the application
@@ -11,6 +12,8 @@ export const PROCESS_TAG_VALUES = `${MODULE_PREFIX.PROCESS}/process-tag-values`;
 export const PROCESS_FLOW = `${MODULE_PREFIX.PROCESS}/process-flows`;
 export const PROCESS_FLOW_CONTENT = `${MODULE_PREFIX.PROCESS}/process-flows-content`;
 export const AW3_ENDPOINT = `${MODULE_PREFIX.PROCESS}/space/aws3`;
+
+export const STAFF_PROFILE_ENDPOINT = `${MODULE_PREFIX.STAFF_PROFILE}`;
 
 export const FLOW_ATTACHMENT_ENDPOINT = `${MODULE_PREFIX.BASE}/v1/attachment`;
 export const ADMIN_ENDPOINT = `${MODULE_PREFIX.BASE}/admin`;

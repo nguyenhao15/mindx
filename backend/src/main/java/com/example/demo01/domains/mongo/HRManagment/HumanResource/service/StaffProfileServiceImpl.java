@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.pagination.sync.PaginatedResponsesIterator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,8 +32,21 @@ public class StaffProfileServiceImpl implements StaffProfileService {
 
     @Override
     public StaffProfileInfoDto createNewStaffProfile(StaffProfileRequestDto requestDto) {
-        StaffProfileModels staffProfileModels = staffProfileMapper.fromRequestToEntity(requestDto);
-        StaffProfileModels result = staffProfileRepository.save(staffProfileModels);
+        Boolean isDefault = requestDto.getIsDefault();
+        StaffProfileModels staffProfileModels = staffProfileRepository.findByStaffIdAndIsDefault(requestDto.getStaffId(), true);
+        if (isDefault != null && isDefault) {
+            if (staffProfileModels != null) {
+                staffProfileModels.setIsDefault(false);
+                staffProfileRepository.save(staffProfileModels);
+            }
+        }
+
+        if (staffProfileModels == null && (isDefault == null || !isDefault) ) {
+            requestDto.setIsDefault(true);
+        }
+
+        StaffProfileModels newItem = staffProfileMapper.fromRequestToEntity(requestDto);
+        StaffProfileModels result = staffProfileRepository.save(newItem);
         return staffProfileMapper.fromEntityToDto(result);
     }
 
@@ -44,7 +58,7 @@ public class StaffProfileServiceImpl implements StaffProfileService {
 
     @Override
     public List<StaffProfileInfoDto> getCurrentStaffProfile(String staffId) {
-        List<StaffProfileModels> staffProfileInfoDtos = staffProfileRepository.getByStaffIdAndActive(staffId,true);
+        List<StaffProfileModels> staffProfileInfoDtos = staffProfileRepository.getByStaffId(staffId);
         if (staffProfileInfoDtos.isEmpty()) {
             return List.of();
         }

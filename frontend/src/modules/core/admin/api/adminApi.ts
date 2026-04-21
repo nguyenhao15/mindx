@@ -3,6 +3,7 @@ import type { FilterWithPaginationInput } from '@/validations/filterWithPaginati
 import type {
   UserCreateDTO,
   UserManagementDTO,
+  WorkProfileCreateType,
 } from '@/modules/core/auth/schemas/userSchema';
 import { ADMIN_ENDPOINT } from '@/constants/api-endpoint';
 
@@ -29,6 +30,10 @@ export const adminApi = {
 
   updateUser: (userId: string, userData: UserManagementDTO) => {
     return axiosClient.put(`${ADMIN_ENDPOINT}/update-user/${userId}`, userData);
+  },
+
+  createNewProfile: (data: WorkProfileCreateType) => {
+    return axiosClient.post(`${ADMIN_ENDPOINT}/create/staff-profile`, data);
   },
 
   resetPassword: (userId: string) => {

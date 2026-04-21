@@ -16,7 +16,7 @@ export const WorkProfile = z.object({
 
 export const WorkProfileCreate = WorkProfile.pick({
   staffId: true,
-
+  userId: true,
   departmentId: true,
   positionId: true,
   positionLevel: true,
@@ -34,6 +34,7 @@ export const WorkProfileEmbedded = WorkProfile.pick({
   positionId: true,
   positionLevel: true,
   isDefault: true,
+  active: true,
   buAllowedList: true,
 });
 

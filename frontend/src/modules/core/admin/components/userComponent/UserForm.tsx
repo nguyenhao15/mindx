@@ -1,23 +1,12 @@
-import {
-  userManagementSchema,
-  type UserManagementFormInput,
-  type UserManagementDTO,
-  type UserCreateDTO,
-  userCreateSchema,
-  WorkProfileCreate,
-} from '@/modules/core/auth/schemas/userSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { type UserManagementDTO } from '@/modules/core/auth/schemas/userSchema';
 import { InfoIcon } from 'lucide-react';
 import UserCredential from './FormElement/UserCredential';
 import SystemPermission from './FormElement/SystemPermission';
 import UserAccountStatus from './FormElement/UserAccountStatus';
-import UserFormToolbar from './FormElement/UserFormToolbar';
-import toast from 'react-hot-toast';
-import { useAdminUpdateToolKits } from '@/modules/core/admin/hooks/useAdminUpdateToolKits';
 import ErrorCatchComponent from '@/components/shared/ErrorCatchComponent';
-import WorkProfileInfo from './WorkProfileInfo';
 import { JobAssignmentCard } from './FormElement/JobAssignmentCard';
+import WorkProfileList from './WorkProfileComponent/WorkProfileList';
+import { useFormContext } from 'react-hook-form';
 
 interface UserFormProps {
   updateMode?: boolean;
@@ -70,7 +59,11 @@ const UserForm = ({
             {updateMode && (
               <>
                 <UserAccountStatus />
-                <WorkProfileInfo data={initialUser?.workProfileList || []} />
+                <WorkProfileList
+                  userId={initialUser?._id || ''}
+                  staffId={initialUser?.staffId || ''}
+                  data={initialUser?.workProfileList || []}
+                />
               </>
             )}
           </div>

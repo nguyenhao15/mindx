@@ -3,19 +3,31 @@ import WorkProfileHeader from './WorkProfileHeader';
 import WorkProfileCard from './WorkProfileCard';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import ModalComponent from '@/components/shared/ModalComponent';
+import WorkProfileFormComponent from './WorkProfileFormComponent';
 
 type WorkProfileListProps = {
+  userId: string;
+  staffId: string;
   data: WorkProfileEmbeddedType[];
 };
 
-const WorkProfileList = ({ data }: WorkProfileListProps) => {
+const WorkProfileList = ({ userId, staffId, data }: WorkProfileListProps) => {
   const assignmentCount = data.length;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div>
       <section className='rounded-2xl border border-slate-100 bg-slate-50/80 p-4 sm:p-6'>
         <WorkProfileHeader assignmentCount={assignmentCount} />
-        <Button className='my-2'>Thêm hồ sơ công việc</Button>
+        <Button
+          className='cursor-pointer my-2'
+          type='button'
+          variant='outline'
+          onClick={() => setIsModalOpen(true)}
+        >
+          Thêm hồ sơ công việc
+        </Button>
 
         {assignmentCount === 0 ? (
           <div className='rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center'>
@@ -34,6 +46,9 @@ const WorkProfileList = ({ data }: WorkProfileListProps) => {
           </div>
         )}
       </section>
+      <ModalComponent open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <WorkProfileFormComponent userId={userId} staffId={staffId} />
+      </ModalComponent>
     </div>
   );
 };
