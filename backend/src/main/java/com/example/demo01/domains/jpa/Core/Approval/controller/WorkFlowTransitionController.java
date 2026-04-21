@@ -29,7 +29,7 @@ public class WorkFlowTransitionController {
     }
 
     @PostMapping("/get/page")
-    public ResponseEntity<?> getWorkFlowTransitionPage(@Valid @RequestBody FilterWithPagination filter) {
+    public ResponseEntity<?> getWorkFlowTransitionPage(@RequestBody FilterWithPagination filter) {
         return ResponseEntity.ok(service.getWorkFlowTransitionDtoByPage(filter));
     }
 

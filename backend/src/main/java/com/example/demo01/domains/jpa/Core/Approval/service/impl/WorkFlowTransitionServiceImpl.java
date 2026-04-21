@@ -13,6 +13,7 @@ import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -79,12 +80,12 @@ public class WorkFlowTransitionServiceImpl implements WorkFlowTransitionService 
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MANAGER') or hasAuthority('ROLE_USER')")
     public BasePageResponse<WorkFlowTransitionInfoDto> getWorkFlowTransitionDtoByPage(FilterWithPagination filter) {
-        PageInput  pageInput = filter.getPagination();
+        PageInput pageInput = filter.getPagination();
+
         List<FilterRequest> filters = filter.getFilters();
-        Map<String, Specification<WorkFlowTransitionEntity>> specificationMap = Map.of(
-                "enabled", (root, query, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("enabled"))
-        );
+        Map<String, Specification<WorkFlowTransitionEntity>> specificationMap = Map.of();
 
         Specification<WorkFlowTransitionEntity> finalSpecification = dynamicSpecificationBuilder.build(filters, specificationMap);
 

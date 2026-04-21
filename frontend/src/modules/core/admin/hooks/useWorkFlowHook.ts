@@ -1,5 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createWorkflow } from '../queries/workflowAction';
+import {
+  createWorkflow,
+  getWorkFlowTransitionPage,
+} from '../queries/workflowAction';
 
 export const useCreateWorkflow = () => {
   const queryClient = useQueryClient();
@@ -73,7 +76,7 @@ export const useGetWorkflowPage = (filterWithPagination: any) => {
   return useQuery({
     queryKey: ['admin', 'workflows', 'page', filterWithPagination],
     queryFn: async () => {
-      const response = await createWorkflow(filterWithPagination);
+      const response = await getWorkFlowTransitionPage(filterWithPagination);
       return response;
     },
   });

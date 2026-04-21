@@ -21,6 +21,7 @@ public class DynamicSpecificationBuilder<T> {
         Specification<T> finalSpec = Specification.allOf();
         Set<String> baseFields = new HashSet<>();
 
+
         if (baseSpecs != null && !baseSpecs.isEmpty()) {
             for (Map.Entry<String, Specification<T>> entry : baseSpecs.entrySet()) {
                 finalSpec = finalSpec.and(entry.getValue());

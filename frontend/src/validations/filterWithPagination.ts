@@ -8,7 +8,7 @@ const sortOrderSchema = z.object({
 export const PaginationInput = z.object({
   page: z.number().default(0),
   size: z.number().default(12),
-  sortOrder: z
+  sorts: z
     .array(sortOrderSchema)
     .default([{ property: 'createdDate', direction: 'ASC' }]),
 });

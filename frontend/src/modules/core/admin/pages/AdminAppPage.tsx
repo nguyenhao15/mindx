@@ -23,7 +23,7 @@ import BasementListComponent from '../../basement/components/BasementListCompone
 import TagList from '../components/TagList';
 import TagValueList from '../components/TagValueList';
 import { UserTableComponent } from '../components/userComponent/UserTableComponent';
-import WorkflowComponent from '../components/WorkFlow/WorkflowComponent';
+import WorkflowComponent from '../components/WorkflowMasterComponent';
 
 const tabs: TabItem[] = [
   {
@@ -78,6 +78,8 @@ const AdminAppPage = ({ user: _user }: { user: UserResponseObjectType }) => {
         return <InternalWorkingSystemComponent />;
       case 'basements':
         return <BasementListComponent />;
+      case 'Documents':
+        return <DocumentAdminList />;
       case 'Workflows':
         return <WorkflowComponent />;
       default:
