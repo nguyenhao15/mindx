@@ -32,6 +32,8 @@ public record MaintenanceDetailsInfoDto(
 
         String locationId,
 
+        String locationName,
+
         Integer totalProposals,
 
         Double totalCost,

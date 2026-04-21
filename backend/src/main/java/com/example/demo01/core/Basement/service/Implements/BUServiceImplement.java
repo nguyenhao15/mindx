@@ -155,7 +155,7 @@ public class BUServiceImplement implements BasementService {
 
 //    private List<BUInfoDto> fetchDataFromDbAndMap() {
 //        List<BranchUnit> allBu = mongoTemplate.findAll(BranchUnit.class);
-//        List<BUInfoDto> buInfoDtoList = basementMapper.toDtoList(allBu);
+//        List<BUInfoDto> buInfoDtoList = basementMapper.toSummaryList(allBu);
 //
 //        List<String> allShortNames = buInfoDtoList.stream()
 //                .map(BUInfoDto::getBuId)
@@ -254,6 +254,6 @@ public class BUServiceImplement implements BasementService {
 
     @Override
     public Map<String, Object> getBatchBuFullNames(List<String> buShortNames) {
-        return dynamicQueryCriteria.mapIdsToField("buCollection", "buShortName",  buShortNames,"buFullName");
+        return dynamicQueryCriteria.mapIdsToField("buCollection", "buId",  buShortNames,"buFullName");
     }
 }

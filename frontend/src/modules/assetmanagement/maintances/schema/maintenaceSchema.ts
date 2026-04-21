@@ -27,6 +27,7 @@ export const MaintenanceRequest = z.object({
       message: 'Vui lòng đính kèm ít nhất 1 tệp',
     })
     .min(1, 'Vui lòng đính kèm ít nhất 1 tệp'),
+  locationName: z.string(),
   totalCost: z.number().min(0, 'Tổng chi phí phải là một số dương'),
   isDeleted: z.boolean().default(false),
   maintenancesStatus: z.enum(MAINTENANCE_STATUS_VALUES).default('WAITING'),
@@ -58,8 +59,8 @@ export type CreateMaintenanceRequestDTO = Omit<
 export const MaintenanceSumarySchema = MaintenanceRequest.omit({
   maintenanceCategoryId: true,
   maintenanceItemId: true,
-  attachments: true,
   issueDate: true,
+  locationName: true,
 }).extend({
   issueDate: z.string(),
   fixCategory: MaintenanceCategoryNestInfo,
@@ -94,7 +95,7 @@ export const MaintenanceUpdateRequestDtoSchema =
   });
 
 export const MaintenanceUpdateFormSchema =
-  MaintenanceUpdateRequestDtoSchema.merge(AuditUpdateJPASchema);
+  MaintenanceUpdateRequestDtoSchema.extend(AuditUpdateJPASchema.shape);
 
 export const MaintenanceUpdateRequest = z.object({
   requestDto: MaintenanceUpdateRequestDtoSchema,

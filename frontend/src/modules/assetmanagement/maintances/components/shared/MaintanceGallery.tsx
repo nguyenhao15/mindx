@@ -58,7 +58,7 @@ const MaintanceGallery = ({
       ),
     },
     {
-      key: 'locationId',
+      key: 'locationName',
       label: 'Cơ sở',
     },
     {

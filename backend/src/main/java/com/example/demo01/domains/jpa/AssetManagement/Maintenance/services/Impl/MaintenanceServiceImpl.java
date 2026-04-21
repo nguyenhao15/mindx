@@ -66,9 +66,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Autowired
     private ApprovalEngineUtil  approvalEngineUtil;
 
-    @Autowired
-    private StaticSpecs staticSpecs;
-
     @Override
     public MaintenanceSummaryDTO createMaintenance(MaintenanceRequestDto requestDto, List<MultipartFile> files) {
         Long categoryId = requestDto.getMaintenanceCategoryId();
@@ -90,7 +87,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         String identify = ModuleEnum.MAINTENANCE +"-"+ maintenance.getId();
         attachmentService.addAttachment(files,identify, "maintenance", ModuleEnum.MAINTENANCE, false);
 
-        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance);
+        Map<String, Object> lookupMap = basementService.getBatchBuFullNames(List.of(locationId));
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenance,lookupMap);
     }
 
     @Override
@@ -102,7 +100,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public MaintenanceSummaryDTO getMaintenanceSummaryById(Long id) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
-        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
+        Map<String,Object> lookupMap = basementService.getBatchBuFullNames(List.of(maintenanceEntity.getLocationId()));
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity,lookupMap);
     }
 
     @Override
@@ -115,7 +114,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public MaintenanceDetailResponse getMaintenanceDetailsInfo(Long maintenanceId) {
         MaintenanceDetailResponse maintenanceDetailResponse = new MaintenanceDetailResponse();
         MaintenanceEntity maintenanceEntity = getMaintenanceById(maintenanceId);
-        MaintenanceDetailsInfoDto detailsInfoDto = maintenanceMapper.fromEntityToMaintenanceDetailsInfoDto(maintenanceEntity);
+        Map<String,Object> lookupMap = basementService.getBatchBuFullNames(List.of(maintenanceEntity.getLocationId()));
+        MaintenanceDetailsInfoDto detailsInfoDto = maintenanceMapper.fromEntityToMaintenanceDetailsInfoDto(maintenanceEntity, lookupMap);
+
         List<AuditUpdateDto> auditUpdate = auditUpdateService.getAuditUpdatesByEntityName(ModuleEnum.MAINTENANCE, maintenanceId);
         maintenanceDetailResponse.setMaintenanceDetailsInfo(detailsInfoDto);
         maintenanceDetailResponse.setUpdateHistory(auditUpdate);
@@ -150,9 +151,18 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
     public BasePageResponse<MaintenanceSummaryDTO> buildPageResponse(Page<MaintenanceEntity> page) {
-         List<MaintenanceSummaryDTO> content = page.getContent().stream()
-                .map(maintenanceMapper::fromEntityToMaintenanceInfoDto)
+        List<MaintenanceEntity> maintenanceEntities = page.getContent();
+
+        List<String> locationIds = maintenanceEntities.stream()
+                .map(MaintenanceEntity::getLocationId)
+                .filter(Objects::nonNull)
+                .distinct()
                 .toList();
+
+        Map<String, Object> lookupMap = basementService.getBatchBuFullNames(locationIds);
+
+        List<MaintenanceSummaryDTO> content = maintenanceMapper.toSummaryList(maintenanceEntities, lookupMap);
+
         BasePageResponse<MaintenanceSummaryDTO> response = new BasePageResponse<>();
         response.setContent(content);
         response.setPageNumber(page.getNumber());
@@ -188,7 +198,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         auditUpdateService.createAuditUpdate(auditUpdateRequest);
         maintenanceMapper.updateEntityFromRequest(maintenanceRequestDto, maintenanceEntity);
         maintenanceRepository.save(maintenanceEntity);
-        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity);
+        Map<String, Object > buFullNames = basementService.getBatchBuFullNames(List.of(maintenanceEntity.getLocationId()));
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity,buFullNames);
     }
 
     @Override

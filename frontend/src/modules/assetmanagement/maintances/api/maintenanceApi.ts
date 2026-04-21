@@ -4,8 +4,8 @@ import type { UpdateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const mainteanceApi = {
-  getMaintenances: (assetId: number) => {
-    return axiosClient.get(`${MAINTANANCE_ENDPOINT}/${assetId}`);
+  getMaintenances: (ticketId: number) => {
+    return axiosClient.get(`${MAINTANANCE_ENDPOINT}/${ticketId}`);
   },
 
   createMaintenance: (data: FormData) => {

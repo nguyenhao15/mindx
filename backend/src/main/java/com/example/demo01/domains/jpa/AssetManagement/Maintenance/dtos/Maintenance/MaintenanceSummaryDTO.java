@@ -22,6 +22,8 @@ public record MaintenanceSummaryDTO (
 
         String locationId,
 
+        String locationName,
+
         Boolean reWork,
 
         Integer totalProposals,

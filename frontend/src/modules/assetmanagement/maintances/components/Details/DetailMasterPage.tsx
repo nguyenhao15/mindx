@@ -64,7 +64,7 @@ const DetailMasterPage = ({
               ? `MNT-${maintenanceDetailsInfo.id}`
               : 'MNT-2026-0042'
           }
-          location={maintenanceDetailsInfo?.locationId || 'N/A'}
+          location={maintenanceDetailsInfo?.locationName || 'N/A'}
           reporter={maintenanceDetailsInfo?.createdBy || 'N/A'}
           issueDate={maintenanceDetailsInfo?.issueDate}
           status={detailStatus}
@@ -94,17 +94,7 @@ const DetailMasterPage = ({
         />
 
         <AttachmentsGallery attachments={files || []} />
-        {/* <div className='bg-white p-3 rounded shadow'>
-          <h2>Cập nhật thông tin</h2>
-          <UpdateItemComponent
-            id={item?.maintenanceDetailsInfo?.id || 0}
-            maintenancesStatus={
-              item?.maintenanceDetailsInfo?.maintenancesStatus || ''
-            }
-            reWork={item?.maintenanceDetailsInfo?.reWork || false}
-            totalCost={item?.maintenanceDetailsInfo?.totalCost || 0}
-          />
-        </div> */}
+
         <div className='grid grid-cols-1 xl:grid-cols-12 gap-4'>
           <div className='xl:col-span-5'>
             <TechnicalSolutionsCard
