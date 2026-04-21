@@ -1,5 +1,21 @@
 import z from 'zod';
 
+export type FilterOperator =
+  | 'LIKE'
+  | 'EQUALS'
+  | 'IN'
+  | 'BETWEEN'
+  | 'GTE'
+  | 'LTE';
+export interface FilterConfig {
+  field: string;
+  label: string;
+  type: 'TEXT' | 'SELECT' | 'DATE';
+  operator: FilterOperator;
+  options?: { label: string; value: any }[]; // Cho SELECT
+  isMultiple?: boolean;
+}
+
 const sortOrderSchema = z.object({
   property: z.string().default('id'),
   direction: z.enum(['ASC', 'DESC']).default('ASC'),
@@ -15,7 +31,7 @@ export const PaginationInput = z.object({
 
 export const Filter = z.object({
   field: z.string(),
-  operator: z.enum(['EQUALS', 'IN', 'BETWEEN', 'GTE', 'LTE', 'LIKE']),
+  operator: z.enum(['LIKE', 'EQUALS', 'IN', 'BETWEEN', 'GTE', 'LTE']),
   value: z.any(),
 });
 

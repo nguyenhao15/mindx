@@ -1,10 +1,55 @@
 import React, { useState } from 'react';
 import { useGetWorkflowPage } from '../../hooks/useWorkFlowHook';
-import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
+import type {
+  FilterConfig,
+  FilterInput,
+  FilterWithPaginationInput,
+} from '@/validations/filterWithPagination';
 import WorkFlowGallery from './WorkFlowGallery';
-
 import { Button } from '@/components/ui/button';
-import { ComboboxComponent } from '@/components/input-elements/ComboboxComponent';
+import FilterComponent from './FilterComponent';
+
+const FILTER_CONFIGS: FilterConfig[] = [
+  {
+    field: 'module',
+    label: 'Module',
+    operator: 'LIKE',
+    type: 'SELECT',
+    options: [
+      { label: 'Bảo trì', value: 'MAINTENANCE' },
+      { label: 'Quản lý dự án', value: 'PROJECT' },
+      { label: 'Quản lý tài chính', value: 'FINANCE' },
+    ],
+  },
+  {
+    field: 'fromStatus',
+    label: 'Trạng thái bắt đầu',
+    operator: 'LIKE',
+    type: 'SELECT',
+    options: [
+      { label: 'Trạng thái 1', value: 'WAITING' },
+      { label: 'Trạng thái 2', value: 'APPROVED' },
+      { label: 'Trạng thái 3', value: 'REJECTED' },
+    ],
+  },
+  {
+    field: 'toStatus',
+    label: 'Trạng thái kết thúc',
+    operator: 'LIKE',
+    type: 'SELECT',
+    options: [
+      { label: 'Trạng thái 1', value: 'WAITING' },
+      { label: 'Trạng thái 2', value: 'APPROVED' },
+      { label: 'Trạng thái 3', value: 'REJECTED' },
+    ],
+  },
+  {
+    field: 'id',
+    label: 'ID',
+    operator: 'EQUALS',
+    type: 'TEXT',
+  },
+];
 
 const WorkflowComponent = () => {
   const [filterWithPagination, setFilterWithPagination] =
@@ -27,24 +72,11 @@ const WorkflowComponent = () => {
     });
   const { data, isLoading } = useGetWorkflowPage(filterWithPagination);
 
-  const handleUpdateFilter = (
-    field: string,
-    value: any,
-    operator: string = 'LIKE',
-  ) => {
+  const handleUpdateFilter = (value: FilterInput[]) => {
     setFilterWithPagination((prev: any) => {
-      // 1. Lọc bỏ filter cũ của field này (để tránh bị trùng lặp)
-      const otherFilters = prev.filters.filter((f: any) => f.field !== field);
-
-      // 2. Nếu value rỗng, ta chỉ cần giữ lại các filter khác (coi như xóa filter này)
-      // Nếu có value, ta thêm filter mới vào mảng
-      const newFilters = value
-        ? [...otherFilters, { field, operator, value }]
-        : otherFilters;
-
       return {
         ...prev,
-        filters: newFilters,
+        filters: value,
         pagination: { ...prev.pagination, page: 0 }, // Reset về trang 0 khi lọc
       };
     });
@@ -65,40 +97,15 @@ const WorkflowComponent = () => {
   return (
     <div className='flex flex-col gap-2 '>
       <div className='flex justify-between items-center'>
-        <div className='flex gap-2 p-2 max-w-96'>
-          <ComboboxComponent
-            options={[
-              { label: 'Sửa chữa', value: 'MAINTENANCE' },
-              { label: 'Module B', value: 'moduleB' },
-              { label: 'Module C', value: 'moduleC' },
-            ]}
-            placeholder='Filter by module'
-            isMultiple
-            label='Module'
-            onChange={(value) => handleUpdateFilter('module', value, 'IN')}
-            defaultValue={
-              filterWithPagination.filters.find((f) => f.field === 'module')
-                ?.value || ''
-            }
-          />
-          <ComboboxComponent
-            options={[
-              { label: 'Đang chờ', value: 'WAITING' },
-              { label: 'Đang xử lý', value: 'APPROVED' },
-              { label: 'Đã sửa', value: 'FINISHED' },
-            ]}
-            placeholder='Filter by fromStatus'
-            label='From Status'
-            onChange={(value) => handleUpdateFilter('fromStatus', value)}
-            defaultValue={
-              filterWithPagination.filters.find((f) => f.field === 'fromStatus')
-                ?.value || ''
-            }
-          />
-        </div>
         <Button variant='outline' size='sm' className='ml-auto'>
           Thêm mới
         </Button>
+      </div>
+      <div className='flex gap-4'>
+        <FilterComponent
+          configs={FILTER_CONFIGS}
+          onFilterChange={handleUpdateFilter}
+        />
       </div>
       <WorkFlowGallery
         isLoading={isLoading}

@@ -12,7 +12,7 @@ import {
 import { useEffect, useMemo, useState, type JSX } from 'react';
 import CustomInputCard from './CustomInputCard';
 import { InputGroupAddon } from '../ui/input-group';
-import { sortExtensions } from '@tiptap/core';
+
 
 type DynamicOption = Record<string, unknown>;
 
@@ -128,6 +128,10 @@ const ComboboxComponent = ({
     NormalizedOption | null | NormalizedOption[]
   >(normalizedDefaultValue);
 
+  useEffect(() => {
+    setValue(normalizedDefaultValue);
+  }, [normalizedDefaultValue]);
+
   const handleValueChange = (nextValue: any) => {
     const resultValue = isMultiple
       ? handleOnChangeValueWhenMultiple(
@@ -155,8 +159,6 @@ const ComboboxComponent = ({
   const handleOnValueChange = (
     nextValue: NormalizedOption | NormalizedOption[] | null,
   ) => {
-    console.log('On valu changed: ', nextValue);
-
     if (
       nextValue === null ||
       (Array.isArray(nextValue) && nextValue.length === 0)

@@ -7,7 +7,7 @@ import { CalendarIcon } from 'lucide-react';
 
 interface DatePickerComponentProps {
   disabled?: boolean;
-  onChange?: (date: Date) => void;
+  onChange: (date: Date) => void;
   value?: Date;
   label?: string;
   required?: boolean;
@@ -16,14 +16,14 @@ interface DatePickerComponentProps {
 
 const DatePickerComponent = ({
   disabled,
-  onChange: onChangeAction,
+  onChange,
   value: initialValue,
   label,
   required,
   errors,
   ...rest
 }: DatePickerComponentProps) => {
-  const { onChange, value, onBlur, ...inputProps } = rest as any;
+  const { value, onBlur, ...inputProps } = rest as any;
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(
     initialValue || value,
@@ -35,7 +35,6 @@ const DatePickerComponent = ({
 
   const handleOnSelect = (selectedDate: any) => {
     setDate(selectedDate);
-    onChangeAction?.(selectedDate);
     onChange?.(selectedDate);
     setOpen(false);
     onBlur?.();

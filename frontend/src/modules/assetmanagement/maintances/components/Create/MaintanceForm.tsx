@@ -50,7 +50,7 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
         <Controller
           name='description'
           control={control}
-          render={({ field }) => (
+          render={({ field: { onChange, ...field } }) => (
             <TextInputField
               {...field}
               labelSize='lg'
@@ -65,9 +65,10 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
         <Controller
           name='issueDate'
           control={control}
-          render={({ field }) => (
+          render={({ field: { onChange, ...field } }) => (
             <DatePickerComponent
               {...field}
+              onChange={onChange}
               label='Ngày phát sinh sự cố'
               disabled={isLoading}
               required
@@ -84,6 +85,7 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
           }) => (
             <AttachmentControl
               rest={field}
+              {...field}
               title='Đính kèm tệp'
               attachedFile={value}
               isLoading={isLoading}
