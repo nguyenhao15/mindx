@@ -127,7 +127,7 @@ const ComboboxComponent = ({
     NormalizedOption | null | NormalizedOption[]
   >(normalizedDefaultValue);
 
-  const handleValueChange = (nextValue: NormalizedOption | null) => {
+  const handleValueChange = (nextValue: any) => {
     const resultValue = isMultiple
       ? handleOnChangeValueWhenMultiple(
           nextValue,

@@ -54,7 +54,7 @@ const DepartmentOptionsControl = ({
       errors={errorMessage || null}
       options={departmentOptions}
       onChange={handleValueChange}
-      defaultValue={value ?? null}
+      defaultValue={value}
       label={label}
       placeholder={placeholder}
     />

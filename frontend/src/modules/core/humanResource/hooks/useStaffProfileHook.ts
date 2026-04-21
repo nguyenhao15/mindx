@@ -7,9 +7,9 @@ export const useUpdateStaffProfile = (staffId: string) => {
   return useMutation({
     mutationFn: (data: Partial<WorkProfileType>) =>
       updateStaffProfileAction(staffId, data),
-    onSuccess: () => {
+    onSuccess: (value) => {
       queryClient.invalidateQueries({
-        queryKey: ['admin', 'user', staffId],
+        queryKey: ['admin', 'user', value.staffId],
       });
     },
   });

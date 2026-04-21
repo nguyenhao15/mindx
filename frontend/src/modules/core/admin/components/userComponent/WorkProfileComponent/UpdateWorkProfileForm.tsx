@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { JobAssignmentCard } from '../FormElement/JobAssignmentCard';
 import { useUpdateStaffProfile } from '@/modules/core/humanResource/hooks/useStaffProfileHook';
 import { Button } from '@/components/ui/button';
+import toast from 'react-hot-toast';
 
 interface UpdateWorkProfileFormProps {
   // Define any props you need here
@@ -21,9 +22,7 @@ const UpdateWorkProfileForm = ({
   const methods = useForm({
     mode: 'onBlur',
     resolver: zodResolver(WorkProfileEmbedded),
-    defaultValues: {
-      ...initalData,
-    },
+    defaultValues: initalData,
   });
 
   const {
@@ -35,9 +34,8 @@ const UpdateWorkProfileForm = ({
   const onSubmit = async (data: any) => {
     try {
       await updateStaffProfile(data);
-      if (afterSubmitAction) {
-        afterSubmitAction();
-      }
+      afterSubmitAction && afterSubmitAction();
+      toast.success('Cập nhật hồ sơ công việc thành công!');
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -45,6 +43,7 @@ const UpdateWorkProfileForm = ({
 
   return (
     <div className='flex flex-col gap-4 bg-white p-4 rounded shadow'>
+      <h2>Cập nhật hồ sơ công việc</h2>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <JobAssignmentCard
@@ -53,13 +52,16 @@ const UpdateWorkProfileForm = ({
           />
         </form>
       </FormProvider>
-      <Button
-        onClick={handleSubmit(onSubmit)}
-        variant='positive'
-        disabled={isUpdatingStaffProfile}
-      >
-        Cập nhật hồ sơ công việc
-      </Button>
+      <div className='flex justify-end w-full p-4'>
+        <Button
+          onClick={handleSubmit(onSubmit)}
+          variant='positive'
+          className='cursor-pointer p-4'
+          disabled={isUpdatingStaffProfile}
+        >
+          Cập nhật hồ sơ công việc
+        </Button>
+      </div>
     </div>
   );
 };
