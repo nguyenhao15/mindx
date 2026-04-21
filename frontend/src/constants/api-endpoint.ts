@@ -4,6 +4,8 @@ export const MODULE_PREFIX = {
   DOCUMENT: '/v1/document',
   ASSET: '/v1/asset',
   STAFF_PROFILE: '/v1/staff-profile',
+  APPROVAL: '/v1/approval/policy',
+  WORKFLOW: '/v1/approval/workflow',
 };
 
 // API endpoints for the application
@@ -12,6 +14,9 @@ export const PROCESS_TAG_VALUES = `${MODULE_PREFIX.PROCESS}/process-tag-values`;
 export const PROCESS_FLOW = `${MODULE_PREFIX.PROCESS}/process-flows`;
 export const PROCESS_FLOW_CONTENT = `${MODULE_PREFIX.PROCESS}/process-flows-content`;
 export const AW3_ENDPOINT = `${MODULE_PREFIX.PROCESS}/space/aws3`;
+
+export const APPROVAL_POLICY_ENDPOINT = `${MODULE_PREFIX.APPROVAL}`;
+export const APPROVAL_WORKFLOW_ENDPOINT = `${MODULE_PREFIX.WORKFLOW}`;
 
 export const STAFF_PROFILE_ENDPOINT = `${MODULE_PREFIX.STAFF_PROFILE}`;
 

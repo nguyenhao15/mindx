@@ -14,5 +14,4 @@ public interface MaintenanceWorkflow {
 
     MaintenancesProposalsDto createProposal(MaintenancesProposalRequest maintenancesProposalRequest);
 
-
 }

@@ -1,5 +1,6 @@
 import {
   ClipboardList,
+  Cog,
   LayoutDashboard,
   List,
   Plus,
@@ -15,6 +16,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   LayoutDashboard,
   List,
   Wrench,
+
 };
 
 const MaintanceLayout = () => {

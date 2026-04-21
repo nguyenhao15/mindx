@@ -7,6 +7,7 @@ import {
   BriefcaseBusiness,
   Building,
   File,
+  LayoutDashboard,
   PackageIcon,
   TagsIcon,
   UsersIcon,
@@ -22,6 +23,7 @@ import BasementListComponent from '../../basement/components/BasementListCompone
 import TagList from '../components/TagList';
 import TagValueList from '../components/TagValueList';
 import { UserTableComponent } from '../components/userComponent/UserTableComponent';
+import WorkflowComponent from '../components/WorkFlow/WorkflowComponent';
 
 const tabs: TabItem[] = [
   {
@@ -54,6 +56,11 @@ const tabs: TabItem[] = [
     label: 'Documents',
     icon: File,
   },
+  {
+    id: 'Workflows',
+    label: 'Workflows',
+    icon: LayoutDashboard,
+  },
 ];
 
 const AdminAppPage = ({ user: _user }: { user: UserResponseObjectType }) => {
@@ -71,8 +78,8 @@ const AdminAppPage = ({ user: _user }: { user: UserResponseObjectType }) => {
         return <InternalWorkingSystemComponent />;
       case 'basements':
         return <BasementListComponent />;
-      case 'Documents':
-        return <DocumentAdminList />;
+      case 'Workflows':
+        return <WorkflowComponent />;
       default:
         return (
           <EmptyState

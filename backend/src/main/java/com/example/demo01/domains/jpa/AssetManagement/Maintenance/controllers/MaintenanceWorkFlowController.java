@@ -17,8 +17,7 @@ import java.util.List;
 public class MaintenanceWorkFlowController {
 
     @Autowired
-    MaintenanceWorkflow  maintenanceWorkflow;
-
+    MaintenanceWorkflow maintenanceWorkflow;
 
     @PostMapping("/proposal/create")
     public ResponseEntity<?> createProposal(@RequestBody List<MaintenancesProposalRequest> requests){

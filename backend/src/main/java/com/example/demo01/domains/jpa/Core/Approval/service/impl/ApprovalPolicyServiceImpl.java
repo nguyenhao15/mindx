@@ -2,7 +2,6 @@ package com.example.demo01.domains.jpa.Core.Approval.service.impl;
 
 import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
-import com.example.demo01.core.Auth.dtos.WorkProfile;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyInfoDto;
 import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyRequestDto;
