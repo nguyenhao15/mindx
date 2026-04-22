@@ -19,6 +19,11 @@ export const getWorkFlowTransitionPage = async (
   return response.data;
 };
 
+export const getWorkFlowByModule = async (module: string) => {
+  const response = await workflowApi.getWorkFlowByModule(module);
+  return response.data;
+};
+
 export const getWorkFlowTransitionById = async (id: string) => {
   const response = await workflowApi.getWorkFlowTransitionById(id);
   return response.data;

@@ -3,7 +3,10 @@ import {
   useGetPositionByDepartment,
   useGetPositions,
 } from '../hooks/usePositionHook';
-import { SingleComboboxComponent } from '@/components/input-elements/ComboboxComponent';
+import {
+  ComboboxComponent,
+  SingleComboboxComponent,
+} from '@/components/input-elements/ComboboxComponent';
 
 interface PositionComponentOptionControlProps {
   id: string;
@@ -48,7 +51,7 @@ const PositionComponentOptionControl = ({
     onChange(nextValue);
   };
   return (
-    <SingleComboboxComponent
+    <ComboboxComponent
       {...props}
       props={props}
       isLoading={isLoading || isLoadingData}

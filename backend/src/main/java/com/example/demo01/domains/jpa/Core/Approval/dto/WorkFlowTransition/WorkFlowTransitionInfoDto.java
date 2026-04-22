@@ -2,9 +2,6 @@ package com.example.demo01.domains.jpa.Core.Approval.dto.WorkFlowTransition;
 
 import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyInfoDto;
 import com.example.demo01.utils.ModuleEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
@@ -21,7 +18,7 @@ public record WorkFlowTransitionInfoDto (
 
      String actionType,
 
-     List<ApprovalPolicyInfoDto> approvalPolicyInfoDtoList,
+     List<ApprovalPolicyInfoDto> approvalPolicyEntity,
 
      Boolean enabled,
 

@@ -48,9 +48,14 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
     @Override
     public ApprovalPolicyInfoDto createApprovalPolicy(ApprovalPolicyRequestDto requestDto) {
         Long workFlowId = requestDto.getWorkFlowId();
+        String requesterPosition = requestDto.getRequesterPosition();
+        if(Objects.isNull(requesterPosition)){
+            requestDto.setRequesterPosition("*");
+        }
         WorkFlowTransitionEntity workFlowTransitionEntity = workFlowTransitionService.getWorkFlowTransitionById(workFlowId);
         ApprovalPolicyEntity approvalPolicyEntity = approvalPolicyMapper.fromRequestToEntity(requestDto);
         approvalPolicyEntity.setWorkflowAction(workFlowTransitionEntity);
+        approvalPolicyEntity.setTargetStatus(workFlowTransitionEntity.getToStatus());
         ApprovalPolicyEntity savedEntity = approvalPolicyRepository.save(approvalPolicyEntity);
         return approvalPolicyMapper.fromEntityToInfo(savedEntity);
     }

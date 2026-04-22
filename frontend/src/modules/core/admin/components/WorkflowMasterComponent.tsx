@@ -1,10 +1,12 @@
 import React from 'react';
-import WorkflowComponent from './WorkFlow/WorkflowComponent';
+import WorkflowComponent from './WorkFlow/WorkFlowComponent';
+import ApprovalPolicyComponent from './WorkFlow/ApprovalPolicyComponent';
 
 const WorkflowMasterComponent = () => {
   return (
-    <div>
+    <div className='flex flex-col gap-3 p-2'>
       <WorkflowComponent />
+      <ApprovalPolicyComponent />
     </div>
   );
 };

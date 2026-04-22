@@ -12,4 +12,8 @@ import java.util.List;
 public interface WorkFlowTransitionRepository extends JpaRepository<WorkFlowTransitionEntity, Long>,
         JpaSpecificationExecutor<WorkFlowTransitionEntity> {
     List<WorkFlowTransitionEntity> findByFromStatusAndModule(String fromStatus, ModuleEnum module);
+
+    List<WorkFlowTransitionEntity> findByFromStatusAndModuleAndEnabled(String fromStatus, ModuleEnum module, boolean enabled);
+
+    List<WorkFlowTransitionEntity> findByModule(ModuleEnum module);
 }

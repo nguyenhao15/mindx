@@ -13,7 +13,6 @@ import { useEffect, useMemo, useState, type JSX } from 'react';
 import CustomInputCard from './CustomInputCard';
 import { InputGroupAddon } from '../ui/input-group';
 
-
 type DynamicOption = Record<string, unknown>;
 
 type NormalizedOption = {
@@ -33,6 +32,7 @@ interface ComboboxComponentProps {
   disabled?: boolean;
   props?: {};
   errors?: string | null;
+  description?: string;
   isMultiple?: boolean;
   isLoading?: boolean;
 }
@@ -92,6 +92,7 @@ const handleSliceValueByLimit = (
 const ComboboxComponent = ({
   options,
   onChange,
+  description,
   defaultValue,
   label = 'Multiple Combobox Example',
   placeholder = 'Add option',
@@ -128,10 +129,6 @@ const ComboboxComponent = ({
     NormalizedOption | null | NormalizedOption[]
   >(normalizedDefaultValue);
 
-  useEffect(() => {
-    setValue(normalizedDefaultValue);
-  }, [normalizedDefaultValue]);
-
   const handleValueChange = (nextValue: any) => {
     const resultValue = isMultiple
       ? handleOnChangeValueWhenMultiple(
@@ -163,18 +160,21 @@ const ComboboxComponent = ({
       nextValue === null ||
       (Array.isArray(nextValue) && nextValue.length === 0)
     ) {
-      console.log('NEXT VALUE is null');
-
       setValue(isMultiple ? [] : null);
       onChange?.(isMultiple ? [] : null);
     }
   };
+  useEffect(() => {
+    setValue(normalizedDefaultValue);
+  }, [normalizedDefaultValue]);
 
   return (
     <CustomInputCard
       {...props}
       labelSize='lg'
+      description={description}
       label={label}
+      disabled={disabled}
       required={required}
       errorMessage={errors}
     >

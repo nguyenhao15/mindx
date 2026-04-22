@@ -20,6 +20,10 @@ export const workflowApi = {
     );
   },
 
+  getWorkFlowByModule: (module: string) => {
+    return axiosClient.get(`${APPROVAL_WORKFLOW_ENDPOINT}/module/${module}`);
+  },
+
   getWorkFlowTransitionById: (id: string) => {
     return axiosClient.get(`${APPROVAL_WORKFLOW_ENDPOINT}/${id}`);
   },

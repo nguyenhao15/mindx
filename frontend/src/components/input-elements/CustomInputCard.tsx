@@ -9,7 +9,7 @@ interface CustomInputCardProps {
   required?: boolean;
   description?: string | null;
   errorMessage?: string | null;
-  props?: {};
+  disabled?: boolean;
 }
 
 const CustomInputCard = ({
@@ -20,14 +20,17 @@ const CustomInputCard = ({
   required = false,
   description,
   errorMessage,
+  disabled = false,
   ...props
 }: CustomInputCardProps) => {
   return (
     <Field
       {...props}
-      className={`min-w-full text-sm font-bold overflow-x-visible text-gray-700 gap-1 ${className}`}
+      className={`min-w-full text-sm font-bold overflow-x-visible text-gray-700 gap-1  ${className}`}
     >
-      <FieldLabel className={`text-${labelSize} font-bold text-gray-700 `}>
+      <FieldLabel
+        className={`text-${labelSize} font-bold ${disabled ? 'text-gray-400' : 'text-gray-700'}`}
+      >
         {label}
         {required && <span className='m-1 text-red-500'>*</span>}
       </FieldLabel>

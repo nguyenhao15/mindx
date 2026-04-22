@@ -11,6 +11,7 @@ interface DepartmentOptionsControlProps {
   disabled?: boolean;
   errorMessage?: string | null;
   label: string;
+  description?: string;
   placeholder?: string;
   isLoading?: boolean;
 }
@@ -20,11 +21,12 @@ const DepartmentOptionsControl = ({
   onChange,
   value,
   isLoading = false,
-  required = true,
+  required = false,
   disabled = false,
   errorMessage,
   label,
   placeholder,
+  description,
   ...props
 }: DepartmentOptionsControlProps) => {
   const { data, isLoading: isLoadingData } = useGetActiveDepartments();
@@ -46,6 +48,7 @@ const DepartmentOptionsControl = ({
   return (
     <ComboboxComponent
       {...props}
+      description={description}
       IconNode={BsSuitcase}
       props={props}
       isLoading={isLoading || isLoadingData}

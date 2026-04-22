@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
-import { useGetWorkflowPage } from '../../hooks/useWorkFlowHook';
-import type {
-  FilterInput,
-  FilterWithPaginationInput,
-} from '@/validations/filterWithPagination';
-import WorkFlowGallery from './WorkFlowGallery';
-import { Button } from '@/components/ui/button';
-import FilterComponent from './FilterComponent';
-import { FILTER_CONFIGS } from './data/data';
+import { useGetApprovalPolicyPage } from '../../hooks/useApprovalPolicy';
+import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
+import ApprovalPolicyGallery from './ApprovalPolicyGallery';
 import ModalComponent from '@/components/shared/ModalComponent';
-import WorkFlowForm from './Form/WorkFlowForm';
+import { Button } from '@/components/ui/button';
+import ApprovalPolicyForm from './Form/ApprovalPolicyForm';
 
-const WorkflowComponent = () => {
+const ApprovalPolicyComponent = () => {
   const [openModal, setOpenModal] = useState(false);
   const [filterWithPagination, setFilterWithPagination] =
     useState<FilterWithPaginationInput>({
@@ -25,24 +20,13 @@ const WorkflowComponent = () => {
             direction: 'ASC',
           },
           {
-            property: 'fromStatus',
+            property: 'targetStatus',
             direction: 'ASC',
           },
         ],
       },
     });
-
-  const { data, isLoading } = useGetWorkflowPage(filterWithPagination);
-
-  const handleUpdateFilter = (value: FilterInput[]) => {
-    setFilterWithPagination((prev: any) => {
-      return {
-        ...prev,
-        filters: value,
-        pagination: { ...prev.pagination, page: 0 }, // Reset về trang 0 khi lọc
-      };
-    });
-  };
+  const { data, isLoading } = useGetApprovalPolicyPage(filterWithPagination);
 
   const handlePageChange = (page: number) => {
     setFilterWithPagination((prev) => ({
@@ -65,7 +49,7 @@ const WorkflowComponent = () => {
   const { content, ...rest } = data || {};
 
   return (
-    <div className='flex flex-col gap-2 '>
+    <div>
       <div className='flex justify-between items-center'>
         <Button
           onClick={handleOpenModal}
@@ -76,24 +60,17 @@ const WorkflowComponent = () => {
           Thêm mới
         </Button>
       </div>
-      <div className='flex gap-4'>
-        <FilterComponent
-          configs={FILTER_CONFIGS}
-          onFilterChange={handleUpdateFilter}
-        />
-      </div>
-      <WorkFlowGallery
+      <ApprovalPolicyGallery
         isLoading={isLoading}
-        data={content}
+        data={content || []}
         pagination={rest}
         onPageChange={handlePageChange}
       />
       <ModalComponent open={openModal} onClose={handleCloseModal}>
-        {/* Nội dung modal */}
-        <WorkFlowForm afterSubmit={handleCloseModal} />
+        <ApprovalPolicyForm afterSubmit={handleCloseModal} />
       </ModalComponent>
     </div>
   );
 };
 
-export default WorkflowComponent;
+export default ApprovalPolicyComponent;

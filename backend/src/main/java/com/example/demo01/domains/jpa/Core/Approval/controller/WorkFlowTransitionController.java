@@ -4,6 +4,7 @@ import com.example.demo01.domains.jpa.Core.Approval.dto.WorkFlowTransition.WorkF
 import com.example.demo01.domains.jpa.Core.Approval.dto.WorkFlowTransition.WorkFlowTransitionRequestDto;
 import com.example.demo01.domains.jpa.Core.Approval.service.WorkFlowTransitionService;
 import com.example.demo01.utils.FilterWithPagination;
+import com.example.demo01.utils.ModuleEnum;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class WorkFlowTransitionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateWorkFlow(@PathVariable Long id, WorkFlowTransitionRequestDto requestDto) {
+    public ResponseEntity<?> updateWorkFlow(@PathVariable Long id,@RequestBody WorkFlowTransitionRequestDto requestDto) {
         WorkFlowTransitionInfoDto workFlowTransitionInfoDto = service.updateWorkFlowTransition(id, requestDto);
         return ResponseEntity.ok(workFlowTransitionInfoDto);
     }
@@ -31,6 +32,11 @@ public class WorkFlowTransitionController {
     @PostMapping("/get/page")
     public ResponseEntity<?> getWorkFlowTransitionPage(@RequestBody FilterWithPagination filter) {
         return ResponseEntity.ok(service.getWorkFlowTransitionDtoByPage(filter));
+    }
+
+    @GetMapping("/module/{module}")
+    public ResponseEntity<?> getWorkFlowTransitionByModule(@PathVariable ModuleEnum module) {
+        return ResponseEntity.ok(service.getWorkFlowTransitionDtoByModule(module));
     }
 
     @GetMapping("/{id}")

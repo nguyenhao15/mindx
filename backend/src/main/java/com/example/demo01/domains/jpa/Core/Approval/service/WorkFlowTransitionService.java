@@ -20,6 +20,8 @@ public interface WorkFlowTransitionService {
 
     List<WorkFlowTransitionInfoDto> getWorkFlowTransitionDtoByCurrentStatusAndModule(String currentStatus, ModuleEnum moduleEnum);
 
+    List<WorkFlowTransitionInfoDto> getWorkFlowTransitionDtoByModule(ModuleEnum moduleEnum);
+
     BasePageResponse<WorkFlowTransitionInfoDto> getAllPageWorkFlowTransitionDto(FilterWithPagination filter);
 
     BasePageResponse<WorkFlowTransitionInfoDto> getWorkFlowTransitionDtoByPage(FilterWithPagination filter);

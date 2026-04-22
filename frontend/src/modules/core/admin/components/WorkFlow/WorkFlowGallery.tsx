@@ -3,6 +3,8 @@ import Loader from '@/components/shared/Loader';
 import Status from '@/components/shared/Status';
 import { safeString, toArray } from '@/utils/formatValue';
 import { useMemo } from 'react';
+import { useUpdateWorkflow } from '../../hooks/useWorkFlowHook';
+import toast from 'react-hot-toast';
 
 interface WorkFlowGalleryProps {
   isLoading?: boolean;
@@ -17,6 +19,7 @@ const WorkFlowGallery = ({
   pagination,
   onPageChange,
 }: WorkFlowGalleryProps) => {
+  const { mutateAsync, isPending } = useUpdateWorkflow();
   const rows = useMemo(() => {
     const source = toArray(data);
     return source.map((item) => {
@@ -28,7 +31,9 @@ const WorkFlowGallery = ({
         labelName: safeString(record.labelName),
         fromStatus: safeString(record.fromStatus),
         toStatus: safeString(record.toStatus),
-        enabled: record.enabled ? 'Active' : 'Inactive',
+        activeStatus: record.enabled ? 'Active' : 'Inactive',
+        enabled: record.enabled,
+        ...record,
       };
     });
   }, [data]);
@@ -51,20 +56,39 @@ const WorkFlowGallery = ({
       label: 'To Status',
     },
     {
-      key: 'enabled',
+      key: 'activeStatus',
       label: 'Status',
-      render: (item) => <Status status={item.enabled} />,
+      render: (item) => <Status status={item.activeStatus} />,
     },
   ];
+
+  const handleOnEdit = async (item: any) => {
+    const updatedData = {
+      ...item,
+      enabled: !item.enabled, // Toggle the enabled status
+    };
+    console.log('Update data: ', updatedData);
+
+    try {
+      await mutateAsync({ id: item.id, data: updatedData });
+      toast.success('Workflow updated successfully');
+    } catch (error: any) {
+      console.error('Error updating workflow:', error);
+      toast.error(
+        error?.response?.data?.message || 'Failed to update workflow',
+      );
+    }
+  };
 
   if (isLoading) {
     return <Loader />;
   }
   return (
-    <div>
+    <div className='p-2'>
       <DataTable
         columns={columns}
         data={rows}
+        onEdit={handleOnEdit}
         actionLabel='Update'
         pagination={pagination}
         handlePageChange={onPageChange}

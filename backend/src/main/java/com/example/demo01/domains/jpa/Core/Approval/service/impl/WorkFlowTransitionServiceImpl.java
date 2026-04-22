@@ -1,5 +1,6 @@
 package com.example.demo01.domains.jpa.Core.Approval.service.impl;
 
+import com.example.demo01.core.Exceptions.APIException;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
 import com.example.demo01.domains.jpa.Core.Approval.dto.WorkFlowTransition.WorkFlowTransitionInfoDto;
 import com.example.demo01.domains.jpa.Core.Approval.dto.WorkFlowTransition.WorkFlowTransitionRequestDto;
@@ -63,6 +64,12 @@ public class WorkFlowTransitionServiceImpl implements WorkFlowTransitionService 
     }
 
     @Override
+    public List<WorkFlowTransitionInfoDto> getWorkFlowTransitionDtoByModule(ModuleEnum moduleEnum) {
+        List<WorkFlowTransitionEntity> workFlowTransitionEntities = workFlowTransitionRepository.findByModule(moduleEnum);
+        return workFlowTransitionMapper.fromEntityListToInfoList(workFlowTransitionEntities);
+    }
+
+    @Override
     public BasePageResponse<WorkFlowTransitionInfoDto> getAllPageWorkFlowTransitionDto(FilterWithPagination filter) {
         PageInput  pageInput = filter.getPagination();
         List<FilterRequest> filters = filter.getFilters();
@@ -113,7 +120,14 @@ public class WorkFlowTransitionServiceImpl implements WorkFlowTransitionService 
 
     @Override
     public WorkFlowTransitionInfoDto updateWorkFlowTransition(Long id, WorkFlowTransitionRequestDto workFlowTransition) {
-        WorkFlowTransitionEntity workFlowTransitionEntity  = getWorkFlowTransitionById(id);
+        WorkFlowTransitionEntity workFlowTransitionEntity = getWorkFlowTransitionById(id);
+        if (!workFlowTransition.getEnabled()) {
+            List<WorkFlowTransitionEntity> workFlowTransitionEntities = workFlowTransitionRepository.findByFromStatusAndModuleAndEnabled(workFlowTransition.getFromStatus(), workFlowTransition.getModule(), true);
+            if (workFlowTransitionEntities.size() <= 1) {
+                throw new APIException("WorkFlowEntity fromStatus " + workFlowTransition.getFromStatus()+ "At least one enabled transition must exist for the current status and module");
+            }
+        }
+
         workFlowTransitionMapper.updateEntityFromRequest(workFlowTransition, workFlowTransitionEntity);
         WorkFlowTransitionEntity updated = workFlowTransitionRepository.save(workFlowTransitionEntity);
         return workFlowTransitionMapper.fromEntityToInfo(updated);

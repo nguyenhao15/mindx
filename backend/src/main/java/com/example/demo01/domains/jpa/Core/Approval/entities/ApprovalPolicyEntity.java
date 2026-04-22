@@ -5,7 +5,6 @@ import com.example.demo01.utils.ModuleEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import software.amazon.awssdk.core.pagination.sync.PaginatedResponsesIterator;
 
 @Entity
 @Table(name = "approval_policies",
@@ -27,7 +26,7 @@ public class ApprovalPolicyEntity extends BaseAuditJpaModel {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "action_id", insertable = false, updatable = false)
+    @JoinColumn(name = "action_id")
     @JsonIgnore
     private WorkFlowTransitionEntity workflowAction;
 

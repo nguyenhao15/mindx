@@ -17,7 +17,6 @@ import java.util.List;
 @Data
 public class ApprovalPolicyRequestDto {
 
-    @NotBlank(message = "Current status is required")
     private String targetStatus;
 
     @NotNull(message = "Module is required")
@@ -26,7 +25,6 @@ public class ApprovalPolicyRequestDto {
     @NotNull(message = "Workflow ID is required")
     private Long workFlowId;
 
-    @NotBlank(message = "Requester position is required")
     private String requesterPosition;
 
     private String description;
