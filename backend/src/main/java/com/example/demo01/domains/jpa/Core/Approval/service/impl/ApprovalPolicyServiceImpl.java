@@ -7,8 +7,10 @@ import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyI
 import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyRequestDto;
 import com.example.demo01.domains.jpa.Core.Approval.entities.AllowTypeEnum;
 import com.example.demo01.domains.jpa.Core.Approval.entities.ApprovalPolicyEntity;
+import com.example.demo01.domains.jpa.Core.Approval.entities.WorkFlowTransitionEntity;
 import com.example.demo01.domains.jpa.Core.Approval.mapper.ApprovalPolicyMapper;
 import com.example.demo01.domains.jpa.Core.Approval.service.ApprovalPolicyService;
+import com.example.demo01.domains.jpa.Core.Approval.service.WorkFlowTransitionService;
 import com.example.demo01.repository.postgreSQL.Core.ApprovalRepository.ApprovalPolicyRepository;
 import com.example.demo01.utils.*;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
@@ -40,9 +42,15 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
     @Autowired
     private PostgreSQLPageUtil postgreSQLPageUtil;
 
+    @Autowired
+    private WorkFlowTransitionService workFlowTransitionService;
+
     @Override
     public ApprovalPolicyInfoDto createApprovalPolicy(ApprovalPolicyRequestDto requestDto) {
+        Long workFlowId = requestDto.getWorkFlowId();
+        WorkFlowTransitionEntity workFlowTransitionEntity = workFlowTransitionService.getWorkFlowTransitionById(workFlowId);
         ApprovalPolicyEntity approvalPolicyEntity = approvalPolicyMapper.fromRequestToEntity(requestDto);
+        approvalPolicyEntity.setWorkflowAction(workFlowTransitionEntity);
         ApprovalPolicyEntity savedEntity = approvalPolicyRepository.save(approvalPolicyEntity);
         return approvalPolicyMapper.fromEntityToInfo(savedEntity);
     }
@@ -82,9 +90,7 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
         String allowTypeValue = approvalPolicyEntity.getAllowValue();
 
         switch (allowType) {
-            case USERID -> {
-                return Objects.equals(approvalPolicyEntity.getAllowValue(), currentUser.getStaffId());
-            }
+
             case DEPARTMENT -> {
                 String defaultDepartmentId = currentUser.getDepartmentId();
                 return defaultDepartmentId.contains(allowTypeValue);

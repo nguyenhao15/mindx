@@ -5,6 +5,9 @@ import com.example.demo01.utils.ModuleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "workflow_transitions")
 @Table(name = "workflow_transitions",
         indexes = {
@@ -41,4 +44,6 @@ public class WorkFlowTransitionEntity extends BaseAuditJpaModel {
 
     private Boolean enabled = true;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workflowAction", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ApprovalPolicyEntity> approvalPolicyEntity = new ArrayList<>();
 }

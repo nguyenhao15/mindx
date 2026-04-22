@@ -2,6 +2,7 @@ package com.example.demo01.domains.jpa.Core.Approval.entities;
 
 import com.example.demo01.utils.BaseEntity.Jpa.BaseAuditJpaModel;
 import com.example.demo01.utils.ModuleEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import software.amazon.awssdk.core.pagination.sync.PaginatedResponsesIterator;
@@ -25,6 +26,10 @@ public class ApprovalPolicyEntity extends BaseAuditJpaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "action_id", insertable = false, updatable = false)
+    @JsonIgnore
+    private WorkFlowTransitionEntity workflowAction;
 
     @Column(name = "target_status", length = 50, nullable = false)
     private String targetStatus;

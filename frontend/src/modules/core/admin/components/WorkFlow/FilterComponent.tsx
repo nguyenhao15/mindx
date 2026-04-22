@@ -19,7 +19,9 @@ const FilterComponent = ({ configs, onFilterChange }: Props) => {
     const payload = configs
       .filter(
         (config) =>
-          data[config.field] !== undefined && data[config.field] !== '',
+          data[config.field] !== undefined &&
+          data[config.field] !== '' &&
+          data[config.field] !== null,
       )
       .map((config) => ({
         field: config.field,
@@ -55,11 +57,11 @@ const FilterComponent = ({ configs, onFilterChange }: Props) => {
               variant='secondary'
               type='button'
               onClick={handleReset}
-              className='mr-2'
+              className='mr-2 cursor-pointer'
             >
               Reset
             </Button>
-            <Button variant='positive' type='submit'>
+            <Button variant='positive' type='submit' className='cursor-pointer'>
               Apply Filters
             </Button>
           </div>

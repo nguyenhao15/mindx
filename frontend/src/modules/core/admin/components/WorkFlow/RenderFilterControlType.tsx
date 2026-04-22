@@ -19,11 +19,13 @@ const RenderFilterControlType = ({
     case 'TEXT':
       return (
         <TextInputField
+          labelSize='lg'
           id={config.field}
           label={config.label}
           register={register}
           control={control}
           placeholder={`Enter ${config.label.toLowerCase()}...`}
+          type={config.typeInput}
         />
       );
     case 'SELECT':

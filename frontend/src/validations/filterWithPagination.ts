@@ -11,6 +11,7 @@ export interface FilterConfig {
   field: string;
   label: string;
   type: 'TEXT' | 'SELECT' | 'DATE';
+  typeInput?: 'text' | 'email' | 'url' | 'number' | 'textarea';
   operator: FilterOperator;
   options?: { label: string; value: any }[]; // Cho SELECT
   isMultiple?: boolean;

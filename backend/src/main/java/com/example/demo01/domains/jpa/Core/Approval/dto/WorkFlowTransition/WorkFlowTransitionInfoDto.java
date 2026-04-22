@@ -1,32 +1,32 @@
 package com.example.demo01.domains.jpa.Core.Approval.dto.WorkFlowTransition;
 
+import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyInfoDto;
 import com.example.demo01.utils.ModuleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class WorkFlowTransitionInfoDto {
+public record WorkFlowTransitionInfoDto (
 
-    private Long id;
+     Long id,
+     String fromStatus,
+     String toStatus,
+     String description,
+     ModuleEnum module,
 
-    private String fromStatus;
-    private String toStatus;
-    private String description;
-    private ModuleEnum module;
+     String labelName,
 
-    private String labelName;
+     String actionType,
 
-    private String actionType;
+     List<ApprovalPolicyInfoDto> approvalPolicyInfoDtoList,
 
-    private Boolean enabled;
+     Boolean enabled,
 
-    private String createdBy;
-    private Instant createdDate;
-    private String lastModifiedBy;
-    private Instant lastModifiedDate;
-}
+     String createdBy,
+     Instant createdDate,
+     String lastModifiedBy,
+     Instant lastModifiedDate
+){}

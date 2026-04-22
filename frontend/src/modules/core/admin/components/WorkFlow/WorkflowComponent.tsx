@@ -27,9 +27,9 @@ const FILTER_CONFIGS: FilterConfig[] = [
     operator: 'LIKE',
     type: 'SELECT',
     options: [
-      { label: 'Trạng thái 1', value: 'WAITING' },
-      { label: 'Trạng thái 2', value: 'APPROVED' },
-      { label: 'Trạng thái 3', value: 'REJECTED' },
+      { label: 'WAITING', value: 'WAITING' },
+      { label: 'APPROVED', value: 'APPROVED' },
+      { label: 'REJECTED', value: 'REJECTED' },
     ],
   },
   {
@@ -38,9 +38,9 @@ const FILTER_CONFIGS: FilterConfig[] = [
     operator: 'LIKE',
     type: 'SELECT',
     options: [
-      { label: 'Trạng thái 1', value: 'WAITING' },
-      { label: 'Trạng thái 2', value: 'APPROVED' },
-      { label: 'Trạng thái 3', value: 'REJECTED' },
+      { label: 'WAITING', value: 'WAITING' },
+      { label: 'APPROVED', value: 'APPROVED' },
+      { label: 'REJECTED', value: 'REJECTED' },
     ],
   },
   {
@@ -48,6 +48,7 @@ const FILTER_CONFIGS: FilterConfig[] = [
     label: 'ID',
     operator: 'EQUALS',
     type: 'TEXT',
+    typeInput: 'number',
   },
 ];
 

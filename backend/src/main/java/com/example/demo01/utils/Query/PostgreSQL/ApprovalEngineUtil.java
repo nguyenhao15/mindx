@@ -25,13 +25,13 @@ public class ApprovalEngineUtil {
             return List.of();
         }
         List<WorkFlowTransitionInfoDto> filteredArr = availableAction.stream()
-                .filter(action -> approvalPolicyService.getExactRule(action.getToStatus(), fromDepartment, moduleEnum, author ))
+                .filter(action -> approvalPolicyService.getExactRule(action.toStatus(), fromDepartment, moduleEnum, author ))
                 .distinct()
                 .toList();
 
         List<ActionResponse> actionResponseList = new ArrayList<>();
         for (WorkFlowTransitionInfoDto dto : filteredArr) {
-            ActionResponse actionResponse =  new ActionResponse( dto.getLabelName(),dto.getToStatus(), dto.getActionType());
+            ActionResponse actionResponse =  new ActionResponse( dto.labelName(),dto.toStatus(), dto.actionType());
             actionResponseList.add(actionResponse);
         }
         return actionResponseList;

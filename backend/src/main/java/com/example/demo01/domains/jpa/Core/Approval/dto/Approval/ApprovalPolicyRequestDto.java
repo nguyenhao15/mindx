@@ -23,6 +23,9 @@ public class ApprovalPolicyRequestDto {
     @NotNull(message = "Module is required")
     private ModuleEnum module;
 
+    @NotNull(message = "Workflow ID is required")
+    private Long workFlowId;
+
     @NotBlank(message = "Requester position is required")
     private String requesterPosition;
 
