@@ -23,7 +23,7 @@ const ApprovalPolicyForm = ({ afterSubmit }: ApprovalPolicyFormProps) => {
       module: '',
       targetStatus: '',
       allowType: '',
-      requesterPosition: '',
+      requesterPosition: '*',
       isActive: true,
     },
   });
@@ -43,8 +43,6 @@ const ApprovalPolicyForm = ({ afterSubmit }: ApprovalPolicyFormProps) => {
       console.error('Failed to create approval policy:', error);
     }
   };
-
-  console.log('Errors:', errors);
 
   return (
     <div className='bg-white p-5 max-w-screen w-xl rounded-2xl'>

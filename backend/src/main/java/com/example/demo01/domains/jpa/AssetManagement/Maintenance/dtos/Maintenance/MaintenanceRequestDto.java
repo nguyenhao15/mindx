@@ -34,7 +34,7 @@ public class MaintenanceRequestDto {
 
     private String assignedTo;
 
-    private MaintenancesStatus maintenancesStatus = MaintenancesStatus.WAITING;
+    private String maintenancesStatus = "WAITING";
 
     private String locationId;
 

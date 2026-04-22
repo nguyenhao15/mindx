@@ -17,6 +17,7 @@ import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +50,7 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
     public ApprovalPolicyInfoDto createApprovalPolicy(ApprovalPolicyRequestDto requestDto) {
         Long workFlowId = requestDto.getWorkFlowId();
         String requesterPosition = requestDto.getRequesterPosition();
-        if(Objects.isNull(requesterPosition)){
+        if(requesterPosition == null || requesterPosition.isBlank()) {
             requestDto.setRequesterPosition("*");
         }
         WorkFlowTransitionEntity workFlowTransitionEntity = workFlowTransitionService.getWorkFlowTransitionById(workFlowId);
@@ -83,19 +84,15 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
         CustomUserDetails currentUser = securityRepoUtil.getCurrentUserDetails();
         ApprovalPolicyEntity approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus, from, moduleEnum);
 
-        if (approvalPolicyEntity == null ) {
-            approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus,"*", moduleEnum);
-        }
-
         if (approvalPolicyEntity == null) {
-            return Objects.equals(from, "*");
+            return false;
         }
 
         AllowTypeEnum allowType = approvalPolicyEntity.getAllowType();
         String allowTypeValue = approvalPolicyEntity.getAllowValue();
 
-        switch (allowType) {
 
+        switch (allowType) {
             case DEPARTMENT -> {
                 String defaultDepartmentId = currentUser.getDepartmentId();
                 return defaultDepartmentId.contains(allowTypeValue);

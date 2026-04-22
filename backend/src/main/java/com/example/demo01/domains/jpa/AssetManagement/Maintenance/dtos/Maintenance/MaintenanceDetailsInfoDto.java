@@ -16,7 +16,7 @@ public record MaintenanceDetailsInfoDto(
 
         LocalDate issueDate,
 
-        MaintenancesStatus maintenancesStatus,
+        String maintenancesStatus,
 
         LocalDate completionAt,
 

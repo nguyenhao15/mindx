@@ -34,8 +34,10 @@ const PositionComponentOptionControl = ({
   placeholder,
   ...props
 }: PositionComponentOptionControlProps) => {
-  const { data, isLoading: isLoadingData } =
-    useGetPositionByDepartment(departmentId);
+  const { data, isLoading: isLoadingData } = useGetPositionByDepartment(
+    departmentId,
+    { enabled: !disabled },
+  );
 
   const positionOptions = useMemo(() => {
     if (!data) return [];

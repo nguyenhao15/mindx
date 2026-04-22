@@ -55,7 +55,7 @@ const ApprovalPolicyComponent = () => {
           onClick={handleOpenModal}
           variant='outline'
           size='sm'
-          className='ml-auto'
+          className='ml-auto cursor-pointer'
         >
           Thêm mới
         </Button>

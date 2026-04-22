@@ -44,9 +44,7 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
 
     private LocalDate issueDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "maintenances_status", length = 20)
-    private MaintenancesStatus maintenancesStatus = MaintenancesStatus.WAITING;
+    private String maintenancesStatus = "WAITING";
 
     @OneToMany(mappedBy = "maintenance", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MaintenancesProposals> maintenancesProposals = new ArrayList<>();

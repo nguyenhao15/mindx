@@ -14,7 +14,7 @@ public record MaintenanceSummaryDTO (
 
         LocalDate issueDate,
 
-        MaintenancesStatus maintenancesStatus,
+        String maintenancesStatus,
 
         MaintenanceCategoryNestInfo fixCategory,
 

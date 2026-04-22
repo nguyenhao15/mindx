@@ -48,7 +48,10 @@ export const useGetActivePositions = () => {
   });
 };
 
-export const useGetPositionByDepartment = (departmentId: string) => {
+export const useGetPositionByDepartment = (
+  departmentId: string,
+  options = {},
+) => {
   return useQuery({
     queryKey: ['positions', departmentId],
     queryFn: async () => {
@@ -56,6 +59,7 @@ export const useGetPositionByDepartment = (departmentId: string) => {
       return response;
     },
     enabled: !!departmentId,
+    ...options,
   });
 };
 

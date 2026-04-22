@@ -133,7 +133,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public List<ActionResponse> getAvailableActions(Long id) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
-        return approvalEngineUtil.getAvailableAction(maintenanceEntity.getMaintenancesStatus().toString(), "*", maintenanceEntity.getCreatedBy(), ModuleEnum.MAINTENANCE);
+        List<ActionResponse> actionResponseList = approvalEngineUtil.getAvailableAction(maintenanceEntity.getMaintenancesStatus(), "*", maintenanceEntity.getCreatedBy(), ModuleEnum.MAINTENANCE);
+        System.out.println("Action res: "+actionResponseList);
+        return actionResponseList;
     }
 
     @Override
@@ -181,14 +183,12 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         AuditUpdateRequest auditUpdateRequest = requestDto.getAuditUpdateRequest();
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         assert maintenanceRequestDto.getMaintenancesStatus() != null;
-        MaintenancesStatus status = maintenanceRequestDto.getMaintenancesStatus();
+        String status = maintenanceRequestDto.getMaintenancesStatus();
+        String currentStatus = maintenanceEntity.getMaintenancesStatus();
 
-        if (maintenanceEntity.getMaintenancesStatus() != status) {
-            if (!canTransition(maintenanceEntity.getMaintenancesStatus(), status)) {
+        if (!Objects.equals(currentStatus, status)) {
+            if (!approvalEngineUtil.canTransition(status,currentStatus, ModuleEnum.MAINTENANCE )) {
                 throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);
-            }
-            if (maintenanceEntity.getMaintenancesStatus().equals(MaintenancesStatus.FINISHED) && status.equals(MaintenancesStatus.WAITING)) {
-                maintenanceEntity.setReWork(true);
             }
         }
 
@@ -215,22 +215,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         maintenanceRepository.delete(maintenanceEntity);
         return "Deleted successfully";
-    }
-
-    private static final Map<MaintenancesStatus, List<MaintenancesStatus>> ALLOWED_TRANSITIONS = new EnumMap<>(MaintenancesStatus.class);
-
-    static {
-        ALLOWED_TRANSITIONS.put(MaintenancesStatus.WAITING, List.of(MaintenancesStatus.APPROVED, MaintenancesStatus.REJECTED ));
-        ALLOWED_TRANSITIONS.put(MaintenancesStatus.REJECTED, List.of(MaintenancesStatus.WAITING ));
-        ALLOWED_TRANSITIONS.put(MaintenancesStatus.APPROVED, List.of(MaintenancesStatus.REJECTED, MaintenancesStatus.CHECKED, MaintenancesStatus.PROCESSING, MaintenancesStatus.FINISHED ));
-        ALLOWED_TRANSITIONS.put(MaintenancesStatus.CHECKED, List.of(MaintenancesStatus.REJECTED, MaintenancesStatus.PROCESSING,  MaintenancesStatus.FINISHED ));
-        ALLOWED_TRANSITIONS.put(MaintenancesStatus.FINISHED, List.of(MaintenancesStatus.WAITING, MaintenancesStatus.COMPLETED ));
-        ALLOWED_TRANSITIONS.put(MaintenancesStatus.COMPLETED, List.of());
-    }
-
-    private boolean canTransition(MaintenancesStatus currentStatus, MaintenancesStatus targetStatus) {
-        if (currentStatus == null || targetStatus == null) return false;
-        return ALLOWED_TRANSITIONS.get(currentStatus).contains(targetStatus);
     }
 
 }
