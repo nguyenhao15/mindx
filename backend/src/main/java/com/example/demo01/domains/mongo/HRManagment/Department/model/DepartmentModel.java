@@ -2,6 +2,8 @@ package com.example.demo01.domains.mongo.HRManagment.Department.model;
 
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.WorkingField.WorkingFieldDto;
 import com.example.demo01.utils.BaseEntity.Mongo.BaseAuditModel;
+import com.example.demo01.utils.ScopeView;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,6 +37,8 @@ public class DepartmentModel extends BaseAuditModel {
     private Boolean isSecurity;
 
     private Boolean active;
+
+    private ScopeView scopeView;
 
     private List<WorkingFieldDto> workingFields;
 

@@ -73,7 +73,7 @@ public class CustomUserDetails implements UserDetails {
 
     public ScopeView getFinalScope(ModuleEnum moduleCode) {
         if (scopeExceptions.containsKey(moduleCode)) return scopeExceptions.get(moduleCode);
-        return ScopeView.SELF;
+        return null;
     }
 
     public StaffProfileInfoDto getDefaultProfile() {
@@ -92,6 +92,13 @@ public class CustomUserDetails implements UserDetails {
             return null;
         }
         return this.allowLocationIds;
+    }
+
+    public List<String> getAllDepartmentIds() {
+        return allProfiles.values().stream()
+                .map(StaffProfileInfoDto::departmentId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     @Override

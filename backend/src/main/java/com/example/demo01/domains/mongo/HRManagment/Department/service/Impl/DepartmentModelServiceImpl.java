@@ -1,7 +1,7 @@
 package com.example.demo01.domains.mongo.HRManagment.Department.service.Impl;
 
-import com.example.demo01.configs.SecureUtil.SecurityRepoUtilImpl;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
+import com.example.demo01.core.Security.utils.SecurityUtil;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Department.DepartmentInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Department.DepartmentRequest;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.WorkingField.WorkingFieldDto;
@@ -30,13 +30,11 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
 
     private final DepartmentMapper departmentMapper;
 
-    private final AppUtil  appUtil;
-
     private final DynamicQueryCriteria dynamicQueryCriteria;
 
     private final WorkingFieldService workingFieldService;
 
-    private final SecurityRepoUtilImpl securityRepoUtil;
+    private final SecurityUtil securityUtil;
 
     @Override
     public DepartmentModel createDepartment(DepartmentRequest request) {
@@ -68,11 +66,14 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
 
     @Override
     public BasePageResponse<DepartmentInfoDto> getInterfaceDepartmentList(FilterWithPagination filter) {
+
+
         PageInput  pageInput = filter.getPagination();
         List<Criteria> criteria = new ArrayList<>();
+
         Criteria userCriteria = new Criteria().orOperator(
                 Criteria.where("isSecurity").is(false),
-                Criteria.where("departmentCode").in(securityRepoUtil.getCurrentDepartmentIds())
+                Criteria.where("departmentCode").in(securityUtil.getCurrentUserDetails().getAllDepartmentIds())
         );
         criteria.add(Criteria.where("active").is(true));
         criteria.add(userCriteria);
@@ -98,7 +99,7 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
 
     @Override
     public DepartmentModel getCurrentWorkingDepartment() {
-        String departmentIds = securityRepoUtil.getCurrentDepartmentIds();
+        String departmentIds = securityUtil.getCurrentUserDetails().getActiveProfile().departmentId();
         return departmentModelRepository.findByDepartmentCode(departmentIds);
     }
 
@@ -120,7 +121,7 @@ public class DepartmentModelServiceImpl implements DepartmentModelService {
 
     @Override
     public List<DepartmentModel> getCanAccessDepartments() {
-        Boolean isGlobal = securityRepoUtil.isCurrentUserGlobalAdmin();
+        Boolean isGlobal = securityUtil.getCurrentUserDetails().isGlobalAdmin();
         if (isGlobal) {
             return getActiveDepartments();
         } else {

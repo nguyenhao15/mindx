@@ -2,9 +2,6 @@ package com.example.demo01.domains.mongo.HRManagment.HumanResource.service;
 
 import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
-import com.example.demo01.domains.mongo.HRManagment.Department.model.DepartmentModel;
-import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
-import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.mapper.StaffProfileMapper;
@@ -15,16 +12,18 @@ import com.example.demo01.utils.FilterRequest;
 import com.example.demo01.utils.FilterWithPagination;
 import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.core.pagination.sync.PaginatedResponsesIterator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class StaffProfileServiceImpl implements StaffProfileService {
@@ -37,6 +36,10 @@ public class StaffProfileServiceImpl implements StaffProfileService {
 
     @Autowired
     private DynamicQueryCriteria dynamicQueryCriteria;
+
+    @Autowired
+    private CacheManager cacheManager;
+
 
     @Override
     public StaffProfileInfoDto createNewStaffProfile(StaffProfileRequestDto requestDto) {
@@ -66,6 +69,7 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     }
 
     @Override
+    @Cacheable(value = CacheConstants.STAFF_PROFILE, key = "#staffId")
     public List<StaffProfileInfoDto> getActiveStaffProfile(String staffId) {
         List<StaffProfileModels>  staffProfileInfoDtos = staffProfileRepository.getByStaffIdAndActive(staffId,true);
         return staffProfileMapper.fromEntitiesFromInFoDto(staffProfileInfoDtos);
@@ -78,7 +82,6 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     }
 
     @Override
-    @Cacheable(value = CacheConstants.STAFF_PROFILE, key = "#id")
     public StaffProfileInfoDto getStaffProfileInfoById(String id) {
         StaffProfileModels staffProfileModels = getStaffProfileById(id);
         return staffProfileMapper.fromEntityToDto(staffProfileModels);
@@ -98,6 +101,14 @@ public class StaffProfileServiceImpl implements StaffProfileService {
         }
         staffProfileMapper.updateModelFromRequestDto(requestDto, staffProfileModels);
         StaffProfileModels result = staffProfileRepository.save(staffProfileModels);
+        Cache profileCache = cacheManager.getCache(CacheConstants.STAFF_PROFILE);
+        Cache userDetailsCache = cacheManager.getCache(CacheConstants.USER_SECURITY_CACHE);
+        if (userDetailsCache != null) {
+            userDetailsCache.evict(requestDto.getStaffId());
+        }
+        if (profileCache != null) {
+            profileCache.evict(id);
+        }
         return staffProfileMapper.fromEntityToDto(result);
     }
 

@@ -1,6 +1,6 @@
 package com.example.demo01.repository.mongo.MiniCrmRepository.RentingRepository.Impl;
 
-import com.example.demo01.configs.SecureUtil.SecurityRepoUtilImpl;
+import com.example.demo01.core.Security.utils.SecureUtilMethod.SecurityRepoUtilImpl;
 import com.example.demo01.domains.mongo.MiniCrm.Renting.model.RentingRecord;
 import com.example.demo01.repository.mongo.MiniCrmRepository.RentingRepository.RentingCustomRepo;
 import lombok.RequiredArgsConstructor;

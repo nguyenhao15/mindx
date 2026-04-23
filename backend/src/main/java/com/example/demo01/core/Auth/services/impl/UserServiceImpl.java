@@ -1,16 +1,15 @@
 package com.example.demo01.core.Auth.services.impl;
 
 import com.example.demo01.configs.Constants.CacheConstants;
-import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Auth.dtos.UserDTO;
 import com.example.demo01.core.Auth.dtos.UserSummaryDto;
 import com.example.demo01.core.Auth.mapper.UserMapper;
 import com.example.demo01.core.Auth.models.Session;
 import com.example.demo01.core.Auth.models.User;
+import com.example.demo01.core.Security.utils.SecurityUtil;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Department.DepartmentInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.Position.PositionDto;
-import com.example.demo01.domains.mongo.HRManagment.Department.model.PositionModel;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
@@ -70,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     private final DynamicQueryCriteria  dynamicQueryCriteria;
 
-    private final SecurityRepoUtil securityRepoUtil;
+    private final SecurityUtil securityUtil;
 
     private final HttpServletRequest request;
 
@@ -184,7 +183,7 @@ public class UserServiceImpl implements UserService {
 
         setRefreshTokenInCookie(refreshTokenSession.getRefreshToken(), refreshTokenExpirationMs);
 
-        CustomUserDetails customUserDetails = securityRepoUtil.getCurrentUserDetails();
+        CustomUserDetails customUserDetails = securityUtil.getCurrentUserDetails();
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setAccessToken(accessToken);
@@ -317,7 +316,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updatePassword(String oldPassword, String newPassword) {
-        String staffId = securityRepoUtil.getCurrentUserId();
+        String staffId = securityUtil.getCurrentUserDetails().getStaffId();
         User user = getUserByStaffId(staffId);
         boolean isValidPassword = encoder.matches(oldPassword, user.getPassword());
         if (!isValidPassword) {
@@ -341,7 +340,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO activateUser(String updatePassword) {
         String encodedPassword = encoder.encode(updatePassword);
-        String staffId = securityRepoUtil.getCurrentUserId();
+        String staffId = securityUtil.getCurrentUserDetails().getStaffId();
         User user = getUserByStaffId(staffId);
 
         user.setPassword(encodedPassword);

@@ -1,6 +1,7 @@
 package com.example.demo01.domains.mongo.HRManagment.Department.dto.Department;
 
 import com.example.demo01.domains.mongo.HRManagment.Department.dto.WorkingField.WorkingFieldDto;
+import com.example.demo01.utils.ScopeView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,8 @@ public class DepartmentRequest {
     private String description;
 
     private Boolean isSecurity;
+
+    private ScopeView scopeView;
 
     private List<WorkingFieldDto> workingFields;
 

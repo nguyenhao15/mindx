@@ -1,7 +1,7 @@
 package com.example.demo01.core.AuditUpdate.service;
 
 import com.example.demo01.configs.Constants.CacheConstants;
-import com.example.demo01.configs.SecureUtil.SecurityRepoUtilImpl;
+import com.example.demo01.core.Security.utils.SecureUtilMethod.SecurityRepoUtilImpl;
 import com.example.demo01.core.AuditUpdate.Dto.AuditUpdateDto;
 import com.example.demo01.core.AuditUpdate.model.AuditItem;
 import com.example.demo01.repository.mongo.CoreRepo.AuditRepository.AuditItemRepository;

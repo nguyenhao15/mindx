@@ -1,5 +1,6 @@
 package com.example.demo01.domains.mongo.HRManagment.Department.dto.Position;
 
+import com.example.demo01.utils.ScopeView;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,8 @@ public class PositionRequest {
     private String description;
 
     private int positionLevel;
+
+    private ScopeView scopeView;
 
     private Boolean active;
 

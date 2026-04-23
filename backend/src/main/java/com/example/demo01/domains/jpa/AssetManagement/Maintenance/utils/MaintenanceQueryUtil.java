@@ -1,12 +1,11 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.utils;
 
-import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
-import com.example.demo01.core.Auth.dtos.WorkProfile;
+import com.example.demo01.core.Security.utils.SecureUtilMethod.SecurityRepoUtil;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.utils.FilterWithPagination;
 import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
-import com.example.demo01.utils.Query.PostgreSQL.StaticSpecs;
+import com.example.demo01.utils.Query.PostgreSQL.Specification.BuildStaticSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,7 @@ public class MaintenanceQueryUtil {
     private SecurityRepoUtil securityRepoUtil;
 
     @Autowired
-    private StaticSpecs staticSpecs;
+    private BuildStaticSpecs staticSpecs;
 
     @Autowired
     private DynamicSpecificationBuilder<MaintenanceEntity> dynamicSpecificationBuilder;
@@ -32,8 +31,11 @@ public class MaintenanceQueryUtil {
         String userId = securityRepoUtil.getCurrentUserId();
 
         Map<String, Specification<MaintenanceEntity>> specification = new HashMap<>();
+
         Specification<MaintenanceEntity> allow = staticSpecs.validLocation("locationId");
+
         Specification<MaintenanceEntity> isNotDelete = staticSpecs.isNotDeleted("isDeleted");
+
         Specification<MaintenanceEntity> isAssign = (root, query, criteriaBuilder) -> {
             if (isGlobalAdmin || !mainWorkProfile.positionId().equals("TECHNICAL_STAFF")  ) {
                 return criteriaBuilder.conjunction();

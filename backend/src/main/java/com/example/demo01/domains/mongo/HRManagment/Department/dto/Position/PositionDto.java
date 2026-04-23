@@ -1,5 +1,6 @@
 package com.example.demo01.domains.mongo.HRManagment.Department.dto.Position;
 
+import com.example.demo01.utils.ScopeView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class PositionDto {
     private String description;
     private String departmentCode;
 
+    private ScopeView scopeView;
 
     private int positionLevel;
 

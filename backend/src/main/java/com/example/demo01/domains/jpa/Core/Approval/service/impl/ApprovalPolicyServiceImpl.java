@@ -1,8 +1,8 @@
 package com.example.demo01.domains.jpa.Core.Approval.service.impl;
 
-import com.example.demo01.configs.SecureUtil.SecurityRepoUtil;
 import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
+import com.example.demo01.core.Security.utils.SecurityUtil;
 import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyInfoDto;
 import com.example.demo01.domains.jpa.Core.Approval.dto.Approval.ApprovalPolicyRequestDto;
 import com.example.demo01.domains.jpa.Core.Approval.entities.AllowTypeEnum;
@@ -17,7 +17,6 @@ import com.example.demo01.utils.Query.PostgreSQL.DynamicSpecificationBuilder;
 import com.example.demo01.utils.Query.PostgreSQL.PostgreSQLPageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
     private ApprovalPolicyMapper approvalPolicyMapper;
 
     @Autowired
-    private SecurityRepoUtil securityRepoUtil;
+    private SecurityUtil securityUtil;
 
     @Autowired
     private DynamicSpecificationBuilder<ApprovalPolicyEntity> dynamicSpecificationBuilder;
@@ -81,7 +80,7 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
 
     @Override
     public Boolean getExactRule(String targetStatus, String from, ModuleEnum moduleEnum, String author) {
-        CustomUserDetails currentUser = securityRepoUtil.getCurrentUserDetails();
+        CustomUserDetails currentUser = securityUtil.getCurrentUserDetails();
         ApprovalPolicyEntity approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus, from, moduleEnum);
 
         if (approvalPolicyEntity == null) {
@@ -98,11 +97,11 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
 
         switch (allowType) {
             case DEPARTMENT -> {
-                String defaultDepartmentId = securityRepoUtil.getCurrentDepartmentIds();
+                String defaultDepartmentId = securityUtil.getCurrentUserDetails().getActiveProfile().departmentId();
                 return defaultDepartmentId.contains(allowTypeValue);
             }
             case POSITION -> {
-                String position = securityRepoUtil.getCurrentPositionIds();
+                String position = securityUtil.getCurrentUserDetails().getActiveProfile().positionId();
                 return position.contains(allowTypeValue);
             }
             case AUTHOR -> {
