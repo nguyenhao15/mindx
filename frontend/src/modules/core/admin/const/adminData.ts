@@ -10,13 +10,18 @@ export const MENU_ITEMS = [
     icon: 'User',
   },
   {
+    label: 'Human Resource',
+    path: '/admin/human-resource',
+    icon: 'Users',
+  },
+  {
     label: 'Documents',
     path: '/admin/departments',
     icon: 'File',
   },
   {
     label: 'Workflow',
-    path: '/admin/workflow',
-    icon: 'Truck',
+    path: '/admin/workflows',
+    icon: 'Workflow',
   },
 ];

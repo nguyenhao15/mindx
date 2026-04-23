@@ -50,14 +50,9 @@ export const useAddUser = (options = {}) => {
       const response = await addUser(userData);
       return response;
     },
-    onSuccess: (data) => {
-      queryClient.setQueryData(['admin', 'users'], (oldData: any) => {
-        if (!oldData) return { content: [data], totalElements: 1 };
-        return {
-          ...oldData,
-          content: [data, ...oldData.content],
-          totalElements: oldData.totalElements + 1,
-        };
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['admin', 'users'],
       });
     },
     ...options,
@@ -83,8 +78,10 @@ export const useLockUser = (staffId: string, options = {}) => {
       const response = await lockUser(staffId, locked);
       return response;
     },
-    onSuccess: (data) => {
-      queryClient.setQueryData(['admin', 'user', staffId], data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['admin', 'user', staffId],
+      });
       queryClient.invalidateQueries({
         queryKey: ['admin'],
       });

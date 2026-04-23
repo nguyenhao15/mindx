@@ -2,6 +2,7 @@ package com.example.demo01.domains.mongo.HRManagment.HumanResource.service;
 
 import com.example.demo01.configs.Constants.CacheConstants;
 import com.example.demo01.core.Exceptions.ResourceNotFoundException;
+import com.example.demo01.domains.mongo.HRManagment.Department.model.DepartmentModel;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.DepartmentModelService;
 import com.example.demo01.domains.mongo.HRManagment.Department.service.PositionModelService;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
@@ -10,9 +11,14 @@ import com.example.demo01.domains.mongo.HRManagment.HumanResource.mapper.StaffPr
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.model.StaffProfileModels;
 import com.example.demo01.repository.mongo.HRManagement.StaffProfileRepository.StaffProfileRepository;
 import com.example.demo01.utils.BasePageResponse;
+import com.example.demo01.utils.FilterRequest;
 import com.example.demo01.utils.FilterWithPagination;
+import com.example.demo01.utils.Query.Mongo.DynamicQueryCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.pagination.sync.PaginatedResponsesIterator;
@@ -28,6 +34,9 @@ public class StaffProfileServiceImpl implements StaffProfileService {
 
     @Autowired
     private StaffProfileMapper staffProfileMapper;
+
+    @Autowired
+    private DynamicQueryCriteria dynamicQueryCriteria;
 
     @Override
     public StaffProfileInfoDto createNewStaffProfile(StaffProfileRequestDto requestDto) {
@@ -93,9 +102,26 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     }
 
     @Override
-    @PreAuthorize("hashRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public BasePageResponse<StaffProfileInfoDto> getStaffInfoList(FilterWithPagination filterWithPagination) {
-        return null;
+        List<FilterRequest> filters = filterWithPagination.getFilters();
+        List<Criteria> criteria = new ArrayList<>();
+        Page<StaffProfileModels> staffProfileModelsPage = dynamicQueryCriteria.buildPageResponse(filters, criteria, filterWithPagination.getPagination(), StaffProfileModels.class);
+        return buildPageResponse(staffProfileModelsPage);
+    }
+
+    @Override
+    public BasePageResponse<StaffProfileInfoDto> buildPageResponse(Page<StaffProfileModels> page) {
+        List<StaffProfileInfoDto> content = staffProfileMapper.fromEntitiesFromInFoDto(page.getContent());
+        Pageable pageable = page.getPageable();
+        return new BasePageResponse<>(
+                content,
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                page.isLast()
+        );
     }
 
     @Override

@@ -3,9 +3,11 @@ import RadioInputField from '@/components/shared/RadioInputField';
 import { Controller, useFormContext } from 'react-hook-form';
 
 const SystemPermission = ({
+  isLoading,
   register,
   errors,
 }: {
+  isLoading?: boolean;
   register: any;
   errors: any;
 }) => {
@@ -26,6 +28,7 @@ const SystemPermission = ({
         render={({ field: { onChange, value, ...rest } }) => (
           <RadioInputField
             required
+            disabled={isLoading}
             label='Quyền hệ thống'
             value={value}
             {...rest}

@@ -3,6 +3,7 @@ package com.example.demo01.domains.mongo.HRManagment.HumanResource.controller;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileRequestDto;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.service.StaffProfileService;
+import com.example.demo01.utils.FilterWithPagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,11 @@ public class StaffProfileController {
     public ResponseEntity<?> getStaffProfileByDepartmentId(@PathVariable String departmentId) {
         List<StaffProfileInfoDto> staffProfileInfoDtos = staffProfileService.getStaffProfileByDepartmentId(departmentId);
         return ResponseEntity.ok(staffProfileInfoDtos);
+    }
+
+    @PostMapping("/get/page")
+    public ResponseEntity<?> getStaffProfileWithPagination(@RequestBody FilterWithPagination filter) {
+        return ResponseEntity.ok(staffProfileService.getStaffInfoList(filter));
     }
 
     @PutMapping("/update/{id}")

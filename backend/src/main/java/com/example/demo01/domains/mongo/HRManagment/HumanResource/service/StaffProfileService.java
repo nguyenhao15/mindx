@@ -5,6 +5,7 @@ import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfi
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.model.StaffProfileModels;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public interface StaffProfileService {
     StaffProfileInfoDto updateStaffProfileInfoById(String id, StaffProfileRequestDto requestDto);
 
     BasePageResponse<StaffProfileInfoDto> getStaffInfoList(FilterWithPagination filterWithPagination);
+
+    BasePageResponse<StaffProfileInfoDto> buildPageResponse(Page<StaffProfileModels> page);
 
     void validateDefaultStaffProfile(String staffId);
 

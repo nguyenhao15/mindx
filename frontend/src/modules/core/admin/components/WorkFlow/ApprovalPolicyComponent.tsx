@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useGetApprovalPolicyPage } from '../../hooks/useApprovalPolicy';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
-import ApprovalPolicyGallery from './ApprovalPolicyGallery';
+
 import ModalComponent from '@/components/shared/ModalComponent';
-import { Button } from '@/components/ui/button';
+
 import ApprovalPolicyForm from './Form/ApprovalPolicyForm';
+import Status from '@/components/shared/Status';
+import { safeString, toArray } from '@/utils/formatValue';
+import UseAdminLayout from '../content/UseAdminLayout';
+import { Shield } from 'lucide-react';
+import type { Column } from '@/components/shared/DataTable';
 
 const ApprovalPolicyComponent = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -38,6 +43,50 @@ const ApprovalPolicyComponent = () => {
     }));
   };
 
+  const rows = useMemo(() => {
+    const source = toArray(data);
+    return source.map((item) => {
+      const record = item as Record<string, unknown>;
+
+      const requesterHandleValue = safeString(record.requesterPosition);
+      const applyPositions =
+        requesterHandleValue.length > 1
+          ? requesterHandleValue
+          : 'Áp dụng cho tất cả vị trí';
+
+      return {
+        id: safeString(record.id),
+        module: safeString(record.module),
+        labelName: safeString(record.targetStatus),
+        fromStatus: safeString(record.allowType),
+        applyPositions: applyPositions,
+        activeStatus: record.isActive ? 'Active' : 'Inactive',
+        targetStatus: safeString(record.targetStatus),
+        ...record,
+      };
+    });
+  }, [data]);
+
+  const columns: Column<any>[] = [
+    {
+      key: 'module',
+      label: 'Module',
+    },
+    {
+      key: 'targetStatus',
+      label: 'Target Status',
+    },
+    {
+      key: 'applyPositions',
+      label: 'Apply Positions',
+    },
+    {
+      key: 'activeStatus',
+      label: 'Status',
+      render: (item) => <Status status={item.activeStatus} />,
+    },
+  ];
+
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -50,21 +99,18 @@ const ApprovalPolicyComponent = () => {
 
   return (
     <div>
-      <div className='flex justify-between items-center'>
-        <Button
-          onClick={handleOpenModal}
-          variant='outline'
-          size='sm'
-          className='ml-auto cursor-pointer'
-        >
-          Thêm mới
-        </Button>
-      </div>
-      <ApprovalPolicyGallery
+      <UseAdminLayout
+        moduleTitle='Approval Policy'
+        moduleDescription='Quản lý các chính sách phê duyệt cho các module khác nhau trong hệ thống.'
+        columns={columns}
+        rows={rows}
+        ctaLabel='Thêm mới'
+        handlePageChange={handlePageChange}
+        pagination={rest.pagination as Record<string, unknown>}
         isLoading={isLoading}
-        data={content || []}
-        pagination={rest}
-        onPageChange={handlePageChange}
+        onCtaClick={handleOpenModal}
+        ModuleIcon={Shield}
+        handleEdit={handleOpenModal}
       />
       <ModalComponent open={openModal} onClose={handleCloseModal}>
         <ApprovalPolicyForm afterSubmit={handleCloseModal} />

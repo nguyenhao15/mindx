@@ -32,7 +32,7 @@ const TableView = ({
   return (
     <div className='m-2 animate-in fade-in duration-300'>
       <ActionHeader
-        title='User Management'
+        title='Danh sách'
         searchPlaceholder='Search users...'
         ctaLabel={ctaLabel}
         onSearch={onSearchAction}
@@ -42,8 +42,8 @@ const TableView = ({
         <Loader text='Đang tải dữ liệu' />
       ) : rows.length === 0 ? (
         <EmptyState
-          title='No Users Found'
-          description='No users match your keyword. Try another search to continue.'
+          title={'No items found'}
+          description='No items match your keyword. Try another search to continue.'
           icon={ModuleIcon}
         />
       ) : (

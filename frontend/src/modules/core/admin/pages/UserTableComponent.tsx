@@ -146,7 +146,7 @@ export function UserTableComponent({}) {
       />
       <ModalComponent open={isModalOpen} onClose={handleCloseModal}>
         {!selectedUser ? (
-          <CreateUserComponent />
+          <CreateUserComponent afterSubmit={handleCloseModal} />
         ) : (
           <UpdateUserComponent staffId={selectedUser.staffId} />
         )}

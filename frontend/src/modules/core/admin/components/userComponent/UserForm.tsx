@@ -12,13 +12,15 @@ interface UserFormProps {
   updateMode?: boolean;
   initialUser: UserManagementDTO | null;
   error?: any;
+  isLoading?: boolean;
 }
 
 const UserForm = ({
   updateMode = false,
   initialUser,
   error,
-}: UserFormProps) => {
+  isLoading = false,
+}: UserFormProps & { isLoading?: boolean }) => {
   const {
     register,
     formState: { errors },
@@ -53,9 +55,19 @@ const UserForm = ({
           <ErrorCatchComponent error={error} />
 
           <div className='space-y-6'>
-            <UserCredential register={register} errors={errors} />
-            <SystemPermission register={register} errors={errors} />
-            {!updateMode && <JobAssignmentCard control={control} />}
+            <UserCredential
+              isLoading={isLoading}
+              register={register}
+              errors={errors}
+            />
+            <SystemPermission
+              isLoading={isLoading}
+              register={register}
+              errors={errors}
+            />
+            {!updateMode && (
+              <JobAssignmentCard isLoading={isLoading} control={control} />
+            )}
             {updateMode && (
               <>
                 <UserAccountStatus />

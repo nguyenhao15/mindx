@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { MENU_ITEMS } from '../const/adminData';
 import {
   ChevronRight,
-  Cog,
   File,
   Flower,
   Home,
   LayoutDashboard,
   User,
+  Users,
+  Workflow,
   Wrench,
   type LucideIcon,
 } from 'lucide-react';
@@ -21,7 +21,8 @@ const ICON_MAP: Record<string, LucideIcon> = {
   User,
   Home,
   Flower,
-  Cog,
+  Users,
+  Workflow,
 };
 
 const AdminNavBar = () => {

@@ -1,12 +1,26 @@
 import TextInputField from '@/components/input-elements/TextInputField';
+import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 const UserCredential = ({
+  isLoading = false,
   register,
   errors,
 }: {
+  isLoading?: boolean;
   register: any;
   errors: any;
 }) => {
+  const { watch, setValue } = useFormContext();
+
+  const staffId = watch('staffId');
+
+  useEffect(() => {
+    if (staffId) {
+      setValue('userId', staffId);
+    }
+  }, [staffId]);
+
   return (
     <div className='space-y-4'>
       <div>
@@ -21,6 +35,7 @@ const UserCredential = ({
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
           <TextInputField
             id='staffId'
+            isLoading={isLoading}
             type='text'
             label='Mã nhân viên'
             required
@@ -30,6 +45,7 @@ const UserCredential = ({
           />
           <TextInputField
             id='fullName'
+            isLoading={isLoading}
             type='text'
             label='Họ và tên'
             required
@@ -39,6 +55,7 @@ const UserCredential = ({
           />
           <TextInputField
             id='email'
+            isLoading={isLoading}
             type='email'
             label='Email'
             required

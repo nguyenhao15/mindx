@@ -9,6 +9,7 @@ import com.example.demo01.domains.mongo.HRManagment.HumanResource.service.StaffP
 import com.example.demo01.repository.mongo.CoreRepo.AuthRepositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 if (activeProfileId != null && !activeProfileId.isEmpty()) {
                     activeProfileInfo = staffProfileService.getStaffProfileInfoById(activeProfileId);
                 }
+
 
                 CustomUserDetails contextualUserDetails = new CustomUserDetails(user, activeProfileInfo);
                 UsernamePasswordAuthenticationToken authentication =

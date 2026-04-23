@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { WorkProfileType } from '../../auth/schemas/userSchema';
 import {
+  getPaginationStaffProfiles,
   getStaffProfileByDepartmentAction,
   updateStaffProfileAction,
 } from '../queries/hrActions';
+import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const useUpdateStaffProfile = (staffId: string) => {
   const queryClient = useQueryClient();
@@ -23,5 +25,17 @@ export const useGetStaffProfileByDepartment = (departmentId: string) => {
     queryKey: ['hr', 'staffProfile', departmentId],
     queryFn: () => getStaffProfileByDepartmentAction(departmentId),
     enabled: !!departmentId,
+  });
+};
+
+export const useGetPaginationStaffProfiles = (
+  payload: FilterWithPaginationInput,
+  options = {},
+) => {
+  return useQuery({
+    queryKey: ['hr', 'staffProfiles', payload],
+    queryFn: () => getPaginationStaffProfiles(payload),
+    enabled: !!payload,
+    ...options,
   });
 };

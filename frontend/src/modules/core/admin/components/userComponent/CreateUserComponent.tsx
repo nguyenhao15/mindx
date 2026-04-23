@@ -3,24 +3,19 @@ import {
   WorkProfileCreate,
 } from '@/modules/core/auth/schemas/userSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import UserForm from './UserForm';
 import { useAddUser } from '../../hooks/useAdminHook';
 import toast from 'react-hot-toast';
 import { Button } from '@/components/ui/button';
 
-const CreateUserComponent = () => {
+const CreateUserComponent = ({ afterSubmit }: { afterSubmit: () => void }) => {
   const methods = useForm({
     mode: 'onBlur',
     resolver: zodResolver(userCreateSchema),
   });
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = methods;
+  const { handleSubmit, reset } = methods;
 
   const { mutateAsync: createUser, isPending, isError, error } = useAddUser();
 
@@ -32,7 +27,9 @@ const CreateUserComponent = () => {
     };
     try {
       await createUser(payload);
+      reset();
       toast.success('User created successfully');
+      afterSubmit();
     } catch (error) {
       console.error('Error saving user:', error);
       toast.error('Failed to save user');
@@ -46,12 +43,16 @@ const CreateUserComponent = () => {
           onSubmit={handleSubmit(onSubmit)}
           className=' bg-white p-6 rounded-lg shadow-md'
         >
-          <UserForm updateMode={false} initialUser={null} />
+          <UserForm
+            isLoading={isPending}
+            updateMode={false}
+            initialUser={null}
+          />
           <div className='sticky bottom-0 bg-white p-2 m-2 items-center justify-end w-full flex gap-2 border-t border-gray-200'>
             <Button
+              disabled={isPending}
               variant='positive'
-              onClick={() => window.history.back()}
-              className='mb-4'
+              className='mb-4 cursor-pointer'
             >
               Tạo người dùng mới
             </Button>

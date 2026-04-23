@@ -1,20 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import { useGetWorkflowPage } from '../../hooks/useWorkFlowHook';
 import type {
   FilterInput,
   FilterWithPaginationInput,
 } from '@/validations/filterWithPagination';
-import FilterComponent from './FilterComponent';
-import { FILTER_CONFIGS } from './data/data';
-import ModalComponent from '@/components/shared/ModalComponent';
-import WorkFlowForm from './Form/WorkFlowForm';
-import { Workflow } from 'lucide-react';
-import UseAdminLayout from '../content/UseAdminLayout';
+import React, { use, useMemo, useState } from 'react';
+import { useGetPaginationStaffProfiles } from '../../humanResource/hooks/useStaffProfileHook';
 import { safeString, toArray } from '@/utils/formatValue';
 import type { Column } from '@/components/shared/DataTable';
 import Status from '@/components/shared/Status';
+import UseAdminLayout from '../components/content/UseAdminLayout';
+import { Shield } from 'lucide-react';
 
-const WorkflowComponent = () => {
+const HumanResourcePage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [filterWithPagination, setFilterWithPagination] =
     useState<FilterWithPaginationInput>({
@@ -22,20 +18,12 @@ const WorkflowComponent = () => {
       pagination: {
         page: 0,
         size: 12,
-        sorts: [
-          {
-            property: 'module',
-            direction: 'ASC',
-          },
-          {
-            property: 'fromStatus',
-            direction: 'ASC',
-          },
-        ],
+        sorts: [],
       },
     });
 
-  const { data, isLoading } = useGetWorkflowPage(filterWithPagination);
+  const { data, isLoading } =
+    useGetPaginationStaffProfiles(filterWithPagination);
 
   const handleUpdateFilter = (value: FilterInput[]) => {
     setFilterWithPagination((prev: any) => {
@@ -74,11 +62,11 @@ const WorkflowComponent = () => {
 
       return {
         id: safeString(record.id),
-        module: safeString(record.module),
-        labelName: safeString(record.labelName),
-        fromStatus: safeString(record.fromStatus),
+        staffId: safeString(record.staffId),
+        deprtName: safeString(record.departmentName),
+        posName: safeString(record.positionName),
         toStatus: safeString(record.toStatus),
-        activeStatus: record.enabled ? 'Active' : 'Inactive',
+        activeStatus: record.active ? 'Active' : 'Inactive',
         enabled: record.enabled,
         ...record,
       };
@@ -87,21 +75,18 @@ const WorkflowComponent = () => {
 
   const columns: Column<any>[] = [
     {
-      key: 'labelName',
-      label: 'Label',
+      key: 'staffId',
+      label: 'Mã nhân viên',
     },
     {
-      key: 'module',
-      label: 'Module',
+      key: 'deprtName',
+      label: 'Department Name',
     },
     {
-      key: 'fromStatus',
-      label: 'From Status',
+      key: 'posName',
+      label: 'Position Name',
     },
-    {
-      key: 'toStatus',
-      label: 'To Status',
-    },
+
     {
       key: 'activeStatus',
       label: 'Status',
@@ -111,15 +96,15 @@ const WorkflowComponent = () => {
 
   return (
     <div className='flex flex-col gap-2 '>
-      <div className='flex gap-4'>
+      {/* <div className='flex gap-4'>
         <FilterComponent
           configs={FILTER_CONFIGS}
           onFilterChange={handleUpdateFilter}
         />
-      </div>
+      </div> */}
       <UseAdminLayout
-        moduleTitle='Workflow'
-        moduleDescription='Quản lý quy trình phê duyệt'
+        moduleTitle='Human Resource'
+        moduleDescription='Quản lý nhân sự'
         isLoading={isLoading}
         rows={rows}
         columns={columns}
@@ -127,17 +112,13 @@ const WorkflowComponent = () => {
         pagination={rest}
         onCtaClick={handleOpenModal}
         handleEdit={handleOpenModal}
-        ModuleIcon={Workflow}
+        ModuleIcon={Shield}
         ctaLabel='Thêm mới'
         // openAddNewModal={openModal}
         // onCloseAddNewModal={handleCloseModal}
       />
-      <ModalComponent open={openModal} onClose={handleCloseModal}>
-        {/* Nội dung modal */}
-        <WorkFlowForm afterSubmit={handleCloseModal} />
-      </ModalComponent>
     </div>
   );
 };
 
-export default WorkflowComponent;
+export default HumanResourcePage;
