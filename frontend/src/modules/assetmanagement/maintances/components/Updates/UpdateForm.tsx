@@ -41,7 +41,7 @@ const UpdateForm = ({
             {...field}
             disabled={isLoading}
             label='Ngày kiểm tra'
-            errors={errors.inspection_at}
+            errors={errors.inspectAt?.message}
           />
         )}
       />

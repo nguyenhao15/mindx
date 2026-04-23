@@ -2,20 +2,21 @@ package com.example.demo01.core.Auth.dtos;
 
 import com.example.demo01.core.Auth.models.User;
 import com.example.demo01.domains.mongo.HRManagment.HumanResource.dto.StaffProfileInfoDto;
+import com.example.demo01.utils.ModuleEnum;
+import com.example.demo01.utils.ScopeView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
     private String _id;
@@ -31,15 +32,14 @@ public class CustomUserDetails implements UserDetails {
     private String staffId;
     private String systemRole;
 
-    private String profileId;
-    private String position;
-    private String positionTitle;
-    private String departmentId;
-    private String departmentTitle;
-    private int PositionLevel;
+    private Map<String, StaffProfileInfoDto> allProfiles = new HashMap<>();
+
+    private Map<ModuleEnum, ScopeView> scopeExceptions = new HashMap<>();
+
     private List<String> allowLocationIds;
 
-    public CustomUserDetails(User user,@Nullable StaffProfileInfoDto staffProfileInfoDto) {
+    private transient StaffProfileInfoDto activeProfile;
+    public CustomUserDetails(User user,@Nullable List<StaffProfileInfoDto> staffProfileInfoDto, Map<ModuleEnum, ScopeView>  scopeExceptions) {
         this._id = user.get_id();
 
         this.username = user.getUsername();
@@ -55,14 +55,10 @@ public class CustomUserDetails implements UserDetails {
         this.systemRole = user.getSystemRole();
 
         if (staffProfileInfoDto != null) {
-            this.profileId = staffProfileInfoDto.id();
-            this.positionTitle = staffProfileInfoDto.positionName();
-            this.position = staffProfileInfoDto.positionId();
-            this.departmentId = staffProfileInfoDto.departmentId();
-            this.departmentTitle = staffProfileInfoDto.departmentName();
-            this.allowLocationIds = staffProfileInfoDto.buAllowedList();
-            this.PositionLevel = staffProfileInfoDto.positionLevel();
+            this.allProfiles = staffProfileInfoDto.stream()
+                    .collect(Collectors.toMap(StaffProfileInfoDto::id, profile -> profile));
         }
+        this.scopeExceptions = scopeExceptions != null ? scopeExceptions : new HashMap<>();
 
         List<SimpleGrantedAuthority> auths = new ArrayList<>();
 
@@ -70,9 +66,25 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = auths;
     }
 
+    public CustomUserDetails withActiveProfile(StaffProfileInfoDto profile) {
+        this.activeProfile = profile;
+        return this;
+    }
+
+    public ScopeView getFinalScope(ModuleEnum moduleCode) {
+        if (scopeExceptions.containsKey(moduleCode)) return scopeExceptions.get(moduleCode);
+        return ScopeView.SELF;
+    }
+
+    public StaffProfileInfoDto getDefaultProfile() {
+        return allProfiles.values().stream()
+                .filter(StaffProfileInfoDto::isDefault)
+                .findFirst()
+                .orElse(allProfiles.isEmpty() ? null : allProfiles.values().iterator().next());
+    }
 
     public boolean isGlobalAdmin() {
-        return systemRole.equals("ADMIN") || this.getPositionLevel() > 2;
+        return systemRole.equals("ADMIN") || this.activeProfile.positionLevel() > 2;
     }
 
     public List<String> getAllowedLocations() {

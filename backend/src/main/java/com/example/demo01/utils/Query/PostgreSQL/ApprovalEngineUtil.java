@@ -48,7 +48,7 @@ public class ApprovalEngineUtil {
     }
 
     public boolean canTransition(String targetStatus,String currentStatus, ModuleEnum moduleEnum) {
-        List<WorkFlowTransitionInfoDto> availableAction = canTransitionValues(targetStatus, moduleEnum);
+        List<WorkFlowTransitionInfoDto> availableAction = canTransitionValues(currentStatus, moduleEnum);
         if (availableAction == null || availableAction.isEmpty()) {
             return false;
         }

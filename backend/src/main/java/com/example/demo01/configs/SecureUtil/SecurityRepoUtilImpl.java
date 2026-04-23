@@ -77,12 +77,12 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
 
     @Override
     public String getCurrentDepartmentIds() {
-        return getCurrentUserDetails().getDepartmentId();
+        return getCurrentUserDetails().getActiveProfile().departmentId();
     }
 
     @Override
     public String getCurrentPositionIds() {
-        return getCurrentUserDetails().getPosition();
+        return getCurrentUserDetails().getActiveProfile().positionId();
     }
 
     @Override
@@ -93,13 +93,12 @@ public class SecurityRepoUtilImpl implements SecurityRepoUtil {
 
     @Override
     public StaffProfileInfoDto getMainCurrentWorkProfile() {
-        String userId = getCurrentUserId();
-       return staffProfileService.getDefaultStaffProfile(userId);
+       return getCurrentUserDetails().getActiveProfile();
     }
 
     @Override
     public int getViewLevel() {
-        return getCurrentUserDetails().getPositionLevel();
+        return getCurrentUserDetails().getActiveProfile().positionLevel();
     }
 
 

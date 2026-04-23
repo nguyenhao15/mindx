@@ -152,6 +152,7 @@ public class UserServiceImpl implements UserService {
 
         staffProfileRequestDto.setPositionName(positionModel.getPositionName());
         staffProfileRequestDto.setDepartmentName(departmentInfoDto.getDepartmentName());
+        staffProfileRequestDto.setIsDefault(true);
         staffProfileService.createNewStaffProfile(staffProfileRequestDto);
 
         User savedUser = userRepository.save(newUser);

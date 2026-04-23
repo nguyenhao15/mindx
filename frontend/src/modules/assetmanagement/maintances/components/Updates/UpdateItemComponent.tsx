@@ -16,12 +16,14 @@ import {
   useGetAvailableActionUpdate,
   useUpdateMaintance,
 } from '../../hooks/useMaintenanceHooks';
+import toast from 'react-hot-toast';
 
 interface UpdateItemComponentProps {
   id: number;
   maintenancesStatus: MaintenanceStatus;
   reWork: boolean;
   totalCost: number;
+  afterUpdate?: () => void;
 }
 
 const UpdateItemComponent = ({
@@ -29,6 +31,7 @@ const UpdateItemComponent = ({
   maintenancesStatus,
   reWork,
   totalCost,
+  afterUpdate,
 }: UpdateItemComponentProps) => {
   const methods = useForm<UpdateMaintenanceFormInputDTO>({
     resolver: zodResolver(MaintenanceUpdateFormSchema),
@@ -83,7 +86,9 @@ const UpdateItemComponent = ({
       isDeleted: maintenanceUpdatePayload.isDeleted,
       inspectAt: maintenanceUpdatePayload.inspectAt,
       completionAt: maintenanceUpdatePayload.completionAt,
+      assignedTo: maintenanceUpdatePayload.assignedTo,
       verifiedAt: maintenanceUpdatePayload.verifiedAt,
+      ...maintenanceUpdatePayload,
     };
 
     const sendingData: UpdateMaintenanceRequestDTO =
@@ -98,7 +103,12 @@ const UpdateItemComponent = ({
     };
     try {
       await mutateAsync(payload);
-    } catch (error) {
+      toast.success('Cập nhật thành công');
+      if (afterUpdate) {
+        afterUpdate();
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Cập nhật thất bại');
       console.log('Error: ', error);
     }
   };

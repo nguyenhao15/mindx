@@ -34,6 +34,7 @@ export const MaintenanceRequest = z.object({
   createdDate: z.string(),
   lastModifiedDate: z.string(),
   createdBy: z.string(),
+  assignedTo: z.string().min(1, 'Vui lòng chọn nhân viên phụ trách'),
   inspectAt: z.date().min(1, 'Vui lòng chọn ngày kiểm tra'),
   completionAt: z.date().min(1, 'Vui lòng chọn ngày hoàn thành'),
   verifiedAt: z.date().min(1, 'Vui lòng chọn ngày nghiệm thu'),
@@ -92,6 +93,7 @@ export const MaintenanceUpdateRequestDtoSchema =
     inspectAt: true,
     completionAt: true,
     verifiedAt: true,
+    assignedTo: true,
   });
 
 export const MaintenanceUpdateFormSchema =

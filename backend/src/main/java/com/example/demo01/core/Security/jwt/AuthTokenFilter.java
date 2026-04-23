@@ -31,7 +31,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private StaffProfileService staffProfileService;
@@ -47,24 +47,27 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                User user = userRepository.findByUsername(username)
-                        .orElseThrow(() -> new UsernameNotFoundException(username));
-                String activeProfileId = request.getHeader(PROFILE_HEADER);
+                CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
 
-                StaffProfileInfoDto activeProfileInfo = null;
+                String profileHeader = request.getHeader(PROFILE_HEADER);
+                StaffProfileInfoDto activeProfile = null;
 
-
-                if (activeProfileId != null && !activeProfileId.isEmpty()) {
-                    activeProfileInfo = staffProfileService.getStaffProfileInfoById(activeProfileId);
+                if (profileHeader != null && !profileHeader.isEmpty()) {
+                    activeProfile = userDetails.getAllProfiles().get(profileHeader);
                 }
 
+                if (activeProfile == null) {
+                    activeProfile = userDetails.getDefaultProfile();
+                }
 
-                CustomUserDetails contextualUserDetails = new CustomUserDetails(user, activeProfileInfo);
+                userDetails.setActiveProfile(activeProfile);
+
+                System.out.println("User details: "+ userDetails);
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                contextualUserDetails,
+                                userDetails,
                                 null,
-                                contextualUserDetails.getAuthorities()
+                                userDetails.getAuthorities()
                         );
 
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

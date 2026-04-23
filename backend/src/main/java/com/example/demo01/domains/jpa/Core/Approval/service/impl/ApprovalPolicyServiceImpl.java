@@ -98,11 +98,11 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
 
         switch (allowType) {
             case DEPARTMENT -> {
-                String defaultDepartmentId = currentUser.getDepartmentId();
+                String defaultDepartmentId = securityRepoUtil.getCurrentDepartmentIds();
                 return defaultDepartmentId.contains(allowTypeValue);
             }
             case POSITION -> {
-                String position = currentUser.getPosition();
+                String position = securityRepoUtil.getCurrentPositionIds();
                 return position.contains(allowTypeValue);
             }
             case AUTHOR -> {

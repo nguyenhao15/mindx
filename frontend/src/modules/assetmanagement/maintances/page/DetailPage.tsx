@@ -25,6 +25,7 @@ const DetailPage = () => {
           maintenancesStatus={
             data?.maintenanceDetailsInfo?.maintenancesStatus || ''
           }
+          afterUpdate={() => setOpenModal(false)}
           reWork={data?.maintenanceDetailsInfo?.reWork || false}
           totalCost={data?.maintenanceDetailsInfo?.totalCost || 0}
         />

@@ -133,9 +133,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public List<ActionResponse> getAvailableActions(Long id) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
-        List<ActionResponse> actionResponseList = approvalEngineUtil.getAvailableAction(maintenanceEntity.getMaintenancesStatus(), "*", maintenanceEntity.getCreatedBy(), ModuleEnum.MAINTENANCE);
-
-        return actionResponseList;
+        return approvalEngineUtil.getAvailableAction(maintenanceEntity.getMaintenancesStatus(), "*", maintenanceEntity.getCreatedBy(), ModuleEnum.MAINTENANCE);
     }
 
     @Override
@@ -148,7 +146,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                 maintenanceRepository
         );
 
-        return buildPageResponse(page) ;
+        return buildPageResponse(page);
     }
 
     @Override
