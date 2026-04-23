@@ -1,24 +1,32 @@
-import {
-  LayoutDashboard,
-  Wrench,
-  ShoppingCart,
-  Truck,
-  type LucideIcon,
-  ChevronRight,
-  Settings,
-} from 'lucide-react';
+import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { MENU_ITEMS } from '@/modules/assetmanagement/constants/asset-const';
+import { MENU_ITEMS } from '../const/adminData';
+import {
+  ChevronRight,
+  Cog,
+  File,
+  Flower,
+  Home,
+  LayoutDashboard,
+  User,
+  Wrench,
+  type LucideIcon,
+} from 'lucide-react';
+import { useAuthStore } from '../../auth/store/AuthStore';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   LayoutDashboard,
   Wrench,
-  ShoppingCart,
-  Truck,
-  Settings,
+  File,
+  User,
+  Home,
+  Flower,
+  Cog,
 };
 
-const NavMenu = () => {
+const AdminNavBar = () => {
+  const user = useAuthStore((state) => state.user);
+
   const location = useLocation();
 
   return (
@@ -27,16 +35,13 @@ const NavMenu = () => {
       <div className='p-6 border-b border-white/10'>
         <div className='flex items-center gap-3'>
           <div className='w-8 h-8 bg-white/15 rounded-lg flex items-center justify-center'>
-            <Settings size={18} className='text-white' />
+            <LayoutDashboard size={18} className='text-white' />
           </div>
-          <div>
+          <div className='flex flex-col gap-2'>
             <p className='text-xs text-slate-400 leading-none'>Hệ thống</p>
             <h1 className='text-base font-bold text-white leading-tight'>
-              Quản lý tài sản
+              Admin Dashboard
             </h1>
-            <Link to='/' className='text-sm text-slate-400 hover:underline'>
-              Quay lại
-            </Link>
           </div>
         </div>
       </div>
@@ -49,16 +54,16 @@ const NavMenu = () => {
         {MENU_ITEMS.map((item) => {
           const Icon = ICON_MAP[item.icon] ?? LayoutDashboard;
           const isActive =
-            item.path === '/assets'
-              ? location.pathname === '/assets' ||
-                location.pathname === '/assets/'
+            item.path === '/admin'
+              ? location.pathname === '/admin' ||
+                location.pathname === '/admin/'
               : location.pathname.startsWith(item.path);
 
           return (
             <NavLink
               key={item.path}
               to={item.path}
-              end={item.path === '/assets'}
+              end={item.path === '/admin'}
               className={() =>
                 [
                   'flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group',
@@ -90,11 +95,11 @@ const NavMenu = () => {
       {/* Footer */}
       <div className='p-4 border-t border-white/10'>
         <p className='text-xs text-slate-500 text-center'>
-          Asset Management v1.0
+          &copy; 2024 MindX. All rights reserved.
         </p>
       </div>
     </aside>
   );
 };
 
-export default NavMenu;
+export default AdminNavBar;

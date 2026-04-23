@@ -1,14 +1,17 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AdminAppPage from '../pages/AdminAppPage';
-import { useAuthStore } from '../../auth/store/AuthStore';
+import AdminLayouts from '../shared/AdminLayouts';
+import AdminHomePage from '../pages/AdminHomePage';
+import NotFoundComponent from '@/pages/NotFoundComponent';
+import { UserTableComponent } from '../pages/UserTableComponent';
 
 const AdminRoute = () => {
-  const user = useAuthStore((state) => state.user);
-  
   return (
     <Routes>
-      <Route path='/' element={<AdminAppPage user={user!} />} />
+      <Route element={<AdminLayouts />}>
+        <Route index element={<AdminHomePage />} />
+        <Route path='/users/*' element={<UserTableComponent />} />
+      </Route>
+      <Route path='*' element={<NotFoundComponent homePath='/admin' />} />
     </Routes>
   );
 };

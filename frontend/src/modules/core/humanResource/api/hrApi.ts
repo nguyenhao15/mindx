@@ -7,6 +7,12 @@ export const hrApi = {
     return axiosClient.put(`${STAFF_PROFILE_ENDPOINT}/update/${staffId}`, data);
   },
 
+  getStaffProfileByDepartment: (departmentId: string) => {
+    return axiosClient.get(
+      `${STAFF_PROFILE_ENDPOINT}/department/${departmentId}`,
+    );
+  },
+
   deleteStaffProfile: (staffId: string) => {
     return axiosClient.delete(`${STAFF_PROFILE_ENDPOINT}/${staffId}`);
   },

@@ -13,6 +13,7 @@ import AssetHealthBar from '../components/AssetHealthBar';
 import RecentActivityList, {
   type ActivityItem,
 } from '../components/RecentActivityList';
+import { Link, useNavigation } from 'react-router-dom';
 
 // ─── Dummy Data ────────────────────────────────────────────────────────────────
 // NOTE: Replace with real API calls. Data is intentionally static/memoizable to
@@ -206,6 +207,7 @@ const AssetHomePage = () => {
   return (
     <div className='flex flex-col gap-8 p-8'>
       {/* Page header */}
+
       <div className='flex items-start justify-between'>
         <div>
           <h1 className='text-2xl font-bold text-slate-800'>

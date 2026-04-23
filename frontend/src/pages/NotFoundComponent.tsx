@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 
-const NotFoundComponent = () => {
+interface NotFoundComponentProps {
+  homePath?: string;
+}
+
+const NotFoundComponent = ({ homePath = '/' }: NotFoundComponentProps) => {
   return (
     <div className='flex-1 relative flex my-auto mx-auto p-2 max-h-screen items-center justify-center overflow-hidden bg-slate-50 px-6'>
       <div className='pointer-events-none absolute inset-0'>
@@ -23,7 +27,7 @@ const NotFoundComponent = () => {
 
         <div className='mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center'>
           <Link
-            to='/'
+            to={homePath}
             className='rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700'
           >
             Về trang chủ

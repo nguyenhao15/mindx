@@ -8,23 +8,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/staff-profile")
-@PreAuthorize("hasRole('ADMIN') or hashRole('HR_MANAGER')")
 public class StaffProfileController {
 
     @Autowired
     private StaffProfileService staffProfileService;
 
+    @GetMapping("/department/{departmentId}")
+    public ResponseEntity<?> getStaffProfileByDepartmentId(@PathVariable String departmentId) {
+        List<StaffProfileInfoDto> staffProfileInfoDtos = staffProfileService.getStaffProfileByDepartmentId(departmentId);
+        return ResponseEntity.ok(staffProfileInfoDtos);
+    }
+
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hashRole('HR_MANAGER')")
     public ResponseEntity<?> updateStaffProfile(@PathVariable String id,
                                                 @RequestBody StaffProfileRequestDto updateRequest) {
         StaffProfileInfoDto staffProfileInfoDto = staffProfileService.updateStaffProfileInfoById(id, updateRequest);
         return ResponseEntity.ok(staffProfileInfoDto);
     }
 
-
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hashRole('HR_MANAGER')")
     public ResponseEntity<?> deleteStaffProfile(@PathVariable String id) {
         staffProfileService.terminateStaffProfile(id);
         return ResponseEntity.ok().build();

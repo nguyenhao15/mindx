@@ -29,7 +29,6 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     @Autowired
     private StaffProfileMapper staffProfileMapper;
 
-
     @Override
     public StaffProfileInfoDto createNewStaffProfile(StaffProfileRequestDto requestDto) {
         Boolean isDefault = requestDto.getIsDefault();
@@ -61,6 +60,12 @@ public class StaffProfileServiceImpl implements StaffProfileService {
     public List<StaffProfileInfoDto> getActiveStaffProfile(String staffId) {
         List<StaffProfileModels>  staffProfileInfoDtos = staffProfileRepository.getByStaffIdAndActive(staffId,true);
         return staffProfileMapper.fromEntitiesFromInFoDto(staffProfileInfoDtos);
+    }
+
+    @Override
+    public List<StaffProfileInfoDto> getStaffProfileByDepartmentId(String departmentId) {
+        List<StaffProfileModels> modelsList = staffProfileRepository.getByDepartmentId(departmentId);
+        return staffProfileMapper.fromEntitiesFromInFoDto(modelsList);
     }
 
     @Override

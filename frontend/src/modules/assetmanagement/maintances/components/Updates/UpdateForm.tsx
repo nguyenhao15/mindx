@@ -2,6 +2,7 @@ import { Controller } from 'react-hook-form';
 import TextInputField from '@/components/input-elements/TextInputField';
 import DatePickerComponent from '@/components/input-elements/DatePickerComponent';
 import type { MaintenanceStatus } from '../../schema/maintenaceSchema';
+import LoadUserListByDepartmentControl from '@/modules/core/humanResource/components/LoadUserListByDepartmentControl';
 
 interface UpdateFormProps {
   currentStatus: MaintenanceStatus;
@@ -44,11 +45,25 @@ const UpdateForm = ({
           />
         )}
       />
+      <Controller
+        name='assignedTo'
+        control={control}
+        render={({ field }) => (
+          <LoadUserListByDepartmentControl
+            {...field}
+            departmentId={'IM'}
+            errors={errors.assignedTo?.message}
+            label='Người được giao'
+            isLoading={isLoading}
+          />
+        )}
+      />
 
       <TextInputField
         id='description'
         label='Ghi chú'
         type='textarea'
+        labelSize='lg'
         required
         register={register}
         errors={errors}

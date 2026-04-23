@@ -134,7 +134,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public List<ActionResponse> getAvailableActions(Long id) {
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
         List<ActionResponse> actionResponseList = approvalEngineUtil.getAvailableAction(maintenanceEntity.getMaintenancesStatus(), "*", maintenanceEntity.getCreatedBy(), ModuleEnum.MAINTENANCE);
-        System.out.println("Action res: "+actionResponseList);
+
         return actionResponseList;
     }
 

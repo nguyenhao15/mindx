@@ -39,7 +39,6 @@ public class DynamicScheduleManager {
             ScheduledFuture<?> future = taskScheduler.schedule(task, new CronTrigger(config.getCronExpression()));
             scheduledTasks.put(config.getId(), future);
         } catch (Exception e) {
-            // Lỗi do Cron sai định dạng
             System.out.println("Cron expression invalid: {}" + config.getCronExpression());
         }
 

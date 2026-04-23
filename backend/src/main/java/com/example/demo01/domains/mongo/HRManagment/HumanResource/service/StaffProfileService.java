@@ -18,6 +18,8 @@ public interface StaffProfileService {
 
     List<StaffProfileInfoDto> getActiveStaffProfile(String staffId);
 
+    List<StaffProfileInfoDto> getStaffProfileByDepartmentId(String departmentId);
+
     StaffProfileInfoDto getStaffProfileInfoById(String id);
 
     StaffProfileInfoDto getDefaultStaffProfile(String staffId);

@@ -8,3 +8,10 @@ export const updateStaffProfileAction = async (
   const res = await hrApi.updateStaffProfile(staffId, data);
   return res.data;
 };
+
+export const getStaffProfileByDepartmentAction = async (
+  departmentId: string,
+) => {
+  const res = await hrApi.getStaffProfileByDepartment(departmentId);
+  return res.data;
+};

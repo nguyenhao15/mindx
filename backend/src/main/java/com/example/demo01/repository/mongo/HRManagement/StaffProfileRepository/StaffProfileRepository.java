@@ -11,6 +11,8 @@ public interface StaffProfileRepository extends MongoRepository<StaffProfileMode
 
     List<StaffProfileModels> getByStaffId(String staffId);
 
+    List<StaffProfileModels> getByDepartmentId(String departmentId);
+
     List<StaffProfileModels> getByStaffIdAndActive(String staffId, Boolean active);
 
     StaffProfileModels findByStaffIdAndIsDefault(String staffId, Boolean isDefault);

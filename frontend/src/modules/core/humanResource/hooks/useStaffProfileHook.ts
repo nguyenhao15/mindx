@@ -1,6 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { WorkProfileType } from '../../auth/schemas/userSchema';
-import { updateStaffProfileAction } from '../queries/hrActions';
+import {
+  getStaffProfileByDepartmentAction,
+  updateStaffProfileAction,
+} from '../queries/hrActions';
 
 export const useUpdateStaffProfile = (staffId: string) => {
   const queryClient = useQueryClient();
@@ -12,5 +15,13 @@ export const useUpdateStaffProfile = (staffId: string) => {
         queryKey: ['admin', 'user', value.staffId],
       });
     },
+  });
+};
+
+export const useGetStaffProfileByDepartment = (departmentId: string) => {
+  return useQuery({
+    queryKey: ['hr', 'staffProfile', departmentId],
+    queryFn: () => getStaffProfileByDepartmentAction(departmentId),
+    enabled: !!departmentId,
   });
 };

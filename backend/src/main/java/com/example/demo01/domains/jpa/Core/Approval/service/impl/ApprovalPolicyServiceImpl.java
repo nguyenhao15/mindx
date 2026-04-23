@@ -85,6 +85,10 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
         ApprovalPolicyEntity approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus, from, moduleEnum);
 
         if (approvalPolicyEntity == null) {
+            approvalPolicyEntity = approvalPolicyRepository.findByTargetStatusAndRequesterPositionAndModule(targetStatus, "*", moduleEnum);
+        }
+
+        if (approvalPolicyEntity == null) {
             return false;
         }
 

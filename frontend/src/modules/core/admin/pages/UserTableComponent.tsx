@@ -1,12 +1,8 @@
 import { useMemo, useState } from 'react';
-import { DataTable, type Column } from '@/components/shared/DataTable';
-import { ActionHeader } from '@/components/shared/ActionHeder';
-import { EmptyState } from '@/components/shared/EmtyState';
-import { UsersIcon } from 'lucide-react';
+import { type Column } from '@/components/shared/DataTable';
+import { User } from 'lucide-react';
 import { useGetAllUsers } from '@/modules/core/admin/hooks/useAdminHook';
 import ModalComponent from '@/components/shared/ModalComponent';
-import UserForm from './UserForm';
-import Loader from '@/components/shared/Loader';
 import { safeString, toArray } from '@/utils/formatValue';
 import type {
   UserManagementDTO,
@@ -14,8 +10,9 @@ import type {
 } from '@/modules/core/auth/schemas/userSchema';
 import { useTypeQueryState } from '@/hooks/useTypeQueryState';
 import Status from '@/components/shared/Status';
-import CreateUserComponent from './CreateUserComponent';
-import UpdateUserComponent from './UpdateUserComponent';
+import UseAdminLayout from '../components/content/UseAdminLayout';
+import CreateUserComponent from '../components/userComponent/CreateUserComponent';
+import UpdateUserComponent from '../components/userComponent/UpdateUserComponent';
 
 type UserRow = {
   id: string | number;
@@ -31,7 +28,7 @@ type UserRow = {
 };
 
 export function UserTableComponent({}) {
-  const [, setQuery] = useState('');
+  const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { state, updateState } = useTypeQueryState();
   const [selectedUser, setSelectedUser] = useState<UserManagementDTO | null>(
@@ -132,32 +129,21 @@ export function UserTableComponent({}) {
   };
 
   return (
-    <div className='animate-in fade-in duration-300'>
-      <ActionHeader
-        title='User Management'
-        searchPlaceholder='Search users...'
-        ctaLabel='Invite User'
-        onSearch={setQuery}
+    <div className='m-2 animate-in fade-in duration-300'>
+      <UseAdminLayout
+        moduleTitle='Quản lý người dùng'
+        columns={columns}
+        moduleDescription='Quản trị tài khoản người dùng, phân quyền và trạng thái kích hoạt.'
+        rows={rows}
+        isLoading={isLoading}
+        pagination={pagination}
+        ModuleIcon={User}
+        handleEdit={handleSelectUser}
+        handlePageChange={handlePageChange}
+        onSearchAction={setQuery}
+        ctaLabel={'Thêm người dùng'}
         onCtaClick={() => setIsModalOpen(true)}
       />
-      {isLoading ? (
-        <Loader text='Đang tải dữ liệu' />
-      ) : rows.length === 0 ? (
-        <EmptyState
-          title='No Users Found'
-          description='No users match your keyword. Try another search to continue.'
-          icon={UsersIcon}
-        />
-      ) : (
-        <DataTable
-          columns={columns}
-          data={rows}
-          actionLabel='Update'
-          onEdit={handleSelectUser}
-          pagination={pagination}
-          handlePageChange={handlePageChange}
-        />
-      )}
       <ModalComponent open={isModalOpen} onClose={handleCloseModal}>
         {!selectedUser ? (
           <CreateUserComponent />
