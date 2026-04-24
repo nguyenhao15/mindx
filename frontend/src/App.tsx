@@ -35,7 +35,6 @@ function App() {
   const user = useAuthStore((state) => state.user);
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const isProfileSet = localStorage.getItem('profile_id') !== null;
-
   const isAuthenticated = !isError && !!user;
   const isAdmin = user?.systemRole === 'ADMIN';
   const isEnabled = user?.enabled;
@@ -49,8 +48,6 @@ function App() {
       </div>
     );
   }
-
-  console.log('Is Profile set: ', isProfileSet);
 
   if (!isLoggedIn) {
     handleLogout();

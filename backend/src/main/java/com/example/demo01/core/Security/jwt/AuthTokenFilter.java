@@ -60,13 +60,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                     activeProfile = userDetails.getDefaultProfile();
                 }
 
-                userDetails.setActiveProfile(activeProfile);
-
-                System.out.println("User details: " + userDetails);
+                CustomUserDetails userDetailsWithProfile = userDetails.withActiveProfile(activeProfile);
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                userDetails,
+                                userDetailsWithProfile,
                                 null,
                                 userDetails.getAuthorities()
                         );

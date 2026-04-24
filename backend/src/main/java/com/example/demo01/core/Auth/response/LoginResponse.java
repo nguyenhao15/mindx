@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 public class LoginResponse {
 
-    private CustomUserDetails userDetails;
+    private UserDTO userDTO;
     private String accessToken;
 
 }

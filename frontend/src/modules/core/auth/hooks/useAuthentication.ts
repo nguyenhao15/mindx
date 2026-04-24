@@ -10,6 +10,7 @@ import {
   useAuthStore,
 } from '@/modules/core/auth/store/AuthStore';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 const USER_QUERY_KEY = ['user'] as const;
@@ -24,8 +25,15 @@ export const useLogin = () => {
       return response;
     },
     onSuccess: (data) => {
-      useAuthStore.getState().setUser(data.userDTO);
-      useAuthStore.getState().setToken(data.accessToken);
+      const { userDTO, accessToken } = data;
+      useAuthStore.getState().setUser(userDTO);
+      if (userDTO.workProfileList.length === 1) {
+        localStorage.setItem('profile_id', userDTO.workProfileList[0].id);
+        toast.success(
+          `Logged in as ${userDTO.workProfileList[0].positionName} profile`,
+        );
+      }
+      useAuthStore.getState().setToken(accessToken);
       navigate('/', { replace: true });
     },
     onError: (error) => {

@@ -39,6 +39,8 @@ public class CustomUserDetails implements UserDetails {
     private List<String> allowLocationIds;
 
     private transient StaffProfileInfoDto activeProfile;
+
+
     public CustomUserDetails(User user,@Nullable List<StaffProfileInfoDto> staffProfileInfoDto, Map<ModuleEnum, ScopeView>  scopeExceptions) {
         this._id = user.get_id();
 
@@ -54,6 +56,8 @@ public class CustomUserDetails implements UserDetails {
 
         this.systemRole = user.getSystemRole();
 
+        this.activeProfile = getDefaultProfile();
+
         if (staffProfileInfoDto != null) {
             this.allProfiles = staffProfileInfoDto.stream()
                     .collect(Collectors.toMap(StaffProfileInfoDto::id, profile -> profile));
@@ -66,8 +70,19 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = auths;
     }
 
+    public StaffProfileInfoDto getDefaultProfile() {
+        return allProfiles.values().stream()
+                .filter(StaffProfileInfoDto::isDefault)
+                .findFirst()
+                .orElse(allProfiles.isEmpty() ? null : allProfiles.values().iterator().next());
+    }
+
     public CustomUserDetails withActiveProfile(StaffProfileInfoDto profile) {
-        this.activeProfile = profile;
+        if (profile != null) {
+            this.activeProfile = profile;
+        } else {
+            this.activeProfile = getDefaultProfile();
+        }
         return this;
     }
 
@@ -76,21 +91,13 @@ public class CustomUserDetails implements UserDetails {
         return null;
     }
 
-    public StaffProfileInfoDto getDefaultProfile() {
-        return allProfiles.values().stream()
-                .filter(StaffProfileInfoDto::isDefault)
-                .findFirst()
-                .orElse(allProfiles.isEmpty() ? null : allProfiles.values().iterator().next());
-    }
+
 
     public boolean isGlobalAdmin() {
         return systemRole.equals("ADMIN") || this.activeProfile.positionLevel() > 2;
     }
 
     public List<String> getAllowedLocations() {
-        if (isGlobalAdmin()) {
-            return null;
-        }
         return this.allowLocationIds;
     }
 

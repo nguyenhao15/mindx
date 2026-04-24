@@ -183,11 +183,11 @@ public class UserServiceImpl implements UserService {
 
         setRefreshTokenInCookie(refreshTokenSession.getRefreshToken(), refreshTokenExpirationMs);
 
-        CustomUserDetails customUserDetails = securityUtil.getCurrentUserDetails();
+        UserDTO userDTO = getUserInfo(username);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setAccessToken(accessToken);
-        loginResponse.setUserDetails(customUserDetails);
+        loginResponse.setUserDTO(userDTO);
 
         return loginResponse;
     }

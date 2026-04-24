@@ -5,6 +5,7 @@ import com.example.demo01.core.Auth.dtos.CustomUserDetails;
 import com.example.demo01.core.Security.utils.SecurityUtil;
 import com.example.demo01.utils.ModuleEnum;
 import com.example.demo01.utils.ScopeView;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
@@ -79,12 +80,16 @@ public class StaticSpecs implements BuildStaticSpecs {
                 return (root, query, cb) -> root.get(locationFieldName).in(securityRepoUtil.getCurrentAllowedLocations());
             }
             case SELF -> {
-                return (root, query, cb) -> cb.equal(root.get(assignedFieldName), securityRepoUtil.getCurrentUserId());
+                return (root, query, cb) -> {
+                    Predicate p1 = cb.equal(root.get(assignedFieldName), securityRepoUtil.getCurrentUserId());
+                    Predicate p2 = cb.equal(root.get("createdBy"), securityRepoUtil.getCurrentUserId());
+                    return cb.or(p1, p2);
+                };
+            }
+            default -> {
+                return ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("created_by"),securityRepoUtil.getCurrentUserId()));
             }
         }
 
-
-
-        return null;
     }
 }
