@@ -1,5 +1,4 @@
 import { MODULE_NAME } from '@/constants/module-const';
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ModuleListComponents = () => {

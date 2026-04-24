@@ -6,6 +6,7 @@ import {
   type LucideIcon,
   ChevronRight,
   Settings,
+  House,
 } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { MENU_ITEMS } from '@/modules/assetmanagement/constants/asset-const';
@@ -29,14 +30,11 @@ const NavMenu = () => {
           <div className='w-8 h-8 bg-white/15 rounded-lg flex items-center justify-center'>
             <Settings size={18} className='text-white' />
           </div>
-          <div>
+          <div className='flex flex-col gap-2'>
             <p className='text-xs text-slate-400 leading-none'>Hệ thống</p>
             <h1 className='text-base font-bold text-white leading-tight'>
               Quản lý tài sản
             </h1>
-            <Link to='/' className='text-sm text-slate-400 hover:underline'>
-              Quay lại
-            </Link>
           </div>
         </div>
       </div>
@@ -88,11 +86,13 @@ const NavMenu = () => {
       </nav>
 
       {/* Footer */}
-      <div className='p-4 border-t border-white/10'>
-        <p className='text-xs text-slate-500 text-center'>
-          Asset Management v1.0
-        </p>
-      </div>
+      <Link
+        to='/'
+        className='cursor-pointer flex items-center gap-3 px-4 py-3 mt-auto text-sm text-slate-300 rounded-tl-xl rounded-tr-xl transition-all'
+      >
+        <House size={16} className='text-slate-400' />
+        Trang chủ
+      </Link>
     </aside>
   );
 };

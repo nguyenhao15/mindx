@@ -41,7 +41,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         List<StaffProfileInfoDto> staffProfileInfoDtos = staffProfileService.getActiveStaffProfile(username);
 
-        System.out.println("StaffProfileInfoDtos: " + staffProfileInfoDtos);
         List<ExceptionPolicyRuleInfoDto> exceptions = exceptionPolicyRuleService.getPolicyRuleInfoByUserId(username);
 
         Map<ModuleEnum, ScopeView> exceptionMap = exceptions.stream()

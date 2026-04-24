@@ -1,5 +1,5 @@
 import ModuleListComponents from '@/components/shared/ModuleListComponents';
-import ProifleUser from '@/components/shared/ProifleUser';
+import ProfileUser from '@/components/shared/ProfileUser';
 import { useAuthStore } from '@/modules/core/auth/store/AuthStore';
 
 const HomePage = () => {
@@ -12,7 +12,9 @@ const HomePage = () => {
   return (
     <section className='min-h-screen bg-linear-to-br from-slate-50 via-white to-cyan-50 px-6 py-10'>
       <div className='mx-auto max-w-6xl space-y-8'>
-        <ProifleUser activeProfile={activeProfile} user={user} />
+        {user && activeProfile && (
+          <ProfileUser user={user} activeProfile={activeProfile} />
+        )}
         <ModuleListComponents />
       </div>
     </section>

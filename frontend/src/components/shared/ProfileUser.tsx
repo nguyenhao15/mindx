@@ -13,7 +13,7 @@ function InfoItem({ label, value }: { label: string; value: string }) {
   );
 }
 
-const ProifleUser = ({
+const ProfileUser = ({
   user,
   activeProfile,
 }: {
@@ -22,7 +22,7 @@ const ProifleUser = ({
 }) => {
   const navigate = useNavigate();
   const { mutateAsync: logout, isPending: isLoggingOut } = useLogOut();
-  const useDeleteProfile = () => {
+  const handleDeleteProfile = () => {
     localStorage.removeItem('profile_id');
     window.location.reload();
   };
@@ -51,7 +51,7 @@ const ProifleUser = ({
         <div className='flex flex-row gap-2'>
           <Button
             type='button'
-            onClick={useDeleteProfile}
+            onClick={handleDeleteProfile}
             className='inline-flex cursor-pointer items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700'
           >
             Đổi hồ sơ công việc
@@ -92,4 +92,4 @@ const ProifleUser = ({
   );
 };
 
-export default ProifleUser;
+export default ProfileUser;

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useGetApprovalPolicyPage } from '../../hooks/useApprovalPolicy';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
@@ -57,8 +57,8 @@ const ApprovalPolicyComponent = () => {
       return {
         id: safeString(record.id),
         module: safeString(record.module),
-        labelName: safeString(record.targetStatus),
-        fromStatus: safeString(record.allowType),
+        allowType: safeString(record.allowType),
+        allowValue: safeString(record.allowValue),
         applyPositions: applyPositions,
         activeStatus: record.isActive ? 'Active' : 'Inactive',
         targetStatus: safeString(record.targetStatus),
@@ -71,6 +71,14 @@ const ApprovalPolicyComponent = () => {
     {
       key: 'module',
       label: 'Module',
+    },
+    {
+      key: 'allowType',
+      label: 'Allow Type',
+    },
+    {
+      key: 'allowValue',
+      label: 'Allow Value',
     },
     {
       key: 'targetStatus',
