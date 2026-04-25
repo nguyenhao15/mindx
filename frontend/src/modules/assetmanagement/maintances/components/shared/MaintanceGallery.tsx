@@ -106,6 +106,7 @@ const MaintanceGallery = ({
       <DataTable
         columns={columns}
         data={rows}
+        actionLabel='Update'
         pagination={rest}
         onEdit={handleOnEdit}
         handlePageChange={handlePageChange}

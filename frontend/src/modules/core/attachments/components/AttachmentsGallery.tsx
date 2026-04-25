@@ -69,7 +69,7 @@ const AttachmentsGallery = ({ attachments }: AttachmentsGalleryProps) => {
         </section>
       )}
 
-      <section className='mt-4 w-full rounded-2xl border border-slate-100 bg-white p-5 sm:p-6'>
+      <section className=' w-full rounded-2xl border border-slate-100 bg-white shadow p-5 sm:p-6'>
         <h2 className='text-base font-semibold text-slate-800'>
           Tài Liệu Đính Kèm
         </h2>

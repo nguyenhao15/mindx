@@ -1,9 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
-import {
-  MaintenanceRequest,
-  type CreateMaintenanceRequestDTO,
-} from '../schema/maintenaceSchema';
+import { MaintenanceEntity } from '../schema/maintenaceSchema';
 import { Button } from '@/components/ui/button';
 import MaintanceForm from '../components/Create/MaintanceForm';
 import { useCreateMaintance } from '../hooks/useMaintenanceHooks';
@@ -13,10 +10,10 @@ import InfoComponents from '../components/Create/InfoComponents';
 const CreatePage = () => {
   const { mutateAsync: createItem, isPending } = useCreateMaintance();
 
-  const methods = useForm<CreateMaintenanceRequestDTO>({
+  const methods = useForm({
     mode: 'onBlur',
     resolver: zodResolver(
-      MaintenanceRequest.pick({
+      MaintenanceEntity.pick({
         description: true,
         maintenanceCategoryId: true,
         maintenanceItemId: true,
@@ -36,7 +33,7 @@ const CreatePage = () => {
 
   const { reset, handleSubmit } = methods;
 
-  const onSubmit = async (data: CreateMaintenanceRequestDTO) => {
+  const onSubmit = async (data: any) => {
     const formData = new FormData();
     const { attachments, ...rest } = data;
 

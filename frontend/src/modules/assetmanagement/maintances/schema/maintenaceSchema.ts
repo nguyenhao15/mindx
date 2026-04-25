@@ -13,7 +13,7 @@ export const MAINTENANCE_STATUS_VALUES = [
   'COMPLETED',
 ] as const;
 
-export const MaintenanceRequest = z.object({
+export const MaintenanceEntity = z.object({
   id: z.number(),
   description: z.string().min(3, 'Vui lòng nhập mô tả sự cố'),
   maintenanceCategoryId: z
@@ -39,9 +39,11 @@ export const MaintenanceRequest = z.object({
   completionAt: z.date().min(1, 'Vui lòng chọn ngày hoàn thành'),
   verifiedAt: z.date().min(1, 'Vui lòng chọn ngày nghiệm thu'),
   lastModifiedBy: z.string(),
+  reWork: z.boolean().default(false),
+  totalProposals: z.number().default(0),
 });
 
-export type MaintenanceRequestDTO = z.infer<typeof MaintenanceRequest>;
+export type MaintenanceRequestDTO = z.infer<typeof MaintenanceEntity>;
 
 export type CreateMaintenanceRequestDTO = Omit<
   MaintenanceRequestDTO,
@@ -57,18 +59,19 @@ export type CreateMaintenanceRequestDTO = Omit<
   | 'isDeleted'
 >;
 
-export const MaintenanceSumarySchema = MaintenanceRequest.omit({
-  maintenanceCategoryId: true,
-  maintenanceItemId: true,
-  issueDate: true,
+export const MaintenanceSumarySchema = MaintenanceEntity.pick({
+  id: true,
+  description: true,
   locationName: true,
+  totalCost: true,
+  maintenancesStatus: true,
+  createdDate: true,
+  reWork: true,
+  totalProposals: true,
 }).extend({
-  issueDate: z.string(),
-  fixCategory: MaintenanceCategoryNestInfo,
-  fixItem: MaintanceItemInfoDto,
-  reWork: z.boolean(),
-  isDeleted: z.boolean().default(false),
-  totalProposals: z.number(),
+  fixCategory: MaintenanceCategoryNestInfo.partial(),
+  fixItem: MaintanceItemInfoDto.partial(),
+  totalProposals: z.number().default(0),
 });
 
 export const MaintananceDetailsDTO = MaintenanceSumarySchema.extend({
@@ -85,7 +88,7 @@ export const MaintananceDetailsDTO = MaintenanceSumarySchema.extend({
 });
 
 export const MaintenanceUpdateRequestDtoSchema =
-  MaintenanceSumarySchema.partial().pick({
+  MaintenanceEntity.partial().pick({
     maintenancesStatus: true,
     reWork: true,
     totalCost: true,

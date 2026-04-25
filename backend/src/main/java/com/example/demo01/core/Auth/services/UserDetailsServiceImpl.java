@@ -49,6 +49,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         ExceptionPolicyRuleInfoDto::scopeView
                 ));
 
-        return new CustomUserDetails(user,staffProfileInfoDtos,exceptionMap);
+        return new CustomUserDetails(
+                user,
+                staffProfileInfoDtos,
+                exceptionMap
+        );
     }
 }

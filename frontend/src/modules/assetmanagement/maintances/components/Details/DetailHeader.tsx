@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-import { ArrowLeft, CalendarDays, MapPin, UserRound } from 'lucide-react';
 import { formatDate } from 'date-fns';
 
 interface DetailHeaderProps {
@@ -17,26 +15,22 @@ interface DetailHeaderProps {
     | 'FINISHED'
     | 'COMPLETED';
 }
+interface LineInfoProps {
+  label: string;
+  value: string;
+  valueSize: 'sm' | 'md' | 'lg';
+}
 
-const STATUS_STYLES: Record<DetailHeaderProps['status'], string> = {
-  WAITING: 'bg-amber-100 text-amber-700',
-  APPROVED: 'bg-sky-100 text-sky-700',
-  REJECTED: 'bg-rose-100 text-rose-700',
-  PROCESSING: 'bg-sky-100 text-sky-700',
-  CHECKED: 'bg-indigo-100 text-indigo-700',
-  FINISHED: 'bg-emerald-100 text-emerald-700',
-  COMPLETED: 'bg-emerald-100 text-emerald-700',
-};
-
-const STATUS_LABELS: Record<DetailHeaderProps['status'], string> = {
-  WAITING: 'Chờ duyệt',
-  APPROVED: 'Đã duyệt',
-  REJECTED: 'Từ chối',
-  PROCESSING: 'Đang sửa',
-  CHECKED: 'Đợi nghiệm thu',
-  FINISHED: 'Hoàn thành',
-  COMPLETED: 'Hoàn thành',
-};
+function LineInfo({ label, value, valueSize }: LineInfoProps) {
+  return (
+    <div className='flex items-center gap-2 text-sm text-slate-100'>
+      <p className='flex-1/3'>{label}: </p>
+      <span className={`flex-2/3 text-${valueSize} font-bold text-slate-200`}>
+        {value}
+      </span>
+    </div>
+  );
+}
 
 const DetailHeader = ({
   desrciption,
@@ -47,48 +41,30 @@ const DetailHeader = ({
   status,
 }: DetailHeaderProps) => {
   return (
-    <section className='w-full bg-white rounded-2xl border border-slate-100 p-5 sm:p-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
-        <div className='space-y-3'>
-          <Link
-            to='/assets/maintance/list'
-            className='inline-flex items-center gap-1.5 text-sm text-[#1d3557] hover:underline'
-          >
-            <ArrowLeft size={14} />
-            Quay lại danh sách
-          </Link>
-          <div>
-            <h1 className='text-xl sm:text-2xl font-bold text-slate-800'>
-              Chi tiết Đơn Sửa Chữa {ticketCode}
-            </h1>
-            <p className='text-lg font-bold text-slate-900 mt-1'>
-              {desrciption || 'Không có mô tả nào được cung cấp.'}
-            </p>
-          </div>
-        </div>
+    <div className='p-4 w-full bg-primary rounded-lg'>
+      <div className='flex flex-col gap-3 px-4 py-2'>
+        <LineInfo
+          label={'Mã sửa chữa'}
+          value={'#' + ticketCode}
+          valueSize='lg'
+        />
+        <LineInfo
+          label={'Ngày báo cáo'}
+          value={formatDate(new Date(issueDate), 'dd/MM/yyyy')}
+          valueSize='sm'
+        />
 
-        <span
-          className={`inline-flex w-fit rounded-full px-3 py-1 text-xs font-semibold ${STATUS_STYLES[status]}`}
-        >
-          {STATUS_LABELS[status]}
-        </span>
-      </div>
+        <LineInfo label={'Địa điểm'} value={location} valueSize='sm' />
+        <LineInfo
+          label={'Người báo cáo'}
+          value={reporter.toUpperCase()}
+          valueSize='sm'
+        />
+        <div className='h-px mb-4 bg-gray-50' />
 
-      <div className='mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3'>
-        <p className='flex items-center gap-2 text-sm text-slate-600'>
-          <MapPin size={15} className='text-slate-400' />
-          {location}
-        </p>
-        <p className='flex items-center gap-2 text-sm text-slate-600'>
-          <UserRound size={15} className='text-slate-400' />
-          {reporter}
-        </p>
-        <p className='flex items-center gap-2 text-sm text-slate-600'>
-          <CalendarDays size={15} className='text-slate-400' />
-          {issueDate ? formatDate(new Date(issueDate), 'dd/MM/yyyy') : 'N/A'}
-        </p>
+        <LineInfo label={'Trạng thái'} value={status} valueSize='sm' />
       </div>
-    </section>
+    </div>
   );
 };
 

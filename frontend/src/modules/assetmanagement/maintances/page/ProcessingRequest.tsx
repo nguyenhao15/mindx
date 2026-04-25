@@ -11,9 +11,9 @@ const ProcessingRequest = () => {
     pagination: {
       page: 0,
       size: 12,
-      sortOrder: [
+      sorts: [
         {
-          property: 'createdAt',
+          property: 'createdDate',
           direction: 'DESC',
         },
       ],
@@ -28,8 +28,6 @@ const ProcessingRequest = () => {
         page: page, // Assuming the API is 0-indexed
       },
     }));
-
-    console.log('Filter: ', filterInput);
   };
 
   const { data, isLoading, error } = useGetMaintenances(filterInput);
