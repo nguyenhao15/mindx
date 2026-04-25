@@ -84,7 +84,9 @@ const AttachmentsGallery = ({ attachments }: AttachmentsGalleryProps) => {
 
       <ModalComponent open={openDialog} onClose={() => setOpenDialog(false)}>
         {isPresignedUrlLoading && !selectedAttachment?.fileUrl ? (
-          <Loader text='Loading attachment...' />
+          <div className='w-full p-2'>
+            <Loader text='Loading attachment...' />
+          </div>
         ) : (
           <FilePreviewer
             type={selectedAttachment?.fileType || selectedAttachment?.pathName}

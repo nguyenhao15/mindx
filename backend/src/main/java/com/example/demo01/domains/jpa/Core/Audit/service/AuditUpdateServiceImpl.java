@@ -22,6 +22,9 @@ public class AuditUpdateServiceImpl implements AuditUpdateService  {
 
     @Override
     public AuditUpdateDto createAuditUpdate(AuditUpdateRequest request) {
+        ModuleEnum module = request.getModule();
+        String identifier = module + "-" + request.getItemId();
+        request.setIdentifier(identifier);
         AuditUpdateEntity auditUpdateEntity = auditUpdateJpaMapper.toEntity(request);
         AuditUpdateEntity savedEntity = auditUpdateRepository.save(auditUpdateEntity);
         return auditUpdateJpaMapper.fromEntityToDto(savedEntity);

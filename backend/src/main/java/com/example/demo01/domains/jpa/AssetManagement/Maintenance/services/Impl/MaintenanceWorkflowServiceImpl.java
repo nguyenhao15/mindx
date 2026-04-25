@@ -1,20 +1,26 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Impl;
 
+import com.example.demo01.core.AuditUpdate.model.ChangeType;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceDetailResponse;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceUpdateRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalsDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.MaintenanceEntity;
-import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.MaintenanceMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceWorkflow;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenancesProposalService;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
+import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
+import com.example.demo01.utils.ModuleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
@@ -25,18 +31,33 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
     @Autowired
     private MaintenancesProposalService maintenancesProposalService;
 
-    @Autowired
-    private MaintenanceMapper maintenanceMapper;
-
     @Override
     @Transactional
-    public List<MaintenancesProposalsDto> createProposals(List<MaintenancesProposalRequest> requests) {
+    public MaintenanceDetailResponse createProposals(Long id, List<MaintenancesProposalRequest> requests) {
         List<MaintenancesProposalsDto> results = new ArrayList<>();
+        MaintenanceEntity maintenance = maintenanceService.getReference(id);
         for (MaintenancesProposalRequest request : requests) {
             MaintenancesProposalsDto maintenancesProposalsDto = createProposal(request);
             results.add(maintenancesProposalsDto);
         }
-        return results;
+        MaintenanceRequestDto maintenanceRequestDto = new MaintenanceRequestDto();
+        AuditUpdateRequest auditUpdateRequest = new AuditUpdateRequest();
+        if (Objects.equals(maintenance.getMaintenancesStatus(), MaintenancesStatus.APPROVED.toString())) {
+            maintenanceRequestDto.setMaintenancesStatus(MaintenancesStatus.PROCESSING.toString());
+        }
+
+        auditUpdateRequest.setItemId(id.toString());
+        auditUpdateRequest.setUpdateValue(maintenanceRequestDto.getMaintenancesStatus());
+        auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);
+        auditUpdateRequest.setDescription("Added "+ requests.size() + " proposals to maintenance with id: " + id);
+        auditUpdateRequest.setChangeType(ChangeType.UPDATE);
+
+        MaintenanceUpdateRequest maintenanceUpdateRequest = new MaintenanceUpdateRequest(
+                maintenanceRequestDto,
+                auditUpdateRequest
+        );
+        maintenanceService.updateMaintenance(id, maintenanceUpdateRequest);
+        return maintenanceService.getMaintenanceDetailsInfo(id);
     }
 
     @Override

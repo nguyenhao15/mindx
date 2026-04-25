@@ -191,13 +191,14 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         }
 
         auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);
-        auditUpdateRequest.setIdentifier(ModuleEnum.MAINTENANCE + "-" + id);
+        auditUpdateRequest.setItemId(id.toString());
 
         auditUpdateService.createAuditUpdate(auditUpdateRequest);
         maintenanceMapper.updateEntityFromRequest(maintenanceRequestDto, maintenanceEntity);
-        maintenanceRepository.save(maintenanceEntity);
+        MaintenanceEntity saved = maintenanceRepository.save(maintenanceEntity);
+
         Map<String, Object > buFullNames = basementService.getBatchBuFullNames(List.of(maintenanceEntity.getLocationId()));
-        return maintenanceMapper.fromEntityToMaintenanceInfoDto(maintenanceEntity,buFullNames);
+        return maintenanceMapper.fromEntityToMaintenanceInfoDto(saved,buFullNames);
     }
 
     @Override

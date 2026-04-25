@@ -1,14 +1,12 @@
 package com.example.demo01.domains.jpa.AssetManagement.Maintenance.controllers;
 
+import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceDetailResponse;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalsDto;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceWorkflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +17,9 @@ public class MaintenanceWorkFlowController {
     @Autowired
     MaintenanceWorkflow maintenanceWorkflow;
 
-    @PostMapping("/proposal/create")
-    public ResponseEntity<?> createProposal(@RequestBody List<MaintenancesProposalRequest> requests){
-        List<MaintenancesProposalsDto> results = maintenanceWorkflow.createProposals(requests);
+    @PostMapping("/proposal/create/{id}")
+    public ResponseEntity<?> createProposal(@PathVariable Long id, @RequestBody List<MaintenancesProposalRequest> requests){
+        MaintenanceDetailResponse results = maintenanceWorkflow.createProposals(id, requests);
         return ResponseEntity.ok().body(results);
     }
 

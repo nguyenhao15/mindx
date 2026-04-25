@@ -61,14 +61,14 @@ export const useUpdateMaintance = (options = {}) => {
   });
 };
 
-export const useGetMaintanceDetailById = (assetId: number, options = {}) => {
+export const useGetMaintanceDetailById = (itemId: number, options = {}) => {
   return useQuery({
-    queryKey: ['maintenances', assetId],
+    queryKey: ['maintenances', itemId],
     queryFn: async () => {
-      const response = await getMaintanceDetailById(assetId);
+      const response = await getMaintanceDetailById(itemId);
       return response;
     },
-    enabled: !!assetId,
+    enabled: !!itemId,
     staleTime: 1000 * 60 * 15, // 15 minutes
     refetchOnMount: false,
     refetchOnWindowFocus: false,
@@ -77,14 +77,14 @@ export const useGetMaintanceDetailById = (assetId: number, options = {}) => {
   });
 };
 
-export const useGetAvailableActionUpdate = (id: number, options = {}) => {
+export const useGetAvailableActionUpdate = (itemId: number, options = {}) => {
   return useQuery({
-    queryKey: ['availableActions', id],
+    queryKey: ['availableActions', itemId],
     queryFn: async () => {
-      const response = await getAvailableActionUpdate(id);
+      const response = await getAvailableActionUpdate(itemId);
       return response;
     },
-    enabled: !!id,
+    enabled: !!itemId,
     staleTime: 1000 * 60 * 15, // 15 minutes
     refetchOnMount: false,
     refetchOnWindowFocus: false,

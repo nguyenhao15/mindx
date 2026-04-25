@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 @NotBlank()
 public class AuditUpdateRequest {
 
+    @NotBlank
+    private String itemId;
+
     @NotBlank(message = "Identifier is required")
     private String identifier;
 
@@ -22,7 +25,6 @@ public class AuditUpdateRequest {
 
     @NotBlank(message = "Update value is required")
     private String updateValue;
-
 
     @NotNull(message = "Module is required")
     private ModuleEnum module;

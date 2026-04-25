@@ -1,7 +1,7 @@
 import ActivityTimeline from '@/modules/assetmanagement/maintances/components/Details/ActivityTimeline';
 import DetailHeader from '@/modules/assetmanagement/maintances/components/Details/DetailHeader';
 import ProgressStepper from '@/modules/assetmanagement/maintances/components/Details/ProgressStepper';
-import TechnicalSolutionsCard from '@/modules/assetmanagement/maintances/components/Details/TechnicalSolutionsCard';
+import TechnicalSolutionsCard from '@/modules/assetmanagement/maintances/components/Proposal/TechnicalSolutionsCard';
 import AttachmentsGallery from '@/modules/core/attachments/components/AttachmentsGallery';
 import Loader from '@/components/shared/Loader';
 import ErrorPage from '@/components/shared/ErrorPage';
@@ -77,6 +77,7 @@ const DetailMasterPage = ({
           </div>
 
           <TechnicalSolutionsCard
+            maintenanceId={maintenanceDetailsInfo?.id}
             canAddSolution={isCanAddSolution}
             solutions={maintenanceDetailsInfo?.maintenancesProposals || []}
           />
