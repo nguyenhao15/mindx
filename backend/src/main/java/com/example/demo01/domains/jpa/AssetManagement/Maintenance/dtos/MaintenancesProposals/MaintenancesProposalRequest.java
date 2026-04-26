@@ -16,7 +16,7 @@ public class MaintenancesProposalRequest {
     private Long maintenanceId;
 
     @NotBlank(message = "Proposal description is required")
-    private String proposalDescription;
+        private String proposalDescription;
 
     @NotNull(message = "Proposal cost is required")
     private Double proposalCost;

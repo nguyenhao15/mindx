@@ -56,7 +56,7 @@ const ModalComponent = ({ open, onClose, children }: ModalComponentProps) => {
               <DialogPanel
                 className={`h-fit max-h-[95vh] overflow-y-scroll rounded`}
               >
-                {renderedChildren}
+                `{renderedChildren}
               </DialogPanel>
             </TransitionChild>
           </div>

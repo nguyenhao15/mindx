@@ -11,9 +11,7 @@ const ProposalElementForm = ({
   errors,
   isSubmitting,
 }: ProposalElementFormProps) => {
-  const { register, control, getValues } =
-    useFormContext<CreateProposalRequestDTO>();
-
+  const { register, control } = useFormContext<CreateProposalRequestDTO>();
 
   return (
     <div className='flex flex-col gap-4'>
@@ -40,7 +38,7 @@ const ProposalElementForm = ({
         required
       />
       <TextInputField
-        id='proposaledBy'
+        id='proposedBy'
         label='Đơn vị đề xuất'
         placeholder='Nhập đơn vị đề xuất'
         errors={errors}

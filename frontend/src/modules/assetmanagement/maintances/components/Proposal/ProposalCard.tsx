@@ -43,7 +43,7 @@ const ProposalCard = ({ item, index, onEdit, onDelete }: ProposalCardProps) => {
         <p className='text-xs font-medium uppercase tracking-wide text-slate-500'>
           Mô tả phương án
         </p>
-        <p className='mt-2 max-h-32 overflow-y-auto whitespace-pre-wrap break-words pr-1 text-sm leading-6 text-slate-700'>
+        <p className='mt-2 max-h-32 overflow-y-auto whitespace-pre-wrap wrap-break-word pr-1 text-sm leading-6 text-slate-700'>
           {item.proposalDescription}
         </p>
       </div>
@@ -59,7 +59,7 @@ const ProposalCard = ({ item, index, onEdit, onDelete }: ProposalCardProps) => {
         <div className='inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1'>
           <UserRound className='size-3.5 text-slate-500' />
           <span className='text-xs font-medium text-slate-700'>
-            {item.proposaledBy}
+            {item.proposedBy}
           </span>
         </div>
       </div>

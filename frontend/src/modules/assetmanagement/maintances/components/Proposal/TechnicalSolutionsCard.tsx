@@ -4,6 +4,7 @@ import { Clock3, Package2 } from 'lucide-react';
 import { useState } from 'react';
 import ProposalForm from './ProposalForm';
 import ProposalFormsInput from './ProposalFormsInput';
+import ProposalCard from './ProposalCard';
 
 type Solution = {
   id: string;
@@ -11,6 +12,8 @@ type Solution = {
   detail: string;
   estimateHours: number;
   materials: string[];
+  proposalDescription: string;
+  proposalCost: number;
 };
 
 interface TechnicalSolutionsCardProps {
@@ -25,6 +28,11 @@ const TechnicalSolutionsCard = ({
   maintenanceId,
 }: TechnicalSolutionsCardProps & { maintenanceId: number }) => {
   const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOnClose = () => {
+    console.log('Esc is clicked');
+    setModalOpen(false);
+  };
   return (
     <section className='w-full bg-white rounded-2xl border border-slate-100 p-5 sm:p-6'>
       <h2 className='text-base font-semibold text-slate-800'>
@@ -36,25 +44,16 @@ const TechnicalSolutionsCard = ({
           Thêm phương án kỹ thuật
         </Button>
         {solutions.map((solution) => (
-          <article key={solution.id} className='rounded-xl bg-slate-50 p-4'>
-            <h3 className='text-sm font-semibold text-slate-800'>
-              {solution.title}
-            </h3>
-            <p className='mt-1 text-sm text-slate-600'>{solution.detail}</p>
-            <div className='mt-3 flex flex-wrap items-center gap-4'>
-              <span className='inline-flex items-center gap-1.5 text-xs text-slate-600'>
-                <Clock3 size={14} className='text-slate-400' />
-                {solution.estimateHours} giờ dự kiến
-              </span>
-              <span className='inline-flex items-center gap-1.5 text-xs text-slate-600'>
-                <Package2 size={14} className='text-slate-400' />
-                {solution.materials.join(', ')}
-              </span>
-            </div>
-          </article>
+          <ProposalCard
+            key={solution.id}
+            item={solution}
+            index={0}
+            onEdit={() => {}}
+            onDelete={() => {}}
+          />
         ))}
       </div>
-      <ModalComponent open={modalOpen} onClose={() => setModalOpen(false)}>
+      <ModalComponent open={modalOpen} onClose={handleOnClose}>
         <ProposalFormsInput id={maintenanceId} />
       </ModalComponent>
     </section>

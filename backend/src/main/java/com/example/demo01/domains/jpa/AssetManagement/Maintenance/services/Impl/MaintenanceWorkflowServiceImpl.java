@@ -3,7 +3,6 @@ package com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Impl
 import com.example.demo01.core.AuditUpdate.model.ChangeType;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceDetailResponse;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceRequestDto;
-import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceSummaryDTO;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceUpdateRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.MaintenancesProposals.MaintenancesProposalsDto;
@@ -13,7 +12,6 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Maint
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenancesProposalService;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
-import com.example.demo01.utils.ModuleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +30,7 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
     private MaintenancesProposalService maintenancesProposalService;
 
     @Override
-    @Transactional
+    @Transactional(transactionManager = "postgreSQLTransactionManager")
     public MaintenanceDetailResponse createProposals(Long id, List<MaintenancesProposalRequest> requests) {
         List<MaintenancesProposalsDto> results = new ArrayList<>();
         MaintenanceEntity maintenance = maintenanceService.getReference(id);
@@ -48,7 +46,6 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
 
         auditUpdateRequest.setItemId(id.toString());
         auditUpdateRequest.setUpdateValue(maintenanceRequestDto.getMaintenancesStatus());
-        auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);
         auditUpdateRequest.setDescription("Added "+ requests.size() + " proposals to maintenance with id: " + id);
         auditUpdateRequest.setChangeType(ChangeType.UPDATE);
 

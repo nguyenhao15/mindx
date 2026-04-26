@@ -2,11 +2,11 @@ import {
   createProposalSchema,
   type CreateProposalRequestDTO,
 } from '../../schema/proposalSchema';
-import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import ProposalElementForm from './ProposalElementForm';
+import { useEffect } from 'react';
 
 interface ProposalFormProps {
   itemId: number;
@@ -26,13 +26,22 @@ const ProposalForm = ({
       maintenanceId: itemId,
       proposalDescription: '',
       proposalCost: 0,
-      proposaledBy: '',
+      proposedBy: '',
       proposalStatus: 'PROPOSAL_PENDING',
       ...defaultValue,
     },
   });
 
-  console.log('Edit item: ', defaultValue);
+  useEffect(() => {
+    reset({
+      maintenanceId: itemId,
+      proposalDescription: '',
+      proposalCost: 0,
+      proposedBy: '',
+      proposalStatus: 'PROPOSAL_PENDING',
+      ...defaultValue,
+    });
+  }, [defaultValue, itemId]);
 
   const {
     handleSubmit,
@@ -40,30 +49,23 @@ const ProposalForm = ({
     formState: { errors, isSubmitting },
   } = methods;
 
-  useEffect(() => {
-    reset({
-      maintenanceId: itemId,
-      proposalDescription: '',
-      proposalCost: 0,
-      proposaledBy: '',
-      proposalStatus: 'PROPOSAL_PENDING',
-      ...defaultValue,
-    });
-  }, [defaultValue, itemId, reset]);
-
   const onFormSubmit = async (data: CreateProposalRequestDTO) => {
-    onSubmit(data);
+    const payload = {
+      indexValue: Math.random().toString(36).substring(2, 9),
+      ...data,
+    };
+    onSubmit(payload);
     reset({
       maintenanceId: itemId,
       proposalDescription: '',
       proposalCost: 0,
-      proposaledBy: '',
+      proposedBy: '',
       proposalStatus: 'PROPOSAL_PENDING',
     });
   };
 
   return (
-    <div className='p-2 flex flex-col gap-4 bg-gray-50 rounded w-96'>
+    <div className='p-4 flex flex-col gap-4 bg-gray-50 rounded w-96'>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <ProposalElementForm errors={errors} isSubmitting={isSubmitting} />

@@ -5,7 +5,7 @@ export const proposalSchema = z.object({
   maintenance: z.object(any).optional(),
   proposalDescription: z.string().min(1, 'Mô tả không được để trống'),
   proposalCost: z.number().min(0, 'Chi phí phải là số dương'),
-  proposaledBy: z.string().min(1, 'Người đề xuất không được để trống'),
+  proposedBy: z.string().min(1, 'Người đề xuất không được để trống'),
   maintenanceId: z.number().min(1, 'Vui lòng chọn một bảo trì hợp lệ'),
   proposalStatus: z
     .enum([

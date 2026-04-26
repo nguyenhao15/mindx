@@ -2,12 +2,16 @@ import { useState } from 'react';
 import type { CreateProposalRequestDTO } from '../../schema/proposalSchema';
 import ProposalForm from './ProposalForm';
 import ProposalCard from './ProposalCard';
+import { Switch } from '@/components/input-elements/Switch';
+import { useCreateProposal } from '../../hooks/useProposal';
 
 interface ProposalFormProps {
   id: number;
 }
 
 const ProposalFormsInput = ({ id }: ProposalFormProps) => {
+  const [multipleProposalsEnabled, setMultipleProposalsEnabled] =
+    useState(false);
   const [editItem, setEditItem] = useState<CreateProposalRequestDTO | null>(
     null,
   );
@@ -16,16 +20,29 @@ const ProposalFormsInput = ({ id }: ProposalFormProps) => {
     [],
   );
 
-  const handleAddProposal = (proposal: CreateProposalRequestDTO) => {
-    setProposalList((prev) => [...prev, proposal]);
+  const { mutateAsync: createProposal, isPending: isCreatingProposal } =
+    useCreateProposal(id);
+
+  const handleAddProposal = async (proposal: CreateProposalRequestDTO) => {
+    if (multipleProposalsEnabled) {
+      setProposalList((prev) => [...prev, proposal]);
+    } else {
+      try {
+        await createProposal([proposal]);
+
+        setProposalList([]);
+      } catch (error) {
+        console.error('Failed to create proposal:', error);
+      }
+    }
+
+    setEditItem(null);
+    setEditingIndex(null);
   };
 
-  const handleEditProposal = (
-    item: CreateProposalRequestDTO,
-    index: number,
-  ) => {
+  const handleEditProposal = (item: any, index: number) => {
     setEditItem(item);
-    setEditingIndex(index);
+    setEditingIndex(item.indexValue ? index : null);
     handleDeleteProposal(index);
   };
 
@@ -46,30 +63,37 @@ const ProposalFormsInput = ({ id }: ProposalFormProps) => {
   };
 
   return (
-    <div className='flex flex-col gap-4 p-5 bg-white rounded'>
-      <h2 className='text-lg font-semibold'>
+    <div className=' flex flex-col gap-4 p-5 bg-white rounded'>
+      <h2 className='text-lg font-semibold m-4 text-slate-700'>
         Proposal Forms for Maintenance ID: {id}
       </h2>
-      <div className='flex flex-col gap-4'>
+      <div className='w-full flex flex-col gap-4 items-center'>
+        <Switch
+          id='proposal-switch'
+          label='Thêm nhiều đề xuất'
+          onChange={() => setMultipleProposalsEnabled((prev) => !prev)}
+          checked={multipleProposalsEnabled}
+        />
         <ProposalForm
           itemId={id}
           onSubmit={handleAddProposal}
           defaultValue={editItem || {}}
         />
-
-        {proposalList.length > 0 && (
-          <div className='space-y-3'>
-            {proposalList.map((proposal, index) => (
-              <ProposalCard
-                key={`${proposal.maintenanceId}-${index}`}
-                item={proposal}
-                index={index}
-                onEdit={handleEditProposal}
-                onDelete={handleDeleteProposal}
-              />
-            ))}
-          </div>
-        )}
+        <div>
+          {proposalList.length > 0 && (
+            <div className='flex flex-row gap-4 overflow-x-scroll space-y-3 h-64 p-3 bg-gray-50 rounded'>
+              {proposalList.map((proposal: any, index: number) => (
+                <ProposalCard
+                  key={proposal.indexValue}
+                  item={proposal}
+                  index={index}
+                  onEdit={handleEditProposal}
+                  onDelete={handleDeleteProposal}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

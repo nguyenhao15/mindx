@@ -18,7 +18,7 @@ public class MaintenanceWorkFlowController {
     MaintenanceWorkflow maintenanceWorkflow;
 
     @PostMapping("/proposal/create/{id}")
-    public ResponseEntity<?> createProposal(@PathVariable Long id, @RequestBody List<MaintenancesProposalRequest> requests){
+    public ResponseEntity<?> createProposals(@PathVariable Long id, @RequestBody List<MaintenancesProposalRequest> requests){
         MaintenanceDetailResponse results = maintenanceWorkflow.createProposals(id, requests);
         return ResponseEntity.ok().body(results);
     }
