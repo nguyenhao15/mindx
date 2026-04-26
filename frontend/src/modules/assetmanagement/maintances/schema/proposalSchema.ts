@@ -14,7 +14,7 @@ export const proposalSchema = z.object({
       'PROPOSAL_REJECTED',
       'PROPOSAL_CANCELLED',
     ])
-    .optional(),
+    .default('PROPOSAL_PENDING'),
   createdDate: z.string().optional(),
   lastModifiedDate: z.string().optional(),
   createdBy: z.string().optional(),
@@ -39,6 +39,19 @@ export const updateProposalSchema = proposalSchema.partial().omit({
   lastModifiedBy: true,
 });
 
+export const proposalNestOject = proposalSchema.pick({
+  id: true,
+  proposalDescription: true,
+  proposalCost: true,
+  proposedBy: true,
+  proposalStatus: true,
+  createdBy: true,
+  lastModifiedBy: true,
+  lastModifiedDate: true,
+  createdDate: true,
+});
+
+export type ProposalNestObject = z.infer<typeof proposalNestOject>;
 export type Proposal = z.infer<typeof proposalSchema>;
 export type CreateProposalRequestDTO = z.infer<typeof createProposalSchema>;
 export type UpdateProposalRequestDTO = z.infer<typeof updateProposalSchema>;

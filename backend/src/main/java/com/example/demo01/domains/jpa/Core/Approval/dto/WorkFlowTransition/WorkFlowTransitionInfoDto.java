@@ -16,6 +16,8 @@ public record WorkFlowTransitionInfoDto (
 
      String labelName,
 
+     String operator,
+
      String actionType,
 
      List<ApprovalPolicyInfoDto> approvalPolicyEntity,

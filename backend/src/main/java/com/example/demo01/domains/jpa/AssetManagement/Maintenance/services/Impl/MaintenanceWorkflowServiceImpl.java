@@ -42,6 +42,8 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
         AuditUpdateRequest auditUpdateRequest = new AuditUpdateRequest();
         if (Objects.equals(maintenance.getMaintenancesStatus(), MaintenancesStatus.APPROVED.toString())) {
             maintenanceRequestDto.setMaintenancesStatus(MaintenancesStatus.PROCESSING.toString());
+        } else {
+            maintenanceRequestDto.setMaintenancesStatus(maintenance.getMaintenancesStatus());
         }
 
         auditUpdateRequest.setItemId(id.toString());

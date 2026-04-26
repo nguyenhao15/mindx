@@ -7,6 +7,7 @@ import com.example.demo01.domains.jpa.Core.Audit.mapper.AuditUpdateJpaMapper;
 import com.example.demo01.repository.postgreSQL.Core.AuditRepository.AuditUpdateRepository;
 import com.example.demo01.utils.ModuleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,9 @@ public class AuditUpdateServiceImpl implements AuditUpdateService  {
     @Override
     public List<AuditUpdateDto> getAuditUpdatesByEntityName(ModuleEnum moduleEnum, Long id) {
         String identifier = moduleEnum + "-" + id;
-        List<AuditUpdateEntity> auditUpdateEntities = auditUpdateRepository.findByIdentifier(identifier);
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        List<AuditUpdateEntity> auditUpdateEntities = auditUpdateRepository.findByIdentifier(identifier, sort);
         return auditUpdateJpaMapper.fromEntityToDto(auditUpdateEntities);
     }
 

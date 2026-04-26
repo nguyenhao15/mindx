@@ -35,6 +35,7 @@ const WorkFlowFormElements = ({
         render={({ field: { onChange, value, ...rest } }) => (
           <ComboboxComponent
             label='Module'
+            defaultValue={value}
             onChange={onChange}
             {...rest}
             isLoading={isLoading}
@@ -43,6 +44,24 @@ const WorkFlowFormElements = ({
               { label: 'Sửa chữa', value: 'MAINTENANCE' },
               { label: 'Hợp đồng', value: 'CONTRACT' },
             ]}
+          />
+        )}
+      />
+      <Controller
+        control={control}
+        name='operator'
+        render={({ field: { onChange, value, ...rest } }) => (
+          <ComboboxComponent
+            label='Quy tắc so sánh'
+            onChange={onChange}
+            defaultValue={value}
+            {...rest}
+            isLoading={isLoading}
+            options={[
+              { label: 'Bằng', value: 'EQ' },
+              { label: 'Không bằng', value: 'NEQ' },
+            ]}
+            errors={errors.operator?.message as string}
           />
         )}
       />
@@ -85,6 +104,7 @@ const WorkFlowFormElements = ({
             label='Loại hành động'
             onChange={onChange}
             {...rest}
+            defaultValue={value}
             isLoading={isLoading}
             options={[
               { label: 'Tích cực', value: 'POSITIVE' },

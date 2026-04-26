@@ -20,16 +20,9 @@ public class ApprovalEngineUtil {
     private WorkFlowTransitionService workFlowTransitionService;
 
 
-    public List<WorkFlowTransitionInfoDto> canTransitionValues(String currentStatus, ModuleEnum moduleEnum) {
-        List<WorkFlowTransitionInfoDto> availableAction = workFlowTransitionService.getWorkFlowTransitionDtoByCurrentStatusAndModule(currentStatus, moduleEnum);
-        if (availableAction == null || availableAction.isEmpty()) {
-            return List.of();
-        }
-        return availableAction;
-    }
-
     public List<ActionResponse> getAvailableAction(String currentStatus, String fromDepartment,String author , ModuleEnum moduleEnum) {
-        List<WorkFlowTransitionInfoDto> availableAction = canTransitionValues(currentStatus, moduleEnum);
+        List<WorkFlowTransitionInfoDto> availableAction = workFlowTransitionService.getWorkFlowTransitionDtoByCurrentStatusAndModule(currentStatus, moduleEnum);
+        System.out.println("availableAction: " + availableAction);
         if (availableAction == null || availableAction.isEmpty()) {
             return List.of();
         }
@@ -48,7 +41,7 @@ public class ApprovalEngineUtil {
     }
 
     public boolean canTransition(String targetStatus,String currentStatus, ModuleEnum moduleEnum) {
-        List<WorkFlowTransitionInfoDto> availableAction = canTransitionValues(currentStatus, moduleEnum);
+        List<WorkFlowTransitionInfoDto> availableAction = workFlowTransitionService.getWorkFlowTransitionDtoByCurrentStatusAndModule(currentStatus, moduleEnum);
         if (availableAction == null || availableAction.isEmpty()) {
             return false;
         }

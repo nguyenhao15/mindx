@@ -13,9 +13,12 @@ import UseAdminLayout from '../content/UseAdminLayout';
 import { safeString, toArray } from '@/utils/formatValue';
 import type { Column } from '@/components/shared/DataTable';
 import Status from '@/components/shared/Status';
+import UpdateWorkFlowForm from './Form/UpdateWorkFlowForm';
 
 const WorkflowComponent = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<any>(null);
   const [filterWithPagination, setFilterWithPagination] =
     useState<FilterWithPaginationInput>({
       filters: [],
@@ -63,6 +66,12 @@ const WorkflowComponent = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleSelectRow = (row: any) => {
+    handleOpenModal();
+    setEditMode(true);
+    setSelectedRow(row);
   };
 
   const { content, ...rest } = data || {};
@@ -126,7 +135,7 @@ const WorkflowComponent = () => {
         handlePageChange={handlePageChange}
         pagination={rest}
         onCtaClick={handleOpenModal}
-        handleEdit={handleOpenModal}
+        handleEdit={handleSelectRow}
         ModuleIcon={Workflow}
         ctaLabel='Thêm mới'
         // openAddNewModal={openModal}
@@ -134,7 +143,16 @@ const WorkflowComponent = () => {
       />
       <ModalComponent open={openModal} onClose={handleCloseModal}>
         {/* Nội dung modal */}
-        <WorkFlowForm afterSubmit={handleCloseModal} />
+        {editMode && selectedRow ? (
+          <UpdateWorkFlowForm
+            initialValues={selectedRow}
+            editMode={editMode}
+            afterSubmit={handleCloseModal}
+          />
+        ) : (
+          <WorkFlowForm afterSubmit={handleCloseModal} />
+        )}
+        {!editMode && <WorkFlowForm afterSubmit={handleCloseModal} />}
       </ModalComponent>
     </div>
   );

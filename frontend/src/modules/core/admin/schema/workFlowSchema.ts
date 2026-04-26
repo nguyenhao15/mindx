@@ -6,6 +6,7 @@ export const workFlowSchema = z.object({
   fromStatus: z.string().min(1, 'From status is required'),
   toStatus: z.string().min(1, 'To status is required'),
   labelName: z.string().min(1, 'Label name is required'),
+  operator: z.enum(['EQ', 'NEQ']).default('EQ'),
   actionType: z.string().min(1, 'Action type is required'),
   description: z.string().optional(),
   enabled: z.boolean().default(true),
@@ -20,6 +21,7 @@ export const createWorkFlowSchema = workFlowSchema.omit({ id: true }).pick({
   actionType: true,
   description: true,
   enabled: true,
+  operator: true,
 });
 
 export type WorkFlowFormData = z.infer<typeof workFlowSchema>;

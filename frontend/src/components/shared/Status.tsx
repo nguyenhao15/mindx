@@ -7,6 +7,8 @@ const Status = ({
 }) => {
   const getStatusStyle = (s: string) => {
     switch (s) {
+      case 'PROCESSING':
+        return 'bg-blue-50 text-blue-700 border-blue-200';
       case 'WAITING':
         return 'bg-yellow-50 text-yellow-700 border-yellow-200';
       case 'APPROVED':

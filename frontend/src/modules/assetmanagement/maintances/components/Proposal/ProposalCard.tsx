@@ -1,34 +1,52 @@
 import { formatPrice } from '@/utils/formatValue';
 import { Pencil, Trash2, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { CreateProposalRequestDTO } from '../../schema/proposalSchema';
+import type {
+  CreateProposalRequestDTO,
+  ProposalNestObject,
+} from '../../schema/proposalSchema';
+import Status from '@/components/shared/Status';
 
 interface ProposalCardProps {
-  item: CreateProposalRequestDTO;
+  EditIcon?: React.ElementType;
+  item: CreateProposalRequestDTO | ProposalNestObject;
   index: number;
-  onEdit: (item: CreateProposalRequestDTO, index: number) => void;
+  onEdit: (
+    item: CreateProposalRequestDTO | ProposalNestObject,
+    index: number,
+  ) => void;
   onDelete: (index: number) => void;
 }
 
-const ProposalCard = ({ item, index, onEdit, onDelete }: ProposalCardProps) => {
+const ProposalCard = ({
+  item,
+  index,
+  onEdit,
+  onDelete,
+  EditIcon = Pencil,
+}: ProposalCardProps) => {
+  const statusSub = String(item.proposalStatus)
+    .toUpperCase()
+    .substring(9, item.proposalStatus.length);
+
   return (
     <article className='rounded-xl border border-slate-200 bg-white p-4 shadow-sm'>
       <div className='flex items-start justify-between gap-3'>
-        <h3 className='text-sm font-semibold text-slate-800'>
-          Đề xuất #{index + 1}
-        </h3>
+        <Status status={statusSub} className='shrink-0' />
         <div className='flex items-center gap-2'>
           <Button
             size='icon-xs'
             variant='ghost'
+            className='cursor-pointer p-3'
             type='button'
             onClick={() => onEdit(item, index)}
             aria-label='Chỉnh sửa đề xuất'
           >
-            <Pencil className='size-4 text-slate-600' />
+            {EditIcon && <EditIcon className='size-4 text-slate-600' />}
           </Button>
           <Button
             size='icon-xs'
+            className='cursor-pointer p-3'
             variant='ghost'
             type='button'
             onClick={() => onDelete(index)}
@@ -49,7 +67,7 @@ const ProposalCard = ({ item, index, onEdit, onDelete }: ProposalCardProps) => {
       </div>
 
       <div className='mt-3 flex flex-wrap items-center justify-between gap-3'>
-        <div>
+        <div className='flex flex-col gap-3'>
           <p className='text-xs text-slate-500'>Chi phí dự kiến</p>
           <p className='text-sm font-semibold text-slate-800'>
             {formatPrice(item.proposalCost)}

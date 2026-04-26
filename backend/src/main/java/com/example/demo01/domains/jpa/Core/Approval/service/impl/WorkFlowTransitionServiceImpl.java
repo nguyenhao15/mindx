@@ -56,11 +56,25 @@ public class WorkFlowTransitionServiceImpl implements WorkFlowTransitionService 
 
     @Override
     public List<WorkFlowTransitionInfoDto> getWorkFlowTransitionDtoByCurrentStatusAndModule(String currentStatus, ModuleEnum moduleEnum) {
-        List<WorkFlowTransitionEntity> workFlowTransitionEntities = workFlowTransitionRepository.findByFromStatusAndModule(currentStatus, moduleEnum);
+        List<WorkFlowTransitionEntity> workFlowTransitionEntities = workFlowTransitionRepository.findByModule(moduleEnum);
+        System.out.println("workFlowTransitionEntities: " + workFlowTransitionEntities);
         if (workFlowTransitionEntities.isEmpty()) {
             return List.of();
         }
-        return workFlowTransitionMapper.fromEntityListToInfoList(workFlowTransitionEntities);
+
+        List<WorkFlowTransitionEntity> filteredTransitions = workFlowTransitionEntities.stream()
+                .filter(t -> {
+                    if ("EQ".equals(t.getOperator())) {
+                        return t.getFromStatus().equals(currentStatus);
+                    } else if ("NEQ".equals(t.getOperator())) {
+                        return !t.getFromStatus().equals(currentStatus);
+                    }
+                    return false;
+                })
+                .toList();
+
+        System.out.println("filteredTransitions: " + filteredTransitions);
+        return workFlowTransitionMapper.fromEntityListToInfoList(filteredTransitions);
     }
 
     @Override

@@ -12,6 +12,7 @@ type TimelineItem = {
 
 interface ActivityTimelineProps {
   activities: TimelineItem[];
+  limitItems?: number;
 }
 
 const CHANGE_TYPE_STYLE: Record<string, string> = {
@@ -33,20 +34,27 @@ const STATUS_STYLE: Record<string, string> = {
   COMPLETED: 'bg-[#1d3557]/10 text-[#1d3557]',
 };
 
-const ActivityTimeline = ({ activities }: ActivityTimelineProps) => {
+const ActivityTimeline = ({
+  activities,
+  limitItems,
+}: ActivityTimelineProps) => {
+  const displayedActivities = limitItems
+    ? activities.slice(0, limitItems)
+    : activities;
+
   return (
     <section className='w-full bg-white rounded-2xl border border-slate-100 p-5 sm:p-6'>
       <h2 className='text-base font-semibold text-slate-800'>
         Lịch sử cập nhật
       </h2>
 
-      {activities.length === 0 ? (
+      {displayedActivities.length === 0 ? (
         <div className='mt-4 rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-500'>
           Chưa có bản ghi cập nhật nào.
         </div>
       ) : (
         <div className='mt-5 space-y-4'>
-          {activities.map((item) => {
+          {displayedActivities.map((item) => {
             const changeType = safeString(item.changeType, 'UPDATE');
             const updateValue = safeString(item.updateValue, 'N/A');
 
@@ -89,6 +97,11 @@ const ActivityTimeline = ({ activities }: ActivityTimelineProps) => {
               </article>
             );
           })}
+          {limitItems && activities.length > limitItems && (
+            <div className='text-center text-sm text-slate-500'>
+              Và {activities.length - limitItems} bản ghi khác...
+            </div>
+          )}
         </div>
       )}
     </section>

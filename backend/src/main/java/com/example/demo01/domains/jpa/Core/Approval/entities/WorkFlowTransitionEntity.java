@@ -38,6 +38,8 @@ public class WorkFlowTransitionEntity extends BaseAuditJpaModel {
 
     private String labelName;
 
+    private String operator = "EQ";
+
     private String actionType;
 
     private String description;

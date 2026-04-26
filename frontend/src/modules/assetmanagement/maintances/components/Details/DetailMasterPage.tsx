@@ -40,16 +40,17 @@ const DetailMasterPage = ({
 }: DetailMasterPageProps) => {
   const { maintenanceDetailsInfo, files, updateHistory } = item || {};
 
-  const { data } = useGetAvailableActionUpdate(maintenanceDetailsInfo?.id, {
-    enabled: !!maintenanceDetailsInfo?.id,
-  });
-
-  console.log('Data: ', data);
+  const { data: availableActions } = useGetAvailableActionUpdate(
+    maintenanceDetailsInfo?.id,
+    {
+      enabled: !!maintenanceDetailsInfo?.id,
+    },
+  );
 
   const isCanAddSolution = useMemo(() => {
-    if (!data) return false;
-    return data.includes('PROCESSING');
-  }, [data]);
+    if (!availableActions) return false;
+    return availableActions.includes('PROCESSING');
+  }, [availableActions]);
 
   const detailStatus = maintenanceDetailsInfo?.maintenancesStatus || 'WAITING';
   const currentStep = STEP_INDEX_BY_STATUS[detailStatus] ?? 0;
@@ -91,7 +92,7 @@ const DetailMasterPage = ({
             ticketCode={
               maintenanceDetailsInfo?.id
                 ? `MNT-${maintenanceDetailsInfo.id}`
-                : 'MNT-2026-0042'
+                : 'N/A'
             }
             location={maintenanceDetailsInfo?.locationName || 'N/A'}
             reporter={maintenanceDetailsInfo?.createdBy || 'N/A'}
@@ -99,7 +100,7 @@ const DetailMasterPage = ({
             status={detailStatus}
           />
 
-          <ActivityTimeline activities={updateHistory || []} />
+          <ActivityTimeline limitItems={3} activities={updateHistory || []} />
         </div>
       </div>
     </div>

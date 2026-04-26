@@ -25,19 +25,15 @@ export const useCreateWorkflow = () => {
   });
 };
 
-export const useUpdateWorkflow = (options = {}) => {
+export const useUpdateWorkflow = (id: string, options = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: any }) => {
+    mutationFn: async (data: any) => {
       const response = await updateWorkFlow(id, data);
       return response;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'workflows'] });
-    },
-    onError: (error) => {
-      console.error('Error updating workflow:', error);
-      throw error; // Rethrow the error to be handled by the caller
     },
     ...options,
   });
