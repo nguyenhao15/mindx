@@ -82,7 +82,6 @@ const DetailMasterPage = ({
   return (
     <div className='flex flex-col gap-4 bg-slate-50 min-h-full p-4 sm:p-6 lg:p-8'>
       <ProgressStepper steps={DETAIL_STEPS} currentStep={currentStep} />
-
       <div className='w-full mt-4 rounded-lg p-2 gap-4 flex flex-col-reverse lg:flex-row mx-auto space-y-4 sm:space-y-5'>
         <div className='flex-2/3 w-full flex flex-col gap-4'>
           <div className='p-5 bg-white rounded-lg shadow-sm flex flex-col gap-4'>

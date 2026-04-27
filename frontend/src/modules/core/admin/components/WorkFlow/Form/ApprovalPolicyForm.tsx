@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import {
   createApprovalPolicySchema,
@@ -32,8 +32,18 @@ const ApprovalPolicyForm = ({ afterSubmit }: ApprovalPolicyFormProps) => {
     handleSubmit,
     control,
     register,
+    setValue,
+    watch,
     formState: { errors },
   } = methods;
+
+  const allowType = watch('allowType');
+
+  useEffect(() => {
+    if (allowType === 'EVERYONE') {
+      setValue('allowValue', '*');
+    }
+  }, [allowType]);
 
   const onSubmit = async (data: CreateApprovalPolicy) => {
     try {

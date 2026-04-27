@@ -8,6 +8,8 @@ import TextInputField from '@/components/input-elements/TextInputField';
 import { useUpdateMaintance } from '../../hooks/useMaintenanceHooks';
 import type { AuditUpdateJPADTO } from '@/validations/auditSchema';
 import toast from 'react-hot-toast';
+import ModalComponent from '@/components/shared/ModalComponent';
+import Loader from '@/components/shared/Loader';
 
 interface FinishedComponentProps {
   id: number;
@@ -119,6 +121,9 @@ const FinishedComponent = ({ id, afterUpdate }: FinishedComponentProps) => {
           </Button>
         </form>
       </FormProvider>
+      <ModalComponent open={isUpdating} onClose={() => {}}>
+        <Loader />
+      </ModalComponent>
     </div>
   );
 };

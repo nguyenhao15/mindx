@@ -30,6 +30,8 @@ public class ApprovalPolicyEntity extends BaseAuditJpaModel {
     @JsonIgnore
     private WorkFlowTransitionEntity workflowAction;
 
+    private Long workFlowId;
+
     @Column(name = "target_status", length = 50, nullable = false)
     private String targetStatus;
 

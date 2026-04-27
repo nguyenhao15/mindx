@@ -107,6 +107,9 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
             case AUTHOR -> {
                 return Objects.equals(currentUser.getStaffId(), author);
             }
+            case EVERYONE -> {
+                return true;
+            }
             default -> {
                 return false;
             }

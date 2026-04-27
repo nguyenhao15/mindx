@@ -85,6 +85,7 @@ const ApprovalFormElements = ({
               { label: 'Theo bộ phận', value: 'DEPARTMENT' },
               { label: 'Theo vị trí', value: 'POSITION' },
               { label: 'Theo người gửi', value: 'AUTHOR' },
+              { label: 'Mọi người', value: 'EVERYONE' },
             ]}
             errors={errors?.allowType?.message as string}
           />
@@ -100,8 +101,10 @@ const ApprovalFormElements = ({
             value={value}
             {...rest}
             label='Chọn bộ phận nhận phê duyệt'
-            required={allowType !== 'AUTHOR'}
-            disabled={allowType === 'AUTHOR' || isLoading}
+            required={allowType !== 'AUTHOR' && allowType !== 'EVERYONE'}
+            disabled={
+              allowType === 'AUTHOR' || allowType === 'EVERYONE' || isLoading
+            }
             isLoading={isLoading}
             placeholder='Chọn giá trị phê duyệt...'
             errorMessage={errors?.allowValue?.message as string}

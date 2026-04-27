@@ -15,6 +15,8 @@ public record ApprovalPolicyInfoDto (
 
      String allowValue,
 
+     Long workFlowId,
+
      String description,
 
      String requesterPosition,
