@@ -46,7 +46,7 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
         MaintenanceRequestDto maintenanceRequestDto = new MaintenanceRequestDto();
         AuditUpdateRequest auditUpdateRequest = new AuditUpdateRequest();
         if (Objects.equals(maintenance.getMaintenancesStatus(), MaintenancesStatus.APPROVED.toString())) {
-            maintenanceRequestDto.setMaintenancesStatus(MaintenancesStatus.PROCESSING.toString());
+            maintenanceRequestDto.setMaintenancesStatus(MaintenancesStatus.CHECKED.toString());
         } else {
             maintenanceRequestDto.setMaintenancesStatus(maintenance.getMaintenancesStatus());
         }
@@ -78,6 +78,7 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
         AuditUpdateRequest auditUpdateRequest = new AuditUpdateRequest();
         auditUpdateRequest.setItemId(maintenancesProposalRequest.getMaintenanceId().toString());
         auditUpdateRequest.setChangeType(ChangeType.UPDATE);
+        auditUpdateRequest.setUpdateValue("UPDATED");
         auditUpdateRequest.setDescription("Updated proposal with id: " + id + " for maintenance with id: " + maintenancesProposalRequest.getMaintenanceId());
         auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);
         maintenancesProposalService.updateProposal(id, maintenancesProposalRequest);

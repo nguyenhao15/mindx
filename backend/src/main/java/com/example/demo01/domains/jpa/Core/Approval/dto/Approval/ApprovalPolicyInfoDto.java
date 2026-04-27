@@ -5,23 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class ApprovalPolicyInfoDto {
+public record ApprovalPolicyInfoDto (
 
-    private Long id;
-    private String targetStatus;
+     Long id,
 
-    private AllowTypeEnum allowType;
+     String targetStatus,
 
-    private String allowValue;
+     AllowTypeEnum allowType,
 
-    private String description;
+     String allowValue,
 
-    private String requesterPosition;
-    private String module;
-    private Integer priority;
-    private Boolean isActive;
+     String description,
 
-}
+     String requesterPosition,
+
+     String module,
+
+     Integer priority,
+
+     Boolean isActive
+
+){}

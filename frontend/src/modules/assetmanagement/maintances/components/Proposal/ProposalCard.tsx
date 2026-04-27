@@ -35,28 +35,30 @@ const ProposalCard = ({
     <article className='rounded-xl border border-slate-200 bg-white p-4 shadow-sm'>
       <div className='flex items-start justify-between gap-3'>
         <Status status={statusSub} className='shrink-0' />
-        <div className='flex items-center gap-2'>
-          <Button
-            size='icon-xs'
-            variant='ghost'
-            className='cursor-pointer p-3'
-            type='button'
-            onClick={() => onEdit(item, index)}
-            aria-label='Chỉnh sửa đề xuất'
-          >
-            {EditIcon && <EditIcon className='size-4 text-slate-600' />}
-          </Button>
-          <Button
-            size='icon-xs'
-            className='cursor-pointer p-3'
-            variant='ghost'
-            type='button'
-            onClick={() => onDelete(index)}
-            aria-label='Xóa đề xuất'
-          >
-            {RemoveIcon && <RemoveIcon className='size-4 text-red-500' />}
-          </Button>
-        </div>
+        {statusSub != 'ACCEPTED' && (
+          <div className='flex items-center gap-2'>
+            <Button
+              size='icon-xs'
+              variant='ghost'
+              className='cursor-pointer p-3'
+              type='button'
+              onClick={() => onEdit(item, index)}
+              aria-label='Chỉnh sửa đề xuất'
+            >
+              {EditIcon && <EditIcon className='size-4 text-slate-600' />}
+            </Button>
+            <Button
+              size='icon-xs'
+              className='cursor-pointer p-3'
+              variant='ghost'
+              type='button'
+              onClick={() => onDelete(index)}
+              aria-label='Xóa đề xuất'
+            >
+              {RemoveIcon && <RemoveIcon className='size-4 text-red-500' />}
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className='mt-3 rounded-lg bg-slate-50 p-3'>

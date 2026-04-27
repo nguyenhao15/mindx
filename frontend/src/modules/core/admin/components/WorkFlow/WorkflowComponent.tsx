@@ -152,7 +152,6 @@ const WorkflowComponent = () => {
         ) : (
           <WorkFlowForm afterSubmit={handleCloseModal} />
         )}
-        {!editMode && <WorkFlowForm afterSubmit={handleCloseModal} />}
       </ModalComponent>
     </div>
   );

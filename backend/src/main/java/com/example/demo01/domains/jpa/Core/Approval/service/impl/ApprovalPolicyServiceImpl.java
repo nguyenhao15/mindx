@@ -145,7 +145,6 @@ public class ApprovalPolicyServiceImpl implements ApprovalPolicyService {
     @Override
     public ApprovalPolicyInfoDto updateApprovalPolicy(Long id, ApprovalPolicyRequestDto requestDto) {
         ApprovalPolicyEntity approvalPolicyEntity = getApprovalPolicyById(id);
-
         approvalPolicyMapper.updateEntityFromRequest(requestDto, approvalPolicyEntity);
         ApprovalPolicyEntity savedEntity = approvalPolicyRepository.save(approvalPolicyEntity);
         return  approvalPolicyMapper.fromEntityToInfo(savedEntity) ;

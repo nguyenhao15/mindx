@@ -90,5 +90,6 @@ export const useGetWorkflowByModule = (module: string) => {
       const response = await getWorkFlowByModule(module);
       return response;
     },
+    enabled: !!module, // Chỉ chạy query khi module có giá trị hợp lệ
   });
 };

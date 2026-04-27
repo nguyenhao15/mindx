@@ -10,9 +10,12 @@ import { safeString, toArray } from '@/utils/formatValue';
 import UseAdminLayout from '../content/UseAdminLayout';
 import { Shield } from 'lucide-react';
 import type { Column } from '@/components/shared/DataTable';
+import UpdateApprovalWorkflowForm from './Form/UpdateApprovalWorkflowForm';
 
 const ApprovalPolicyComponent = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<any>(null);
+
   const [filterWithPagination, setFilterWithPagination] =
     useState<FilterWithPaginationInput>({
       filters: [],
@@ -101,6 +104,12 @@ const ApprovalPolicyComponent = () => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    setSelectedRow(null);
+  };
+
+  const handleSelectRow = (row: any) => {
+    handleOpenModal();
+    setSelectedRow(row);
   };
 
   const { content, ...rest } = data || {};
@@ -118,10 +127,17 @@ const ApprovalPolicyComponent = () => {
         isLoading={isLoading}
         onCtaClick={handleOpenModal}
         ModuleIcon={Shield}
-        handleEdit={handleOpenModal}
+        handleEdit={handleSelectRow}
       />
       <ModalComponent open={openModal} onClose={handleCloseModal}>
-        <ApprovalPolicyForm afterSubmit={handleCloseModal} />
+        {selectedRow ? (
+          <UpdateApprovalWorkflowForm
+            initialValues={selectedRow}
+            afterSubmit={handleCloseModal}
+          />
+        ) : (
+          <ApprovalPolicyForm afterSubmit={handleCloseModal} />
+        )}
       </ModalComponent>
     </div>
   );

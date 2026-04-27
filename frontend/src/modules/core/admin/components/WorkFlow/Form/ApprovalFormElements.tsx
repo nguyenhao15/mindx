@@ -45,6 +45,7 @@ const ApprovalFormElements = ({
             label='Module'
             onChange={onChange}
             {...rest}
+            defaultValue={value}
             isLoading={isLoading}
             options={[
               { label: 'Quy trình', value: 'DOCUMENTS' },
@@ -78,6 +79,7 @@ const ApprovalFormElements = ({
             onChange={onChange}
             required
             {...rest}
+            defaultValue={value}
             isLoading={isLoading}
             options={[
               { label: 'Theo bộ phận', value: 'DEPARTMENT' },

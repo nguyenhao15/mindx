@@ -33,7 +33,8 @@ public class ApprovalPolicyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateApprovalPolicy(@PathVariable Long id ,ApprovalPolicyRequestDto requestDto) {
+    public ResponseEntity<?> updateApprovalPolicy(@PathVariable Long id ,
+                                                  @RequestBody ApprovalPolicyRequestDto requestDto) {
         ApprovalPolicyInfoDto approvalPolicyInfoDto = approvalPolicyService.updateApprovalPolicy(id,requestDto);
         return ResponseEntity.ok().body(approvalPolicyInfoDto);
     }
