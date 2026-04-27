@@ -2,9 +2,13 @@ import ModalComponent from '@/components/shared/ModalComponent';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import ProposalFormsInput from './ProposalFormsInput';
-import type { ProposalNestObject } from '../../schema/proposalSchema';
+import {
+  createProposalSchema,
+  type ProposalNestObject,
+} from '../../schema/proposalSchema';
 import ProposalCard from './ProposalCard';
-import { Check } from 'lucide-react';
+import { Check, X } from 'lucide-react';
+import { useUpdateProposal } from '../../hooks/useProposal';
 
 interface TechnicalSolutionsCardProps {
   maintenanceId: number;
@@ -19,12 +23,30 @@ const TechnicalSolutionsCard = ({
 }: TechnicalSolutionsCardProps & { maintenanceId: number }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
+  const { mutateAsync: update, isPending: isUpdating } = useUpdateProposal();
+
   const handleOpenModal = () => {
     setModalOpen(true);
   };
 
   const handleOnClose = () => {
     setModalOpen(false);
+  };
+
+  const handleApproveProposal = async (proposal: any) => {
+    const payload = {
+      ...proposal,
+      maintenanceId: maintenanceId,
+      proposalStatus: 'PROPOSAL_ACCEPTED',
+    };
+
+    const payloadToSend = createProposalSchema.parse(payload);
+
+    try {
+      await update({ id: proposal.id, data: payloadToSend });
+    } catch (error) {
+      console.error('Failed to approve proposal:', error);
+    }
   };
 
   return (
@@ -39,9 +61,10 @@ const TechnicalSolutionsCard = ({
           <ProposalCard
             key={solution.id}
             EditIcon={Check}
+            RemoveIcon={X}
             item={solution}
             index={solution.id || 0}
-            onEdit={() => {}}
+            onEdit={handleApproveProposal}
             onDelete={() => {}}
           />
         ))}

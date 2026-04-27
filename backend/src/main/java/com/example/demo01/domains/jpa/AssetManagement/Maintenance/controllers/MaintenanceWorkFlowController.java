@@ -23,4 +23,11 @@ public class MaintenanceWorkFlowController {
         return ResponseEntity.ok().body(results);
     }
 
+    @PutMapping("/proposal/update/{id}")
+    public ResponseEntity<?> updateProposal(@PathVariable Long id,
+                                            @RequestBody MaintenancesProposalRequest request){
+        MaintenanceDetailResponse maintenanceDetailResponse = maintenanceWorkflow.updateProposal(id, request);
+        return ResponseEntity.ok(maintenanceDetailResponse);
+    }
+
 }

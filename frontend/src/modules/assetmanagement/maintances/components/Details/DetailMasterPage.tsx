@@ -7,6 +7,7 @@ import Loader from '@/components/shared/Loader';
 import ErrorPage from '@/components/shared/ErrorPage';
 import { useGetAvailableActionUpdate } from '../../hooks/useMaintenanceHooks';
 import { useMemo } from 'react';
+import type { AvailableActionUpdate } from '@/modules/core/admin/schema/workFlowSchema';
 
 const DETAIL_STEPS = [
   { key: 'waiting', label: 'Chờ duyệt' },
@@ -47,9 +48,17 @@ const DetailMasterPage = ({
     },
   );
 
+  console.log('Available actions: ', availableActions);
+
   const isCanAddSolution = useMemo(() => {
     if (!availableActions) return false;
-    return availableActions.includes('PROCESSING');
+    const haveProcessing = availableActions.some(
+      (action: AvailableActionUpdate) => action.nextStatus === 'PROCESSING',
+    );
+    const haveChecked = availableActions.some(
+      (action: AvailableActionUpdate) => action.nextStatus === 'CHECKED',
+    );
+    return haveProcessing || haveChecked;
   }, [availableActions]);
 
   const detailStatus = maintenanceDetailsInfo?.maintenancesStatus || 'WAITING';

@@ -12,6 +12,8 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.Maint
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenancesProposalService;
 import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
+import com.example.demo01.domains.jpa.Core.Audit.service.AuditUpdateService;
+import com.example.demo01.utils.ModuleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,9 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
 
     @Autowired
     private MaintenancesProposalService maintenancesProposalService;
+
+    @Autowired
+    private AuditUpdateService auditUpdateService;
 
     @Override
     @Transactional(transactionManager = "postgreSQLTransactionManager")
@@ -60,9 +65,28 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
     }
 
     @Override
-    @Transactional
+    @Transactional(transactionManager = "postgreSQLTransactionManager")
     public MaintenancesProposalsDto createProposal(MaintenancesProposalRequest maintenancesProposalRequest) {
         MaintenanceEntity maintenance = maintenanceService.getReference(maintenancesProposalRequest.getMaintenanceId());
         return maintenancesProposalService.createProposal(maintenancesProposalRequest, maintenance);
+    }
+
+    @Override
+    @Transactional(transactionManager = "postgreSQLTransactionManager")
+    public MaintenanceDetailResponse updateProposal(Long id, MaintenancesProposalRequest maintenancesProposalRequest) {
+        Long maintenanceId = maintenancesProposalRequest.getMaintenanceId();
+        AuditUpdateRequest auditUpdateRequest = new AuditUpdateRequest();
+        auditUpdateRequest.setItemId(maintenancesProposalRequest.getMaintenanceId().toString());
+        auditUpdateRequest.setChangeType(ChangeType.UPDATE);
+        auditUpdateRequest.setDescription("Updated proposal with id: " + id + " for maintenance with id: " + maintenancesProposalRequest.getMaintenanceId());
+        auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);
+        maintenancesProposalService.updateProposal(id, maintenancesProposalRequest);
+        auditUpdateService.createAuditUpdate(auditUpdateRequest);
+        return maintenanceService.getMaintenanceDetailsInfo(maintenanceId);
+    }
+
+    @Override
+    public void deleteProposal(Long id) {
+        maintenancesProposalService.deleteProposal(id);
     }
 }

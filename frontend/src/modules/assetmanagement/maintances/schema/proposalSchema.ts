@@ -1,7 +1,7 @@
 import z, { any } from 'zod';
 
 export const proposalSchema = z.object({
-  id: z.number().optional(),
+  id: z.number(),
   maintenance: z.object(any).optional(),
   proposalDescription: z.string().min(1, 'Mô tả không được để trống'),
   proposalCost: z.number().min(0, 'Chi phí phải là số dương'),

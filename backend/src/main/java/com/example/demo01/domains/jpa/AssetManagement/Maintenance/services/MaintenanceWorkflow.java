@@ -12,4 +12,7 @@ public interface MaintenanceWorkflow {
 
     MaintenancesProposalsDto createProposal(MaintenancesProposalRequest maintenancesProposalRequest);
 
+    MaintenanceDetailResponse updateProposal(Long id, MaintenancesProposalRequest maintenancesProposalRequest);
+
+    void deleteProposal(Long id);
 }

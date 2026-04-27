@@ -1,5 +1,11 @@
 import z, { any } from 'zod';
 
+export const availableActionUpdateSchema = z.object({
+  label: z.string(),
+  nextStatus: z.string(),
+  actionType: z.string(),
+});
+
 export const workFlowSchema = z.object({
   id: z.number().optional(),
   module: z.string().min(1, 'Module is required'),
@@ -24,5 +30,6 @@ export const createWorkFlowSchema = workFlowSchema.omit({ id: true }).pick({
   operator: true,
 });
 
+export type AvailableActionUpdate = z.infer<typeof availableActionUpdateSchema>;
 export type WorkFlowFormData = z.infer<typeof workFlowSchema>;
 export type CreateWorkFlowFormData = z.infer<typeof createWorkFlowSchema>;

@@ -5,6 +5,8 @@ import {
   type MaintenanceStatus,
   type UpdateMaintenanceRequestDTO,
 } from '../schema/maintenaceSchema';
+import { availableActionUpdateSchema } from '@/modules/core/admin/schema/workFlowSchema';
+import z from 'zod';
 
 export const createMaintanceAction = (data: FormData) => {
   return mainteanceApi.createMaintenance(data);
@@ -43,5 +45,10 @@ export const deleteMaintanceAction = (id: number) => {
 
 export const getAvailableActionUpdate = async (id: number) => {
   const res = await mainteanceApi.getAvailableActionUpdate(id);
-  return res.data;
+  const results = z.array(availableActionUpdateSchema).safeParse(res.data);
+  if (!results.success) {
+    console.warn('API Data Mismatch:', results.error.format());
+    return res.data;
+  }
+  return results.data;
 };

@@ -9,6 +9,7 @@ import Status from '@/components/shared/Status';
 
 interface ProposalCardProps {
   EditIcon?: React.ElementType;
+  RemoveIcon?: React.ElementType;
   item: CreateProposalRequestDTO | ProposalNestObject;
   index: number;
   onEdit: (
@@ -24,6 +25,7 @@ const ProposalCard = ({
   onEdit,
   onDelete,
   EditIcon = Pencil,
+  RemoveIcon = Trash2,
 }: ProposalCardProps) => {
   const statusSub = String(item.proposalStatus)
     .toUpperCase()
@@ -52,7 +54,7 @@ const ProposalCard = ({
             onClick={() => onDelete(index)}
             aria-label='Xóa đề xuất'
           >
-            <Trash2 className='size-4 text-red-500' />
+            {RemoveIcon && <RemoveIcon className='size-4 text-red-500' />}
           </Button>
         </div>
       </div>
