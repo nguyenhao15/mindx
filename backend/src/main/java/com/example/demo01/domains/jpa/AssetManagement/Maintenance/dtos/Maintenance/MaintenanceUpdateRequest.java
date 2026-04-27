@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +18,5 @@ public class MaintenanceUpdateRequest {
 
     @NotNull(message = "Thông tin cập nhật là bắt buộc")
     private AuditUpdateRequest auditUpdateRequest;
+
 }

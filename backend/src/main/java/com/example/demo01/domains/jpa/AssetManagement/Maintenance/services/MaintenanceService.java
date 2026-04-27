@@ -30,7 +30,7 @@ public interface MaintenanceService {
 
     BasePageResponse<MaintenanceSummaryDTO> buildPageResponse(Page<MaintenanceEntity> page);
 
-    MaintenanceSummaryDTO updateMaintenance(Long id, MaintenanceUpdateRequest requestDto);
+    MaintenanceSummaryDTO updateMaintenance(Long id, MaintenanceUpdateRequest requestDto, List<MultipartFile> files);
 
     String softDeleteMaintenance(Long maintenanceId);
 

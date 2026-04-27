@@ -5,7 +5,6 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenan
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.dtos.Maintenance.MaintenanceUpdateRequest;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceWorkflow;
-import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.utils.BasePageResponse;
 import com.example.demo01.utils.FilterWithPagination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +48,11 @@ public class MaintenanceController {
         return ResponseEntity.ok(maintenanceService.getAvailableActions(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateMaintenance(@PathVariable Long id, @RequestBody MaintenanceUpdateRequest requestDto) {
-        MaintenanceSummaryDTO maintenanceSummaryDTO = maintenanceService.updateMaintenance(id, requestDto);
+    @PutMapping(value = "/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<?> updateMaintenance(@PathVariable Long id,
+                                               @RequestPart("data") MaintenanceUpdateRequest updateRequest,
+                                               @RequestPart(value = "attachments", required = false)  List<MultipartFile> files) {
+        MaintenanceSummaryDTO maintenanceSummaryDTO = maintenanceService.updateMaintenance(id, updateRequest, files);
         return ResponseEntity.ok(maintenanceSummaryDTO);
     }
 

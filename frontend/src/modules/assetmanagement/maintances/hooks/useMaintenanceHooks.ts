@@ -45,13 +45,7 @@ export const useGetMaintenances = (
 export const useUpdateMaintance = (options = {}) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: UpdateMaintenanceRequestDTO;
-    }) => {
+    mutationFn: async ({ id, data }: { id: string; data: FormData }) => {
       return updateMaintanceAction(id, data);
     },
     onSuccess: () => {

@@ -14,7 +14,6 @@ import com.example.demo01.domains.jpa.AssetManagement.Maintenance.entities.Maint
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.mapper.MaintenanceMapper;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.services.MaintenanceService;
 import com.example.demo01.domains.jpa.AssetManagement.Maintenance.utils.MaintenanceQueryUtil;
-import com.example.demo01.domains.jpa.AssetManagement.Utils.MaintenancesStatus;
 import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateDto;
 import com.example.demo01.domains.jpa.Core.Audit.dto.AuditUpdateRequest;
 import com.example.demo01.domains.jpa.Core.Audit.service.AuditUpdateService;
@@ -176,7 +175,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
     @Override
 //    @JaversAuditable
-    public MaintenanceSummaryDTO updateMaintenance(Long id, @UnknownNullability MaintenanceUpdateRequest requestDto) {
+    public MaintenanceSummaryDTO updateMaintenance(Long id, @UnknownNullability MaintenanceUpdateRequest requestDto, List<MultipartFile> files) {
         MaintenanceRequestDto maintenanceRequestDto = requestDto.getRequestDto();
         AuditUpdateRequest auditUpdateRequest = requestDto.getAuditUpdateRequest();
         MaintenanceEntity maintenanceEntity = getMaintenanceById(id);
@@ -184,10 +183,16 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         String status = maintenanceRequestDto.getMaintenancesStatus();
         String currentStatus = maintenanceEntity.getMaintenancesStatus();
 
+        System.out.println("Request dto: "+ requestDto);
         if (!Objects.equals(currentStatus, status)) {
             if (!approvalEngineUtil.canTransition(status,currentStatus, ModuleEnum.MAINTENANCE )) {
                 throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);
             }
+        }
+
+        if (files != null && !files.isEmpty()) {
+            String identify = ModuleEnum.MAINTENANCE +"-"+ id;
+            attachmentService.addAttachment(files, identify, "maintenance", ModuleEnum.MAINTENANCE, false);
         }
 
         auditUpdateRequest.setModule(ModuleEnum.MAINTENANCE);

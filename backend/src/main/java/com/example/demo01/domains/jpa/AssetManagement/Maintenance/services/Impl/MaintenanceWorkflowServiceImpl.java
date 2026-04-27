@@ -60,7 +60,7 @@ public class MaintenanceWorkflowServiceImpl implements MaintenanceWorkflow {
                 maintenanceRequestDto,
                 auditUpdateRequest
         );
-        maintenanceService.updateMaintenance(id, maintenanceUpdateRequest);
+        maintenanceService.updateMaintenance(id, maintenanceUpdateRequest, List.of());
         return maintenanceService.getMaintenanceDetailsInfo(id);
     }
 

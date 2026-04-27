@@ -105,6 +105,7 @@ export const MaintenanceUpdateFormSchema =
 export const MaintenanceUpdateRequest = z.object({
   requestDto: MaintenanceUpdateRequestDtoSchema,
   auditUpdateRequest: AuditUpdateJPASchema,
+  attachments: z.array(z.any()),
 });
 
 export const MaintenanceSumarySchemaArray = z.array(MaintenanceSumarySchema);

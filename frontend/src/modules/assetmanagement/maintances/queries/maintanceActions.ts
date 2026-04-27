@@ -32,10 +32,7 @@ export const getMaintanceDetailById = async (assetId: number) => {
   return res.data;
 };
 
-export const updateMaintanceAction = (
-  id: string,
-  data: UpdateMaintenanceRequestDTO,
-) => {
+export const updateMaintanceAction = (id: string, data: FormData) => {
   return mainteanceApi.updateMaintenance(id, data);
 };
 

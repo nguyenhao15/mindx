@@ -1,6 +1,5 @@
 import { MAINTANANCE_ENDPOINT } from '@/constants/api-endpoint';
 import axiosClient from '@/lib/axiosClient';
-import type { UpdateMaintenanceRequestDTO } from '../schema/maintenaceSchema';
 import type { FilterWithPaginationInput } from '@/validations/filterWithPagination';
 
 export const mainteanceApi = {
@@ -20,8 +19,12 @@ export const mainteanceApi = {
     return axiosClient.post(`${MAINTANANCE_ENDPOINT}/get/page`, filterInput);
   },
 
-  updateMaintenance: (id: string, data: UpdateMaintenanceRequestDTO) => {
-    return axiosClient.put(`${MAINTANANCE_ENDPOINT}/${id}`, data);
+  updateMaintenance: (id: string, data: FormData) => {
+    return axiosClient.put(`${MAINTANANCE_ENDPOINT}/${id}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   },
 
   deleteMaintenance: (id: number) => {

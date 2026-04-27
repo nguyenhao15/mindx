@@ -14,7 +14,7 @@ interface AttachementControlProps {
   isMultiFile?: boolean;
   supportedFileTypes?: string[];
   maxFileSize?: number;
-  rest: {};
+  rest?: {};
   errorMessage?: string;
 }
 

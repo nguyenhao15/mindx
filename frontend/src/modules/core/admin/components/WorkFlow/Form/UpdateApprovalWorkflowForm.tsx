@@ -63,7 +63,7 @@ const UpdateApprovalWorkflowForm = ({
 
   return (
     <div className='bg-white p-5 max-w-screen w-xl rounded-2xl'>
-      <h2> Update Approval Workflow Form</h2>
+      <h2 className='font-bold'> Update Approval Workflow Form</h2>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='space-y-6'>

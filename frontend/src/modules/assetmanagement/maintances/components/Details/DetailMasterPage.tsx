@@ -8,6 +8,8 @@ import ErrorPage from '@/components/shared/ErrorPage';
 import { useGetAvailableActionUpdate } from '../../hooks/useMaintenanceHooks';
 import { useMemo } from 'react';
 import type { AvailableActionUpdate } from '@/modules/core/admin/schema/workFlowSchema';
+import FinishedComponent from './FinishedComponent';
+import { Button } from '@/components/ui/button';
 
 const DETAIL_STEPS = [
   { key: 'waiting', label: 'Chờ duyệt' },
@@ -30,7 +32,7 @@ interface DetailMasterPageProps {
   item: any;
   isLoading: boolean;
   error: any;
-  onUpdateOpen: () => void;
+  onUpdateOpen: (value: 'update' | 'rework' | 'finished') => void;
 }
 
 const DetailMasterPage = ({
@@ -48,8 +50,6 @@ const DetailMasterPage = ({
     },
   );
 
-  console.log('Available actions: ', availableActions);
-
   const isCanAddSolution = useMemo(() => {
     if (!availableActions) return false;
     const haveProcessing = availableActions.some(
@@ -59,6 +59,13 @@ const DetailMasterPage = ({
       (action: AvailableActionUpdate) => action.nextStatus === 'CHECKED',
     );
     return haveProcessing || haveChecked;
+  }, [availableActions]);
+
+  const isCanFinish = useMemo(() => {
+    if (!availableActions) return false;
+    return availableActions.some(
+      (action: AvailableActionUpdate) => action.nextStatus === 'FINISHED',
+    );
   }, [availableActions]);
 
   const detailStatus = maintenanceDetailsInfo?.maintenancesStatus || 'WAITING';
@@ -83,9 +90,19 @@ const DetailMasterPage = ({
               <h2>Mô tả</h2>
               <p>{maintenanceDetailsInfo?.description || 'N/A'}</p>
             </div>
+
             <AttachmentsGallery attachments={files || []} />
           </div>
 
+          {isCanFinish && (
+            <Button
+              className='self-end cursor-pointer'
+              onClick={() => onUpdateOpen('finished')}
+              variant={'positive'}
+            >
+              Hoàn thành sửa chữa
+            </Button>
+          )}
           <TechnicalSolutionsCard
             maintenanceId={maintenanceDetailsInfo?.id}
             canAddSolution={isCanAddSolution}
