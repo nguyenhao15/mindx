@@ -1,4 +1,4 @@
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import TextInputField from '@/components/input-elements/TextInputField';
 import DatePickerComponent from '@/components/input-elements/DatePickerComponent';
 import type { MaintenanceStatus } from '../../schema/maintenaceSchema';
@@ -6,7 +6,6 @@ import LoadUserListByDepartmentControl from '@/modules/core/humanResource/compon
 import { ComboboxComponent } from '@/components/input-elements/ComboboxComponent';
 
 interface UpdateFormProps {
-  currentStatus: MaintenanceStatus;
   control: any;
   errors: any;
   register: any;
@@ -14,12 +13,15 @@ interface UpdateFormProps {
 }
 
 const UpdateForm = ({
-  currentStatus,
   control,
   errors,
   register,
   isLoading = false,
 }: UpdateFormProps) => {
+  const { watch } = useFormContext();
+
+  const currentStatus = watch('maintenancesStatus') as MaintenanceStatus;
+
   return (
     <div className='min-w-full flex flex-col gap-4 bg-white p-4'>
       {currentStatus === 'APPROVED' && (
@@ -61,6 +63,7 @@ const UpdateForm = ({
           <DatePickerComponent
             {...rest}
             value={value}
+            required
             onChange={onChange}
             disabled={isLoading}
             label='Ngày kiểm tra'
@@ -93,7 +96,7 @@ const UpdateForm = ({
         required
         register={register}
         errors={errors}
-        rows={3}
+        rows={5}
         placeholder='Nhập mô tả lý do thay đổi'
       />
     </div>

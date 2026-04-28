@@ -4,96 +4,99 @@ import {
   MaintenanceUpdateFormSchema,
   MaintenanceUpdateRequest,
   type MaintenanceStatus,
-  type UpdateMaintenanceFormInputDTO,
-  type UpdateMaintenanceRequestDataDTO,
+  type UpdateMaintenanceFormDTO,
   type UpdateMaintenanceRequestDTO,
 } from '../../schema/maintenaceSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import UpdateForm from './UpdateForm';
 import { Button } from '@/components/ui/button';
-import type { AuditUpdateJPADTO } from '@/validations/auditSchema';
+import {
+  AuditUpdateJPASchema,
+  type AuditUpdateJPADTO,
+} from '@/validations/auditSchema';
 import {
   useGetAvailableActionUpdate,
   useUpdateMaintance,
 } from '../../hooks/useMaintenanceHooks';
 import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+import { parse } from 'date-fns';
 
 interface UpdateItemComponentProps {
   id: number;
-  maintenancesStatus: MaintenanceStatus;
-  reWork: boolean;
-  totalCost: number;
+  data: any;
   afterUpdate?: () => void;
 }
 
 const UpdateItemComponent = ({
   id,
-  maintenancesStatus,
-  reWork,
-  totalCost,
+  data,
   afterUpdate,
 }: UpdateItemComponentProps) => {
-  const methods = useForm<UpdateMaintenanceFormInputDTO>({
+  const methods = useForm({
+    mode: 'onBlur',
     resolver: zodResolver(MaintenanceUpdateFormSchema),
-    defaultValues: {
-      maintenancesStatus,
-      module: 'MAINTENANCE',
-      changeType: 'UPDATE',
-      identifier: String(id),
-      reWork,
-      totalCost,
-    },
+    defaultValues: data,
   });
 
   const { mutateAsync, isPending } = useUpdateMaintance();
 
-  const { data } = useGetAvailableActionUpdate(id, {
+  const { data: availableActions } = useGetAvailableActionUpdate(id, {
     enabled: !!id,
   });
 
   const {
     handleSubmit,
     register,
+    setError,
     control,
+    reset,
     formState: { errors },
   } = methods;
 
+  useEffect(() => {
+    reset({
+      ...data,
+      identifier: String(id),
+      type: 'UPDATE',
+      module: 'MAINTENANCE',
+    });
+  }, [data, id]);
+
   const onSubmitData = async (
-    formData: UpdateMaintenanceFormInputDTO,
+    formData: UpdateMaintenanceFormDTO,
     action?: string,
   ) => {
+    if (action === 'APPROVED' && !formData.inspectAt) {
+      setError('inspectAt', {
+        type: 'manual',
+        message: 'Ngày kiểm tra là bắt buộc khi duyệt bảo trì',
+      });
+      return;
+    }
     const maintenanceUpdatePayload =
       MaintenanceUpdateFormSchema.parse(formData);
+
+    const auditPayload = AuditUpdateJPASchema.parse(formData);
 
     const nextStatus = MAINTENANCE_STATUS_VALUES.includes(
       action as MaintenanceStatus,
     )
       ? (action as MaintenanceStatus)
-      : maintenancesStatus;
+      : data.maintenancesStatus;
 
     const updateAuditPayload: AuditUpdateJPADTO = {
-      identifier: String(id),
-      changeType: 'UPDATE',
+      ...auditPayload,
       updateValue: nextStatus,
-      module: 'MAINTENANCE',
-      description: formData.description,
-    };
-
-    const requestDto: UpdateMaintenanceRequestDataDTO = {
-      maintenancesStatus: nextStatus,
-      reWork: maintenanceUpdatePayload.reWork,
-      totalCost: maintenanceUpdatePayload.totalCost,
-      isDeleted: maintenanceUpdatePayload.isDeleted,
-      inspectAt: maintenanceUpdatePayload.inspectAt,
-      completionAt: maintenanceUpdatePayload.completionAt,
-      assignedTo: maintenanceUpdatePayload.assignedTo,
-      verifiedAt: maintenanceUpdatePayload.verifiedAt,
-      ...maintenanceUpdatePayload,
+      description: formData.description || '',
     };
 
     const sendingData: UpdateMaintenanceRequestDTO =
       MaintenanceUpdateRequest.parse({
-        requestDto,
+        requestDto: MaintenanceUpdateFormSchema.parse({
+          ...maintenanceUpdatePayload,
+          maintenancesStatus: nextStatus,
+        }),
         auditUpdateRequest: updateAuditPayload,
       });
     const formdata = new FormData();
@@ -105,6 +108,7 @@ const UpdateItemComponent = ({
       id: String(id),
       data: formdata,
     };
+
     try {
       await mutateAsync(payload);
       toast.success('Cập nhật thành công');
@@ -122,6 +126,7 @@ const UpdateItemComponent = ({
 
   return (
     <div className='p-10 bg- rounded-lg w-full bg-white border border-slate-100 '>
+      <h3 className='text-center font-bold'> Cập nhật bảo trì</h3>
       <FormProvider {...methods}>
         <form
           action=''
@@ -129,36 +134,35 @@ const UpdateItemComponent = ({
           className='w-full min-w-96'
         >
           <UpdateForm
-            currentStatus={maintenancesStatus}
             control={control}
+            isLoading={isPending}
             register={register}
             errors={errors}
           />
         </form>
-        <div
-          className={`grid grid-cols-${data?.length} gap-2 p-2 items-center justify-self-center`}
-        >
-          {data?.length > 0 &&
-            data.map(
-              (action: {
-                label: string;
-                nextStatus: string;
-                actionType: string;
-              }) => (
-                <Button
-                  key={action.nextStatus}
-                  type='button'
-                  variant={action.actionType.toLowerCase() as any}
-                  className='mt-4'
-                  onClick={submitWithAction(action.nextStatus)}
-                  disabled={isPending}
-                >
-                  {action?.label}
-                </Button>
-              ),
-            )}
-        </div>
       </FormProvider>
+      <div
+        className={`grid grid-cols-${availableActions?.length} gap-2 p-2 items-center justify-self-center`}
+      >
+        {availableActions?.length > 0 &&
+          availableActions.map(
+            (action: {
+              label: string;
+              nextStatus: string;
+              actionType: string;
+            }) => (
+              <Button
+                key={action.nextStatus}
+                variant={action.actionType.toLowerCase() as any}
+                className='mt-4 cursor-pointer'
+                onClick={submitWithAction(action.nextStatus)}
+                disabled={isPending}
+              >
+                {action?.label}
+              </Button>
+            ),
+          )}
+      </div>
     </div>
   );
 };

@@ -38,9 +38,9 @@ export const MaintenanceEntity = z.object({
     .enum(['INTERNAL', 'OUTSOURCE', 'WARRANTY'])
     .default('INTERNAL'),
   assignedTo: z.string().min(1, 'Vui lòng chọn nhân viên phụ trách'),
-  inspectAt: z.date().min(1, 'Vui lòng chọn ngày kiểm tra'),
-  completionAt: z.date().min(1, 'Vui lòng chọn ngày hoàn thành'),
-  verifiedAt: z.date().min(1, 'Vui lòng chọn ngày nghiệm thu'),
+  inspectAt: z.date('Vui lòng chọn ngày kiểm tra').nullable(),
+  completionAt: z.date().nullable(),
+  verifiedAt: z.date().nullable(),
   lastModifiedBy: z.string(),
   reWork: z.boolean().default(false),
   totalProposals: z.number().default(0),
@@ -91,26 +91,34 @@ export const MaintananceDetailsDTO = MaintenanceSumarySchema.extend({
   ),
 });
 
-export const MaintenanceUpdateRequestDtoSchema =
-  MaintenanceEntity.partial().pick({
-    maintenancesStatus: true,
-    reWork: true,
-    totalCost: true,
-    isDeleted: true,
-    inspectAt: true,
-    maintenanceType: true,
-    completionAt: true,
-    verifiedAt: true,
-    assignedTo: true,
-  });
+export const MaintenanceUpdateRequestDtoSchema = MaintenanceEntity.pick({
+  maintenancesStatus: true,
+  reWork: true,
+  totalCost: true,
+  isDeleted: true,
+  inspectAt: true,
+  maintenanceType: true,
+  completionAt: true,
+  verifiedAt: true,
+  assignedTo: true,
+}).partial();
 
 export const MaintenanceUpdateFormSchema =
-  MaintenanceUpdateRequestDtoSchema.extend(AuditUpdateJPASchema.shape);
+  MaintenanceUpdateRequestDtoSchema.extend(
+    AuditUpdateJPASchema.shape,
+  ).superRefine((data, ctx) => {
+    if (data.maintenancesStatus === 'APPROVED' && !data.inspectAt) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['inspectAt'],
+        message: 'Ngày kiểm tra là bắt buộc khi trạng thái là APPROVED',
+      });
+    }
+  });
 
 export const MaintenanceUpdateRequest = z.object({
   requestDto: MaintenanceUpdateRequestDtoSchema,
   auditUpdateRequest: AuditUpdateJPASchema,
-  attachments: z.array(z.any()),
 });
 
 export const MaintenanceSumarySchemaArray = z.array(MaintenanceSumarySchema);

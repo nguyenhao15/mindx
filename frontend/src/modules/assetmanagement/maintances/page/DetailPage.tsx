@@ -45,12 +45,7 @@ const DetailPage = () => {
         {updateType === 'APPROVED' && (
           <UpdateItemComponent
             id={Number(id) || 0}
-            maintenancesStatus={
-              data?.maintenanceDetailsInfo?.maintenancesStatus || ''
-            }
-            afterUpdate={handleCloseModal}
-            reWork={data?.maintenanceDetailsInfo?.reWork || false}
-            totalCost={data?.maintenanceDetailsInfo?.totalCost || 0}
+            data={data?.maintenanceDetailsInfo}
           />
         )}
       </ModalComponent>
