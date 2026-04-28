@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkFlowTransitionServiceImpl implements WorkFlowTransitionService {
@@ -61,14 +63,24 @@ public class WorkFlowTransitionServiceImpl implements WorkFlowTransitionService 
             return List.of();
         }
 
+        Set<String> blacklistedStatuses = workFlowTransitionEntities.stream()
+                .filter(t -> "NEQ".equals(t.getOperator()))
+                .map(WorkFlowTransitionEntity::getFromStatus)
+                .collect(Collectors.toSet());
+
         List<WorkFlowTransitionEntity> filteredTransitions = workFlowTransitionEntities.stream()
                 .filter(t -> {
-                    if ("EQ".equals(t.getOperator())) {
-                        return t.getFromStatus().equals(currentStatus);
-                    } else if ("NEQ".equals(t.getOperator())) {
-                        return !t.getFromStatus().equals(currentStatus);
+                    String op = t.getOperator();
+                    String fromStatus = t.getFromStatus();
+
+                    if (blacklistedStatuses.contains(fromStatus)) {
+                        return false;
                     }
-                    return false;
+
+                    if ("EQ".equals(op)) {
+                        return fromStatus.equals(currentStatus);
+                    }
+                    return "NEQ".equals(op);
                 })
                 .toList();
 

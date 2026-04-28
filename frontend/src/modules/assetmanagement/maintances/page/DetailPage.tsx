@@ -5,16 +5,16 @@ import { useGetMaintanceDetailById } from '../hooks/useMaintenanceHooks';
 import { useState } from 'react';
 import ModalComponent from '@/components/shared/ModalComponent';
 import FinishedComponent from '../components/Details/FinishedComponent';
+import type { MaintenanceStatus } from '../schema/maintenaceSchema';
+import ProposalFormsInput from '../components/Proposal/ProposalFormsInput';
 
 const DetailPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const [updateType, setUpdateType] = useState<
-    'update' | 'rework' | 'finished'
-  >('update');
+  const { id } = useParams();
+  const [updateType, setUpdateType] = useState<MaintenanceStatus>('APPROVED');
   const { data, isLoading, error } = useGetMaintanceDetailById(Number(id));
   const [openModal, setOpenModal] = useState(false);
 
-  const handleUpdateClick = (type: 'update' | 'rework' | 'finished') => {
+  const handleUpdateClick = (type: MaintenanceStatus) => {
     setUpdateType(type);
     setOpenModal(true);
   };
@@ -33,14 +33,18 @@ const DetailPage = () => {
       />
 
       <ModalComponent open={openModal} onClose={handleCloseModal}>
-        {updateType === 'finished' ? (
+        {updateType === 'FINISHED' && (
           <FinishedComponent
-            id={data?.maintenanceDetailsInfo?.id || 0}
+            id={Number(id) || 0}
             afterUpdate={handleCloseModal}
           />
-        ) : (
+        )}
+        {updateType === 'PROCESSING' && (
+          <ProposalFormsInput id={Number(id) || 0} />
+        )}
+        {updateType === 'APPROVED' && (
           <UpdateItemComponent
-            id={data?.maintenanceDetailsInfo?.id || 0}
+            id={Number(id) || 0}
             maintenancesStatus={
               data?.maintenanceDetailsInfo?.maintenancesStatus || ''
             }

@@ -34,6 +34,9 @@ export const MaintenanceEntity = z.object({
   createdDate: z.string(),
   lastModifiedDate: z.string(),
   createdBy: z.string(),
+  maintenanceType: z
+    .enum(['INTERNAL', 'OUTSOURCE', 'WARRANTY'])
+    .default('INTERNAL'),
   assignedTo: z.string().min(1, 'Vui lòng chọn nhân viên phụ trách'),
   inspectAt: z.date().min(1, 'Vui lòng chọn ngày kiểm tra'),
   completionAt: z.date().min(1, 'Vui lòng chọn ngày hoàn thành'),
@@ -66,6 +69,7 @@ export const MaintenanceSumarySchema = MaintenanceEntity.pick({
   totalCost: true,
   maintenancesStatus: true,
   createdDate: true,
+  maintenanceType: true,
   reWork: true,
   totalProposals: true,
 }).extend({
@@ -94,6 +98,7 @@ export const MaintenanceUpdateRequestDtoSchema =
     totalCost: true,
     isDeleted: true,
     inspectAt: true,
+    maintenanceType: true,
     completionAt: true,
     verifiedAt: true,
     assignedTo: true,

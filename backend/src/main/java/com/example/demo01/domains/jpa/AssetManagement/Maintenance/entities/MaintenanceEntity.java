@@ -53,6 +53,8 @@ public class MaintenanceEntity extends BaseAuditJpaModel {
 
     private String assignedTo;
 
+    private String maintenanceType = "INTERNAL";
+
     private Double totalCost = 0.0;
 
     private Boolean reWork;

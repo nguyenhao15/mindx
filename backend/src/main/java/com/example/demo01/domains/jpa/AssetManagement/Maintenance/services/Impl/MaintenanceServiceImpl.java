@@ -183,7 +183,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         String status = maintenanceRequestDto.getMaintenancesStatus();
         String currentStatus = maintenanceEntity.getMaintenancesStatus();
 
-        System.out.println("Request dto: "+ requestDto);
         if (!Objects.equals(currentStatus, status)) {
             if (!approvalEngineUtil.canTransition(status,currentStatus, ModuleEnum.MAINTENANCE )) {
                 throw new IllegalStateException("Invalid status transition from " + maintenanceEntity.getMaintenancesStatus() + " to " + status);

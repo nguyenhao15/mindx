@@ -1,16 +1,17 @@
+import { MAINTENANCE_STATUS_VALUES } from '@/modules/assetmanagement/maintances/schema/maintenaceSchema';
 import z, { any } from 'zod';
 
 export const availableActionUpdateSchema = z.object({
   label: z.string(),
-  nextStatus: z.string(),
+  nextStatus: z.enum(MAINTENANCE_STATUS_VALUES),
   actionType: z.string(),
 });
 
 export const workFlowSchema = z.object({
   id: z.number().optional(),
   module: z.string().min(1, 'Module is required'),
-  fromStatus: z.string().min(1, 'From status is required'),
-  toStatus: z.string().min(1, 'To status is required'),
+  fromStatus: z.enum(MAINTENANCE_STATUS_VALUES),
+  toStatus: z.enum(MAINTENANCE_STATUS_VALUES),
   labelName: z.string().min(1, 'Label name is required'),
   operator: z.enum(['EQ', 'NEQ']).default('EQ'),
   actionType: z.string().min(1, 'Action type is required'),

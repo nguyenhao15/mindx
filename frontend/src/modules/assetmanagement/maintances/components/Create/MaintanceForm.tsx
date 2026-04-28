@@ -13,9 +13,12 @@ interface MaintanceFormProps {
 const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
   const {
     watch,
+    register,
     control,
     formState: { errors },
   } = useFormContext();
+
+  console.log('Errors: ', errors);
 
   return (
     <div className='w-full flex flex-col gap-4 shadow-xl rounded-lg'>
@@ -37,31 +40,33 @@ const MaintanceForm = ({ isLoading }: MaintanceFormProps) => {
             defaultValue={watch('maintenanceItemId') || null}
           />
         </div>
-        <BasementOptions
-          label='Cơ sở'
-          isLoading={isLoading}
-          required
-          disabled={isLoading}
-          placeholder='Chọn cơ sở'
-          name='locationId'
-          defaultValue={watch('locationId')}
-        />
-
         <Controller
-          name='description'
+          name='locationId'
           control={control}
-          render={({ field: { onChange, ...field } }) => (
-            <TextInputField
-              {...field}
-              labelSize='lg'
-              type='textarea'
+          render={({ field: { value, onChange, ...rest } }) => (
+            <BasementOptions
+              label='Cơ sở'
               isLoading={isLoading}
-              label='Mô tả sự cố'
-              id='description'
-              errors={errors}
+              required
+              disabled={isLoading}
+              value={value}
+              onChange={onChange}
+              {...rest}
             />
           )}
         />
+
+        <TextInputField
+          register={register}
+          control={control}
+          labelSize='lg'
+          type='textarea'
+          isLoading={isLoading}
+          label='Mô tả sự cố'
+          id='description'
+          errors={errors}
+        />
+
         <Controller
           name='issueDate'
           control={control}

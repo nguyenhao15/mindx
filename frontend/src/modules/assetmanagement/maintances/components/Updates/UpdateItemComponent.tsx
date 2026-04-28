@@ -96,10 +96,14 @@ const UpdateItemComponent = ({
         requestDto,
         auditUpdateRequest: updateAuditPayload,
       });
-
+    const formdata = new FormData();
+    formdata.append(
+      'data',
+      new Blob([JSON.stringify(sendingData)], { type: 'application/json' }),
+    );
     const payload = {
       id: String(id),
-      data: sendingData,
+      data: formdata,
     };
     try {
       await mutateAsync(payload);

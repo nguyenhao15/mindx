@@ -12,7 +12,7 @@ import { useUpdateProposal } from '../../hooks/useProposal';
 
 interface TechnicalSolutionsCardProps {
   maintenanceId: number;
-  canAddSolution: boolean;
+  canAddSolution?: boolean;
   solutions: ProposalNestObject[];
 }
 

@@ -41,8 +41,6 @@ const BasementOptions = ({
     }));
   }, [data]);
 
-  console.log('Value: ', value);
-
   return (
     <ComboboxComponent
       props={props}

@@ -26,6 +26,8 @@ public class MaintenanceRequestDto {
 
     private LocalDate completionAt;
 
+    private String maintenanceType = "INTERNAL";
+
     private LocalDate verifiedAt;
 
     private LocalDate inspectAt;

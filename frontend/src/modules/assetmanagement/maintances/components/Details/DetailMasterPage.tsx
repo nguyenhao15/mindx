@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import type { AvailableActionUpdate } from '@/modules/core/admin/schema/workFlowSchema';
 import FinishedComponent from './FinishedComponent';
 import { Button } from '@/components/ui/button';
+import type { MaintenanceStatus } from '../../schema/maintenaceSchema';
 
 const DETAIL_STEPS = [
   { key: 'waiting', label: 'Chờ duyệt' },
@@ -32,7 +33,7 @@ interface DetailMasterPageProps {
   item: any;
   isLoading: boolean;
   error: any;
-  onUpdateOpen: (value: 'update' | 'rework' | 'finished') => void;
+  onUpdateOpen: (value: MaintenanceStatus) => void;
 }
 
 const DetailMasterPage = ({
@@ -50,17 +51,6 @@ const DetailMasterPage = ({
     },
   );
 
-  const isCanAddSolution = useMemo(() => {
-    if (!availableActions) return false;
-    const haveProcessing = availableActions.some(
-      (action: AvailableActionUpdate) => action.nextStatus === 'PROCESSING',
-    );
-    const haveChecked = availableActions.some(
-      (action: AvailableActionUpdate) => action.nextStatus === 'CHECKED',
-    );
-    return haveProcessing || haveChecked;
-  }, [availableActions]);
-
   const isCanFinish = useMemo(() => {
     if (!availableActions) return false;
     return availableActions.some(
@@ -70,6 +60,10 @@ const DetailMasterPage = ({
 
   const detailStatus = maintenanceDetailsInfo?.maintenancesStatus || 'WAITING';
   const currentStep = STEP_INDEX_BY_STATUS[detailStatus] ?? 0;
+
+  const monitorHanlder = (type: MaintenanceStatus) => {
+    onUpdateOpen(type);
+  };
 
   if (isLoading) {
     return <Loader text='Đang tải chi tiết đơn bảo trì...' />;
@@ -82,6 +76,27 @@ const DetailMasterPage = ({
   return (
     <div className='flex flex-col gap-4 bg-slate-50 min-h-full p-4 sm:p-6 lg:p-8'>
       <ProgressStepper steps={DETAIL_STEPS} currentStep={currentStep} />
+      <div
+        className={`grid grid-cols-${availableActions?.length} items-start gap-2 self-start`}
+      >
+        {availableActions?.length > 0 &&
+          availableActions.map((action: AvailableActionUpdate) => (
+            <Button
+              className='p-4 cursor-pointer'
+              key={action.nextStatus}
+              onClick={() => onUpdateOpen(action.nextStatus)}
+              variant={
+                action.actionType.toLowerCase() as
+                  | 'positive'
+                  | 'negative'
+                  | 'warning'
+                  | 'default'
+              }
+            >
+              {action.label}
+            </Button>
+          ))}
+      </div>
       <div className='w-full mt-4 rounded-lg p-2 gap-4 flex flex-col-reverse lg:flex-row mx-auto space-y-4 sm:space-y-5'>
         <div className='flex-2/3 w-full flex flex-col gap-4'>
           <div className='p-5 bg-white rounded-lg shadow-sm flex flex-col gap-4'>
@@ -93,18 +108,8 @@ const DetailMasterPage = ({
             <AttachmentsGallery attachments={files || []} />
           </div>
 
-          {isCanFinish && (
-            <Button
-              className='self-end cursor-pointer'
-              onClick={() => onUpdateOpen('finished')}
-              variant={'positive'}
-            >
-              Hoàn thành sửa chữa
-            </Button>
-          )}
           <TechnicalSolutionsCard
             maintenanceId={maintenanceDetailsInfo?.id}
-            canAddSolution={isCanAddSolution}
             solutions={maintenanceDetailsInfo?.maintenancesProposals || []}
           />
         </div>

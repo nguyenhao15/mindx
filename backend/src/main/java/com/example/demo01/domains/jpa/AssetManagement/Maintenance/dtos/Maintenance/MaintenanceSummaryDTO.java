@@ -20,6 +20,8 @@ public record MaintenanceSummaryDTO (
 
         MaintenanceItemInfoDto fixItem,
 
+        String maintenanceType,
+
         String locationId,
 
         String locationName,

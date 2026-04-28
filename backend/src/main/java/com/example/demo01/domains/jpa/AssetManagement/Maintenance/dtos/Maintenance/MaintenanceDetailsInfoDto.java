@@ -26,6 +26,8 @@ public record MaintenanceDetailsInfoDto(
 
         String assignedTo,
 
+        String maintenanceType,
+
         MaintenanceCategoryNestInfo fixCategory,
 
         MaintenanceItemInfoDto fixItem,

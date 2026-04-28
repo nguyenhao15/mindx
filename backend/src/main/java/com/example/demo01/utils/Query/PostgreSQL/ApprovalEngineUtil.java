@@ -5,6 +5,7 @@ import com.example.demo01.domains.jpa.Core.Approval.service.ApprovalPolicyServic
 import com.example.demo01.domains.jpa.Core.Approval.service.WorkFlowTransitionService;
 import com.example.demo01.utils.ModuleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,10 +23,10 @@ public class ApprovalEngineUtil {
 
     public List<ActionResponse> getAvailableAction(String currentStatus, String fromDepartment,String author , ModuleEnum moduleEnum) {
         List<WorkFlowTransitionInfoDto> availableAction = workFlowTransitionService.getWorkFlowTransitionDtoByCurrentStatusAndModule(currentStatus, moduleEnum);
-        System.out.println("availableAction: " + availableAction);
         if (availableAction == null || availableAction.isEmpty()) {
             return List.of();
         }
+        System.out.println("Available Action: "+ availableAction);
         List<WorkFlowTransitionInfoDto> filteredArr = availableAction.stream()
                 .filter(action -> approvalPolicyService.getExactRule(action.toStatus(), fromDepartment, moduleEnum, author ))
                 .distinct()

@@ -3,6 +3,7 @@ import TextInputField from '@/components/input-elements/TextInputField';
 import DatePickerComponent from '@/components/input-elements/DatePickerComponent';
 import type { MaintenanceStatus } from '../../schema/maintenaceSchema';
 import LoadUserListByDepartmentControl from '@/modules/core/humanResource/components/LoadUserListByDepartmentControl';
+import { ComboboxComponent } from '@/components/input-elements/ComboboxComponent';
 
 interface UpdateFormProps {
   currentStatus: MaintenanceStatus;
@@ -34,23 +35,48 @@ const UpdateForm = ({
       )}
 
       <Controller
+        name='maintenanceType'
+        control={control}
+        render={({ field: { value, onChange, ...rest } }) => (
+          <ComboboxComponent
+            {...rest}
+            defaultValue={value}
+            label='Phân loại bảo trì'
+            options={[
+              { label: 'Kỹ thuật nội bộ', value: 'INTERNAL' },
+              { label: 'Thuê ngoài', value: 'OUTSOURCE' },
+              { label: 'Bảo hành', value: 'WARRANTY' },
+            ]}
+            onChange={onChange}
+            disabled={isLoading}
+            errors={errors.maintenanceType?.message}
+          />
+        )}
+      />
+
+      <Controller
         name='inspectAt'
         control={control}
-        render={({ field }) => (
+        render={({ field: { value, onChange, ...rest } }) => (
           <DatePickerComponent
-            {...field}
+            {...rest}
+            value={value}
+            onChange={onChange}
             disabled={isLoading}
             label='Ngày kiểm tra'
             errors={errors.inspectAt?.message}
           />
         )}
       />
+
       <Controller
         name='assignedTo'
         control={control}
-        render={({ field }) => (
+        render={({ field: { value, onChange, ...rest } }) => (
           <LoadUserListByDepartmentControl
-            {...field}
+            {...rest}
+            value={value}
+            onChange={onChange}
             departmentId={'IM'}
             errors={errors.assignedTo?.message}
             label='Người được giao'
